@@ -1,0 +1,46 @@
+class Solution 
+{
+    public:
+    unordered_map<int,int> total;
+    vector<int> d;
+    int result=2147483647;
+    void dfs(int start,int c)
+    {
+        int n=d.size();
+        while(start<n&&d[start]==0)
+        {
+            start++;
+        }
+        if(start==n)
+        {
+            result=min(result,c);
+            return;
+        }
+        for(int i=start+1;i<n;i++)
+        {
+            if(d[i]*d[start]<0)
+            {
+                d[i]+=d[start];
+                dfs(start+1,c+1);
+                d[i]-=d[start];
+            }
+        }
+    }
+    int minTransfers(vector<vector<int>>& transactions) 
+    {
+        for(int i=0;i<transactions.size();i++)
+        {
+            total[transactions[i][0]]-=transactions[i][2];
+            total[transactions[i][1]]+=transactions[i][2];
+        }
+        for(unordered_map<int,int>::iterator it=total.begin();it!=total.end();it++)
+        {
+            if(it->second!=0)
+            {
+                d.push_back(it->second);
+            }
+        }
+        dfs(0,0);
+        return result;
+    }
+};

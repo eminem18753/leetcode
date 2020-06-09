@@ -1,0 +1,88 @@
+class Solution 
+{
+    public:
+    int minimumMoves(vector<vector<int>>& grid) 
+    {
+        int n=grid.size();
+        deque<int> x;
+        deque<int> y;
+        deque<int> d;
+        deque<int> c;
+        x.push_back(0);
+        y.push_back(0);
+        d.push_back(1);
+        c.push_back(0);
+        unordered_set<string> v;
+        while(x.size()>0)
+        {
+            int tx=x.front();
+            int ty=y.front();
+            int td=d.front();
+            int k=c.front();
+            x.pop_front();
+            y.pop_front();
+            d.pop_front();
+            c.pop_front();
+            if(tx==n-1&&ty==n-2&&td==1)
+            {
+                return k;
+            }
+            if(td==0)
+            {
+                if(tx+2<n&&grid[tx+2][ty]==0&&v.find(to_string(tx+1)+","+to_string(ty)+","+to_string(0))==v.end())
+                {
+                    x.push_back(tx+1);
+                    y.push_back(ty);
+                    d.push_back(0);
+                    c.push_back(k+1);
+                    v.insert(to_string(tx+1)+","+to_string(ty)+","+to_string(0));
+                }
+                if(ty+1<n&&grid[tx][ty+1]==0&&grid[tx+1][ty+1]==0&&v.find(to_string(tx)+","+to_string(ty+1)+","+to_string(0))==v.end())
+                {
+                    x.push_back(tx);
+                    y.push_back(ty+1);
+                    d.push_back(0);
+                    c.push_back(k+1);
+                    v.insert(to_string(tx)+","+to_string(ty+1)+","+to_string(0));
+                }
+
+                if(ty+1<n&&grid[tx][ty+1]==0&&grid[tx+1][ty+1]==0&&v.find(to_string(tx)+","+to_string(ty)+to_string(1))==v.end())
+                {
+                    x.push_back(tx);
+                    y.push_back(ty);
+                    d.push_back(1);
+                    c.push_back(k+1);
+                    v.insert(to_string(tx)+","+to_string(ty)+to_string(1));
+                }
+            }
+            else
+            {
+                if(ty+2<n&&grid[tx][ty+2]==0&&v.find(to_string(tx)+","+to_string(ty+1)+","+to_string(1))==v.end())
+                {
+                    x.push_back(tx);
+                    y.push_back(ty+1);
+                    d.push_back(1);
+                    c.push_back(k+1);
+                    v.insert(to_string(tx)+","+to_string(ty+1)+","+to_string(1));
+                }
+                if(tx+1<n&&grid[tx+1][ty]==0&&grid[tx+1][ty+1]==0&&v.find(to_string(tx+1)+","+to_string(ty)+","+to_string(1))==v.end())
+                {
+                    x.push_back(tx+1);
+                    y.push_back(ty);
+                    d.push_back(1);
+                    c.push_back(k+1);
+                    v.insert(to_string(tx+1)+","+to_string(ty)+","+to_string(1));
+                }
+                if(tx+1<n&&grid[tx+1][ty]==0&&grid[tx+1][ty+1]==0&&v.find(to_string(tx)+","+to_string(ty)+","+to_string(0))==v.end())
+                {
+                    x.push_back(tx);
+                    y.push_back(ty);
+                    d.push_back(0);
+                    c.push_back(k+1);
+                    v.insert(to_string(tx)+","+to_string(ty)+","+to_string(0));
+                }
+            }
+        }
+        return -1;
+    }
+};

@@ -1,0 +1,56 @@
+class Solution 
+{
+public:
+    int islandPerimeter(vector<vector<int>>& grid) 
+    {
+        int result=0;
+        int a=grid.size();
+        int b=grid[0].size();
+        vector<vector<int> > temp;
+
+        for(int i=0;i<a+2;i++)
+        {
+            vector<int> now;
+            for(int j=0;j<b+2;j++)
+            {
+                now.push_back(0);
+            }
+            temp.push_back(now);
+        }
+
+        for(int i=1;i<a+1;i++)
+        {
+            for(int j=1;j<b+1;j++)
+            {
+                temp[i][j]=grid[i-1][j-1];
+            }
+        }
+        int count=0;
+        for(int i=0;i<temp.size();i++)
+        {
+            for(int j=0;j<temp[i].size();j++)
+            {
+                if(temp[i][j]==1)
+                {
+                    if(temp[i+1][j]==0)
+                    {
+                        result+=1;	
+                    }
+                    if(temp[i-1][j]==0)
+                    {
+                        result+=1;	
+                    }
+                    if(temp[i][j-1]==0)
+                    {
+                        result+=1;	
+                    }
+                    if(temp[i][j+1]==0)
+                    {
+                        result+=1;	
+                    }
+                }
+            }
+        }
+        return result;
+    }
+};

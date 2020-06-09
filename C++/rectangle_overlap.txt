@@ -1,0 +1,49 @@
+class Solution {
+public:
+    bool inside(Point p,vector<int> r)
+    {
+        if(p.x>r[0]&&p.x<r[2]&&p.y>r[1]&&p.y<r[3])
+        {
+            return true;
+        }
+        return false;
+    }
+    bool isRectangleOverlap(vector<int>& rec1, vector<int>& rec2)
+    {
+        Point p1(rec1[0],rec1[1]);  
+        Point p2(rec1[0],rec1[3]);  
+        Point p3(rec1[2],rec1[1]);  
+        Point p4(rec1[2],rec1[3]);  
+
+        Point q1(rec2[0],rec2[1]);  
+        Point q2(rec2[0],rec2[3]);  
+        Point q3(rec2[2],rec2[1]);  
+        Point q4(rec2[2],rec2[3]);  
+        
+        if(inside(p1,rec2)||inside(p2,rec2)||inside(p3,rec2)||inside(p4,rec2))
+        {
+            return true;
+        }
+        if(inside(q1,rec1)||inside(q2,rec1)||inside(q3,rec1)||inside(q4,rec1))
+        {
+            return true;
+        }
+        if(p1.x>=q1.x&&p1.x<=q4.x&p4.x>=q1.x&&p4.x<=q4.x&&p1.y<=q1.y&&p4.y>=q4.y)
+        {
+            return true;
+        }
+        if(q1.x>=p1.x&&q1.x<=p4.x&q4.x>=p1.x&&q4.x<=p4.x&&q1.y<=p1.y&&q4.y>=p4.y)
+        {
+            return true;
+        }
+        if(p1.y>=q1.y&&p1.y<=q4.y&p4.y>=q1.y&&p4.y<=q4.y&&p1.x<=q1.x&&p4.x>=q4.x)
+        {
+            return true;
+        }
+        if(q1.y>=p1.y&&q1.y<=p4.y&q4.y>=p1.y&&q4.y<=p4.y&&q1.x<=p1.x&&q4.x>=p4.x)
+        {
+            return true;
+        }
+        return false;
+    }
+};

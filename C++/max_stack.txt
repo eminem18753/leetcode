@@ -1,0 +1,155 @@
+class MaxStack {
+public:
+    /** initialize your data structure here. */
+    int maximum=-2147483648;
+    vector<int> total;
+    vector<int> s;
+    vector<int> index;
+    MaxStack() 
+    {
+        
+    }
+    
+    void push(int x) 
+    {
+        total.push_back(x);
+        if(s.size()==0||x>=s.back())
+        {
+            s.push_back(x);
+            index.push_back(total.size()-1);
+        }
+    }
+    
+    int pop() 
+    {
+        int m=total.back();
+        if(s.size()>0&&s.back()==total.back()&&index.back()==total.size()-1)
+        {
+            s.pop_back();
+            index.pop_back();
+        }
+        total.pop_back();
+        if(index.size()==0)
+        {
+            for(int i=0;i<total.size();i++)
+            {
+                if(s.size()==0||total[i]>=s.back())
+                {
+                    s.push_back(total[i]);
+                    index.push_back(i);
+                }
+            }
+        }
+        return m;
+    }
+    
+    int top() 
+    {
+        return total.back();    
+    }
+    
+    int peekMax() 
+    {
+        if(s.size()>0)
+        {
+            int result=s.back();
+            return result;
+        }
+        else
+        {
+            for(int i=0;i<total.size();i++)
+            {
+                if(s.size()==0||total[i]>=s.back())
+                {
+                    s.push_back(total[i]);
+                    index.push_back(i);
+                }
+            }
+            return s.back();
+        }
+    }
+    
+    int popMax() 
+    {
+        if(s.size()>0)
+        {
+            int result=s.back();
+            s.pop_back();
+            total.erase(total.begin()+index.back());
+            index.pop_back();
+            if(index.size()==0)
+            {
+                for(int i=0;i<total.size();i++)
+                {
+                    if(s.size()==0||total[i]>=s.back())
+                    {
+                        s.push_back(total[i]);
+                        index.push_back(i);
+                    }
+                }
+            }            
+            else if(index.size()>0)
+            {
+                int t=index.back();
+                for(int i=t+1;i<total.size();i++)
+                {
+                    if(s.size()==0||total[i]>=s.back())
+                    {
+                        s.push_back(total[i]);
+                        index.push_back(i);
+                    }
+                }
+            }
+            return result;
+        }
+        else
+        {
+            for(int i=0;i<total.size();i++)
+            {
+                if(s.size()==0||total[i]>=s.back())
+                {
+                    s.push_back(total[i]);
+                    index.push_back(i);
+                }
+            }
+            total.erase(total.begin()+index.back());
+            int result=s.back();
+            s.pop_back();
+            index.pop_back();
+            if(index.size()==0)
+            {
+                for(int i=0;i<total.size();i++)
+                {
+                    if(s.size()==0||total[i]>=s.back())
+                    {
+                        s.push_back(total[i]);
+                        index.push_back(i);
+                    }
+                }
+            }            
+            else if(index.size()>0)
+            {
+                int t=index.back();
+                for(int i=t+1;i<total.size();i++)
+                {
+                    if(s.size()==0||total[i]>=s.back())
+                    {
+                        s.push_back(total[i]);
+                        index.push_back(i);
+                    }
+                }
+            }
+            return result;
+        }        
+    }
+};
+
+/**
+ * Your MaxStack object will be instantiated and called as such:
+ * MaxStack* obj = new MaxStack();
+ * obj->push(x);
+ * int param_2 = obj->pop();
+ * int param_3 = obj->top();
+ * int param_4 = obj->peekMax();
+ * int param_5 = obj->popMax();
+ */

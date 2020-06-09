@@ -1,0 +1,15 @@
+class Solution(object):
+    def findOcurrences(self, text, first, second):
+        """
+        :type text: str
+        :type first: str
+        :type second: str
+        :rtype: List[str]
+        """
+        result=[]
+        total=text.split(' ')
+        for i in range(0,len(total)-2):
+            if total[i]==first and total[i+1]==second:
+                result.append(total[i+2])
+                
+        return result

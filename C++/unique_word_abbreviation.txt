@@ -1,0 +1,52 @@
+class ValidWordAbbr 
+{
+public:
+    map<string,int> total;
+    set<string> overall;
+    ValidWordAbbr(vector<string>& dictionary) 
+    {
+        for(int i=0;i<dictionary.size();i++)
+        {
+            if(dictionary[i].length()>2)
+            {
+                overall.insert(dictionary[i]);
+                string s="";
+                s+=dictionary[i][0];
+                s+=to_string((int)dictionary[i].length()-2);
+                s+=dictionary[i].back();
+                total[s]++;;
+            }
+        }
+    }
+    
+    bool isUnique(string word) 
+    {
+        if(word.length()<=2)
+        {
+            return true;
+        }
+        string s="";
+        s+=word[0];
+        s+=to_string((int)word.length()-2);
+        s+=word.back();
+        if(total.find(s)==total.end())
+        {
+            return true;
+        }
+        if(total[s]==1)
+        {
+            return overall.find(word)!=overall.end();
+        }
+        if(total[s]>1)
+        {
+            return false;
+        }
+        return true;
+    }
+};
+
+/**
+ * Your ValidWordAbbr object will be instantiated and called as such:
+ * ValidWordAbbr* obj = new ValidWordAbbr(dictionary);
+ * bool param_1 = obj->isUnique(word);
+ */

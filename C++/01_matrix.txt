@@ -1,0 +1,96 @@
+class Solution 
+{
+    public:
+    vector<vector<int>> updateMatrix(vector<vector<int>>& matrix) 
+    {
+        for(int i=0;i<matrix.size();i++)
+        {
+            for(int j=0;j<matrix[i].size();j++)
+            {
+                if(matrix[i][j]!=0)
+                {
+                    deque<int> p1;
+                    deque<int> p2;
+                    deque<int> c;
+                    p1.push_back(i);
+                    p2.push_back(j);
+                    c.push_back(0);
+                    set<string> temp;
+                    string current=to_string(i)+","+to_string(j);
+                    temp.insert(current);
+                    while(p1.size()>0)
+                    {
+                        int x=p1.front();
+                        int y=p2.front();
+                        int k=c.front();
+                        p1.pop_front();
+                        p2.pop_front();
+                        c.pop_front();
+                        if(matrix[x][y]==0)
+                        {
+                            matrix[i][j]=k;
+                            break;
+                        }
+                        if(x+1<matrix.size())
+                        {
+                            string current=to_string(x+1)+","+to_string(y);
+                            if(temp.find(current)==temp.end())
+                            {
+                                p1.push_back(x+1);
+                                p2.push_back(y);
+                                c.push_back(k+1);
+                            }
+                            else
+                            {
+                                temp.insert(current);   
+                            }
+                        }
+                        if(x-1>=0)
+                        {
+                            string current=to_string(x-1)+","+to_string(y);
+                            if(temp.find(current)==temp.end())
+                            {
+                                p1.push_back(x-1);
+                                p2.push_back(y);
+                                c.push_back(k+1);
+                            }
+                            else
+                            {
+                                temp.insert(current);   
+                            }
+                        }
+                        if(y+1<matrix[0].size())
+                        {
+                            string current=to_string(x)+","+to_string(y+1);
+                            if(temp.find(current)==temp.end())
+                            {
+                                p1.push_back(x);
+                                p2.push_back(y+1);
+                                c.push_back(k+1);
+                            }
+                            else
+                            {
+                                temp.insert(current);   
+                            }
+                        }
+                        if(y-1>=0)
+                        {
+                            string current=to_string(x)+","+to_string(y-1);
+                            if(temp.find(current)==temp.end())
+                            {
+                                p1.push_back(x);
+                                p2.push_back(y-1);
+                                c.push_back(k+1);
+                            }
+                            else
+                            {
+                                temp.insert(current);   
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return matrix;
+    }
+};

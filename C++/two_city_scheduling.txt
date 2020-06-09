@@ -1,0 +1,33 @@
+class Solution 
+{
+    public:
+    int twoCitySchedCost(vector<vector<int>>& costs) 
+    {
+        int result=0;
+        map<int,vector<int>> total;
+        map<int,vector<int>> overall;
+        for(int i=0;i<costs.size();i++)
+        {
+            total[costs[i][0]-costs[i][1]].push_back(costs[i][0]);
+            overall[costs[i][0]-costs[i][1]].push_back(costs[i][1]);
+        }
+        
+        int index=0;
+        for(map<int,vector<int>>::iterator it=total.begin();it!=total.end();it++)
+        {
+            for(int i=0;i<it->second.size();i++)
+            {
+                index++;
+                if(index<=costs.size()/2)
+                {
+                    result+=it->second[i];
+                }
+                else
+                {
+                    result+=overall[it->first][i];
+                }
+            }
+        }
+        return result;
+    }
+};

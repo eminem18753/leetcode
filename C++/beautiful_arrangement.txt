@@ -1,0 +1,65 @@
+class Solution {
+public:
+    int result=0;
+    void test(int a[],int b[],int t,int n)
+    {
+        for(int i=1;i<t;i++)
+        {
+            if(a[i]==0)
+            {
+                return;
+            }
+            if(a[i]>0&&a[i-1]<0)
+            {
+                return;
+            }
+        }        
+        for(int i=0;i<t;i++)
+        {
+            if(a[i]!=-1)
+            {
+                if(a[i]%(i+1)!=0&&(i+1)%a[i]!=0)
+                {
+                    return;
+                }
+            }
+        }
+        if(n==0)
+        {
+            result+=1;
+            return;
+        }
+        for(int i=0;i<t;i++)
+        {
+            if(a[i]==-1)
+            {
+                for(int j=0;j<t;j++)
+                {
+                    if(b[j]==-1)
+                    {
+                        int c[t];
+                        int d[t];
+                        for(int i=0;i<t;i++)
+                        {
+                            c[i]=a[i];
+                            d[i]=b[i];
+                        }
+                        d[j]=0;
+                        c[i]=j+1;
+                        test(c,d,t,n-1);
+                    }
+                }
+                break;
+            }
+        }
+    }
+    int countArrangement(int N) 
+    {
+        int a[N];
+        int b[N];
+        memset(a,-1,sizeof(a));
+        memset(b,-1,sizeof(b));
+        test(a,b,N,N);
+        return result;    
+    }
+};

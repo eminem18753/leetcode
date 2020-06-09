@@ -1,0 +1,19 @@
+class Solution(object):
+    def longestStrChain(self, words):
+        """
+        :type words: List[str]
+        :rtype: int
+        """
+        result=1
+        dp={}
+        words=sorted(words,key=len)
+        for i in range(0,len(words)):
+            w=words[i]
+            for j in range(0,len(words[i])):
+                dp[w]=max(dp.get(w,1),dp.get(w[:j]+w[j+1:],0)+1)
+                
+        for key,value in dp.iteritems():
+            if value>result:
+                result=value
+                
+        return result

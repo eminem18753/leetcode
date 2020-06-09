@@ -1,0 +1,31 @@
+class Solution {
+public:
+    string removeDuplicateLetters(string s) 
+    {
+        string r="";
+        int a[26];
+        int u[26];
+        memset(a,0,sizeof(a));
+        memset(u,0,sizeof(u));
+        for(int i=0;i<s.length();i++)
+        {
+            a[s[i]-'a']++;
+        }
+        for(int i=0;i<s.length();i++)
+        {
+            a[s[i]-'a']--;
+            if(u[s[i]-'a']>0)
+            {
+                continue;
+            }
+            while(!r.empty()&&r.back()>s[i]&&a[r.back()-'a']>0)
+            {
+                u[r.back()-'a']=0;
+                r.pop_back();
+            }
+            r+=s[i];
+            u[s[i]-'a']=1;
+        }
+        return r;
+    }
+};

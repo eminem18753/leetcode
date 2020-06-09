@@ -1,0 +1,64 @@
+class Solution
+{
+    public:
+    map<string,int> getResult(string& f,int& c)
+    {
+        map<string,int> result;
+        while(c<f.length())
+        {
+            if(f[c]=='(')
+            {
+                c++;
+                map<string,int> temp=getResult(f,c);
+                for(map<string,int>::iterator it=temp.begin();it!=temp.end();it++)
+                {
+                    result[it->first]+=it->second;
+                }
+            }
+            else if(f[c]==')')
+            {
+                c++;
+                int position=c;
+                while(c<f.length()&&isdigit(f[c]))
+                {
+                    c++;
+                }
+                int n=stoi(f.substr(position,c-position));
+                for(map<string,int>::iterator it=result.begin();it!=result.end();it++)
+                {
+                    result[it->first]*=n;
+                }
+                return result;
+            }
+            else
+            {
+                int p=c;
+                c++;
+                while(c<f.length()&&f[c]>='a'&&f[c]<='z')
+                {
+                    c++;
+                }
+                string temp=f.substr(p,c-p);
+                int t=c;
+                while(c<f.length()&&isdigit(f[c]))
+                {
+                    c++;
+                }
+                int n=((c==t)?1:stoi(f.substr(t,c-t)));
+                result[temp]+=n;
+            }
+        }
+        return result;
+    }
+    string countOfAtoms(string formula) 
+    {
+        string result="";
+        int c=0;
+        map<string,int> m=getResult(formula,c);
+        for(map<string,int>::iterator it=m.begin();it!=m.end();it++)
+        {
+            result+=it->first+((it->second==1)?"":to_string(it->second));
+        }
+        return result;
+    }
+};

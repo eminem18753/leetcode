@@ -1,0 +1,46 @@
+class Solution 
+{
+    public:
+    map<int,vector<int>> childrens;
+    map<int,int> accumulated;
+    vector<int> v;
+    int result=0;
+    int dfs(int current)
+    {
+        if(childrens.find(current)==childrens.end())
+        {
+            accumulated[current]=v[current];
+            return v[current];
+        }
+        int c=v[current];
+        for(int i=0;i<childrens[current].size();i++)
+        {
+            c+=dfs(childrens[current][i]);
+        }
+        accumulated[current]=c;
+        return c;
+    }
+    void test(int current)
+    {
+        if(accumulated[current]==0)
+        {
+            return;
+        }
+        result++;
+        for(int i=0;i<childrens[current].size();i++)
+        {
+            test(childrens[current][i]);
+        }
+    }
+    int deleteTreeNodes(int nodes, vector<int>& parent, vector<int>& value) 
+    {
+        v=value;
+        for(int i=0;i<parent.size();i++)
+        {
+            childrens[parent[i]].push_back(i);
+        }
+        dfs(0);
+        test(0);
+        return result;
+    }
+};

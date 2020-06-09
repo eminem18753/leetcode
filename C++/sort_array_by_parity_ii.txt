@@ -1,0 +1,26 @@
+class Solution {
+public:
+    vector<int> sortArrayByParityII(vector<int>& A)
+    {
+        vector<int> e;    
+        vector<int> o;    
+        vector<int> r;
+        for(int i=0;i<A.size();i++)
+        {
+            if(A[i]%2==0)
+            {
+                e.push_back(A[i]);
+            }
+            else
+            {
+                o.push_back(A[i]);
+            }
+        }
+        for(int i=0;i<e.size();i++)
+        {
+            r.push_back(e[i]);
+            r.push_back(o[i]);
+        }
+        return r;
+    }
+};

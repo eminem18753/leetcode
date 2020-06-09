@@ -1,0 +1,78 @@
+vector<long long int> total;
+int f=0;
+class Solution 
+{
+    public:
+    
+    bool check(int n)
+    {
+        long long int temp=n;
+        temp*=temp;
+        string t=to_string(temp);
+        int p1=0;
+        int p2=(int)t.length()-1;
+        while(p1<p2)
+        {
+            if(t[p1]!=t[p2])
+            {
+                return false;   
+            }
+            p1++;
+            p2--;
+        }
+        return true;
+    }
+    int superpalindromesInRange(string L, string R) 
+    {
+        if(f==0)
+        {
+            for(int i=0;i<10000;i++)
+            {
+                string t1=to_string(i);
+                string t2=t1;
+                reverse(t2.begin(),t2.end());
+                string r1=t1+t2;
+                if(i<10)
+                {
+                    if(check(i))
+                    {
+                        total.push_back((long long int)(i*i));   
+                    }
+                }
+                if(check(stoi(r1)))
+                {
+                    total.push_back((long long int)stoi(r1)*(long long int)stoi(r1));   
+                }
+                for(int j=0;j<10;j++)
+                {
+                    string r2=t1+to_string(j)+t2;
+                    if(check(stoi(r2)))
+                    {
+                        total.push_back((long long int)stoi(r2)*(long long int)stoi(r2));
+                    }    
+                }
+            }
+            sort(total.begin(),total.end());
+            f=1;
+        }
+        vector<long long int>::iterator l1,l2;
+        long long int t1=0;
+        long long int t2=0;
+        for(int i=0;i<L.length();i++)
+        {
+            t1*=10;
+            t1+=L[i]-'0';
+        }
+        for(int i=0;i<R.length();i++)
+        {
+            t2*=10;
+            t2+=R[i]-'0';
+        }
+        
+        l1=lower_bound(total.begin(),total.end(),t1);
+        l2=lower_bound(total.begin(),total.end(),t2);
+        int i1=(int)(l1-total.begin());
+        int i2=(int)(l2-total.begin());
+        return i2-i1;
+    }
+};

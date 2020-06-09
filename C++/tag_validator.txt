@@ -1,0 +1,53 @@
+class Solution 
+{
+    public:
+    bool isValid(string code) 
+    {
+        vector<string> total;
+        for(int i=0;i<code.length();i++)
+        {
+            if(i>0&&total.size()==0)
+            {
+                return false;
+            }
+            if(code.substr(i,9)=="<![CDATA[")
+            {
+                int j=i+9;
+                i=code.find("]]>",j);
+                if(i<0)
+                {
+                    return false;
+                }
+                i+=2;
+            }
+            else if(code.substr(i,2)=="</")
+            {
+                int j=i+2;
+                i=code.find(">",j);
+                if(i<0||total.size()==0||code.substr(j,i-j)!=total.back())
+                {
+                    return false;
+                }
+                total.pop_back();
+            }
+            else if(code.substr(i,1)=="<")
+            {
+                int j=i+1;
+                i=code.find(">",j);
+                if(i<0||i==j||i-j>9)
+                {
+                    return false;
+                }
+                for(int k=j;k<i;k++)
+                {
+                    if(code[k]<'A'||code[k]>'Z')
+                    {
+                        return false;
+                    }
+                }
+                total.push_back(code.substr(j,i-j));
+            }
+        }
+        return total.size()==0;
+    }
+};

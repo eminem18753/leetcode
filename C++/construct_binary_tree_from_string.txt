@@ -1,0 +1,88 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* str2tree(string s) 
+    {
+        if(s=="")
+        {
+            return NULL;   
+        }
+        string root="";
+        int index=0;
+        for(int i=0;i<s.length();i++)
+        {
+            if(s[i]!='(')
+            {
+                root+=s[i];
+            }
+            else
+            {
+                index=i;
+                break;
+            }
+        }
+        int first=stoi(root);
+        int s1=0;
+        int s2=0;
+        string f1="";
+        string f2="";
+        if(s[index]=='(')
+        {
+            s1=1;
+            string temp="";
+            while(s1>0)
+            {
+                index++;
+                if(s[index]=='(')
+                {
+                    s1++;
+                }
+                else if(s[index]==')')
+                {
+                    s1--;
+                }
+                if(s1>0)
+                {
+                    temp+=s[index];
+                }
+            }
+            f1=temp;
+        }
+        
+        index++;
+        if(s[index]=='(')
+        {
+            s2=1;
+            string temp="";
+            while(s2>0)
+            {
+                index++;
+                if(s[index]=='(')
+                {
+                    s2++;
+                }
+                else if(s[index]==')')
+                {
+                    s2--;
+                }
+                if(s2>0)
+                {
+                    temp+=s[index];
+                }
+            }
+            f2=temp;
+        }
+        TreeNode* r=new TreeNode(first);
+        r->left=str2tree(f1);
+        r->right=str2tree(f2);
+        return r;
+    }
+};

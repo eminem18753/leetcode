@@ -1,0 +1,58 @@
+class Solution {
+public:
+    int largest1BorderedSquare(vector<vector<int>>& grid)
+    {
+        int result=0;
+        int m=grid.size();
+        int n=grid[0].size();
+        
+        for(int w=1;w<=min(m,n);w++)
+        {
+            for(int i=0;i<m-w+1;i++)
+            {
+                for(int j=0;j<n-w+1;j++)
+                {
+                    int flag=0;
+                    if(flag==0)
+                    {
+                        for(int k=i;k<i+w;k++)
+                        {
+                            if(grid[k][j]==0)
+                            {
+                                flag=1;
+                                break;
+                            }
+                            if(grid[k][j+w-1]==0)
+                            {
+                                flag=1;
+                                break;
+                            }
+                        }
+                    }
+                    if(flag==0)
+                    {
+                        for(int k=j;k<j+w;k++)
+                        {
+                            if(grid[i][k]==0)
+                            {
+                                flag=1;
+                                break;
+                            }
+                            if(grid[i+w-1][k]==0)
+                            {
+                                flag=1;
+                                break;
+                            }
+                        }                            
+                    }
+                    if(flag==0)
+                    {
+                        result=max(result,w*w);
+                    }
+                }
+            }
+        }
+        
+        return result;
+    }
+};

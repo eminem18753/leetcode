@@ -1,0 +1,66 @@
+class Solution 
+{
+    public:
+    int result=2147483647;
+    vector<int> n;
+    vector<int> p;
+    vector<vector<int>> s;
+    
+    void dfs(vector<int> temp,int r)
+    {
+        for(int i=0;i<temp.size();i++)
+        {
+            if(temp[i]>n[i])
+            {
+                return;
+            }
+        }
+        int f=0;
+        for(int i=0;i<temp.size();i++)
+        {
+            if(temp[i]!=n[i])
+            {
+                f=1;
+                break;
+            }
+        }
+        if(f==0)
+        {
+            result=min(result,r);
+            return;
+        }
+        int c=r;
+        for(int i=0;i<temp.size();i++)
+        {
+            c+=(n[i]-temp[i])*p[i];
+        }
+        result=min(result,c);
+        
+        for(int i=0;i<s.size();i++)
+        {
+            for(int j=0;j<(int)s[i].size()-1;j++)
+            {
+                temp[j]+=s[i][j];
+            }
+            r+=s[i].back();
+            dfs(temp,r);
+            
+            for(int j=0;j<(int)s[i].size()-1;j++)
+            {
+                temp[j]-=s[i][j];
+            }
+            r-=s[i].back();
+        }
+    }
+    int shoppingOffers(vector<int>& price, vector<vector<int>>& special, vector<int>& needs) 
+    {
+        p=price;
+        n=needs;
+        s=special;
+        sort(s.rbegin(),s.rend());
+        int t=n.size();
+        vector<int> temp(t,0);
+        dfs(temp,0);
+        return result;
+    }
+};

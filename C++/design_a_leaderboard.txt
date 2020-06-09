@@ -1,0 +1,63 @@
+class Leaderboard {
+public:
+    unordered_map<int,int> total;
+    Leaderboard() 
+    {
+        
+    }
+    
+    void addScore(int playerId, int score) 
+    {
+        if(total.find(playerId)==total.end())
+        {
+            total[playerId]=score;   
+        }
+        else
+        {
+            total[playerId]+=score;   
+        }
+    }
+    
+    int top(int K) 
+    {
+        int result=0;
+        deque<int> q;
+        for(unordered_map<int,int>::iterator it=total.begin();it!=total.end();it++)
+        {
+            if(q.size()<K)
+            {
+                deque<int>::iterator low;
+                low=lower_bound(q.begin(),q.end(),it->second);
+                q.insert(low,it->second);
+            }
+            else
+            {
+                if(it->second>q.front())
+                {
+                    q.pop_front();
+                    deque<int>::iterator low;
+                    low=lower_bound(q.begin(),q.end(),it->second);
+                    q.insert(low,it->second);
+                }
+            }
+        }
+        for(int i=0;i<q.size();i++)
+        {
+            result+=q[i];   
+        }
+        return result;
+    }
+    
+    void reset(int playerId) 
+    {
+        total.erase(playerId);
+    }
+};
+
+/**
+ * Your Leaderboard object will be instantiated and called as such:
+ * Leaderboard* obj = new Leaderboard();
+ * obj->addScore(playerId,score);
+ * int param_2 = obj->top(K);
+ * obj->reset(playerId);
+ */

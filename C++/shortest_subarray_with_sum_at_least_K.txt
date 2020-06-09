@@ -1,0 +1,33 @@
+class Solution 
+{
+    public:
+    int shortestSubarray(vector<int>& A, int K) 
+    {
+        deque<int> q;
+        int result=2147483647;
+        vector<int> s={0};
+        for(int i=0;i<A.size();i++)
+        {
+            s.push_back(s.back()+A[i]);   
+        }
+        for(int i=0;i<s.size();i++)
+        {
+            while(q.size()>0&&s[i]-s[q.front()]>=K)
+            {
+                int current=q.front();
+                q.pop_front();
+                result=min(result,i-current);
+            }
+            while(q.size()>0&&s[i]<=s[q.back()])
+            {
+                q.pop_back();   
+            }
+            q.push_back(i);
+        }
+        if(result==2147483647)
+        {
+            return -1;   
+        }
+        return result;
+    }
+};

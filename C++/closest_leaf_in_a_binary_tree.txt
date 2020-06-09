@@ -1,0 +1,73 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    map<TreeNode*,TreeNode*> total;
+    set<TreeNode*> overall;
+    int K;
+    TreeNode* start;
+    void dfs(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        if(root->val==K)
+        {
+            start=root;
+        }
+        if(root->left!=NULL)
+        {
+            total[root->left]=root;
+        }
+        if(root->right!=NULL)
+        {
+            total[root->right]=root;
+        }
+        dfs(root->left);
+        dfs(root->right);
+    }
+    
+    int findClosestLeaf(TreeNode* root, int k)
+    {
+        int result=0;
+        total[root]=root;
+        K=k;
+        dfs(root);
+        deque<TreeNode*> q;
+        q.push_back(start);
+        overall.insert(start);
+        while(q.size()>0)
+        {
+            TreeNode* s=q.front();
+            overall.insert(s);
+            
+            q.pop_front();
+            
+            if(s->left==NULL&&s->right==NULL)
+            {
+                return s->val;
+            }
+            if(s->left&&overall.find(s->left)==overall.end())
+            {
+                q.push_back(s->left);
+            }
+            if(s->right&&overall.find(s->right)==overall.end())
+            {
+                q.push_back(s->right);
+            }
+            if(total[s]!=s&&overall.find(total[s])==overall.end())
+            {
+                q.push_back(total[s]);
+            }
+        }
+        return 0;
+    }
+};

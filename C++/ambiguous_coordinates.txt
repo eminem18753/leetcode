@@ -1,0 +1,62 @@
+class Solution 
+{
+    public:
+    vector<string> result;
+    void dfs(string s,string c,int f,int d,int index)
+    {
+        if(s=="")
+        {
+            if(d==1)
+            {
+                if(f==1&&c.back()=='0')
+                {
+                    return;
+                }
+                if(index!=-1)
+                {
+                    string temp=c.substr(index);
+                    if(temp.length()>1&&temp[0]=='0'&&temp[1]!='.')
+                    {
+                        return;
+                    }
+                }
+                result.push_back("("+c+")");
+            }
+            return;
+        }
+        if(c.length()>1&&c[0]=='0'&&c[1]!='.'&&c[1]!=',')
+        {
+            return;
+        }
+        if(index!=-1)
+        {
+            string temp=c.substr(index);
+            if(temp.length()>1&&temp[0]=='0'&&temp[1]!='.')
+            {
+                return;
+            }
+        }
+        dfs(s.substr(1),c+s[0],f,d,index);
+        if(f==0&&s.length()>1)
+        {
+            dfs(s.substr(1),c+s[0]+".",1,d,index);
+        }
+        if(d==0&&s.length()>1)
+        {
+            if(f==0||s[0]!='0')
+            {
+                dfs(s.substr(1),c+s[0]+", ",0,1,(int)c.length()+3);
+            }
+        }
+    }
+    vector<string> ambiguousCoordinates(string s) 
+    {
+        int n=s.length();
+        int f=0;
+        int d=0;
+        string total=s.substr(1,n-2);
+        dfs(total,"",f,d,-1);
+        
+        return result;
+    }
+};

@@ -1,0 +1,33 @@
+class Solution {
+public:
+    vector<int> deckRevealedIncreasing(vector<int>& deck) 
+    {
+        vector<int> result(deck.size(),-1);
+        sort(deck.begin(),deck.end());
+        int i=0;
+        int flag=1;
+        int counter=0;
+        while(counter<deck.size())
+        {
+            if(flag==0&&result[i%deck.size()]==-1)
+            {
+                flag=1;
+            }
+            else if(flag==1&&result[i%deck.size()]==-1)
+            {
+                result[i%deck.size()]=deck[counter];
+                counter++;
+                flag=0;
+            }
+            else if(counter==deck.size()-1&&result[i%deck.size()]==-1)
+            {
+                result[i%deck.size()]=deck[counter];
+                counter++;
+                break;
+            }
+            i++;
+            i%=deck.size();
+        }
+        return result;
+    }
+};

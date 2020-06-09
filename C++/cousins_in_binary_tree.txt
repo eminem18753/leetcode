@@ -1,0 +1,47 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution 
+{
+    public:
+    int l1=-2;
+    int l2=-1;
+    int p1=-2;
+    int p2=-1;
+    void test(TreeNode* root,int x,int y,int level,int parent)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        if(root->val==x)
+        {
+            l1=level;
+            p1=parent;
+        }
+        else if(root->val==y)
+        {
+            l2=level;
+            p2=parent;
+        }
+        if(root->left!=NULL)
+        {
+            test(root->left,x,y,level+1,root->val);
+        }
+        if(root->right!=NULL)
+        {
+            test(root->right,x,y,level+1,root->val);
+        }
+    }
+    bool isCousins(TreeNode* root, int x, int y) 
+    {
+        test(root,x,y,1,-1);
+        return l1==l2&&p1!=p2;
+    }
+};

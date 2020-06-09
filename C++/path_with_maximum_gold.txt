@@ -1,0 +1,40 @@
+class Solution 
+{
+    public:
+    int result=0;
+    void dfs(vector<vector<int>> &A,int i,int j,int c)
+    {
+        if(i<0||j<0||i>=(int)A.size()||j>=(int)A[0].size()||A[i][j]==0||A[i][j]==-1)
+        {
+            return;
+        }
+        int temp=A[i][j];
+        result=max(result,c+temp);
+        A[i][j]=-1;
+        dfs(A,i+1,j,c+temp);
+        A[i][j]=temp;
+        A[i][j]=-1;
+        dfs(A,i-1,j,c+temp);
+        A[i][j]=temp;
+        A[i][j]=-1;
+        dfs(A,i,j+1,c+temp);
+        A[i][j]=temp;
+        A[i][j]=-1;
+        dfs(A,i,j-1,c+temp);
+        A[i][j]=temp;
+    }
+    int getMaximumGold(vector<vector<int>>& grid) 
+    {
+        for(int i=0;i<grid.size();i++)
+        {
+            for(int j=0;j<grid[0].size();j++)
+            {
+                if(grid[i][j]!=0)
+                {
+                    dfs(grid,i,j,0);
+                }
+            }
+        }
+        return result;
+    }
+};

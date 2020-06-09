@@ -1,0 +1,60 @@
+class Solution {
+public:
+    bool isPrime(int n)
+    {
+        if(n==1)
+        {
+            return false;   
+        }
+        if(n==2)
+        {
+            return true;   
+        }
+        for(int i=2;i*i<=n;i+=1)
+        {
+            if(n%i==0)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    int primePalindrome(int N)
+    {
+        if(N<=2)
+        {
+            return 2;
+        }
+        else if(N==3)
+        {
+            return 3;
+        }
+        else if(N<=5)
+        {
+            return 5;
+        }
+        else if(N<=7)
+        {
+            return 7;
+        }
+        else if(N<=11)
+        {
+            return 11;
+        }
+        for(int i=1;i<=20000;i+=1)
+        {
+            string c1=to_string(i);
+            string c2(c1.rbegin(),c1.rend());
+            string output=c1+c2.substr(1);
+            int outcome=stoi(output);
+            if(outcome>N)
+            {
+                if(isPrime(outcome))
+                {
+                    return outcome;
+                }
+            }
+        }
+        return 0;
+    }
+};

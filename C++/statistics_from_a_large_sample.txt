@@ -1,0 +1,107 @@
+class Solution {
+public:
+    vector<double> sampleStats(vector<int>& count) 
+    {
+        vector<double> result;
+        int flag=0;
+        double m=300;
+        double M=-300;
+        double s=0;
+        double n=(double)count.size();
+        int t=(int)count.size();
+        double mode=-1;
+        double index=-1;
+        double median=-1;
+        int elements=0;
+        vector<double> summation;
+        for(int i=0;i<count.size();i++)
+        {
+            if(count[i]>0&&flag==0)
+            {
+                m=(double)i;
+                flag=1;
+            }
+            if(count[i]>0)
+            {
+                M=(double)i;
+            }
+            s+=(double)count[i]*(double)i;
+            if(i==0)
+            {
+                summation.push_back((double)count[i]);
+            }
+            else
+            {
+                summation.push_back(summation.back()+count[i]);             
+            }
+            elements+=count[i];
+            if(count[i]>mode)
+            {
+                mode=count[i];
+                index=(double)i;
+            }
+        }
+        double mean=s/(double)elements;
+        if(elements%2==1)
+        {
+            int i1=(elements+1)/2;
+            for(int i=1;i<summation.size();i++)
+            {
+                if((summation[i-1]-i1)*(summation[i]-i1)<0)
+                {
+                    median=(double)i;
+                }
+                else if(summation[i-1]==i1)
+                {
+                    median=(double)(i-1);
+                }
+                else if(summation[i]==i1)
+                {
+                    median=(double)i;
+                }
+            }
+        }
+        else
+        {
+            int i1=elements/2;
+            int i2=elements/2+1;
+            double f1;
+            double f2;
+            for(int i=1;i<summation.size();i++)
+            {
+                if((summation[i-1]-i1)*(summation[i]-i1)<0)
+                {
+                    f1=(double)i;
+                }
+                else if(summation[i-1]==i1)
+                {
+                    f1=(double)(i-1);
+                }
+                else if(summation[i]==i1)
+                {
+                    f1=(double)i;
+                }
+                if((summation[i-1]-i2)*(summation[i]-i2)<0)
+                {
+                    f2=(double)i;
+                }
+                else if(summation[i-1]==i2)
+                {
+                    f2=(double)(i-1);
+                }
+                else if(summation[i]==i2)
+                {
+                    f2=(double)i;
+                }
+            }
+            median=(f1+f2)/(double)2;
+        }
+        result.push_back(m);
+        result.push_back(M);
+        result.push_back(mean);
+        result.push_back(median);
+        result.push_back(index);
+        return result;
+        
+    }
+};

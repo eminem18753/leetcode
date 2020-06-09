@@ -1,0 +1,48 @@
+class TopVotedCandidate 
+{
+    public:
+    map<int,vector<int>> overall;
+    vector<int> t;
+    TopVotedCandidate(vector<int>& persons, vector<int>& times) 
+    {
+        for(int i=0;i<persons.size();i++)
+        {
+            overall[persons[i]].push_back(times[i]);   
+        }
+    }
+    
+    int q(int t) 
+    {
+        int result=0;
+        int M=0;
+        int k=-1;
+        int index=-1;
+        for(map<int,vector<int>>::iterator it=overall.begin();it!=overall.end();it++)
+        {
+            vector<int>::iterator up;
+            up=upper_bound(it->second.begin(),it->second.end(),t);
+            int s=(int)(up-it->second.begin());
+            if(s>M)
+            {
+                M=s;
+                k=it->second[s-1];
+                index=it->first;
+            }
+            else if(s==M)
+            {
+                if(it->second[s-1]>k)
+                {
+                    k=it->second[s-1];
+                    index=it->first;
+                }
+            }
+        }
+        return index;
+    }
+};
+
+/**
+ * Your TopVotedCandidate object will be instantiated and called as such:
+ * TopVotedCandidate* obj = new TopVotedCandidate(persons, times);
+ * int param_1 = obj->q(t);
+ */

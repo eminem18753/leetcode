@@ -1,0 +1,22 @@
+class Solution 
+{
+    public:
+    int longestSubsequence(vector<int>& arr, int difference) 
+    {
+        int result=0;
+        map<int,int> total;
+        for(int i=0;i<arr.size();i++)
+        {
+            if(total.find(arr[i]-difference)!=total.end())
+            {
+                total[arr[i]]=total[arr[i]-difference]+1;
+            }
+            else
+            {
+                total[arr[i]]=1;
+            }
+            result=max(result,total[arr[i]]);
+        }
+        return result;
+    }
+};

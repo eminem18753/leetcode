@@ -1,0 +1,130 @@
+class Solution 
+{
+public:
+    int maxDistance(vector<vector<int>>& grid) 
+    {
+        vector<int> x;
+        vector<int> y;
+        int c=0;
+        int d=0;
+        int r=0;
+        for(int i=0;i<grid.size();i++)
+        {
+            for(int j=0;j<grid[i].size();j++)
+            {
+                if(grid[i][j]==1)
+                {
+                    x.push_back(i);
+                    y.push_back(j);
+                    c++;
+                }
+                else
+                {
+                    r++;
+                }
+            }
+        }
+        if(c==0||r==0)
+        {
+            return -1;
+        }
+        
+        if(c<=1000)
+        {
+            for(int i=0;i<grid.size();i++)
+            {
+                for(int j=0;j<grid[i].size();j++)
+                {
+                    if(grid[i][j]==0)
+                    {
+                        int l=2147483647;
+                        for(int k=0;k<x.size();k++)
+                        {
+                            l=min(l,abs(x[k]-i)+abs(y[k]-j));
+                        }
+                        d=max(d,l);
+                    }
+                }
+            }
+            return d;
+        }
+        
+        for(int i=0;i<grid.size();i++)
+        {
+            for(int j=0;j<grid[i].size();j++)
+            {
+                if(grid[i][j]==0)
+                {
+                    deque<int> x;
+                    deque<int> y;
+                    deque<int> c;
+                    x.push_back(i);
+                    y.push_back(j);
+                    c.push_back(0);
+                    set<string> temp;
+                    string current=to_string(i)+","+to_string(j);
+                    temp.insert(current);
+                    while(x.size()>0)
+                    {
+                        int p1=x.front();
+                        int p2=y.front();
+                        int k=c.front();
+                        x.pop_front();
+                        y.pop_front();
+                        c.pop_front();
+                        if(grid[p1][p2]==1)
+                        {
+                            d=max(d,k);
+                            break;
+                        }
+                        if(p1-1>=0)
+                        {
+                            string current=to_string(p1-1)+","+to_string(p2);
+                            if(temp.find(current)==temp.end())
+                            {
+                                x.push_back(p1-1);
+                                y.push_back(p2);
+                                c.push_back(k+1);
+                                temp.insert(current);
+                            }
+                        }
+                        if(p1+1<grid.size())
+                        {
+                            string current=to_string(p1+1)+","+to_string(p2);
+                            if(temp.find(current)==temp.end())
+                            {
+                                x.push_back(p1+1);
+                                y.push_back(p2);
+                                c.push_back(k+1);
+                                temp.insert(current);
+                            }
+                        }
+                        if(p2-1>=0)
+                        {
+                            string current=to_string(p1)+","+to_string(p2-1);
+                            if(temp.find(current)==temp.end())
+                            {
+                                x.push_back(p1);
+                                y.push_back(p2-1);
+                                c.push_back(k+1);
+                                temp.insert(current);
+                            }
+                        }
+                        if(p2+1<grid[0].size())
+                        {
+                            string current=to_string(p1)+","+to_string(p2+1);
+                            if(temp.find(current)==temp.end())
+                            {
+                                x.push_back(p1);
+                                y.push_back(p2+1);
+                                c.push_back(k+1);
+                                temp.insert(current);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return d;
+    }
+};

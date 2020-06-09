@@ -1,0 +1,7 @@
+# Write your MySQL query statement below
+SELECT id,(CASE WHEN p_id IS NULL THEN "Root"
+           WHEN id in (SELECT a.id FROM tree a JOIN tree b ON a.id=b.p_id) AND p_id IN (SELECT a.id FROM tree a JOIN tree b ON a.id=b.p_id) THEN 'Inner'
+           ELSE 'Leaf'
+           END
+) as Type
+FROM tree;

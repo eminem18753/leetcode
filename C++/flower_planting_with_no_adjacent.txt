@@ -1,0 +1,38 @@
+class Solution {
+public:
+    vector<int> gardenNoAdj(int N, vector<vector<int>>& paths) 
+    {
+        vector<int> result;
+        map<int,map<int,int>> total;
+        int overall[N+1];
+        memset(overall,0,sizeof(overall));
+        for(int i=0;i<paths.size();i++)
+        {
+            total[paths[i][0]][paths[i][1]]=1;
+            total[paths[i][1]][paths[i][0]]=1;
+        }
+        for(int i=1;i<=N;i++)
+        {
+            int choice[4];
+            memset(choice,0,sizeof(choice));
+            map<int,int>::iterator it;
+            for(it=total[i].begin();it!=total[i].end();it++)
+            {
+                if(it->first<i&&it->second==1)
+                {
+                    choice[overall[it->first]]=1;
+                }
+            }
+            for(int j=0;j<4;j++)
+            {
+                if(choice[j]==0)
+                {
+                    result.push_back(j+1);
+                    overall[i]=j;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+};

@@ -1,0 +1,45 @@
+int M=2147483647;
+int a[3]={2,3,5};
+map<long long int,long long int> total;
+vector<int> result;
+int flag=0;
+
+void dfs(long long temp,int c)
+{
+    if(temp>M)
+    {
+        return;
+    }
+    total[temp]=1;
+    if(c==2)
+    {
+        dfs(temp*2,2);
+    }
+    c=3;
+    if(c==3)
+    {
+        dfs(temp*3,3);
+    }
+    c=5;
+    if(c==5)
+    {
+        dfs(temp*5,5);
+    }
+}
+class Solution {
+public:
+    
+    int nthUglyNumber(int n)
+    {
+        if(flag==0)
+        {
+            flag=1;
+            dfs(1,2);
+            for(map<long long int,long long int>::iterator it=total.begin();it!=total.end();it++)
+            {
+                result.push_back(it->first);
+            }
+        }
+        return result[n-1];
+    }
+};

@@ -1,0 +1,15 @@
+class Solution 
+{
+    public:
+    vector<int> sumZero(int n) 
+    {
+        vector<int> result;
+        int summation=n*(n-1)/2;
+        result.push_back(-summation);
+        for(int i=1;i<=n-1;i++)
+        {
+            result.push_back(i);
+        }
+        return result;
+    }
+};

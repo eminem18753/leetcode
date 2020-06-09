@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int gcd(int a,int b)
+    {
+        if(b==0)
+        {
+            return a;
+        }
+        return gcd(b,a%b);
+    }
+    bool canMeasureWater(int x, int y, int z)
+    {
+        if(z>x+y)
+        {
+            return false;
+        }
+        int a=gcd(x,y);
+        if(a==0)
+        {
+            return z==0;
+        }
+        if(z%a==0)
+        {
+            return true;
+        }
+        return false;
+    }
+};

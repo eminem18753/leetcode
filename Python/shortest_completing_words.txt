@@ -1,0 +1,55 @@
+from collections import Counter
+class Solution(object):
+    def shortestCompletingWord(self, licensePlate, words):
+        """
+        :type licensePlate: str
+        :type words: List[str]
+        :rtype: str
+        """
+        output=""
+        minimum=2147483647
+        licensePlate=licensePlate.lower()
+        targetPlate=licensePlate
+        overall=[]
+        for i in range(0,len(licensePlate)):
+            if not licensePlate[i].isalpha():
+                targetPlate=targetPlate.replace(licensePlate[i],'')
+                
+        for i in range(0,len(words)):
+            words[i]=words[i].lower()
+            for j in range(0,len(words[i])):
+                if not words[i][j].isalpha():
+                    words[i]=words[i].replace(words[i][j],'')
+
+        target={}
+        target1=list(Counter(targetPlate).keys())
+        target2=Counter(targetPlate).values()
+        for i in range(0,len(target1)):
+            target[target1[i]]=target2[i]
+        
+        for i in range(0,len(words)):
+            f=0
+            c={}
+            c1=list(Counter(words[i]).keys())
+            c2=Counter(words[i]).values()
+            for j in range(0,len(c1)):
+                c[c1[j]]=c2[j]
+                
+            for keys,values in target.iteritems():
+                if keys not in c:
+                    f=1
+                    break
+                if values>c[keys]:
+                    f=1
+                    break
+            
+            if f==0:
+                if len(words[i])<minimum:
+                    minimum=len(words[i])
+                    overall.append(words[i])
+            
+        for i in overall:
+            if len(i)==minimum:
+                return i
+            
+        return ""

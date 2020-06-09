@@ -1,0 +1,40 @@
+class Solution 
+{
+    public:
+    bool isValidSerialization(string preorder) 
+    {
+        vector<string> total;
+        string temp="";
+        for(int i=0;i<preorder.length();i++)
+        {
+            if(preorder[i]!=',')
+            {
+                temp+=preorder[i];   
+            }
+            else
+            {
+                total.push_back(temp);
+                temp="";
+            }
+        }
+        total.push_back(temp);
+        
+        int d=1;
+        for(int i=0;i<total.size();i++)
+        {
+            if(d<=0)
+            {
+                return false;
+            }
+            if(total[i]!="#")
+            {
+                d++;
+            }
+            else
+            {
+                d--;
+            }
+        }
+        return d==0;
+    }
+};

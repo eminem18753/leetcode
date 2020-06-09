@@ -1,0 +1,80 @@
+class Solution 
+{
+    public:
+    vector<int> p;
+    int find(int x)
+    {
+        if(x!=p[x])
+        {
+            x=find(p[x]);   
+        }
+        return x;
+    }
+    void u(int x,int y)
+    {
+        if(find(x)<find(y))
+        {
+            p[find(x)]=find(y);   
+        }
+        else
+        {
+            p[find(y)]=find(x);   
+        }
+    }
+    vector<int> numIslands2(int m, int n, vector<vector<int>>& positions) 
+    {
+        vector<int> result;
+        vector<vector<int>> grid(m,vector<int>(n,0));
+        p.resize(m*n,0);
+        int dx[4]={1,0,-1,0};
+        int dy[4]={0,1,0,-1};
+        int r=0;
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                p[i*n+j]=i*n+j;   
+            }
+        }
+        for(int i=0;i<positions.size();i++)
+        {
+            int x=positions[i][0];
+            int y=positions[i][1];
+            if(grid[x][y]==1)
+            {
+                result.push_back(result.back());
+                continue;   
+            }
+            grid[x][y]=1;
+            r++;
+            set<int> c;
+            for(int j=0;j<4;j++)
+            {
+                int tx=x+dx[j];
+                int ty=y+dy[j];
+                if(tx>=0&&tx<m&&ty>=0&&ty<n)
+                {
+                    if(grid[tx][ty]==1)
+                    {
+                        c.insert(find(tx*n+ty));
+                    }
+                }
+            }
+            for(int j=0;j<4;j++)
+            {
+                int tx=x+dx[j];
+                int ty=y+dy[j];
+                if(tx>=0&&tx<m&&ty>=0&&ty<n)
+                {
+                    if(grid[tx][ty]==1)
+                    {
+                        u(x*n+y,tx*n+ty);
+                    }
+                }
+            }
+            r-=(int)c.size();
+            result.push_back(r);
+        }
+        return result;
+    }
+};

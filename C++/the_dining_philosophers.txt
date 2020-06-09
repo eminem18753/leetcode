@@ -1,0 +1,37 @@
+from threading import Semaphore
+class DiningPhilosophers(object):
+
+    # call the functions directly to execute, for example, eat()
+    def __init__(self):
+        self.size_lock=Semaphore(4)
+        self.locks=[]
+        for i in range(0,5):
+            self.locks.append(Semaphore(1))
+    def wantsToEat(self, philosopher, pickLeftFork, pickRightFork, eat, putLeftFork, putRightFork):
+        """
+        :type philosopher: int
+        :type pickLeftFork: method
+        :type pickRightFork: method
+        :type eat: method
+        :type putLeftFork: method
+        :type putRightFork: method
+        :rtype: void
+        """
+        left=philosopher
+        right=(philosopher+4)%5
+
+        self.size_lock.acquire()
+        self.size_lock.acquire()
+        
+        self.locks[left].acquire()
+        self.locks[right].acquire()
+        pickLeftFork()
+        pickRightFork()
+        eat()
+        putLeftFork()
+        putRightFork()
+        self.locks[left].release()
+        self.locks[right].release()
+        
+        self.size_lock.release()
+        self.size_lock.release()

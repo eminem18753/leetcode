@@ -1,0 +1,21 @@
+from collections import Counter
+class Solution(object):
+    def firstUniqChar(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        flag=1
+        result=Counter(list(s)).items()
+        output=[]
+        for i in result:
+            output.append(list(i))
+        temp=list(s)
+        print(output)
+        for i in range(0,len(temp)):
+            for j in output:
+                if temp[i]==j[0] and j[1]==1:
+                    flag=0
+                    return i
+        if flag==1:
+            return -1

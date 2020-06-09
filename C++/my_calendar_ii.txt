@@ -1,0 +1,38 @@
+class MyCalendarTwo 
+{
+    public:
+    vector<vector<int>> ones;
+    vector<vector<int>> overlaps;
+    MyCalendarTwo() 
+    {
+        
+    }
+    
+    bool book(int start, int end) 
+    {
+        for(int i=0;i<overlaps.size();i++)
+        {
+            if(overlaps[i][0]<=start&&overlaps[i][1]>start)
+            {
+                return false;   
+            }
+            if(overlaps[i][0]<end&&overlaps[i][1]>=end)
+            {
+                return false;
+            }
+            if(overlaps[i][0]>=start&&overlaps[i][1]<=end)
+            {
+                return false;   
+            }
+        }
+        for(int i=0;i<ones.size();i++)
+        {
+            if(min(ones[i][1],end)>max(ones[i][0],start))
+            {
+                overlaps.push_back({max(ones[i][0],start),min(ones[i][1],end)});
+            }
+        }
+        ones.push_back({start,end});
+        return true;
+    }
+};

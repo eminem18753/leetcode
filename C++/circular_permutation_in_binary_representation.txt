@@ -1,0 +1,40 @@
+class Solution 
+{
+    public:
+    vector<int> circularPermutation(int n, int start) 
+    {
+        if(n==0)
+        {
+            return {0};
+        }
+        int index=-1;
+        vector<int> result;
+        vector<int> temp;
+        temp.push_back(0);
+        temp.push_back(1);
+        for(int i=1;i<n;i++)
+        {
+            vector<int> current;
+            int additional=pow(2,i);
+            current=temp;
+            reverse(current.begin(),current.end());
+            for(int j=0;j<current.size();j++)
+            {
+                current[j]+=additional;
+                temp.push_back(current[j]);
+            }
+        }
+        for(int i=0;i<temp.size();i++)
+        {
+            if(temp[i]==start)
+            {
+                index=i;   
+            }
+        }
+        for(int i=0;i<temp.size();i++)
+        {
+            result.push_back(temp[(i+index)%(int)temp.size()]);   
+        }
+        return result;
+    }
+};

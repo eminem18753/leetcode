@@ -1,0 +1,49 @@
+class Solution 
+{
+    public:
+    vector<int> result;
+    unordered_map<string,int> total;
+    int m;
+    int n;
+    void dfs(string& s,int start)
+    {
+        unordered_map<string,int> temp=total;
+        for(int i=start;i<start+m*n;i+=n)
+        {
+            if(temp.find(s.substr(i,n))==temp.end())
+            {
+                return;
+            }
+            else
+            {
+                temp[s.substr(i,n)]--;
+                if(temp[s.substr(i,n)]==0)
+                {
+                    temp.erase(s.substr(i,n));
+                }
+            }
+        }
+        if(temp.size()==0)
+        {
+            result.push_back(start);
+        }
+    }
+    vector<int> findSubstring(string s, vector<string>& words) 
+    {
+        if(s==""||(int)words.size()==0)
+        {
+            return {};
+        }
+        m=words.size();
+        n=words[0].length();
+        for(int i=0;i<words.size();i++)
+        {
+            total[words[i]]++;
+        }
+        for(int i=0;i<(int)s.length()-m*n+1;i++)
+        {
+            dfs(s,i);
+        }
+        return result;
+    }
+};

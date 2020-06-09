@@ -1,0 +1,51 @@
+bool compare(vector<int> a,vector<int> b)
+{
+    if(a[0]!=b[0])
+    {
+        return a[0]<b[0];
+    }
+    else
+    {
+        return a[1]<b[1];
+    }
+}
+class Solution {
+public:
+    int maxProfitAssignment(vector<int>& difficulty, vector<int>& profit, vector<int>& worker) 
+    {
+        int result=0;
+        vector<vector<int>> total;
+        vector<int> s;
+        for(int i=0;i<difficulty.size();i++)
+        {
+            vector<int> temp;
+            temp.push_back(difficulty[i]);
+            temp.push_back(profit[i]);
+            total.push_back(temp);
+        }
+        sort(total.begin(),total.end(),compare);
+        
+        s.push_back(total[0][1]);
+        for(int i=1;i<difficulty.size();i++)
+        {
+            s.push_back(max(s.back(),total[i][1]));;
+        }
+        vector<int> d;
+        for(int i=0;i<total.size();i++)
+        {
+            d.push_back(total[i][0]);
+        }
+        for(int i=0;i<worker.size();i++)
+        {
+            vector<int>::iterator up;
+            up=upper_bound(d.begin(),d.end(),worker[i]);
+            int index=(int)(up-d.begin())-1;
+            if(index<0)
+            {
+                continue;
+            }
+            result+=s[index];
+        }
+        return result;
+    }
+};

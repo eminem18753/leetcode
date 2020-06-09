@@ -1,0 +1,20 @@
+# Write your MySQL query statement below
+
+SELECT t.GROUP_ID,t.PLAYER_ID FROM
+(
+    SELECT b.group_id as GROUP_ID,a.PLAYER_ID as PLAYER_ID FROM
+    (
+        SELECT p.PLAYER_ID as PLAYER_ID,SUM(P.score) as s FROM
+        (
+            SELECT first_player as PLAYER_ID,first_score as score FROM Matches
+            UNION ALL
+            SELECT second_player,second_score FROM Matches
+        ) p
+        GROUP BY p.PLAYER_ID
+    ) a
+    JOIN Players as b
+    ON a.PLAYER_ID=b.player_id
+    GROUP BY a.PLAYER_ID
+    ORDER BY group_id ASC,a.s DESC,a.player_id ASC
+) t
+GROUP BY group_id;

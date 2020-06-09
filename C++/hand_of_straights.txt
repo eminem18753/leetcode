@@ -1,0 +1,28 @@
+class Solution {
+public:
+    bool isNStraightHand(vector<int>& hand, int W)
+    {
+        sort(hand.begin(),hand.end());
+        int n=hand.size();
+        if(n%W!=0)
+        {
+            return false;
+        }
+        for(int i=0;i<n/W;i++)
+        {
+            int temp=hand[0];
+            hand.erase(hand.begin(),hand.begin()+1);
+            for(int j=1;j<W;j++)
+            {                
+                vector<int>::iterator low;
+                low=lower_bound(hand.begin(),hand.end(),++temp);
+                if(hand[(int)(low-hand.begin())]!=temp)
+                {
+                    return false;
+                }
+                hand.erase(low,low+1);
+            }
+        }
+        return true;
+    }
+};

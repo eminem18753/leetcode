@@ -1,0 +1,43 @@
+class Solution 
+{
+    public:
+    int minStickers(vector<string>& stickers, string target) 
+    {
+        int n=target.length();
+        int m=1<<n;
+        int dp[m];
+        for(int i=0;i<m;i++)
+        {
+            dp[i]=2147483647;
+        }
+        dp[0]=0;
+        for(int i=0;i<m-1;i++)
+        {
+            if(dp[i]==2147483647)
+            {
+                continue;
+            }
+            for(int j=0;j<stickers.size();j++)
+            {
+                int current=i;
+                for(int k=0;k<stickers[j].length();k++)
+                {
+                    for(int l=0;l<n;l++)
+                    {
+                        if(target[l]==stickers[j][k]&&((current>>l)&1)==0)
+                        {
+                            current|=1<<l;
+                            break;
+                        }
+                    }
+                }
+                dp[current]=min(dp[current],dp[i]+1);
+            }
+        }
+        if(dp[m-1]==2147483647)
+        {
+            return -1;
+        }
+        return dp[m-1];
+    }
+};

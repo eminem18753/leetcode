@@ -1,0 +1,18 @@
+from collections import Counter
+class Solution(object):
+    def topKFrequent(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: List[int]
+        """
+        result=Counter(nums).items()
+        output=[]
+        for i in result:
+            output.append(list(i))
+        temp=sorted(output,key=lambda a:a[1],reverse=True)
+        overall=[]
+        for i in range(0,k):
+            overall.append(temp[i][0])
+        return overall
+        

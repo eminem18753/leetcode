@@ -1,0 +1,43 @@
+class Solution 
+{
+public:
+    bool checkInclusion(string s1, string s2)
+    {
+        if(s1.length()>s2.length())
+        {
+            return false;
+        }
+        int a[26];
+        int b[26];
+        memset(a,0,sizeof(a));
+        memset(b,0,sizeof(b));
+        for(int i=0;i<s1.length();i++)
+        {
+            a[s1[i]-'a']++;
+        }
+        int n=s1.length();
+        for(int i=0;i<s2.length()-n+1;i++)
+        {
+            int f=0;
+            memset(b,0,sizeof(b));
+            for(int j=i;j<i+n;j++)
+            {
+                b[s2[j]-'a']++;
+            }
+            for(int j=0;j<26;j++)
+            {
+                if(a[j]!=b[j])
+                {
+                    f=1;
+                    break;
+                }
+            }
+            if(f==0)
+            {
+                return true;
+            }
+        }
+        return false;
+        
+    }
+};

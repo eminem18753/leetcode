@@ -1,0 +1,38 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution 
+{
+    public:
+    int result=0;
+    void dfs(TreeNode* root,int direction,int c)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        result=max(result,c);
+        if(direction==0)
+        {
+            dfs(root->right,direction^1,c+1);
+            dfs(root->left,direction^1,0);
+        }
+        else
+        {
+            dfs(root->left,direction^1,c+1);
+            dfs(root->right,direction^1,0);
+        }
+    }
+    int longestZigZag(TreeNode* root) 
+    {
+        dfs(root,0,0);
+        dfs(root,1,0);
+        return result;
+    }
+};

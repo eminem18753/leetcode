@@ -1,0 +1,54 @@
+class Solution 
+{
+    public:
+    int f(int x)
+    {
+        if(x!=p[x])
+        {
+            x=f(p[x]);
+        }
+        return x;
+    }
+    vector<int> p;
+    
+    vector<int> findRedundantDirectedConnection(vector<vector<int>>& edges) 
+    {
+        map<int,int> parents;
+        vector<int> first;
+        vector<int> second;
+        for(int i=0;i<edges.size();i++)
+        {
+            if(parents.find(edges[i][1])!=parents.end())
+            {
+                first={parents[edges[i][1]],edges[i][1]};
+                second=edges[i];
+                edges[i][1]=-1;
+            }
+            parents[edges[i][1]]=edges[i][0];
+        }
+        for(int i=0;i<=edges.size();i++)
+        {
+            p.push_back(i);
+        }
+        for(int i=0;i<edges.size();i++)
+        {
+            if(edges[i][1]==-1)
+            {
+                continue;
+            }
+            if(f(edges[i][0])==f(edges[i][1]))
+            {
+                if(first.size()==0)
+                {
+                    return edges[i];
+                }
+                else
+                {
+                    return first;
+                }
+            }
+            p[edges[i][1]]=edges[i][0];
+        }
+        return second;
+    }
+};

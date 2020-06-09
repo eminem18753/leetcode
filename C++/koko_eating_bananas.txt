@@ -1,0 +1,55 @@
+class Solution {
+public:
+    int minEatingSpeed(vector<int>& piles, int H) 
+    {
+        int M=0;
+        long long s=0;
+        for(int i=0;i<piles.size();i++)
+        {
+            M=max(M,piles[i]);
+            s+=piles[i];
+        }
+        if((long long)H>=s)
+        {
+            return 1;
+        }
+        int h=0;
+        int l=0;
+        int r=M;
+        int flag=0;
+        int last=0;
+        while(l<r)
+        {
+            int m=(l+r)/2;
+            h=m;
+            if(last==h)
+            {
+                if(l+1==r)
+                {
+                    m+=1;
+                    h+=1;
+                    break;
+                }
+            }
+            int c=0;
+            for(int i=0;i<piles.size();i++)
+            {
+                c+=piles[i]/m;
+                if(piles[i]%m!=0)
+                {
+                    c+=1;
+                }
+            }
+            if(c<=H)
+            {
+                r=m;              
+            }
+            else
+            {
+                l=m;
+            }
+            last=h;
+        }
+        return h;
+    }
+};

@@ -1,0 +1,137 @@
+class Solution {
+public:
+    int nextGreaterElement(int n) 
+    {
+        int result=0;
+        string s=to_string(n);
+        int first=0;
+        int second=s.length()-1;
+            
+        int flag=0;
+        for(int i=s.length()-1;i>0;i--)
+        {
+            if(s[i]>s[i-1])
+            {
+                flag=1;
+            }
+        }
+        
+        if(flag==0)
+        {
+            return -1;
+        }
+        int maximum=-1;
+        
+        for(int i=s.length()-1;i>0;i--)
+        {
+            maximum=max(maximum,s[i]-'0');
+            if(maximum>s[i-1]-'0')
+            {
+                first=i-1;
+                break;
+            }
+        }
+        
+        int pivot=s[first]-'0';
+        int minimum=2147483647;
+        int index=-1;
+        for(int i=first+1;i<s.length();i++)
+        {
+            if((s[i]-'0')>pivot)
+            {
+                minimum=min(minimum,s[i]-'0');
+                index=i;
+            }
+        }
+        char a=s[index];
+        s[index]=s[first];
+        s[first]=a;
+        string temp="";
+        for(int i=first+1;i<s.length();i++)
+        {
+            temp+=s[i];
+        }
+        sort(temp.begin(),temp.end());
+        string outcome="";
+        for(int i=0;i<=first;i++)
+        {
+            outcome+=s[i];
+        }
+        outcome+=temp;
+        if(outcome.length()>10)
+        {
+            return -1;
+        }
+        if(outcome.length()==10)
+        {
+            if(outcome[0]>'2')
+            {
+                return -1;
+            }
+            if(outcome[0]=='2')
+            {
+                if(outcome[1]>'1')
+                {
+                    return -1;
+                }
+            }
+            if(outcome[0]=='2'&&outcome[1]=='1')
+            {
+                if(outcome[2]>'4')
+                {
+                    return -1;
+                }
+            }
+            if(outcome[0]=='2'&&outcome[1]=='1'&&outcome[2]=='4')
+            {
+                if(outcome[3]>'7')
+                {
+                    return -1;
+                }
+            }
+            if(outcome[0]=='2'&&outcome[1]=='1'&&outcome[2]=='4'&&outcome[3]=='7')
+            {
+                if(outcome[4]>'4')
+                {
+                    return -1;
+                }
+            }
+            if(outcome[0]=='2'&&outcome[1]=='1'&&outcome[2]=='4'&&outcome[3]=='7'&&outcome[4]=='4')
+            {
+                if(outcome[5]>'8')
+                {
+                    return -1;
+                }
+            }
+            if(outcome[0]=='2'&&outcome[1]=='1'&&outcome[2]=='4'&&outcome[3]=='7'&&outcome[4]=='4'&&outcome[5]=='8')
+            {
+                if(outcome[6]>'3')
+                {
+                    return -1;
+                }
+            }
+            if(outcome[0]=='2'&&outcome[1]=='1'&&outcome[2]=='4'&&outcome[3]=='7'&&outcome[4]=='4'&&outcome[5]=='8'&&outcome[6]=='3')
+            {
+                if(outcome[7]>'6')
+                {
+                    return -1;
+                }
+            }
+            if(outcome[0]=='2'&&outcome[1]=='1'&&outcome[2]=='4'&&outcome[3]=='7'&&outcome[4]=='4'&&outcome[5]=='8'&&outcome[6]=='3'&&outcome[7]=='6')
+            {
+                if(outcome[8]>'4')
+                {
+                    return -1;
+                }
+            }
+            if(outcome[0]=='2'&&outcome[1]=='1'&&outcome[2]=='4'&&outcome[3]=='7'&&outcome[4]=='4'&&outcome[5]=='8'&&outcome[6]=='3'&&outcome[7]=='6'&&outcome[8]=='4')
+            {
+                if(outcome[9]>'7')
+                {
+                    return -1;
+                }
+            }
+        }
+        return stoi(outcome);
+    }
+};

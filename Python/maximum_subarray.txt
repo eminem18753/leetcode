@@ -1,0 +1,19 @@
+class Solution(object):
+    def maxSubArray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        result=0
+        current=0
+        count=0
+        maximum=-2147483647
+        flag=0
+        for i in range(0,len(nums)):
+            current+=nums[count]
+            if current>maximum:
+                maximum=current
+            if current<0:
+                current=0
+            count+=1
+        return maximum

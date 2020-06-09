@@ -1,0 +1,87 @@
+class LogSystem {
+public:
+    map<string,int> total;
+    
+    LogSystem() 
+    {
+        
+    }
+    
+    void put(int id, string timestamp) 
+    {
+        total[timestamp]=id;
+    }
+    
+    vector<int> retrieve(string s, string e, string gra) 
+    {
+        vector<int> result;
+        if(gra=="Year")
+        {
+            for(map<string,int>::iterator it=total.begin();it!=total.end();it++)
+            {
+                if(it->first.substr(0,4)>=s.substr(0,4)&&it->first.substr(0,4)<=e.substr(0,4))
+                {
+                    result.push_back(it->second);
+                }
+            }
+        }
+        else if(gra=="Month")
+        {
+            for(map<string,int>::iterator it=total.begin();it!=total.end();it++)
+            {
+                if(it->first.substr(0,7)>=s.substr(0,7)&&it->first.substr(0,7)<=e.substr(0,7))
+                {
+                    result.push_back(it->second);
+                }
+            }
+        }
+        else if(gra=="Day")
+        {
+            for(map<string,int>::iterator it=total.begin();it!=total.end();it++)
+            {
+                if(it->first.substr(0,10)>=s.substr(0,10)&&it->first.substr(0,10)<=e.substr(0,10))
+                {
+                    result.push_back(it->second);
+                }
+            }
+        }
+        else if(gra=="Hour")
+        {
+            for(map<string,int>::iterator it=total.begin();it!=total.end();it++)
+            {
+                if(it->first.substr(0,13)>=s.substr(0,13)&&it->first.substr(0,13)<=e.substr(0,13))
+                {
+                    result.push_back(it->second);
+                }
+            }            
+        }
+        else if(gra=="Minute")
+        {
+            for(map<string,int>::iterator it=total.begin();it!=total.end();it++)
+            {
+                if(it->first.substr(0,16)>=s.substr(0,16)&&it->first.substr(0,16)<=e.substr(0,16))
+                {
+                    result.push_back(it->second);
+                }
+            }            
+        }
+        else if(gra=="Second")
+        {
+            for(map<string,int>::iterator it=total.begin();it!=total.end();it++)
+            {
+                if(it->first.substr(0,19)>=s.substr(0,19)&&it->first.substr(0,19)<=e.substr(0,19))
+                {
+                    result.push_back(it->second);
+                }
+            }            
+        }
+        return result;
+    }
+};
+
+/**
+ * Your LogSystem object will be instantiated and called as such:
+ * LogSystem* obj = new LogSystem();
+ * obj->put(id,timestamp);
+ * vector<int> param_2 = obj->retrieve(s,e,gra);
+ */

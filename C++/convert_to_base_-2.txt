@@ -1,0 +1,17 @@
+class Solution {
+public:
+    string baseNeg2(int N)
+    {
+        string result="";
+        if(N==0)
+        {
+            return "0";
+        }
+        while(N)
+        {
+            result=to_string(N&1)+result;
+            N=-(N>>1);
+        }
+        return result;
+    }
+};

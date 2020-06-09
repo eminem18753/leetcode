@@ -1,0 +1,52 @@
+class Solution 
+{
+    public:
+    struct node
+    {
+        int value;
+        bool apple;
+        vector<node*> children;
+    };
+    typedef struct node node;
+    node* root;
+    int dfs(node* root)
+    {
+        if(root==NULL)
+        {
+            return 0;
+        }
+        int c=0;
+        for(int i=0;i<root->children.size();i++)
+        {
+            c+=dfs(root->children[i]);
+        }
+        if(root->value!=0&&(root->apple||c>0))
+        {
+            c+=2;
+        }
+        return c;
+    }
+    int minTime(int n, vector<vector<int>>& edges, vector<bool>& hasApple) 
+    {
+        root=new node;
+        root->value=0;
+        root->apple=hasApple[0];
+        priority_queue<pair<int,node*>,vector<pair<int,node*>>,greater<pair<int,node*>>> total;
+        total.push({0,root});
+        sort(edges.begin(),edges.end());
+        for(int i=0;i<edges.size();i++)
+        {
+            while(total.top().second->value!=edges[i][0])
+            {
+                total.pop();
+            }
+            node* current=new node;
+            current->value=edges[i][1];
+            current->apple=hasApple[edges[i][1]];
+            total.top().second->children.push_back(current);
+            total.push({edges[i][1],current});
+        }
+        
+        return dfs(root);
+    }
+};

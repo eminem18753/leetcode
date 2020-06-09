@@ -1,0 +1,80 @@
+class Solution 
+{
+public:
+    bool check(int m,int n,int r,int c)
+    {
+        if(r<0||r>=m||c<0||c>=n)
+        {
+            return true;
+        }
+        return false;
+    }
+    int findPaths(int m, int n, int N, int r, int c) 
+    {
+        long long result=0;
+        long long d=1000000007;
+        int d1[m][n];
+        int d2[m][n];
+        memset(d1,0,sizeof(d1));
+        memset(d2,0,sizeof(d2));
+        d1[r][c]=1;
+        for(int c=0;c<N;c++)
+        {
+            for(int i=0;i<m;i++)
+            {
+                for(int j=0;j<n;j++)
+                {
+                    if(check(m,n,i+1,j))
+                    {
+                        result+=d1[i][j]%d;
+                        result%=d;
+                    }
+                    else
+                    {
+                        d2[i+1][j]+=d1[i][j]%d;
+                        d2[i+1][j]%=d;
+                    }
+                    if(check(m,n,i-1,j))
+                    {
+                        result+=d1[i][j]%d;
+                        result%=d;
+                    }
+                    else
+                    {
+                        d2[i-1][j]+=d1[i][j]%d;
+                        d2[i-1][j]%=d;
+                    }
+                    if(check(m,n,i,j+1))
+                    {
+                        result+=d1[i][j]%d;
+                        result%=d;
+                    }
+                    else
+                    {
+                        d2[i][j+1]+=d1[i][j]%d;
+                        d2[i][j+1]%=d;
+                    }
+                    if(check(m,n,i,j-1))
+                    {
+                        result+=d1[i][j]%d;
+                        result%=d;
+                    }
+                    else
+                    {
+                        d2[i][j-1]+=d1[i][j]%d;
+                        d2[i][j-1]%=d;
+                    }
+                }
+            }
+            for(int i=0;i<m;i++)
+            {
+                for(int j=0;j<n;j++)
+                {
+                    d1[i][j]=d2[i][j];
+                }
+            }
+            memset(d2,0,sizeof(d2));
+        }
+        return (int)result%d;
+    }
+};

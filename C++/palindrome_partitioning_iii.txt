@@ -1,0 +1,46 @@
+class Solution 
+{
+    public:
+    int moves(string s)
+    {
+        int c=0;
+        int p1=0;
+        int p2=(int)s.length()-1;
+        while(p1<p2)
+        {
+            if(s[p1]!=s[p2])
+            {
+                c++;
+            }
+            p1++;
+            p2--;
+        }
+        return c;
+    }
+    int dp(vector<vector<int>>& m,string& s,int l,int k)
+    {
+        if(m[l][k]!=2147483647)
+        {
+            return m[l][k];
+        }
+        if(k==1)
+        {
+            m[l][k]=moves(s.substr(0,l));
+            return m[l][k];
+        }
+        else
+        {
+            for(int i=k-1;i<l;i++)
+            {
+                m[l][k]=min(m[l][k],dp(m,s,i,k-1)+moves(s.substr(i,l-i)));
+            }
+        }
+        return m[l][k];
+    }
+    int palindromePartition(string s, int k) 
+    {
+        int n=s.length();
+        vector<vector<int>> m(n+1,vector<int>(k+1,2147483647));
+        return dp(m,s,n,k);
+    }
+};

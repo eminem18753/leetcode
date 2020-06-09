@@ -1,0 +1,89 @@
+class Solution 
+{
+    public:
+    long long int gcd(long long int a,long long int b)
+    {
+        if(b==0)
+        {
+            return a;
+        }
+        return gcd(b,a%b);
+    }
+    vector<long long int> add(long long int a1,long long int b1,long long int a2,long long int b2)
+    {
+        long long int d=a1*b2+b1*a2;
+        long long int n=b1*b2;
+        long long int c=gcd(d,n);
+        return {d/c,n/c};
+    }
+    vector<long long int> getResult(string S)
+    {
+        while(S!="0"&&(S.back()=='0'||S.back()=='.'))
+        {
+            S.pop_back();
+        }
+        int index=-1;
+        int p=-1;
+        for(int i=0;i<S.length();i++)
+        {
+            if(S[i]=='.')
+            {
+                index=i;
+            }
+            else if(S[i]=='(')
+            {
+                p=i;
+                break;
+            }
+        }
+        if(index==-1)
+        {
+            return {(long long int)stod(S),1};
+        }
+        long long int r=stoll(S.substr(0,index));//整數
+        long long int q;
+        long long int l;
+        if(p==-1)
+        {
+            q=stoll(S.substr(index+1,(int)S.length()-index-1));
+            l=(int)S.length()-index-1;
+        }
+        else
+        {
+            q=((S[index+1]=='(')?0:stoll(S.substr(index+1,p-index-1)));
+            l=p-index-1;
+        }
+        long long int d=gcd(q,pow(10,(int)l));
+        vector<long long int> f={q/d,pow(10,l)/d};//有限小數
+        int times=l;
+        long long int t=stoll(S.substr(p+1,(int)S.length()-p-2));
+        int z=(int)S.length()-p-2;
+        long long int denominator=(pow(10,z)-1)*pow(10,times);
+        long long int common=gcd(t,denominator);
+        vector<long long int> w;
+        if(p==-1)
+        {
+            w={0,1};
+        }
+        else
+        {
+            w={t/common,denominator/common};
+        }
+        vector<long long int> g;
+        if(q!=0)
+        {
+            g=add(r,1,f[0],f[1]);
+        }
+        else
+        {
+            g={r,1};
+        }
+        return add(g[0],g[1],w[0],w[1]);
+    }
+    bool isRationalEqual(string S, string T) 
+    {
+        vector<long long int> s=getResult(S);
+        vector<long long int> t=getResult(T);
+        return s[0]==t[0]&&s[1]==t[1];
+    }
+};

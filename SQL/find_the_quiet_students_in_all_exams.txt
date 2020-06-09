@@ -1,0 +1,22 @@
+# Write your MySQL query statement below
+SELECT student_id,student_name FROM Student
+WHERE student_id NOT IN
+(SELECT * FROM
+    (
+        SELECT s.student_id FROM Student as s
+        JOIN Exam as e
+        ON s.student_id=e.student_id
+        JOIN
+        (
+            SELECT exam_id,student_id,MIN(score) as min_score,MAX(score) as max_score
+            FROM Exam
+            GROUP BY exam_id
+        ) a
+        ON e.exam_id=a.exam_id
+        WHERE e.score=a.min_score OR e.score=a.max_score
+    ) b
+) AND student_id IN
+(
+    SELECT student_id FROM Exam
+)
+ORDER BY student_id;

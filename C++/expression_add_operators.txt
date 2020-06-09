@@ -1,0 +1,44 @@
+class Solution 
+{
+    public:
+    void dfs(string num,int& target,string e,int previous,int current,vector<string>& result)
+    {
+        if(num.length()==0)
+        {
+            if(current==target)
+            {
+                result.push_back(e);
+            }
+            return;
+        }
+        for(int i=1;i<=num.length();i++)
+        {
+            string c=num.substr(0,i);
+            if(c.length()>1&&c[0]=='0')
+            {
+                continue;
+            }
+            if(stoll(c)>2147483647)
+            {
+                continue;
+            }
+            string next=num.substr(i);
+            if(e.length()==0)
+            {
+                dfs(next,target,c,stoll(c),stoll(c),result);
+            }
+            else
+            {
+                dfs(next,target,e+"+"+c,stoll(c),current+stoll(c),result);
+                dfs(next,target,e+"-"+c,-stoll(c),current-stoll(c),result);
+                dfs(next,target,e+"*"+c,previous*stoll(c),current-previous+previous*stoll(c),result);
+            }
+        }
+    }
+    vector<string> addOperators(string num, int target) 
+    {
+        vector<string> result;
+        dfs(num,target,"",0,0,result);
+        return result;
+    }
+};

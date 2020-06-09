@@ -1,0 +1,56 @@
+class Solution 
+{
+    public:
+    vector<int> cheapestJump(vector<int>& A, int B) 
+    {
+        vector<int> result;
+        if(A.size()==0||A[0]==-1)
+        {
+            return result;
+        }
+        int n=A.size();
+        priority_queue<pair<int,vector<int>>,vector<pair<int,vector<int>>>,greater<pair<int,vector<int>>>> q;
+        q.push({A[0],{1}});
+        unordered_set<int> v;
+        while(q.size()>0)
+        {
+            pair<int,vector<int>> p=q.top();
+            q.pop();
+            int coins=p.first;
+            vector<int> c=p.second;
+            int position=c.back()-1;
+            if(v.find(position)!=v.end())
+            {
+                continue;
+            }
+            v.insert(position);
+            if(c.back()==n)
+            {
+                result=c;
+                break;
+            }
+            for(int i=1;i<=B;i++)
+            {
+                if(position+i<n&&A[position+i]!=-1&&v.find(position+i)==v.end())
+                {
+                    c.push_back(position+i+1);
+                    q.push({coins+A[position+i],c});
+                    c.pop_back();
+                }
+            }
+        }
+        if(result.size()==0)
+        {
+            return result;
+        }
+        set<int> output(result.begin(),result.end());
+        for(int i=0;i<n;i++)
+        {
+            if(A[i]==0)
+            {
+                output.insert(i+1);
+            }
+        }
+        return vector<int>(output.begin(),output.end());
+    }
+};

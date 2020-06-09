@@ -1,0 +1,23 @@
+# Write your MySQL query statement below
+
+SELECT period_state,MIN(d.dates) as start_date,MAX(d.dates) as end_date FROM
+(
+    SELECT period_state,dates,
+    @rank:=CASE WHEN @prev=period_state THEN @rank ELSE @rank+1 END as rank,
+    @prev:=period_state FROM
+    (
+        SELECT period_state,dates FROM
+        (
+            SELECT "failed" as period_state, fail_date as dates FROM Failed
+            UNION ALL
+            SELECT "succeeded", success_date FROM Succeeded
+        ) a
+        WHERE dates>="2019-01-01" AND dates<="2019-12-31"
+        ORDER BY dates
+    ) b,
+    (
+        SELECT @rank:=0,@prev:="nothing"   
+    ) c
+) d
+GROUP BY d.rank
+ORDER BY d.dates;

@@ -1,0 +1,24 @@
+class Solution(object):
+    def removeKdigits(self, num, k):
+        """
+        :type num: str
+        :type k: int
+        :rtype: str
+        """
+        result=""
+        total=map(int,list(num))
+        if k>=len(total):
+            return str(0)
+        index=0
+        k+=1
+        while k>0:
+            if index+k==len(total)+1:
+                break
+            if total[index]==min(total[index:index+k]):
+                result+=num[index]
+                index+=1
+                continue
+            else:
+                k-=1
+                index+=1
+        return str(int(result))

@@ -1,0 +1,61 @@
+# Write your MySQL query statement below
+SELECT CAST(product_id as CHAR) as product_id,product_name,
+year as report_year,
+CASE WHEN year=2018 THEN 
+(
+    (
+        DATEDIFF
+        (
+            (
+                CASE WHEN DATEDIFF(period_end,"2018-12-31")>0 THEN "2018-12-31" ELSE period_end END
+            )
+            ,
+            period_start
+        )
+    +1)*average_daily_sales
+)
+    WHEN year=2019 THEN
+(
+    (
+        DATEDIFF
+        (
+            (
+                CASE WHEN DATEDIFF(period_end,"2019-12-31")>0 THEN "2019-12-31" ELSE period_end END
+            )
+            ,
+            (
+                CASE WHEN DATEDIFF("2019-01-01",period_start)>0 THEN "2019-01-01" ELSE period_start END
+            )
+        )
+    +1)*average_daily_sales
+    
+)
+    ELSE 
+(
+    (
+        DATEDIFF
+        (
+            period_end
+            ,
+            (
+                CASE WHEN DATEDIFF("2020-01-01",period_start)>0 THEN "2020-01-01" ELSE period_start END
+            )
+        )
+    +1)*average_daily_sales
+) END
+as total_amount
+FROM
+(
+    SELECT a.product_id,a.product_name,period_start,period_end,average_daily_sales FROM Product as a
+    JOIN Sales as b
+    ON a.product_id=b.product_id
+) t
+,
+(
+   SELECT "2018" as year
+    UNION SELECT "2019"
+    UNION SELECT "2020"
+) y
+WHERE SUBSTR(period_start,1,4)<=year AND SUBSTR(period_end,1,4)>=year
+GROUP BY product_id,year
+ORDER BY product_id,year;

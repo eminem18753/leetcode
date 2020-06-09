@@ -1,0 +1,53 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution 
+{
+    public:
+    bool result=false;
+    void dfs(ListNode* current,TreeNode* root,int flag)
+    {
+        if(result)
+        {
+            return;
+        }
+        if(current==NULL)
+        {
+            result=true;
+            return;
+        }
+        if(root==NULL)
+        {
+            return;
+        }
+        if(root->val==current->val)
+        {
+            dfs(current->next,root->left,1);
+            dfs(current->next,root->right,1);
+        }
+        if(flag==0)
+        {
+            dfs(current,root->left,0);
+            dfs(current,root->right,0);
+        }
+    }
+    bool isSubPath(ListNode* head, TreeNode* root) 
+    {
+        dfs(head,root,0);
+        return result;
+    }
+};

@@ -1,0 +1,19 @@
+# Write your MySQL query statement below
+SELECT e1.Id as id,e1.Month as month,
+(
+    SELECT SUM(e3.Salary) FROM Employee e3
+    WHERE e1.Id=e3.Id AND e3.Month<=e1.Month AND
+    (
+        SELECT COUNT(e4.Month) FROM Employee e4
+        WHERE e3.Id=e4.Id AND e4.Month>=e3.Month AND e4.Month<=e1.Month
+    )<=3
+)
+as Salary FROM Employee e1
+WHERE
+e1.Month!=
+(
+    SELECT MAX(e2.Month) FROM Employee e2
+    WHERE e1.Id=e2.Id
+    GROUP BY e2.Id
+)
+ORDER BY e1.Id ASC,e1.Month DESC,e1.Salary DESC;

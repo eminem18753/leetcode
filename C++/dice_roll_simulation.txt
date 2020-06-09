@@ -1,0 +1,58 @@
+class Solution 
+{
+    public:
+    int dieSimulator(int n, vector<int>& rollMax) 
+    {
+        int m=1000000007;
+        int dp[6][16];
+        int result=0;
+        memset(dp,0,sizeof(dp));
+        for(int i=0;i<n;i++)
+        {
+            int temp[6][16];
+            memset(temp,0,sizeof(temp));
+            for(int j=0;j<6;j++)
+            {
+                for(int l=0;l<6;l++)
+                {
+                    for(int k=0;k<15;k++)
+                    {
+                        if(j!=l)
+                        {
+                            temp[j][1]+=dp[l][k+1]%m;
+                            temp[j][1]%=m;
+                        }
+                        else
+                        {
+                            if(k==0&&i==0)
+                            {
+                                temp[j][k+1]=1;
+                            }
+                            if(k<rollMax[j]&&k>0)
+                            {
+                                temp[j][k+1]=dp[j][k];
+                            }
+                        }
+                    }
+                }
+            }
+            for(int j=0;j<6;j++)
+            {
+                for(int k=0;k<16;k++)
+                {
+                    dp[j][k]=temp[j][k];
+                }
+            }
+        }
+        for(int i=0;i<6;i++)
+        {
+            for(int j=0;j<16;j++)
+            {
+                result+=dp[i][j]%m;
+                result%=m;
+            }
+        }
+        return result;
+        
+    }
+};

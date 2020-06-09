@@ -1,0 +1,54 @@
+class Solution 
+{
+public:
+    bool isValid(string s) 
+    {
+        bool result=true;
+        vector<char> temp;
+        for(int i=0;i<s.length();i++)
+        {
+            if(s[i]==40||s[i]==91||s[i]==123)
+            {
+                temp.push_back(s[i]);
+            }
+            else if(s[i]==41||s[i]==93||s[i]==125)
+            {
+                if(temp.size()==0)
+                {
+                    result=false;
+                    return result;	
+                }
+                if(temp[temp.size()-1]==40)
+                {
+                    if(s[i]==41)
+                    {
+                        temp.erase(temp.begin()+temp.size()-1,temp.begin()+temp.size());
+                    }
+                    else
+                    {
+                        result=false;
+                        return false;	
+                    }
+                }
+                else if(temp[temp.size()-1]==91||temp[temp.size()-1]==123)
+                {
+                    if(s[i]==temp[temp.size()-1]+2)
+                    {
+                        temp.erase(temp.begin()+temp.size()-1,temp.begin()+temp.size());					
+                    }
+                    else
+                    {
+                        result=false;
+                        return false;	
+                    }
+                }
+            }
+        }
+        if(temp.size()!=0)
+        {
+            result=false;
+            return false;	
+        }
+        return result;
+    }
+};

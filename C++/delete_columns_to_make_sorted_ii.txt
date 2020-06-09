@@ -1,0 +1,51 @@
+class Solution 
+{
+    public:
+    int minDeletionSize(vector<string>& A) 
+    {
+        if(A.size()<=1)
+        {
+            return 0;
+        }
+        int result=0;
+        int m=A.size();
+        int n=A[0].length();
+        set<int> temp;
+        for(int i=0;i<n;i++)
+        {
+            int f=0;
+            for(int j=1;j<m;j++)
+            {
+                if(A[j][i]<A[j-1][i]&&temp.find(j)==temp.end())
+                {
+                    f=2;
+                    break;
+                }
+                else if(A[j][i]==A[j-1][i])
+                {
+                    f=1;
+                }
+            }
+            if(f==0)
+            {
+                return result;
+            }
+            if(f==2)
+            {
+                result++;
+            }
+            if(f==1)
+            {
+            for(int j=1;j<m;j++)
+            {
+                if(A[j][i]>A[j-1][i])
+                {
+                    temp.insert(j);
+                }
+            }
+                
+            }
+        }
+        return result;
+    }
+};

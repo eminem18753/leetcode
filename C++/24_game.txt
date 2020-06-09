@@ -1,0 +1,37 @@
+class Solution 
+{
+    public:
+    bool judge24(vector<double> nums)
+    {
+        sort(nums.begin(),nums.end());
+        int n=nums.size();
+        if(nums.size()==1)
+        {
+            return abs(nums[0]-24)<1e-10;   
+        }
+        do
+        {
+            vector<double> temp(nums.begin(),nums.end()-1);
+            double a=nums[n-1];
+            double b=nums[n-2];
+            for(auto i:{a+b,a-b,a*b,b?(a/b):0})
+            {
+                temp.back()=i;
+                if(judge24(temp))
+                {
+                    return true;   
+                }
+            }
+        }while(next_permutation(nums.begin(),nums.end()));
+        return false;
+    }
+    bool judgePoint24(vector<int>& nums) 
+    {
+        vector<double> n;
+        for(int i=0;i<nums.size();i++)
+        {
+            n.push_back(nums[i]);   
+        }
+        return judge24({nums.begin(),nums.end()});
+    }
+};

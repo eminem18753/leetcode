@@ -1,0 +1,50 @@
+class Solution {
+public:
+    vector<vector<int>> multiply(vector<vector<int>>& A, vector<vector<int>>& B) 
+    {
+        vector<vector<int>> result;
+        int m=A.size();
+        int n=B[0].size();
+        for(int i=0;i<m;i++)
+        {
+            vector<int> temp(n,0);
+            result.push_back(temp);
+        }
+        unordered_map<int,vector<int>> p1;
+        unordered_map<int,vector<int>> p2;
+        for(int i=0;i<A.size();i++)
+        {
+            for(int j=0;j<A[i].size();j++)
+            {
+                if(A[i][j]!=0)
+                {
+                    p1[j].push_back(i);
+                }
+            }
+        }
+        for(int i=0;i<B.size();i++)
+        {
+            for(int j=0;j<B[i].size();j++)
+            {
+                if(B[i][j]!=0)
+                {
+                    p2[i].push_back(j);
+                }
+            }
+        }
+        for(unordered_map<int,vector<int>>::iterator it=p1.begin();it!=p1.end();it++)
+        {
+            if(p2.find(it->first)!=p2.end())
+            {
+                for(int i=0;i<it->second.size();i++)
+                {
+                    for(int j=0;j<p2[it->first].size();j++)
+                    {
+                        result[it->second[i]][p2[it->first][j]]+=A[it->second[i]][it->first]*B[it->first][p2[it->first][j]];
+                    }
+                }
+            }
+        }
+        return result;
+    }
+};

@@ -1,0 +1,87 @@
+class Solution {
+public:
+    string intToRoman(int num)
+    {
+        int thousand=num/1000;
+        string result="";
+        for(int i=0;i<thousand;i++)
+        {
+            result+="M";
+        }
+        int hundred=(num-thousand*1000)/100;
+        if(hundred==9)
+        {
+            result+="CM";
+        }
+        else if(hundred>=5)
+        {
+            result+="D";
+            for(int i=0;i<hundred-5;i++)
+            {
+                result+="C";
+            }
+        }
+        else if(hundred==4)
+        {
+            result+="CD";
+        }
+        else
+        {
+            for(int i=0;i<hundred;i++)
+            {
+                result+="C";
+            }
+        }
+        
+        int ten=(num-thousand*1000-hundred*100)/10;
+        if(ten==9)
+        {
+            result+="XC";
+        }
+        else if(ten>=5)
+        {
+            result+="L";
+            for(int i=0;i<ten-5;i++)
+            {
+                result+="X";
+            }
+        }
+        else if(ten==4)
+        {
+            result+="XL";
+        }
+        else
+        {
+            for(int i=0;i<ten;i++)
+            {
+                result+="X";
+            }
+        }
+        
+        int one=num-thousand*1000-hundred*100-ten*10;
+        if(one==9)
+        {
+            result+="IX";
+        }
+        else if(one>=5)
+        {
+            result+="V";
+            for(int i=0;i<one-5;i++)
+            {
+                result+="I";
+            }
+        }
+        else if(one==4)
+        {
+            result+="IV";
+        }
+        else
+        {
+            for(int i=0;i<one;i++)
+            {
+                result+="I";
+            }
+        }
+        return result;
+    }
+};

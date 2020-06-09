@@ -1,0 +1,98 @@
+class Solution 
+{
+public:
+    string alienOrder(vector<string>& words) 
+    {
+        string result="";
+        int a[26][26];
+        int r[26];
+        set<int> total;
+        memset(a,0,sizeof(a));
+        memset(r,0,sizeof(r));
+        set<int> first;
+        if(words.size()==1)
+        {
+            return words[0];
+        }
+        for(int i=1;i<words.size();i++)
+        {
+            if(words[i][0]!=words[i-1][0]&&first.find(words[i][0])!=first.end())
+            {
+                return "";
+            }
+            first.insert(words[i-1][0]);
+            for(int j=0;j<min((int)words[i-1].length(),(int)words[i].length());j++)
+            {
+                int f=words[i-1][j];
+                int s=words[i][j];
+                if(words[i-1][j]!=words[i][j])
+                {
+                    if(a[s-'a'][f-'a']==1)
+                    {
+                        return "";
+                    }
+                    if(a[f-'a'][s-'a']==0)
+                    {
+                        r[s-'a']++;
+                        a[f-'a'][s-'a']=1;                    
+                    }
+                    break;
+                }
+            }
+            for(int j=0;j<max((int)words[i-1].length(),(int)words[i].length());j++)
+            {
+                if(j<words[i-1].length())
+                {
+                    int f=words[i-1][j];
+                    total.insert(f-'a');
+                }
+                if(j<words[i].length())
+                {
+                    int s=words[i][j];
+                    total.insert(s-'a');
+                }
+            }
+        }
+        while(true)
+        {
+            int flag=0;
+            for(int i=0;i<26;i++)
+            {
+                if(r[i]<0)
+                {
+                    continue;
+                }
+                if(total.find(i)!=total.end()&&r[i]==0)
+                {
+                    flag=1;
+                    r[i]=-1;
+                    for(int j=0;j<26;j++)
+                    {
+                        if(a[i][j]==1)
+                        {
+                            a[i][j]=0;
+                            r[j]--;
+                        }
+                    }
+                    result+=(char)('a'+i);
+                }
+            }
+            if(flag==0)
+            {
+                break;
+            }
+        }
+        
+        for(int i=0;i<26;i++)
+        {
+            if(total.find(i)!=total.end()&&r[i]>=0)
+            {
+                result+=(char)('a'+i);
+            }
+        }
+        
+        
+        
+        return result;
+    }
+};

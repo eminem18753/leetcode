@@ -1,0 +1,119 @@
+bool compare(vector<int> A,vector<int> B)
+{
+    for(int i=0;i<A.size();i++)
+    {
+        if(A[i]>B[i])
+        {
+            return true;
+        }
+        else if(A[i]<B[i])
+        {
+            return false;
+        }
+    }
+    return true;
+}
+class Solution 
+{
+    public:
+    vector<int> maxK(vector<int>& A,int K)
+    {
+        int max_pop=(int)A.size()-K;
+        vector<int> s;
+        for(int i=0;i<A.size();i++)
+        {
+            while(s.size()>0&&A[i]>s.back()&&max_pop>0)
+            {
+                s.pop_back();
+                max_pop--;
+            }
+            s.push_back(A[i]);
+        }
+        return {s.begin(),s.begin()+K};
+    }
+    vector<int> merge(vector<int>& A,vector<int>& B)
+    {
+        vector<int> result;
+        while(A.size()>0&&B.size()>0)
+        {
+            if(A[0]>B[0])
+            {
+                result.push_back(A[0]);
+                A.erase(A.begin());
+            }
+            else if(A[0]<B[0])
+            {
+                result.push_back(B[0]);
+                B.erase(B.begin());
+            }
+            else
+            {
+                bool r=false;
+                for(int i=0;i<A.size();i++)
+                {
+                    if(i>=B.size())
+                    {
+                        r=true;
+                        break;
+                    }
+                    else if(A[i]>B[i])
+                    {
+                        r=true;
+                        break;
+                    }
+                    else if(A[i]<B[i])
+                    {
+                        r=false;
+                        break;
+                    }
+                }
+                if(r)
+                {
+                    result.push_back(A[0]);
+                    A.erase(A.begin());
+                }
+                else
+                {
+                    result.push_back(B[0]);
+                    B.erase(B.begin());
+                }
+            }
+        }
+        for(int i=0;i<A.size();i++)
+        {
+            result.push_back(A[i]);   
+        }
+        for(int i=0;i<B.size();i++)
+        {
+            result.push_back(B[i]);
+        }
+        return result;
+    }
+    vector<int> maxNumber(vector<int>& nums1, vector<int>& nums2, int k) 
+    {
+        vector<int> result;
+        for(int i=0;i<=k;i++)
+        {
+            if(i>nums1.size())
+            {
+                break;
+            }
+            if(k-i>nums2.size())
+            {
+                continue;
+            }
+            vector<int> f1=maxK(nums1,i);
+            vector<int> f2=maxK(nums2,k-i);
+            vector<int> current=merge(f1,f2);
+            if(result.size()==0)
+            {
+                result=current;
+            }
+            else if(compare(current,result))
+            {
+                result=current;
+            }
+        }
+        return result;
+    }
+};

@@ -1,0 +1,56 @@
+class Solution {
+public:
+    int minFallingPathSum(vector<vector<int>>& A) 
+    {
+        if(A.size()==0)
+        {
+            return 0;
+        }
+        if(A[0].size()==0)
+        {
+            return 0;
+        }
+        int result=2147483647;
+        int m=A.size();
+        int n=A[0].size();
+        int dp[m][n];
+        memset(dp,0,sizeof(dp));
+        for(int i=0;i<A.size();i++)
+        {
+            for(int j=0;j<A[i].size();j++)
+            {
+                if(i==0)
+                {
+                    dp[i][j]=A[i][j];
+                }
+                else
+                {
+                    if(j>0&&j<A[i].size()-1)
+                    {
+                        dp[i][j]=min(min(dp[i-1][j-1],dp[i-1][j]),dp[i-1][j+1])+A[i][j];
+                    }
+                    else if(j>0)
+                    {
+                        dp[i][j]=min(dp[i-1][j-1],dp[i-1][j])+A[i][j];
+                    }
+                    else if(j<A[i].size()-1)
+                    {
+                        dp[i][j]=min(dp[i-1][j],dp[i-1][j+1])+A[i][j];
+                    }
+                    else
+                    {
+                        dp[i][j]=dp[i-1][j]+A[i][j];
+                    }
+                }
+            }
+        }
+        for(int i=0;i<A[0].size();i++)
+        {
+            if(dp[A.size()-1][i]<result)
+            {
+                result=dp[A.size()-1][i];
+            }
+        }
+        return result;
+    }
+};

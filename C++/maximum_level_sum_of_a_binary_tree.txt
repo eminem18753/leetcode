@@ -1,0 +1,49 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution 
+{
+public:
+    vector<vector<int>> h;
+    void test(TreeNode* root,int l)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        if(h.size()<l)
+        {
+            vector<int> temp;
+            h.push_back(temp);
+        }
+        h[l-1].push_back(root->val);
+        test(root->left,l+1);
+        test(root->right,l+1);
+    }
+    int maxLevelSum(TreeNode* root) 
+    {
+        int result=0;
+        int level=-1;
+        test(root,1);
+        for(int i=0;i<h.size();i++)
+        {
+            int c=0;
+            for(int j=0;j<h[i].size();j++)
+            {
+                c+=h[i][j];
+            }
+            if(c>result)
+            {
+                result=c;
+                level=i+1;
+            }
+        }
+        return level;
+    }
+};

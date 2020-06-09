@@ -1,0 +1,106 @@
+bool c1(vector<string> a,vector<string> b)
+{
+    if(a[0]!=b[0])
+    {
+        return a[0]<b[0];
+    }
+    if(a[1]!=b[1])
+    {
+        return a[1]<b[1];
+    }
+    return a[2]<b[2];
+}
+class Solution
+{
+    public:
+    set<string> t;
+    vector<string> toTotal(string s)
+    {
+        vector<string> temp;
+        vector<int> f;
+        for(int i=0;i<s.length();i++)
+        {
+            if(s[i]==',')
+            {
+                f.push_back(i);   
+            }
+        }
+        temp.push_back(s.substr(0,f[0]));
+        temp.push_back(s.substr(f[0]+1,f[1]-f[0]-1));
+        temp.push_back(s.substr(f[1]+1));
+        return temp;
+    }
+    void dfs(vector<string> r,vector<string> temp,int s)
+    {
+        if(temp.size()==3)
+        {
+            string current="";
+            current+=temp[0];
+            current+=",";
+            current+=temp[1];
+            current+=",";
+            current+=temp[2];
+            t.insert(current);
+            return;
+        }
+        if(s>=r.size())
+        {
+            return;
+        }
+        for(int i=s;i<r.size();i++)
+        {
+            temp.push_back(r[i]);
+            dfs(r,temp,i+1);
+            temp.pop_back();
+        }
+    }
+    vector<string> mostVisitedPattern(vector<string>& username, vector<int>& timestamp, vector<string>& website) 
+    {
+        vector<set<string>> overall;
+        vector<string> result;
+        map<string,vector<string>> total;
+        map<string,vector<int>> g;
+        map<string,int> c;
+        map<int,int> order;
+        for(int i=0;i<timestamp.size();i++)
+        {
+            order[timestamp[i]]=i;
+        }
+        for(map<int,int>::iterator it=order.begin();it!=order.end();it++)
+        {
+            int i=it->second;
+            total[username[i]].push_back(website[i]);
+            g[username[i]].push_back(timestamp[i]);
+        }
+        for(map<string,vector<string>>::iterator it=total.begin();it!=total.end();it++)
+        {
+            dfs(it->second,{},0);
+            overall.push_back(t);
+            t.clear();
+        }
+        int M=0;
+        for(int i=0;i<overall.size();i++)
+        {
+            for(set<string>::iterator it=overall[i].begin();it!=overall[i].end();it++)
+            {
+                c[*it]++;
+                M=max(M,c[*it]);
+            }
+        }
+        vector<string> a;
+        for(map<string,int>::iterator it=c.begin();it!=c.end();it++)
+        {
+            if(it->second==M)
+            {
+                a.push_back(it->first);
+            }
+        }
+        vector<vector<string>> b;
+        for(int i=0;i<a.size();i++)
+        {
+            b.push_back(toTotal(a[i]));
+        }
+        sort(b.begin(),b.end(),c1);
+        return b[0];
+    }
+};

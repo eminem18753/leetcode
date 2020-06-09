@@ -1,0 +1,59 @@
+class StreamChecker 
+{
+    public:
+    struct trie
+    {
+        map<char,trie*> next;
+        bool isEnd;
+    };
+    typedef struct trie trie;
+    trie* root;
+    string total="";
+    StreamChecker(vector<string>& words) 
+    {
+        root=new trie;
+        root->isEnd=false;
+        for(int i=0;i<words.size();i++)
+        {
+            trie* c=root;
+            for(int j=(int)words[i].length()-1;j>-1;j--)
+            {
+                if(c->next.find(words[i][j])==c->next.end())
+                {
+                    c->next[words[i][j]]=new trie;
+                    c->next[words[i][j]]->isEnd=false;
+                }
+                c=c->next[words[i][j]];
+            }
+            c->isEnd=true;
+        }
+    }
+    
+    bool query(char letter) 
+    {
+        total+=letter;
+        trie* c=root;
+        for(int i=(int)total.length()-1;i>-1;i--)
+        {
+            if(c->next.find(total[i])!=c->next.end())
+            {
+                c=c->next[total[i]];
+            }
+            else
+            {
+                return false;
+            }
+            if(c->isEnd)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+};
+
+/**
+ * Your StreamChecker object will be instantiated and called as such:
+ * StreamChecker* obj = new StreamChecker(words);
+ * bool param_1 = obj->query(letter);
+ */

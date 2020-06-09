@@ -1,0 +1,39 @@
+class Solution
+{
+public:
+    vector<vector<int>> result;
+    
+    vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) 
+    {
+        deque<int> total;
+        deque<vector<int>> current;
+        int n=graph.size();
+        for(int i=0;i<graph[0].size();i++)
+        {
+            total.push_back(graph[0][i]);
+            vector<int> t;
+            t.push_back(0);
+            t.push_back(graph[0][i]);
+            current.push_back(t);
+        }
+        while(total.size()>0)
+        {
+            int temp=total.front();
+            vector<int> c=current.front();
+            total.pop_front();
+            current.pop_front();
+            if(temp==n-1)
+            {
+                result.push_back(c);
+            }
+            for(int i=0;i<graph[temp].size();i++)
+            {
+                total.push_back(graph[temp][i]);
+                c.push_back(graph[temp][i]);
+                current.push_back(c);
+                c.pop_back();
+            }
+        }
+        return result;
+    }
+};

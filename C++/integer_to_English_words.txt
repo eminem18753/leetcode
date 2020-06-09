@@ -1,0 +1,206 @@
+class Solution {
+public:
+    string numberToWords(int num)
+    {
+        if(num==0)
+        {
+            return "Zero";
+        }
+        string d[100];
+        d[0]="Zero";
+        d[1]="One";
+        d[2]="Two";
+        d[3]="Three";
+        d[4]="Four";
+        d[5]="Five";
+        d[6]="Six";
+        d[7]="Seven";
+        d[8]="Eight";
+        d[9]="Nine";
+        d[10]="Ten";
+        d[11]="Eleven";
+        d[12]="Twelve";
+        d[13]="Thirteen";
+        d[14]="Fourteen";
+        d[15]="Fifteen";
+        d[16]="Sixteen";
+        d[17]="Seventeen";
+        d[18]="Eighteen";
+        d[19]="Nineteen";
+        string tens[10];
+        tens[2]="Twenty";
+        tens[3]="Thirty";
+        tens[4]="Forty";
+        tens[5]="Fifty";
+        tens[6]="Sixty";
+        tens[7]="Seventy";
+        tens[8]="Eighty";
+        tens[9]="Ninety";
+        string h="Hundred";
+        string t="Thousand";
+        string m="Million";
+        string b="Billion";
+        for(int i=20;i<100;i++)
+        {
+            d[i]=tens[i/10];
+            if(i%10!=0)
+            {
+                d[i]+=" ";
+                d[i]+=d[i%10];
+            }
+        }
+        string temp=to_string(num);
+        string result="";
+        int n=temp.length();
+        if(n==10)
+        {
+            result+=d[temp[0]-'0'];
+            result+=" ";
+            result+=b;
+        }
+        if(n>=9)
+        {
+            if(temp[n-9]!='0')
+            {
+                if(result.length()>0)
+                {
+                    result+=" ";
+                }
+                result+=d[temp[n-9]-'0'];
+                result+=" ";
+                result+=h;
+            }
+        }
+        if(n>=8)
+        {
+            if(temp[n-8]!='0'||temp[n-7]!='0')
+            {
+                if(result.length()>0)
+                {
+                    result+=" ";
+                }
+                int current=0;
+                current+=temp[n-8]-'0';
+                current*=10;
+                current+=temp[n-7]-'0';
+                result+=d[current];
+            }
+        }
+        if(n>=7)
+        {
+            if(n==7)
+            {
+                result+=d[temp[n-7]-'0'];
+                result+=" ";
+                result+=m;
+            }
+            if(n>=9)
+            {
+                if(temp[n-9]!='0'||temp[n-8]!='0'||temp[n-7]!='0')
+                {
+                    result+=" ";
+                    result+=m;                    
+                }
+            }
+            else if(n>=8)
+            {
+                if(temp[n-8]!='0'||temp[n-7]!='0')
+                {
+                    result+=" ";
+                    result+=m;                    
+                }                
+            }
+        }
+        if(n>=6)
+        {
+            if(temp[n-6]!='0')
+            {
+                if(result.length()>0)
+                {
+                    result+=" ";
+                }
+                result+=d[temp[n-6]-'0'];
+                result+=" ";
+                result+=h;
+            }
+        }
+        if(n>=5)
+        {
+            if(temp[n-5]!='0'||temp[n-4]!='0')
+            {
+                if(result.length()>0)
+                {
+                    result+=" ";
+                }
+                int current=0;
+                current+=temp[n-5]-'0';
+                current*=10;
+                current+=temp[n-4]-'0';
+                result+=d[current];
+            }
+        }
+        if(n>=4)
+        {
+            if(n==4)
+            {
+                result+=d[temp[n-4]-'0'];
+                result+=" ";
+                result+=t;
+            }
+            if(n>=6)
+            {
+                if(temp[n-6]!='0'||temp[n-5]!='0'||temp[n-4]!='0')
+                {
+                    result+=" ";
+                    result+=t;                    
+                }
+            }
+            else if(n>=5)
+            {
+                if(temp[n-5]!='0'||temp[n-4]!='0')
+                {
+                    result+=" ";
+                    result+=t;                    
+                }                
+            }
+        }
+        if(n>=3)
+        {
+            if(temp[n-3]!='0')
+            {
+                if(result.length()>0)
+                {
+                    result+=" ";
+                }
+                result+=d[temp[n-3]-'0'];
+                result+=" ";
+                result+=h;
+            }
+        }
+        if(n>=2)
+        {
+            if(temp[n-2]!='0'||temp[n-1]!='0')
+            {
+                if(result.length()>0)
+                {
+                    result+=" ";
+                }
+                int current=0;
+                current+=temp[n-2]-'0';
+                current*=10;
+                current+=temp[n-1]-'0';
+                result+=d[current];
+            }
+        }
+        if(n>=1)
+        {
+            if(n==1)
+            {
+                result+=d[temp[n-1]-'0'];
+            }
+        }
+        return result;
+    }
+};
+
+

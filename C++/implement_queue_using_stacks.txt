@@ -1,0 +1,66 @@
+class MyQueue {
+public:
+    vector<int> stack1;
+    vector<int> stack2;
+    /** Initialize your data structure here. */
+    MyQueue() 
+    {
+    }
+    
+    /** Push element x to the back of queue. */
+    void push(int x) 
+    {
+        stack1.push_back(x);
+    }
+    
+    /** Removes the element from in front of queue and returns that element. */
+    int pop() 
+    {
+        while(stack1.size()>0)
+        {
+            stack2.push_back(stack1.back());
+            stack1.pop_back();
+        }
+        int result=stack2.back();
+        stack2.pop_back();
+        while(stack2.size()>0)
+        {
+            stack1.push_back(stack2.back());
+            stack2.pop_back();
+        }
+        return result;
+    }
+    
+    /** Get the front element. */
+    int peek() 
+    {
+        while(stack1.size()>0)
+        {
+            stack2.push_back(stack1.back());
+            stack1.pop_back();
+        }
+        int result=stack2.back();
+        while(stack2.size()>0)
+        {
+            stack1.push_back(stack2.back());
+            stack2.pop_back();
+        }
+        return result;
+        
+    }
+    
+    /** Returns whether the queue is empty. */
+    bool empty()
+    {
+        return stack1.size()==0;    
+    }
+};
+
+/**
+ * Your MyQueue object will be instantiated and called as such:
+ * MyQueue obj = new MyQueue();
+ * obj.push(x);
+ * int param_2 = obj.pop();
+ * int param_3 = obj.peek();
+ * bool param_4 = obj.empty();
+ */

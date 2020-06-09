@@ -1,0 +1,52 @@
+class Solution 
+{
+    public:
+    string minWindow(string s, string t) 
+    {
+        int m=2147483647;
+        string result="";
+        
+        map<char,int> a;
+        map<char,int> b;
+        
+        for(int i=0;i<t.length();i++)
+        {
+            b[t[i]]++;
+        }
+        int p1=0;
+        int p2=0;
+        a[s[0]]=1;
+        while(true)
+        {
+            int f=0;
+            for(map<char,int>::iterator it=b.begin();it!=b.end();it++)
+            {
+                if(a.find(it->first)==a.end()||a[it->first]<b[it->first])
+                {
+                    f=1;
+                    break;
+                }
+            }
+            if(f==0)
+            {
+                if(p2-p1+1<m)
+                {
+                    m=p2-p1+1;
+                    result=s.substr(p1,p2-p1+1);
+                }
+                a[s[p1]]--;
+                p1++;
+            }
+            else
+            {
+                p2++;
+                if(p2>=s.length())
+                {
+                    break;
+                }
+                a[s[p2]]++;
+            }
+        }
+        return result;
+    }
+};

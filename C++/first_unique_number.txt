@@ -1,0 +1,78 @@
+class FirstUnique 
+{
+    public:
+    struct node
+    {
+        int value;
+        node* previous;
+        node* next;
+    };
+    typedef struct node node;
+    node* head;
+    node* last;
+    unordered_set<int> v;
+    map<int,node*> total;
+    FirstUnique(vector<int>& nums)
+    {
+        head=new node;
+        last=new node;
+        head->previous=NULL;
+        head->next=last;
+        last->value=-1;
+        last->previous=head;
+        last->next=NULL;
+        node* first=head;
+        for(int i=0;i<nums.size();i++)
+        {
+            if(total.find(nums[i])==total.end())
+            {
+                node* current=new node;
+                current->value=nums[i];
+                current->previous=first;
+                current->next=first->next;
+                first->next->previous=current;
+                first->next=current;
+                first=current;
+                total[nums[i]]=current;
+            }
+            else if(v.find(nums[i])==v.end())
+            {
+                total[nums[i]]->previous->next=total[nums[i]]->next;
+                total[nums[i]]->next->previous=total[nums[i]]->previous;
+                v.insert(nums[i]);
+            }
+        }
+    }
+    
+    int showFirstUnique() 
+    {
+        return head->next->value;
+    }
+    
+    void add(int value) 
+    {
+        if(total.find(value)==total.end())
+        {
+            node* current=new node;
+            current->value=value;
+            current->previous=last->previous;
+            current->next=last;
+            last->previous->next=current;
+            last->previous=current;
+            total[value]=current;
+        }
+        else if(v.find(value)==v.end())
+        {
+            total[value]->previous->next=total[value]->next;
+            total[value]->next->previous=total[value]->previous;
+            v.insert(value);
+        }
+    }
+};
+
+/**
+ * Your FirstUnique object will be instantiated and called as such:
+ * FirstUnique* obj = new FirstUnique(nums);
+ * int param_1 = obj->showFirstUnique();
+ * obj->add(value);
+ */

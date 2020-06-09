@@ -1,0 +1,23 @@
+from collections import Counter
+class Solution(object):
+    def longestPalindrome(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        r=Counter(s).items()
+        o=[]
+        flag=0
+        for i in r:
+            o.append(list(i))
+        maximum=0
+        counter=0
+        for i in o:
+            if i[1]%2==0:
+                counter+=i[1]
+            else:
+                flag=1
+                counter+=i[1]-1
+        if flag==1:
+            counter+=1
+        return counter

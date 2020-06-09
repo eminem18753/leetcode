@@ -1,0 +1,49 @@
+class Solution 
+{
+    public:
+    vector<int> findNumOfValidWords(vector<string>& words, vector<string>& puzzles) 
+    {
+        vector<int> result;
+        map<int,int> bit_words;
+        vector<int> bit_puzzles;
+        for(int i=0;i<puzzles.size();i++)
+        {
+            int current=0;
+            for(int j=0;j<puzzles[i].length();j++)
+            {
+                current|=1<<(puzzles[i][j]-'a');
+            }
+            bit_puzzles.push_back(current);
+        }
+        for(int i=0;i<words.size();i++)
+        {
+            int current=0;
+            for(int j=0;j<words[i].length();j++)
+            {
+                current|=1<<(words[i][j]-'a');
+            }
+            bit_words[current]++;
+        }
+        for(int i=0;i<bit_puzzles.size();i++)
+        {
+            int current=0;
+            int s=bit_puzzles[i];
+            int mask=s;
+            int f=1<<(puzzles[i][0]-'a');
+            while(true)
+            {
+                if((s&f)==f&&bit_words.find(s)!=bit_words.end())
+                {
+                    current+=bit_words[s];
+                }
+                if(s==0)
+                {
+                    break;
+                }
+                s=(s-1)&mask;
+            }
+            result.push_back(current);
+        }
+        return result;
+    }
+};

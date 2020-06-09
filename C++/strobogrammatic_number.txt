@@ -1,0 +1,35 @@
+class Solution {
+public:
+    bool isStrobogrammatic(string nums) 
+    {
+        string temp="";
+        for(int i=nums.size()-1;i>-1;i--)
+        {
+            if(nums[i]=='2'||nums[i]=='3'||nums[i]=='4'||nums[i]=='5'||nums[i]=='7')
+            {
+                return false;
+            }
+            else if(nums[i]=='0')
+            {
+                temp+='0';
+            }
+            else if(nums[i]=='1')
+            {
+                temp+='1';
+            }
+            else if(nums[i]=='6')
+            {
+                temp+='9';
+            }
+            else if(nums[i]=='8')
+            {
+                temp+='8';
+            }
+            else if(nums[i]=='9')
+            {
+                temp+='6';
+            }
+        }
+        return nums==temp;
+    }
+};

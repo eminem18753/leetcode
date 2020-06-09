@@ -1,0 +1,46 @@
+class Solution {
+public:
+    int countComponents(int n, vector<vector<int>>& edges) 
+    {
+        int result=0;
+        int c=0;
+        int r=0;
+        unordered_map<int,int> total;
+        set<int> overall;
+        for(int i=0;i<edges.size();i++)
+        {
+            if(total.find(edges[i][0])!=total.end()&&total.find(edges[i][1])!=total.end())
+            {
+                int a=total[edges[i][1]];
+                for(unordered_map<int,int>::iterator it=total.begin();it!=total.end();it++)
+                {
+                    if(total[it->first]==a)
+                    {
+                        total[it->first]=total[edges[i][0]];
+                    }
+                }
+            }
+            else if(total.find(edges[i][0])!=total.end())
+            {
+                total[edges[i][1]]=total[edges[i][0]];
+            }
+            else if(total.find(edges[i][1])!=total.end())
+            {
+                total[edges[i][0]]=total[edges[i][1]];                
+            }
+            else
+            {
+                total[edges[i][0]]=c;
+                total[edges[i][1]]=c;
+                c++;
+            }
+        }
+        for(unordered_map<int,int>::iterator it=total.begin();it!=total.end();it++)
+        {
+            overall.insert(it->second);
+            r++;
+        }
+        result=overall.size();
+        return result+n-r;
+    }
+};

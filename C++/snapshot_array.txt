@@ -1,0 +1,48 @@
+class SnapshotArray {
+public:
+    map<int,vector<int>> total;
+    map<int,vector<int>> overall;
+    int c=0;
+    SnapshotArray(int length)
+    {
+        
+    }
+    
+    void set(int index, int val)
+    {
+        total[index].push_back(val);
+        overall[index].push_back(c);
+    }
+    
+    int snap() 
+    {
+        c++;
+        return c-1;
+    }
+    
+    int get(int index, int snap_id)
+    {
+        if(total[index].size()==0)
+        {
+            return 0;
+        }
+        vector<int>::iterator up;
+        up=upper_bound(overall[index].begin(),overall[index].end(),snap_id);
+        int t=(int)(up-overall[index].begin()-1);
+        if(t==-1)
+        {
+            return 0;
+        }
+        t=min(t,(int)total[index].size()-1);
+        t=max(t,0);
+        return total[index][t];    
+    }
+};
+
+/**
+ * Your SnapshotArray object will be instantiated and called as such:
+ * SnapshotArray* obj = new SnapshotArray(length);
+ * obj->set(index,val);
+ * int param_2 = obj->snap();
+ * int param_3 = obj->get(index,snap_id);
+ */

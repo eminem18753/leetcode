@@ -1,0 +1,27 @@
+class Solution {
+public:
+    bool escapeGhosts(vector<vector<int>>& ghosts, vector<int>& target) 
+    {
+        if(ghosts.size()==0)
+        {
+            return true;
+        }
+        if(ghosts[0][0]==0&&ghosts[0][1]==0)
+        {
+            return false;
+        }
+        if(target[0]==0&&target[1]==0)
+        {
+            return true;
+        }
+        int minimum=2147483647;
+        for(int i=0;i<ghosts.size();i++)
+        {
+            if(abs(ghosts[i][0]-target[0])+abs(ghosts[i][1]-target[1])<minimum)
+            {
+                minimum=abs(ghosts[i][0]-target[0])+abs(ghosts[i][1]-target[1]);
+            }
+        }
+        return minimum>(abs(target[0])+abs(target[1]));
+    }
+};

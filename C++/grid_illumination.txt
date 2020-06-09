@@ -1,0 +1,71 @@
+class Solution 
+{
+    public:
+    vector<int> gridIllumination(int N, vector<vector<int>>& lamps, vector<vector<int>>& queries) 
+    {
+        vector<int> result;
+        map<int,int> s;
+        map<int,int> d;
+        map<int,int> h;
+        map<int,int> v;
+        set<string> total;
+        for(int i=0;i<lamps.size();i++)
+        {
+            int summation=lamps[i][0]+lamps[i][1];
+            int difference=lamps[i][0]-lamps[i][1];
+            s[summation]++;
+            d[difference]++;
+            h[lamps[i][0]]++;
+            v[lamps[i][1]]++;
+            total.insert(to_string(lamps[i][0])+","+to_string(lamps[i][1]));
+        }
+        for(int i=0;i<queries.size();i++)
+        {
+            int summation=queries[i][0]+queries[i][1];
+            int difference=queries[i][0]-queries[i][1];
+            if(s.find(summation)!=s.end()||d.find(difference)!=d.end()||h.find(queries[i][0])!=h.end()||v.find(queries[i][1])!=v.end())
+            {
+                result.push_back(1);
+                for(int j=-1;j<=1;j++)
+                {
+                    for(int k=-1;k<=1;k++)
+                    {
+                        string temp=to_string(queries[i][0]+j)+","+to_string(queries[i][1]+k);
+                        int summation=queries[i][0]+j+queries[i][1]+k;
+                        int difference=queries[i][0]+j-queries[i][1]-k;
+                        if(total.find(temp)!=total.end())
+                        {
+                            total.erase(temp);
+                            s[summation]--;
+                            d[difference]--;
+                            h[queries[i][0]+j]--;
+                            v[queries[i][1]+k]--;
+                            if(s[summation]==0)
+                            {
+                                s.erase(summation);
+                            }
+                            if(d[difference]==0)
+                            {
+                                d.erase(difference);
+                            }
+                            if(h[queries[i][0]+j]==0)
+                            {
+                                h.erase(queries[i][0]+j);
+                            }
+                            if(v[queries[i][1]+k]==0)
+                            {
+                                v.erase(queries[i][1]+k);
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                result.push_back(0);
+            }
+        }
+        
+        return result;
+    }
+};

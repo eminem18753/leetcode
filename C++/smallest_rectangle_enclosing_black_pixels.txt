@@ -1,0 +1,33 @@
+class Solution 
+{
+    public:
+    int mx;
+    int my;
+    int Mx;
+    int My;
+    void dfs(vector<vector<char>>& A,int i,int j)
+    {
+        if(i<0||j<0||i>=A.size()||j>=A[0].size()||A[i][j]=='0')
+        {
+            return;
+        }
+        A[i][j]='0';
+        mx=min(mx,i);
+        my=min(my,j);
+        Mx=max(Mx,i);
+        My=max(My,j);
+        dfs(A,i+1,j);
+        dfs(A,i-1,j);
+        dfs(A,i,j+1);
+        dfs(A,i,j-1);
+    }
+    int minArea(vector<vector<char>>& image, int x, int y) 
+    {
+        mx=(int)image.size()-1;
+        my=(int)image[0].size()-1;
+        Mx=0;
+        My=0;
+        dfs(image,x,y);
+        return (Mx-mx+1)*(My-my+1);
+    }
+};

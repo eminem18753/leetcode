@@ -1,0 +1,51 @@
+class Solution 
+{
+public:
+    bool hasAlternatingBits(int n) 
+    {
+        bool result;
+        string temp="";
+        while(n/2!=0)
+        {
+            int y=n%2;
+            n/=2;
+            if(y==0)
+            {
+                temp+="0";	
+            }
+            else if(y==1)
+            {
+                temp+="1";	
+            }
+        }
+        if(n==0)
+        {
+            temp+="0";	
+        }
+        else if(n==1)
+        {
+            temp+="1";	
+        }
+        string final="";
+        for(int i=temp.length()-1;i>-1;i--)
+        {
+            final+=temp[i];	
+        }
+        int flag=0;
+        for(int i=0;i<final.length()-1;i++)
+        {
+            if(final[i]==final[i+1])
+            {
+                flag=1;
+                result=false;
+                return false;	
+            }
+        }
+        if(flag==0)
+        {
+            result=true;
+            return result;	
+        }
+        return result;     
+    }
+};

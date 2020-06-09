@@ -1,0 +1,52 @@
+class Solution {
+public:
+    int findMinDifference(vector<string>& timePoints) 
+    {
+        sort(timePoints.begin(),timePoints.end());
+        if(timePoints.size()==0)
+        {
+            return 0;
+        }
+        int minimum=1500;
+
+        string a="";
+        a+=timePoints[0][0];
+        a+=timePoints[0][1];
+        string b="";
+        b+=timePoints[0][3];
+        b+=timePoints[0][4];
+        int first=stoi(a);
+        int second=stoi(b);
+        int t=first*60+second;
+        for(int i=1;i<timePoints.size();i++)
+        {
+            a="";
+            a+=timePoints[i][0];
+            a+=timePoints[i][1];
+            b="";
+            b+=timePoints[i][3];
+            b+=timePoints[i][4];
+            int first=stoi(a);
+            int second=stoi(b);
+            if(min(abs(t-(first*60+second)),min(t,(first*60+second))+1440-max(t,(first*60+second)))<minimum)
+            {
+                minimum=min(abs(t-(first*60+second)),min(t,(first*60+second))+1440-max(t,(first*60+second)));
+            }
+            t=first*60+second;
+        }
+        a="";
+        a+=timePoints[0][0];
+        a+=timePoints[0][1];
+        b="";
+        b+=timePoints[0][3];
+        b+=timePoints[0][4];
+        first=stoi(a);
+        second=stoi(b);
+        if(min(abs(t-(first*60+second)),min(t,(first*60+second))+1440-max(t,(first*60+second)))<minimum)
+        {
+            minimum=min(abs(t-(first*60+second)),min(t,(first*60+second))+1440-max(t,(first*60+second)));
+        }
+        
+        return minimum;
+    }
+};

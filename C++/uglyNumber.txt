@@ -1,0 +1,39 @@
+class Solution 
+{
+public:
+    bool isUgly(int num) 
+    {
+        bool result;
+        int flag=0;
+        int previous=0;
+        while(flag==0)
+        {
+            if(num%2==0)
+            {
+                num/=2;
+            }
+            else if(num%3==0)
+            {
+                num/=3;	
+            }
+            else if(num%5==0)
+            {
+                num/=5;	
+            }
+            if(num==previous)
+            {
+                flag=1;
+            }
+            previous=num;	
+        }
+        if(num==1)
+        {
+            result=true;
+        }
+        else
+        {
+            result=false;	
+        }
+        return result;
+    }
+};

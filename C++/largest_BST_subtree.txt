@@ -1,0 +1,111 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution 
+{
+    public:
+    int result=0;
+    int maximum=1;
+    map<TreeNode*,int> m;
+    map<TreeNode*,int> M;
+    void dfs(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        dfs(root->left);
+        dfs(root->right);
+        m[root]=root->val;
+        M[root]=root->val;
+        if(root->left!=NULL)
+        {
+            m[root]=min(m[root],root->left->val);
+            m[root]=min(m[root],m[root->left]);
+            M[root]=max(M[root],root->left->val);
+            M[root]=max(M[root],M[root->left]);
+        }
+        if(root->right!=NULL)
+        {
+            m[root]=min(m[root],root->right->val);
+            m[root]=min(m[root],m[root->right]);
+            M[root]=max(M[root],root->right->val);
+            M[root]=max(M[root],M[root->right]);
+        }
+    }
+    int test(TreeNode* root)
+    {
+        int r=0;
+        if(root==NULL)
+        {
+            return 0;
+        }
+        int t1=test(root->left);
+        int t2=test(root->right);
+        if(t1==-1)
+        {
+            return -1;
+        }
+        if(t2==-1)
+        {
+            return -1;
+        }
+        r+=t1;
+        r+=t2;
+        if(root->left==NULL&&root->right==NULL)
+        {
+            return 1;
+        }
+        else if(root->left==NULL)
+        {
+            if(root->val<m[root->right])
+            {
+                r++;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+        else if(root->right==NULL)
+        {
+            if(root->val>M[root->left])
+            {
+                r++;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+        else
+        {
+            if(root->val>M[root->left]&&root->val<m[root->right])
+            {
+                r++;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+        maximum=max(maximum,r);
+        return r;
+    }
+    int largestBSTSubtree(TreeNode* root) 
+    {
+        if(root==NULL)
+        {
+            return 0;
+        }
+        dfs(root);
+        test(root);
+        return maximum;
+    }
+};

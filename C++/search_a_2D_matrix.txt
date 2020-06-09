@@ -1,0 +1,40 @@
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) 
+    {
+        if(matrix.size()==0)
+        {
+            return false;
+        }
+        if(matrix[0].size()==0)
+        {
+            return false;
+        }
+        int index=0;
+        int flag=0;
+        if(matrix[0][0]>target)
+        {
+            return false;
+        }
+        for(int i=1;i<matrix.size();i++)
+        {
+            if(matrix[i][0]>target&&matrix[i-1][0]<=target)
+            {
+                index=i;
+                flag=1;
+                break;
+            }
+        }
+        cout<<index<<endl;
+        if(flag==0)
+        {
+            index=matrix.size();
+        }
+        vector<int> real;
+        for(int i=0;i<matrix[0].size();i++)
+        {
+            real.push_back(matrix[index-1][i]);
+        }
+        return binary_search(real.begin(),real.end(),target);
+    }
+};

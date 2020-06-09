@@ -1,0 +1,90 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<double> result;
+    vector<double> number;
+    vector<double> averageOfLevels(TreeNode* root)
+    {
+        TreeNode* current=root;
+        int counter=1;
+        int level=1;
+        int maximum=1;
+        vector<TreeNode*> t;
+        vector<int> c;
+        while(root->left||root->right||t.size()>0)
+        {
+            if(root->left&&root->right)
+            {
+                level+=1;
+                if(level>maximum)
+                {
+                    maximum=level;
+                }
+                t.push_back(root->right);
+                c.push_back(level);
+                root=root->left;
+            }
+            else if(root->left)
+            {
+                root=root->left;
+                level+=1;
+                if(level>maximum)
+                {
+                    maximum=level;
+                }
+            }
+            else if(root->right)
+            {
+                root=root->right;
+                level+=1;
+                if(level>maximum)
+                {
+                    maximum=level;
+                }
+            }
+            else
+            {
+                level=c.back();
+                root=t.back();
+                c.pop_back();
+                t.pop_back();
+            }
+        }
+        counter=maximum;
+        root=current;
+        for(int i=0;i<counter;i++)
+        {
+            result.push_back(0);
+            number.push_back(0);
+        }
+        
+        helper(root,0);
+        for(int i=0;i<result.size();i++)
+        {
+            if(number[i]>0)
+            {
+                result[i]/=number[i];
+            }
+        }
+        return result;
+    }
+    void helper(TreeNode* root,int start)
+    {
+        if(!root)
+        {
+            return;
+        }
+        result[start]+=root->val;
+        number[start]+=1;
+        helper(root->left,start+1);
+        helper(root->right,start+1);
+    }
+};

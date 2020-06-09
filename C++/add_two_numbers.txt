@@ -1,0 +1,88 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) 
+    {
+        int count1=1;
+        int count2=1;
+        int carry=0;
+        ListNode* c1=l1;
+        ListNode* c2=l2;
+        ListNode* result=new ListNode(-1);
+        ListNode* t=result;
+        while(l1->next)
+        {
+            count1+=1;
+            l1=l1->next;
+        }
+        while(l2->next)
+        {
+            count2+=1;
+            l2=l2->next;
+        }
+        l1=c1;
+        l2=c2;
+        if(count1>count2)
+        {
+            while(l2->next)
+            {
+                result->next=new ListNode((l1->val+l2->val+carry)%10);
+                result=result->next;
+                carry=(l1->val+l2->val+carry)/10;
+                l1=l1->next;
+                l2=l2->next;
+            }
+            result->next=new ListNode((l1->val+l2->val+carry)%10);
+            result=result->next;
+            carry=(l1->val+l2->val+carry)/10;
+            l1=l1->next;
+            
+            
+            for(int i=0;i<count1-count2;i++)
+            {
+                result->next=new ListNode((l1->val+carry)%10);
+                result=result->next;
+                carry=(l1->val+carry)/10;
+                l1=l1->next;
+            }            
+        }
+        else
+        {
+            while(l1->next)
+            {
+                result->next=new ListNode((l1->val+l2->val+carry)%10);
+                result=result->next;
+                carry=(l1->val+l2->val+carry)/10;
+                l1=l1->next;
+                l2=l2->next;
+            }
+            result->next=new ListNode((l1->val+l2->val+carry)%10);
+            result=result->next;
+            carry=(l1->val+l2->val+carry)/10;
+            if(l2->next)
+            {
+                l2=l2->next;
+            }
+            for(int i=0;i<count2-count1;i++)
+            {
+                result->next=new ListNode((l2->val+carry)%10);
+                result=result->next;
+                carry=(l2->val+carry)/10;
+                l2=l2->next;
+            }
+        }
+        if(carry==1)
+        {
+            result->next=new ListNode(carry);
+            result=result->next;
+        }
+        return t->next;
+    }
+};

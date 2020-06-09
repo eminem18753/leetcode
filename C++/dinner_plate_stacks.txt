@@ -1,0 +1,76 @@
+class DinnerPlates 
+{
+    public:
+    vector<vector<int>> total;
+    int push_index;
+    int pop_index;
+    int c;
+    DinnerPlates(int capacity) 
+    {
+        c=capacity;
+        push_index=0;
+        pop_index=0;
+        total.push_back(vector<int>());
+    }
+    
+    void push(int val) 
+    {
+        if(total[push_index].size()<c)
+        {
+            total[push_index].push_back(val);
+            return;
+        }
+        while(push_index<total.size()&&total[push_index].size()==c)
+        {
+            push_index++;
+        }
+        if(push_index==total.size())
+        {
+            total.push_back(vector<int>());
+        }
+        pop_index=max(push_index,pop_index);
+        total[push_index].push_back(val);
+    }
+    
+    int pop()
+    {
+        if(total[pop_index].size()>0)
+        {
+            int r=total[pop_index].back();
+            total[pop_index].pop_back();
+            return r;
+        }
+        while(pop_index>0&&total[pop_index].size()==0)
+        {
+            pop_index--;
+        }
+        if(pop_index==0&&total[pop_index].size()==0)
+        {
+            return -1;
+        }
+        push_index=min(push_index,pop_index);
+        int r=total[pop_index].back();
+        total[pop_index].pop_back();
+        return r;
+    }
+    
+    int popAtStack(int index) 
+    {
+        if(index<total.size()&&total[index].size()>0)
+        {
+            push_index=index;
+            int r=total[index].back();
+            total[index].pop_back();
+            return r;
+        }
+        return -1;
+    }
+};
+
+/**
+ * Your DinnerPlates object will be instantiated and called as such:
+ * DinnerPlates* obj = new DinnerPlates(capacity);
+ * obj->push(val);
+ * int param_2 = obj->pop();
+ * int param_3 = obj->popAtStack(index);
+ */

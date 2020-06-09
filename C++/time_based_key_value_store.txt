@@ -1,0 +1,43 @@
+class TimeMap {
+public:
+    /** Initialize your data structure here. */
+    map<string,vector<int>> times;
+    map<string,vector<string>> results;
+    TimeMap() 
+    {
+        
+    }
+    
+    void set(string key, string value, int timestamp) 
+    {
+        times[key].push_back(timestamp);
+        results[key].push_back(value);
+    }
+    
+    string get(string key, int timestamp) 
+    {
+        if(times.find(key)==times.end())
+        {
+            return "";
+        }
+        vector<int>::iterator low;
+        low=lower_bound(times[key].begin(),times[key].end(),timestamp);
+        int index=low-times[key].begin();
+        while(index>=0&&(index>=times[key].size()||times[key][index]>timestamp))
+        {
+            index--;
+        }
+        if(index<0)
+        {
+            return "";
+        }
+        return results[key][index];
+    }
+};
+
+/**
+ * Your TimeMap object will be instantiated and called as such:
+ * TimeMap* obj = new TimeMap();
+ * obj->set(key,value,timestamp);
+ * string param_2 = obj->get(key,timestamp);
+ */

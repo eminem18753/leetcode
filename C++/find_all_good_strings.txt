@@ -1,0 +1,66 @@
+class Solution 
+{
+    public:
+    int getKey(int n,int m,int leftBound,int rightBound)
+    {
+        return (n<<8)|(m<<2)|(leftBound<<1)|rightBound;
+    }
+    vector<int> getLPS(const string& s)
+    {
+        int n=s.length();
+        vector<int> lps=vector<int>(n);
+        for(int i=1,j=0;i<n;i++)
+        {
+            while(j>0&&s[i]!=s[j])
+            {
+                j=lps[j-1];
+            }
+            if(s[i]==s[j])
+            {
+                j++;
+                lps[i]=j;
+            }
+        }
+        return lps;
+    }
+    int dfs(int i,int evilLength,int leftBound,int rightBound,int n,string& s1,string& s2,string& evil,vector<int>& lps,vector<int>& memo)
+    {
+        if(evilLength==evil.length())
+        {
+            return 0;
+        }
+        if(i==n)
+        {
+            return 1;
+        }
+        int key=getKey(i,evilLength,leftBound,rightBound);
+        if(memo[key]!=-1)
+        {
+            return memo[key];
+        }
+        int result=0;
+        char from=leftBound?s1[i]:'a';
+        char to=rightBound?s2[i]:'z';
+        for(char c=from;c<=to;c++)
+        {
+            int j=evilLength;
+            while(j>0&&c!=evil[j])
+            {
+                j=lps[j-1];
+            }
+            if(c==evil[j])
+            {
+                j++;
+            }
+            result=(result+dfs(i+1,j,leftBound&&(c==from),rightBound&&(c==to),n,s1,s2,evil,lps,memo))%1000000007;
+        }
+        memo[key]=result;
+        return result;
+    }
+    int findGoodStrings(int n, string s1, string s2, string evil) 
+    {
+        vector<int> memo(1<<17,-1);
+        vector<int> lps=getLPS(evil);
+        return dfs(0,0,true,true,n,s1,s2,evil,lps,memo);
+    }
+};

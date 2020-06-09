@@ -1,0 +1,14 @@
+# Write your MySQL query statement below
+SELECT
+ROUND(
+(
+    SELECT COUNT(*) FROM Activity a
+    JOIN Activity b
+    ON a.player_id=b.player_id
+    WHERE DATEDIFF(b.event_date,a.event_date)=1 AND a.event_date=
+    (
+        SELECT MIN(event_date) FROM Activity c
+        WHERE a.player_id=c.player_id
+    )
+)/
+(COUNT(DISTINCT player_id)),2) as fraction FROM Activity

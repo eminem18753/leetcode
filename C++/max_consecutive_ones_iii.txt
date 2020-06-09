@@ -1,0 +1,53 @@
+class Solution {
+public:
+    int longestOnes(vector<int>& A, int K)
+    {
+        int maximum=0;
+        int zeros=0;
+        vector<int> total;
+        for(int i=0;i<A.size();i++)
+        {
+            if(A[i]==0)
+            {
+                zeros+=1;
+            }
+            if(i==0&&A[i]==1)
+            {
+                total.push_back(i);
+            }
+            else if(A[i]==1&&A[i-1]==0)
+            {
+                total.push_back(i);
+            }
+        }
+        if(zeros<=K)
+        {
+            return A.size();
+        }
+        for(int i=0;i<total.size();i++)
+        {
+            int current=total[i];
+            int r=K;
+            int result=0;
+            while(r>=0&&current<A.size())
+            {
+                if(A[current]==1)
+                {
+                    result+=1;
+                    current+=1;
+                }
+                else
+                {
+                    result+=1;
+                    current+=1;
+                    r-=1;
+                }
+                if(result+r>maximum)
+                {
+                    maximum=result+r;
+                }
+            }
+        }
+        return maximum;
+    }
+};

@@ -1,0 +1,34 @@
+class Solution 
+{
+public:
+    vector<int> constructRectangle(int area) 
+    {
+        vector<vector<int> > total;
+        vector<int> result;
+        int a=sqrt(area);
+        for(int i=1;i<=a;i++)
+        {
+            vector<int> temp;
+            if(area%i==0)
+            {
+                temp.push_back(area/i);
+                temp.push_back(i);
+                total.push_back(temp);
+            }
+        }
+        int minimum=10000000;
+        int index=0;
+        int difference=0;
+        for(int i=0;i<total.size();i++)
+        {
+            difference=abs(total[i][0]-total[i][1]);
+            if(difference<minimum)
+            {
+                minimum=difference;
+                index=i;
+            }
+        }
+        result=total[index];
+        return result;        
+    }
+};

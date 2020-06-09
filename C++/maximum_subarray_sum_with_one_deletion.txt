@@ -1,0 +1,65 @@
+class Solution 
+{
+    public:
+    int maximumSum(vector<int>& arr) 
+    {   
+        int test=-2147483648;
+        int f=0;
+        for(int i=0;i<arr.size();i++)
+        {
+            if(arr[i]>0)
+            {
+                f=1;
+                break;
+            }
+            test=max(test,arr[i]);
+        }
+        if(f==0)
+        {
+            return test;
+        }
+        int result=arr[0];
+        int n=arr.size();
+        vector<int> M1(n,0);
+        vector<int> M2(n,0);
+        for(int i=0;i<n;i++)
+        {
+            if(i==0)
+            {
+                M1[i]=max(M1[i],arr[i]);
+            }
+            else
+            {
+                M1[i]=max(M1[i-1]+arr[i],0);
+            }
+        }
+        for(int i=n-1;i>-1;i--)
+        {
+            if(i==n-1)
+            {
+                M2[i]=max(M2[i],arr[i]);
+            }
+            else
+            {
+                M2[i]=max(M2[i+1]+arr[i],0);
+            }
+        }
+        for(int i=0;i<n;i++)
+        {
+            if(i==0)
+            {
+                result=max(result,M2[0]);
+            }
+            else if(i==n-1)
+            {
+                result=max(result,M1[n-1]);
+            }
+            else
+            {
+                result=max(result,arr[i]+M1[i-1]+M2[i+1]);
+                result=max(result,M1[i-1]+M2[i+1]);
+            }
+        }
+        return result;
+    }
+};

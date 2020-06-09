@@ -1,0 +1,35 @@
+class Solution 
+{
+    public:
+    int minDeletionSize(vector<string>& A) 
+    {
+        int n=A[0].length();
+        int dp[n];
+        int result=1;
+        for(int i=0;i<n;i++)
+        {
+            dp[i]=1;   
+        }
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<i;j++)
+            {
+                int f=0;
+                for(int k=0;k<A.size();k++)
+                {
+                    if(A[k][j]>A[k][i])
+                    {
+                        f=1;
+                        break;
+                    }
+                }
+                if(f==0)
+                {
+                    dp[i]=max(dp[i],dp[j]+1);
+                    result=max(result,dp[i]);
+                }
+            }
+        }
+        return n-result;
+    }
+};

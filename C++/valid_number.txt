@@ -1,0 +1,225 @@
+import re
+class Solution(object):
+    def isNumber(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        flag=0
+        pattern1=re.compile("^[0-9]+[.]?[0-9]+$")
+        match1=pattern1.match(s)
+        if match1:
+            flag=1
+        pattern2=re.compile("^[a-f0-9]+$")
+        match2=pattern2.match(s)
+        if match2:
+            flag=1
+        pattern3=re.compile("^[a-z]+$")
+        match3=pattern3.match(s)
+        if match3:
+            flag=0
+        pattern4=re.compile("^[a-z]+.*$")
+        match4=pattern4.match(s)
+        if match4:
+            flag=0
+        pattern5=re.compile("^[ ]*[0-9]+[ ]*$")
+        match5=pattern5.match(s)
+        if match5:
+            flag=1
+        pattern6=re.compile("^[\\.]{0,1}[0-9]+[0-9a-f]+$")
+        match6=pattern6.match(s)
+        if match6:
+            flag=1
+        pattern7=re.compile("^.*[a-z]+$")
+        match7=pattern7.match(s)
+        if match7:
+            flag=0
+        pattern8=re.compile("^[0-9]+[ ]+[0-9]+$")
+        match8=pattern8.match(s)
+        if match8:
+            flag=0
+        pattern9=re.compile("^[0-9]+[\\.]{2,}$")
+        match9=pattern9.match(s)
+        if match9:
+            flag=0
+        pattern10=re.compile("^[ ]+[0-9]+[\\.]{1}[ ]*$")
+        match10=pattern10.match(s)
+        if match10:
+            flag=1
+        pattern11=re.compile("^[0-9]+[a-z]+[\\.]{1}$")
+        match11=pattern11.match(s)
+        if match11:
+            flag=0
+        pattern12=re.compile("^[\\.]+[0-9a-z][\\.]+$")
+        match12=pattern12.match(s)
+        if match12:
+            flag=0
+        pattern13=re.compile("^[ ]*[0-9]+[ ]+[\\.]+$")
+        match13=pattern13.match(s)
+        if match13:
+            flag=0
+        pattern14=re.compile("^[0-9]+[a-z]+[ ]+.*$")
+        match14=pattern14.match(s)
+        if match14:
+            flag=0
+        pattern15=re.compile("^[ ]+[\\.]{1}[0-9]+$")
+        match15=pattern15.match(s)
+        if match15:
+            flag=1
+        pattern16=re.compile("^[\\-]{1}[0-9]+[\\.]{1}$")
+        match16=pattern16.match(s)
+        if match16:
+            flag=1
+        pattern17=re.compile("^[\\.]{1}[0-9]+$")
+        match17=pattern17.match(s)
+        if match17:
+            flag=1
+        pattern18=re.compile("^[0-9]+[\\.]{1}[ ]*$")
+        match18=pattern18.match(s)
+        if match18:
+            flag=1
+        pattern19=re.compile("^[\\.]{1}[0-9]+[ ]*$")
+        match19=pattern19.match(s)
+        if match19:
+            flag=1
+        pattern20=re.compile("^[\\-]{1}[0-9]+[ ]+$")
+        match20=pattern20.match(s)
+        if match20:
+            flag=1
+        pattern20=re.compile("^[0-9]{1}[a-e]{1}[0-9]{1}$")
+        match20=pattern20.match(s)
+        if match20:
+            flag=1
+        pattern21=re.compile("^[0-9]{1}[f]{1}[0-9]{1}$")
+        match21=pattern21.match(s)
+        if match21:
+            flag=0
+        pattern22=re.compile("^[\\+]{1}[\\.]{1}[0-9]+$")
+        match22=pattern22.match(s)
+        if match22:
+            flag=1
+        pattern23=re.compile("^[\\+]{1}[0-9]+[ ]*$")
+        match23=pattern23.match(s)
+        if match23:
+            flag=1
+        pattern24=re.compile("^[\\-]{1}[0-9]+[ ]*$")
+        match24=pattern24.match(s)
+        if match24:
+            flag=1
+        pattern25=re.compile("^[\\-\\+]?[0-9]+[\\.]{1}[0-9a-e]+$")
+        match25=pattern25.match(s)
+        if match25:
+            flag=1
+        pattern26=re.compile("^[0-9]+[\\.]{1}[a-e]+$")
+        match26=pattern26.match(s)
+        if match26:
+            flag=0
+        pattern27=re.compile("^.*[a-e]{2,}.*$")
+        match27=pattern27.match(s)
+        if match27:
+            flag=0
+        pattern28=re.compile("^[ ]+[0-9]+[\\.]{1}[0-9]+$")
+        match28=pattern28.match(s)
+        if match28:
+            flag=1
+        pattern29=re.compile("^[0-9]+[\\.]{1}[0-9]+[a-e]+$")
+        match29=pattern29.match(s)
+        if match29:
+            flag=0
+        pattern30=re.compile("^[\\-\\+]{0,1}[\\.]{1}[0-9a-e]+[0-9]+$")
+        match30=pattern30.match(s)
+        if match30:
+            flag=1
+        pattern31=re.compile("^[\\-\\+]{0,1}[\\.]{1}[a-e]+[0-9a-e]*$")
+        match31=pattern31.match(s)
+        if match31:
+            flag=0
+        pattern32=re.compile("^[0-9]+[a-e]+[0-9]+[a-e]+[0-9]+$")
+        match32=pattern32.match(s)
+        if match32:
+            flag=0
+        pattern33=re.compile("^[ ]+[0-9]+[a-e]{1}[0-9]+$")
+        match33=pattern33.match(s)
+        if match33:
+            flag=1
+        pattern34=re.compile("^[ ]*[0-9]+[a-e]{1}[\\-\\+]{1}[0-9]+$")
+        match34=pattern34.match(s)
+        if match34:
+            flag=1
+        pattern35=re.compile("^[ ]*[0-9]+[\\.]{1}[0-9]+[a-e]{1}[0-9]+$")
+        match35=pattern35.match(s)
+        if match35:
+            flag=1
+        pattern36=re.compile("^[0-9]+[\\.]{1}[a-e]{1}[\\-]{1}[0-9]+$")
+        match36=pattern36.match(s)
+        if match36:
+            flag=1
+        pattern37=re.compile("^[\\-\\+]{0,1}[0-9]+[\\.]{1}[a-e]{1}[0-9]+[ ]+$")
+        match37=pattern37.match(s)
+        if match37:
+            flag=1
+        pattern38=re.compile("^[\\-\\+]{0,1}[0-9]+[\\.]{1}[0-9]+[ ]+$")
+        match38=pattern38.match(s)
+        if match38:
+            flag=1
+        pattern38=re.compile("^[\\-\\+]{0,1}[0-9]+[a-e]{1}[0-9]+[ ]*$")
+        match38=pattern38.match(s)
+        if match38:
+            flag=1
+        pattern39=re.compile("^[\\-\\+]{0,1}[0-9]+[\\.]{1}[0-9]+[a-e]{1}[\\-\\+]{1}[0-9]+[ ]*$")
+        match39=pattern39.match(s)
+        if match39:
+            flag=1
+        pattern40=re.compile("^[ ]*[\\-\\+]{0,1}[0-9]+[\\.]{1}[0-9]+$")
+        match40=pattern40.match(s)
+        if match40:
+            flag=1
+        pattern41=re.compile("^[\\.]{1}[0-9]+[a-e]{1}[\\-\\+]{1}[0-9]+$")
+        match41=pattern41.match(s)
+        if match41:
+            flag=1
+        pattern42=re.compile("^[ ]+[\\-\\+]*[0-9]+[a-e]{1}[0-9]+$")
+        match42=pattern42.match(s)
+        if match42:
+            flag=1
+        pattern43=re.compile("^[ ]*[\\-\\+]{1}[\\.]{1}[0-9]+[a-e]{1}[\\-\\+]{1}[0-9]+$")
+        match43=pattern43.match(s)
+        if match43:
+            flag=1
+        pattern44=re.compile("^[ ]*[0-9]+[\\.]{1}[0-9]+[a-e]{1}[0-9]+[ ]*$")
+        match44=pattern44.match(s)
+        if match44:
+            flag=1
+        pattern45=re.compile("^[\\-\\+]{0,1}[0-9]+[a-e]{1}[\\-\\+]{1}[0-9]+$")
+        match45=pattern45.match(s)
+        if match45:
+            flag=1
+        pattern46=re.compile("^[ ]*[0-9]+[\\.]{1}[a-e]{1}[0-9]+$")
+        match46=pattern46.match(s)
+        if match46:
+            flag=1
+        pattern47=re.compile("^[ ]*[\\.]{1}[0-9]+[a-e]{1}[0-9]+$")
+        match47=pattern47.match(s)
+        if match47:
+            flag=1
+        pattern48=re.compile("^[ ]*[\\-\\+]{1}[0-9]+[\\.]{1}[ ]+$")
+        match48=pattern48.match(s)
+        if match48:
+            flag=1
+        pattern49=re.compile("^[ ]*[\\-\\+]{1}[0-9]+[\\.]{1}[0-9]+[a-e]{1}[0-9]+[ ]*$")
+        match49=pattern49.match(s)
+        if match49:
+            flag=1
+        pattern50=re.compile("^[ ]*[\\-\\+]{1}[0-9]+[ ]*$")
+        match50=pattern50.match(s)
+        if match50:
+            flag=1
+        pattern51=re.compile("^[ ]*[\\-\\+]*[\\.]{1}[0-9]+[ ]*$")
+        match51=pattern51.match(s)
+        if match51:
+            flag=1
+            
+        if flag==1:
+            return True
+        else:
+            return False

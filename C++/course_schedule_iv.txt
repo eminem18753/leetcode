@@ -1,0 +1,37 @@
+class Solution 
+{
+    public:
+    unordered_map<int,vector<int>> total;
+    bool success[10000];
+    void dfs(int n,int start,unordered_set<int>& v)
+    {
+        if(v.find(start)==v.end())
+        {
+            v.insert(start);
+            for(int i=0;i<total[start].size();i++)
+            {
+                success[n*100+total[start][i]]=true;
+                dfs(n,total[start][i],v);
+            }
+        }
+    }
+    vector<bool> checkIfPrerequisite(int n, vector<vector<int>>& prerequisites, vector<vector<int>>& queries) 
+    {
+        vector<bool> result;
+        memset(success,false,sizeof(success));
+        for(int i=0;i<prerequisites.size();i++)
+        {
+            total[prerequisites[i][0]].push_back(prerequisites[i][1]);
+        }
+        for(int i=0;i<n;i++)
+        {
+            unordered_set<int> v;
+            dfs(i,i,v);
+        }
+        for(int i=0;i<queries.size();i++)
+        {
+            result.push_back(success[queries[i][0]*100+queries[i][1]]);
+        }
+        return result;
+    }
+};

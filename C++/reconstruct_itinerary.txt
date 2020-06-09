@@ -1,0 +1,31 @@
+class Solution 
+{
+    public:
+    vector<string> result;
+    map<string,vector<string>> total;
+    
+    void dfs(string s)
+    {
+        while(total[s].size())
+        {
+            string c=total[s][0];
+            total[s].erase(total[s].begin());
+            dfs(c);
+        }
+        result.push_back(s);
+    }
+    vector<string> findItinerary(vector<vector<string>>& tickets) 
+    {
+        for(int i=0;i<tickets.size();i++)
+        {
+            total[tickets[i][0]].push_back(tickets[i][1]);
+        }
+        for(map<string,vector<string>>::iterator it=total.begin();it!=total.end();it++)
+        {
+            sort(it->second.begin(),it->second.end());
+        }
+        dfs("JFK");
+        vector<string> f(result.rbegin(),result.rend());
+        return f;
+    }
+};

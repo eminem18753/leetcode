@@ -1,0 +1,22 @@
+class Solution(object):
+    def isPalindrome(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        pattern=re.findall("[a-zA-Z0-9]",s)
+        temp=''.join(pattern)
+        result=list(temp.lower())
+        flag=1
+        if len(result)%2==0:
+            for i in range(0,len(result)/2):
+                if result[i]!=result[len(result)-1-i]:
+                    flag=0
+        else:
+            for i in range(0,(len(result)-1)/2):
+                if result[i]!=result[len(result)-1-i]:
+                    flag=0
+        if flag==1:
+            return True
+        else:
+            return False

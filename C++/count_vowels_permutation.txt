@@ -1,0 +1,27 @@
+class Solution 
+{
+    public:
+    int countVowelPermutation(int n) 
+    {
+        int m=1000000007;
+        long long dp[n+1][5];
+        memset(dp,0,sizeof(dp));
+        for(int i=0;i<5;i++)
+        {
+            dp[1][i]=(long long)1;
+        }
+        for(int i=2;i<=n;i++)
+        {
+            dp[i][0]+=dp[i-1][1]%m;
+            dp[i][1]+=dp[i-1][0]%m+dp[i-1][2]%m;
+            dp[i][2]+=dp[i-1][0]%m+dp[i-1][1]%m+dp[i-1][3]%m+dp[i-1][4]%m;
+            dp[i][3]+=dp[i-1][2]%m+dp[i-1][4]%m;
+            dp[i][4]+=dp[i-1][0]%m;
+            for(int j=0;j<5;j++)
+            {
+                dp[i][j]%=m;
+            }
+        }
+        return (int)((dp[n][0]%m+dp[n][1]%m+dp[n][2]%m+dp[n][3]%m+dp[n][4]%m)%m);
+    }
+};

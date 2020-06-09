@@ -1,0 +1,67 @@
+class Solution {
+public:
+    string toString(int label)
+    {
+        string result="";
+        while(label)
+        {
+            result=to_string(label%2)+result;
+            label>>=1;
+        }
+        return result;
+    }
+    int toInt(string label)
+    {
+        int result=0;
+        for(int i=0;i<label.length();i++)
+        {
+            result<<=1;
+            result+=label[i]-'0';
+        }
+        return result;
+    }
+    vector<int> pathInZigZagTree(int label) 
+    {
+        vector<int> result;
+        string total=toString(label);
+        for(int i=1;i<=total.length();i++)
+        {
+            int c=0;
+            string temp=total.substr(0,i);
+            if(total.length()%2==0)
+            {
+                if(i>1&&i%2==1)
+                {
+                    for(int j=1;j<temp.length();j++)
+                    {
+                        temp[j]=(int)'0'+(int)'1'-temp[j];
+                    }
+                    c=toInt(temp);
+                }
+                else
+                {
+                    c=toInt(temp);
+                }
+            }
+            else
+            {
+                if(i>1&&i%2==0)
+                {
+                    for(int j=1;j<temp.length();j++)
+                    {
+                        temp[j]=(int)'0'+(int)'1'-temp[j];
+                    }
+                    c=toInt(temp);
+                }
+                else
+                {
+                    c=toInt(temp);
+                }                
+            }
+            result.push_back(c);
+            
+        }
+        
+        return result;
+    }
+};

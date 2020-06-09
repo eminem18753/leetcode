@@ -1,0 +1,14 @@
+# Write your MySQL query statement below
+SELECT SUM(TIV_2016) as TIV_2016 FROM insurance as a
+WHERE
+(
+    SELECT COUNT(*) FROM insurance b
+    WHERE a.TIV_2015=b.TIV_2015
+    GROUP BY TIV_2015
+)>1
+AND
+(
+    SELECT COUNT(*) FROM insurance c
+    WHERE a.LAT=c.LAT AND a.LON=c.LON
+    GROUP BY c.LAT,c.LON
+)=1;

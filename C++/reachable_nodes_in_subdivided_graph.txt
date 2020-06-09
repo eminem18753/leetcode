@@ -1,0 +1,45 @@
+class Solution 
+{
+    public:
+    int reachableNodes(vector<vector<int>>& edges, int M, int N) 
+    {
+        int result=0;
+        vector<vector<int>> numbers(N,vector<int>(N,-1));
+        for(int i=0;i<edges.size();i++)
+        {
+            numbers[edges[i][0]][edges[i][1]]=edges[i][2];
+            numbers[edges[i][1]][edges[i][0]]=edges[i][2];
+        }
+        bool v[N];
+        memset(v,false,sizeof(v));
+        priority_queue<pair<int,int>> q;
+        q.push({M,0});
+        while(q.size()>0)
+        {
+            pair<int,int> p=q.top();
+            q.pop();
+            int remains=p.first;
+            int node=p.second;
+            if(v[node]==true)
+            {
+                continue;
+            }
+            v[node]=true;
+            result++;
+            for(int i=0;i<N;i++)
+            {
+                if(numbers[node][i]==-1)
+                {
+                    continue;
+                }
+                if(remains>numbers[node][i]&&v[i]==false)
+                {
+                    q.push({remains-numbers[node][i]-1,i});
+                }
+                numbers[i][node]-=min(remains,numbers[node][i]);
+                result+=min(remains,numbers[node][i]);
+            }
+        }
+        return result;
+    }
+};

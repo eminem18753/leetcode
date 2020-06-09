@@ -1,0 +1,57 @@
+class Solution 
+{
+public:
+    int findNthDigit(int n) 
+    {
+        n-=1;
+        int number=0;
+        long long int location=0;
+        long long int region=9;
+        long long int currentRegion=9;
+        int digits=1;
+        int result=0;
+        int flag=0;
+        int count=0;
+        long long int currentNumber=1;
+        int previousRegion=0;
+        int previousDigits=0;
+        int previousTotalRegion=0;
+        while(flag==0)
+        {
+            if(n>currentRegion)
+            {
+                previousRegion=region;
+                previousDigits=digits;
+                previousTotalRegion=currentRegion;
+                region*=10;
+                digits+=1;
+                currentRegion+=region*digits;
+                currentNumber*=10;
+                cout<<currentNumber<<endl;
+            }
+            else
+            {
+                flag=1;	
+            }
+        }
+        n-=previousTotalRegion;
+        number=n/digits;
+        location=n%digits;
+        int finalNumber=currentNumber+number;
+        string answer="";
+        while(finalNumber/10!=0)
+        {
+            int y=finalNumber%10;
+            finalNumber/=10;
+            answer+=y+48;
+        }
+        answer+=finalNumber+48;
+        string final="";
+        for(int i=answer.length()-1;i>-1;i--)
+        {
+            final+=answer[i];	
+        }
+        result=final[location]-48;
+        return result;
+    }
+};

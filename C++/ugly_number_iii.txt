@@ -1,0 +1,50 @@
+class Solution 
+{
+    public:
+    int gcd(int a,int b)
+    {
+        if(b==0)
+        {
+            return a;
+        }
+        return gcd(b,a%b);
+    }
+    int check(long long n,long long a,long long b,long long c)
+    {
+        if(a==b&&a==c)
+        {
+            return n/a;
+        }
+        if(a==b)
+        {
+            return (int)(n/a+n/c-n/(a*b/gcd(a,c)));
+        }
+        if(a==c)
+        {
+            return (int)(n/a+n/b-n/(a*b/gcd(a,b)));
+        }
+        if(b==c)
+        {
+            return (int)(n/a+n/b-n/(a*b/gcd(a,b)));
+        }
+        return (int)(n/a+n/b+n/c-n/(a*b/gcd(a,b))-n/(a*c/gcd(a,c))-n/(b*c/gcd(b,c))+n/(a*b/gcd(a,b)*c/gcd(a*b/gcd(a,b),c)));
+    }
+    int nthUglyNumber(int n, int a, int b, int c) 
+    {
+        long long p1=1;
+        long long p2=2147483647;
+        while(p1<p2)
+        {
+            long long middle=(p1+p2)/2;
+            if(check(middle,a,b,c)>=n)
+            {
+                p2=middle;
+            }
+            else
+            {
+                p1=middle+1;
+            }
+        }
+        return p1;
+    }
+};

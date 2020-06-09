@@ -1,0 +1,33 @@
+class Solution
+{
+    public:
+    int findBestValue(vector<int>& arr, int target) 
+    {
+        int result=-1;
+        int d=2147483647;
+        int s=0;
+        int p=0;
+        int n=arr.size();
+        sort(arr.begin(),arr.end());
+        for(int i=0;i<n;i++)
+        {
+            int d1=floor((double)(target-s)/(double)(n-i));
+            int d2=d1+1;
+            int c1=s+min(max(p,d1),arr[i])*(n-i);
+            if(abs(target-c1)<d)
+            {
+                d=abs(target-c1);
+                result=min(max(p,d1),arr[i]);
+            }
+            int c2=s+min(max(p,d2),arr[i])*(n-i);
+            if(abs(target-c2)<d)
+            {
+                d=abs(target-c2);
+                result=min(max(p,d2),arr[i]);
+            }
+            s+=arr[i];
+            p=arr[i];
+        }
+        return result;
+    }
+};

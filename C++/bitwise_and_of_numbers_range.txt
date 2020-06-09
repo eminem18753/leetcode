@@ -1,0 +1,27 @@
+class Solution
+{
+public:
+    int rangeBitwiseAnd(int m, int n) 
+    {
+        if(m==n)
+        {
+            return m;	
+        }
+        if(m==0||n==0)
+        {
+            return 0;
+        }
+        int result=0;
+        while((int)log2(m)==(int)log2(n))
+        {
+            result+=pow(2,(int)log2(m));
+            n-=pow(2,(int)log2(m));
+            m-=pow(2,(int)log2(m));
+            if(m==0||n==0)
+            {
+                return result;
+            }
+        }
+        return result;
+    }
+};

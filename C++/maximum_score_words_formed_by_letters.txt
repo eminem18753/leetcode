@@ -1,0 +1,82 @@
+class Solution 
+{
+    public:
+    int r=0;
+    map<char,int> scores;
+    map<char,int> overall;
+    vector<map<char,int>> total;
+    void dfs(int s)
+    {
+        int f=0;
+        int c=0;
+        int n=total.size();
+        string result="";
+        while(s)
+        {
+            result=to_string(s%2)+result;
+            s>>=1;
+        }
+        int l=result.length();
+        for(int i=0;i<n-l;i++)
+        {
+            result="0"+result;   
+        }
+        map<char,int> temp;
+        for(int i=0;i<result.length();i++)
+        {
+            if(result[i]=='1')
+            {
+                for(map<char,int>::iterator it=total[i].begin();it!=total[i].end();it++)
+                {
+                    temp[it->first]+=it->second;   
+                }
+            }
+        }
+        for(map<char,int>::iterator it=temp.begin();it!=temp.end();it++)
+        {
+            if(it->second>overall[it->first])
+            {
+                f=1;
+                break;
+            }
+            else
+            {
+                c+=scores[it->first]*it->second;
+            }
+        }
+        if(f==0)
+        {
+            r=max(r,c);
+        }
+    }
+    int maxScoreWords(vector<string>& words, vector<char>& letters, vector<int>& score) 
+    {
+        int n=words.size();
+        for(int i=0;i<words.size();i++)
+        {
+            map<char,int> temp;
+            for(int j=0;j<words[i].length();j++)
+            {
+                if(temp.find(words[i][j])==temp.end())
+                {
+                    temp[words[i][j]]=0;   
+                }
+                temp[words[i][j]]++;   
+            }
+            total.push_back(temp);
+        }
+        for(int i=0;i<letters.size();i++)
+        {
+            overall[letters[i]]++;   
+        }
+        for(int i=0;i<score.size();i++)
+        {
+            scores[i+'a']=score[i];   
+        }
+        for(int i=0;i<pow(2,n);i++)
+        {
+            dfs(i);
+        }
+        return r;
+    }
+};

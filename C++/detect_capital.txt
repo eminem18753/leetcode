@@ -1,0 +1,51 @@
+class Solution 
+{
+public:
+    bool detectCapitalUse(string word) 
+    {
+        bool result;
+        int rule1=0;
+        int rule2=0;
+        int rule3=0;
+        for(int i=0;i<word.length();i++)
+        {
+            if(word[i]<65||word[i]>90)
+            {
+                rule1=1;
+            }
+        }
+        for(int i=0;i<word.length();i++)
+        {
+            if(word[i]<97||word[i]>122)
+            {
+                rule2=1;
+            }
+        }
+        for(int i=0;i<word.length();i++)
+        {
+            if(i==0)
+            {
+                if(word[i]<65||word[i]>90)
+                {
+                    rule3=1;
+                }				
+            }
+            else
+            {
+                if(word[i]<97||word[i]>122)
+                {
+                    rule3=1;
+                }			
+            }
+        }
+        if(rule1==1&&rule2==1&&rule3==1)
+        {
+            result=false;	
+        }
+        else
+        {
+            result=true;	
+        }
+        return result;        
+    }
+};

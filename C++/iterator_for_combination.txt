@@ -1,0 +1,67 @@
+class CombinationIterator 
+{
+    public:
+    vector<int> p;
+    string c;
+    int f=0;
+    CombinationIterator(string characters, int combinationLength) 
+    {
+        c=characters;
+        for(int i=0;i<combinationLength;i++)
+        {
+            p.push_back(i);
+        }
+    }
+    
+    string next() 
+    {
+        string result="";
+        if(f==0)
+        {
+            for(int i=0;i<p.size();i++)
+            {
+                result+=c[p[i]];
+            }
+            f=1;
+            return result;
+        }
+        int l=c.length();
+        int n=p.size();
+        for(int i=n-1;i>-1;i--)
+        {
+            if(p[i]!=i+l-n&&i==n-1)
+            {
+                p[i]++;
+                break;
+            }
+            else if(p[i]!=i+l-n)
+            {
+                p[i]++;
+                for(int j=i+1;j<n;j++)
+                {
+                    p[j]=p[i]+j-i;
+                }
+                break;
+            }
+        }
+        for(int i=0;i<p.size();i++)
+        {
+            result+=c[p[i]];
+        }
+        return result;
+    }
+    
+    bool hasNext() 
+    {
+        int l=c.length();
+        int n=p.size();
+        return p[0]!=l-n;
+    }
+};
+
+/**
+ * Your CombinationIterator object will be instantiated and called as such:
+ * CombinationIterator* obj = new CombinationIterator(characters, combinationLength);
+ * string param_1 = obj->next();
+ * bool param_2 = obj->hasNext();
+ */

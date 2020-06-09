@@ -1,0 +1,201 @@
+bool compare(pair<string,int>& a,pair<string,int>& b)
+{
+    if(a.first=="")
+    {
+        return false;
+    }
+    else if(b.first=="")
+    {
+        return true;
+    }
+    int c1=0;
+    int c2=0;
+    for(int i=0;i<a.first.length();i++)
+    {
+        if(a.first[i]=='*')
+        {
+            c1++;
+        }
+    }
+    for(int i=0;i<b.first.length();i++)
+    {
+        if(b.first[i]=='*')
+        {
+            c2++;
+        }
+    }
+    if(c1!=c2)
+    {
+        return c1>c2;
+    }
+    return a.first<b.first;
+}
+class Solution
+{
+    public:
+    unordered_map<string,int> dfs(string& expression,int& c)
+    {
+        vector<unordered_map<string,int>> operands;
+        string operators="";
+        operators+="+";
+        while(c<expression.length()&&expression[c]!=')')
+        {
+            if(expression[c]=='(')
+            {
+                c++;
+                operands.push_back(dfs(expression,c));
+            }
+            else
+            {
+                int k=c;
+                while(c<expression.length()&&expression[c]!=' '&&expression[c]!=')')
+                {
+                    c++;
+                }
+                string current=expression.substr(k,c-k);
+                bool isNum=true;
+                for(int i=0;i<current.length();i++)
+                {
+                    if(!isdigit(current[i]))
+                    {
+                        isNum=false;
+                        break;
+                    }
+                }
+                unordered_map<string,int> temp;
+                if(isNum)
+                {
+                    temp[""]=stoi(current);
+                }
+                else if(m.find(current)!=m.end())
+                {
+                    temp[""]=m[current];
+                }
+                else
+                {
+                    temp[current]=1;
+                }
+                operands.push_back(temp);
+            }
+            if(c<expression.length()&&expression[c]==' ')
+            {
+                c++;
+                operators+=expression[c];
+                c+=2;
+            }
+        }
+        c++;
+        return calculate(operands,operators);
+    }
+    unordered_map<string,int> calculate(vector<unordered_map<string,int>>& operands,string& operators)
+    {
+        unordered_map<string,int> result;
+        for(int i=(int)operands.size()-1;i>-1;i--)
+        {
+            unordered_map<string,int> temp=operands[i];
+            while(i>=0&&operators[i]=='*')
+            {
+                i--;
+                temp=multiply(temp,operands[i]);
+            }
+            int sign;
+            if(operators[i]=='+')
+            {
+                sign=1;
+            }
+            else
+            {
+                sign=-1;
+            }
+            for(unordered_map<string,int>::iterator it=temp.begin();it!=temp.end();it++)
+            {
+                result[it->first]+=sign*it->second;
+            }
+        }
+        return result;
+    }
+    unordered_map<string,int> multiply(unordered_map<string,int>& a,unordered_map<string,int>& b)
+    {
+        unordered_map<string,int> result;
+        for(unordered_map<string,int>::iterator i1=a.begin();i1!=a.end();i1++)
+        {
+            for(unordered_map<string,int>::iterator i2=b.begin();i2!=b.end();i2++)
+            {
+                string current=combine(i1->first,i2->first);
+                int number=i1->second*i2->second;
+                result[current]+=number;
+            }
+        }
+        return result;
+    }
+    string combine(string a,string b)
+    {
+        if(a=="")
+        {
+            return b;
+        }
+        if(b=="")
+        {
+            return a;
+        }
+        string result="";
+        vector<string> f1=split(a,"*");
+        vector<string> f2=split(b,"*");
+        for(int i=0;i<f2.size();i++)
+        {
+            f1.push_back(f2[i]);
+        }
+        sort(f1.begin(),f1.end());
+        for(int i=0;i<f1.size();i++)
+        {
+            result+=f1[i]+"*";
+        }
+        result.pop_back();
+        return result;
+    }
+    vector<string> split(string& s,string m)
+    {
+        vector<string> result;
+        for(int i=0;i<s.length();i++)
+        {
+            int j=i;
+            i=s.find(m,i);
+            if(i==-1)
+            {
+                i=(int)s.length();
+            }
+            result.push_back(s.substr(j,i-j));
+        }
+        return result;
+    }
+    unordered_map<string,int> m;
+    vector<string> basicCalculatorIV(string expression, vector<string>& evalvars, vector<int>& evalints) 
+    {
+        vector<string> result;
+        for(int i=0;i<evalvars.size();i++)
+        {
+            m[evalvars[i]]=evalints[i];
+        }
+        int c=0;
+        unordered_map<string,int> total=dfs(expression,c);
+        vector<pair<string,int>> output;
+        for(unordered_map<string,int>::iterator it=total.begin();it!=total.end();it++)
+        {
+            output.push_back({it->first,it->second});
+        }
+        sort(output.begin(),output.end(),compare);
+        for(int i=0;i<output.size();i++)
+        {
+            if(output[i].second!=0)
+            {
+                string temp=to_string(output[i].second);
+                if(output[i].first!="")
+                {
+                    temp+="*"+output[i].first;
+                }
+                result.push_back(temp);
+            }
+        }
+        return result;
+    }
+};

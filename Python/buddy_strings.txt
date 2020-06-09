@@ -1,0 +1,44 @@
+from collections import Counter
+class Solution(object):
+    def buddyStrings(self, A, B):
+        """
+        :type A: str
+        :type B: str
+        :rtype: bool
+        """
+        flag=0
+        if len(A)!=len(B):
+            return False
+        a=Counter(A).items()
+        b=Counter(B).items()
+        if len(a)!=len(b):
+            return False
+
+        first=[]
+        second=[]
+        for i in range(0,len(a)):
+            if a[i][1]>1:
+                flag=1
+            first.append(list(a[i]))
+        for i in range(0,len(b)):
+            second.append(list(b[i]))
+        
+        first=sorted(first,key=lambda first:first[0])
+        second=sorted(second,key=lambda second:second[0])
+        for i in range(0,len(first)):
+            if first[i][0]!=second[i][0]:
+                return False
+            if first[i][1]!=second[i][1]:
+                return False
+            
+        counter=0
+        for i in range(0,len(A)):
+            if A[i]!=B[i]:
+                counter+=1
+        
+        if counter==2:
+            return True
+        
+        if counter==0 and flag==1:
+            return True
+        return False

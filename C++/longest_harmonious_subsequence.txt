@@ -1,0 +1,39 @@
+class Solution {
+public:
+    int findLHS(vector<int>& nums) 
+    {
+        if(nums.size()<=1)
+        {
+            return 0;
+        }
+        sort(nums.begin(),nums.end());
+        int maximum=0;
+        int p1=0;
+        int p2=0;
+        while((p2!=nums.size()-1))
+        {
+            if(nums[p2]-nums[p1]<=1)
+            {
+                if(nums[p2]-nums[p1]==1)
+                {
+                    maximum=max(maximum,p2-p1+1);
+                }
+                p2++;
+            }
+            else
+            {
+                p1++;
+            }
+            
+        }
+        while(p1<p2)
+        {
+            if(nums[p2]-nums[p1]==1)
+            {
+                maximum=max(maximum,p2-p1+1);
+            }
+            p1++;
+        }
+        return maximum;
+    }
+};

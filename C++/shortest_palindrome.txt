@@ -1,0 +1,94 @@
+class Solution 
+{
+    public:
+    string shortestPalindrome(string s) 
+    {
+        if(s=="")
+        {
+            return s;
+        }
+        string result=s;
+        int n=s.length();
+        if(n%2==0)
+        {
+            int f=0;
+            int c=0;
+            int p1=n/2-1;
+            int p2=n/2;
+            while(f==0)
+            {            
+                int k1=p1;
+                int k2=p2;
+                while(s[k1]==s[k2])
+                {
+                    if(k1==0)
+                    {
+                        f=1;
+                        break;
+                    }
+                    k1--;
+                    k2++;
+                }
+                if(c%2==0)
+                {
+                    p2--;
+                }
+                else
+                {
+                    p1--;
+                }
+                if(f==0)
+                {
+                    c++;
+                }
+            }
+            string t="";
+            for(int i=0;i<c;i++)
+            {
+                t+=s[n-1-i];
+            }
+            result=t+result;
+        }
+        else
+        {
+            int f=0;
+            int c=0;
+            int p1=n/2;
+            int p2=n/2;
+            while(f==0)
+            {            
+                int k1=p1;
+                int k2=p2;
+                while(s[k1]==s[k2])
+                {
+                    if(k1==0)
+                    {
+                        f=1;
+                        break;
+                    }
+                    k1--;
+                    k2++;
+                }
+                if(c%2==0)
+                {
+                    p1--;
+                }
+                else
+                {
+                    p2--;
+                }
+                if(f==0)
+                {
+                    c++;
+                }
+            }            
+            string t="";
+            for(int i=0;i<c;i++)
+            {
+                t+=s[n-1-i];
+            }
+            result=t+result;
+        }
+        return result;
+    }
+};

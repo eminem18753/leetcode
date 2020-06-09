@@ -1,0 +1,44 @@
+class Solution 
+{
+    public:
+    vector<vector<int>> dp;
+    int dfs(vector<vector<int>>& A,int i,int j)
+    {
+        if(dp[i][j]!=0)
+        {
+            return dp[i][j];   
+        }
+        int mx=1;
+        int dx[4]={1,0,-1,0};
+        int dy[4]={0,1,0,-1};
+        for(int a=0;a<4;a++)
+        {
+            int x=i+dx[a];
+            int y=j+dy[a];
+            if(x<0||y<0||x>=A.size()||y>=A[0].size()||A[x][y]<=A[i][j])
+            {
+                continue;
+            }
+            int l=1+dfs(A,x,y);
+            mx=max(mx,l);
+        }
+        dp[i][j]=mx;
+        return mx;
+    }
+    int longestIncreasingPath(vector<vector<int>>& matrix) 
+    {
+        int result=0;
+        for(int i=0;i<matrix.size();i++)
+        {
+            dp.push_back(vector<int>((int)matrix[i].size(),0));   
+        }
+        for(int i=0;i<matrix.size();i++)
+        {
+            for(int j=0;j<matrix[i].size();j++)
+            {
+                result=max(result,dfs(matrix,i,j));
+            }
+        }
+        return result;
+    }
+};

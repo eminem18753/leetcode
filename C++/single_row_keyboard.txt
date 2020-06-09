@@ -1,0 +1,24 @@
+class Solution
+{
+    public:
+    int calculateTime(string keyboard, string word) 
+    {
+        if(word.length()==0)
+        {
+            return 0;
+        }
+        int r=0;
+        int a[26];
+        memset(a,0,sizeof(a));
+        for(int i=0;i<keyboard.length();i++)
+        {
+            a[keyboard[i]-'a']=i;
+        }
+        r+=a[word[0]-'a'];
+        for(int i=1;i<word.length();i++)
+        {
+            r+=abs(a[word[i]-'a']-a[word[i-1]-'a']);
+        }
+        return r;
+    }
+};

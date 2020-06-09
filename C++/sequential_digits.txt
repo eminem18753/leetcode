@@ -1,0 +1,26 @@
+class Solution 
+{
+    public:
+    vector<int> sequentialDigits(int low, int high) 
+    {
+        vector<int> result;
+        int left=to_string(low).length();
+        int right=to_string(high).length();
+        for(int i=left;i<=right;i++)
+        {
+            for(int j=1;j<11-i;j++)
+            {
+                string temp="";
+                for(int k=0;k<i;k++)
+                {
+                    temp+=to_string(j+k);
+                }
+                if(stoi(temp)>=low&&stoi(temp)<=high)
+                {
+                    result.push_back(stoi(temp));
+                }
+            }
+        }
+        return result;
+    }
+};

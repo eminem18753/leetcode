@@ -1,0 +1,27 @@
+class Solution 
+{
+public:
+    int addDigits(int num) 
+    {
+        int result=0;
+        string temp="";
+        while(num>=10)
+        {
+            temp="";
+            while(num/10!=0)
+            {
+                int y=num%10;
+                num/=10;
+                temp+=y+48;
+            }
+            temp+=num+48;
+            num=0;
+            for(int i=0;i<temp.length();i++)
+            {
+                num+=temp[i]-48;
+            }
+        }
+        result=num;
+        return result;       
+    }
+};

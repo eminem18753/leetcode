@@ -1,0 +1,58 @@
+class Solution 
+{
+    public:
+    int n;
+    bool result=false;
+    void dfs(vector<int>& nums,int c,int t[4])
+    {
+        if(t[0]>n||t[1]>n||t[2]>n||t[3]>n)
+        {
+            return;
+        }
+        if(t[0]==n&&t[1]==n&&t[2]==n&&t[3]==n)
+        {
+            result=true;
+            return;
+        }
+        for(int i=0;i<4;i++)
+        {
+            t[i]+=nums[c];
+            dfs(nums,c+1,t);
+            t[i]-=nums[c];
+        }
+    }
+    bool makesquare(vector<int>& nums)
+    {
+        int s=0;
+        sort(nums.rbegin(),nums.rend());
+        if(nums.size()==0)
+        {
+            return false;
+        }
+        for(int i=0;i<nums.size();i++)
+        {
+            s+=nums[i];
+        }
+        if(s%4!=0)
+        {
+            return false;
+        }
+        n=s/4;
+        for(int i=0;i<nums.size();i++)
+        {
+            if(nums[i]>n)
+            {
+                return false;
+            }
+        }
+        int t[4];
+        memset(t,0,sizeof(t));
+        t[0]=nums[0];
+        t[1]=nums[1];
+        dfs(nums,2,t);
+        t[0]=nums[0]+nums[1];
+        t[1]=0;
+        dfs(nums,2,t);
+        return result;
+    }
+};

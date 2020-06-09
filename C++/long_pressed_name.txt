@@ -1,0 +1,76 @@
+class Solution {
+public:
+    bool isLongPressedName(string name, string typed) 
+    {
+        int c1=0;
+        int c2=0;
+        string t1="";
+        string t2="";
+        vector<int> f1;
+        vector<int> f2;
+        if(name.length()==0)
+        {
+            if(typed.length()==0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        if(typed.length()==0)
+        {
+            return false;
+        }
+        t1+=name[0];
+        c1=1;
+        for(int i=1;i<name.length();i++)
+        {
+            if(name[i]==name[i-1])
+            {
+                c1+=1;
+            }
+            else
+            {
+                f1.push_back(c1);
+                c1=1;
+                t1+=name[i];
+            }
+        }
+        f1.push_back(c1);
+
+        t2+=typed[0];
+        c2=1;
+        for(int i=1;i<typed.length();i++)
+        {
+            if(typed[i]==typed[i-1])
+            {
+                c2+=1;
+            }
+            else
+            {
+                f2.push_back(c2);
+                c2=1;
+                t2+=typed[i];
+            }
+        }
+        f2.push_back(c2);
+        if((f1.size()!=f2.size())||(t1.length()!=t2.length()))
+        {
+            return false;
+        }
+        if(t1!=t2)
+        {
+            return false;
+        }
+        for(int i=0;i<f1.size();i++)
+        {
+            if(f1[i]>f2[i])
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+};

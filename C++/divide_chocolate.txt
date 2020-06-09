@@ -1,0 +1,50 @@
+class Solution 
+{
+    public:
+    bool check(vector<int>& s,int K,int c)
+    {
+        int r=0;
+        for(int i=0;i<=K;i++)
+        {
+            vector<int>::iterator low;
+            low=lower_bound(s.begin(),s.end(),r+c);
+            int index=(int)(low-s.begin());
+            r=s[index];
+            if(index>=s.size())
+            {
+                return false;   
+            }
+        }
+        return true;
+    }
+    int maximizeSweetness(vector<int>& sweetness, int K) 
+    {
+        int r=0;
+        vector<int> s;
+        s.push_back(0);
+        for(int i=0;i<sweetness.size();i++)
+        {
+            r+=sweetness[i];
+            s.push_back(s.back()+sweetness[i]);
+        }
+        int p1=0;
+        int p2=r;
+        while(p1<p2)
+        {
+            int middle=(p1+p2)/2;
+            if(check(s,K,middle))
+            {
+                p1=middle+1;
+            }
+            else
+            {
+                p2=middle;
+            }
+        }
+        if(check(s,K,p1))
+        {
+            return p1;   
+        }
+        return p1-1;
+    }
+};

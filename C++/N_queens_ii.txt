@@ -1,0 +1,40 @@
+class Solution 
+{
+    public:
+    int result=0;
+    int N;
+    void dfs(vector<int>& p,set<int>& d,set<int>& s)
+    {
+        if(N==p.size())
+        {
+            result++;
+            return;
+        }
+        set<int> a(p.begin(),p.end());
+        int n=p.size();
+        for(int i=0;i<N;i++)
+        {
+            int summation=i+n;
+            int difference=i-n;
+            if(a.find(i)==a.end()&&d.find(difference)==d.end()&&s.find(summation)==s.end())
+            {
+                p.push_back(i);
+                d.insert(difference);
+                s.insert(summation);
+                dfs(p,d,s);
+                p.pop_back();
+                d.erase(difference);
+                s.erase(summation);
+            }
+        }
+    }
+    int totalNQueens(int n)
+    {
+        N=n;
+        vector<int> p;
+        set<int> d;
+        set<int> s;
+        dfs(p,d,s);
+        return result;
+    }
+};

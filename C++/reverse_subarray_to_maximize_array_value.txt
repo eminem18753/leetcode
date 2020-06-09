@@ -1,0 +1,23 @@
+class Solution 
+{
+    public:
+    int maxValueAfterReverse(vector<int>& nums) 
+    {
+        int total=0;
+        int n=nums.size();
+        int gain=0;
+        int high=-2147483648;
+        int low=2147483647;
+        for(int i=0;i<n-1;i++)
+        {
+            int a=nums[i];
+            int b=nums[i+1];
+            total+=abs(a-b);
+            gain=max(gain,abs(nums[0]-b)-abs(a-b));
+            gain=max(gain,abs(nums[n-1]-a)-abs(a-b));
+            high=max(high,min(a,b));
+            low=min(low,max(a,b));
+        }
+        return total+max(gain,(high-low)*2);
+    }
+};

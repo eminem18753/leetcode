@@ -1,0 +1,91 @@
+class Solution 
+{
+    public:
+    vector<string> getTotal(string s)
+    {
+        vector<string> r;
+        string c="";
+        for(int i=0;i<s.length();i++)
+        {
+            if(s[i]!=' ')
+            {
+                c+=s[i];
+            }
+            else
+            {
+                r.push_back(c);
+                c="";
+            }
+        }
+        r.push_back(c);
+        return r;
+    }
+    vector<string> beforeAndAfterPuzzles(vector<string>& phrases) 
+    {
+        vector<string> result;
+        map<string,int> r;
+        map<string,vector<vector<string>>> start;
+        map<string,vector<vector<string>>> last;
+        for(int i=0;i<phrases.size();i++)
+        {
+            vector<string> temp=getTotal(phrases[i]);
+            start[temp[0]].push_back(temp);
+            last[temp.back()].push_back(temp);
+        }
+        for(map<string,vector<vector<string>>>::iterator it=last.begin();it!=last.end();it++)
+        {
+            for(int i=0;i<it->second.size();i++)
+            {
+                for(int j=0;j<start[it->first].size();j++)
+                {
+                    string t="";
+                    string space="";
+                    for(int k=0;k<it->second[i].size();k++)
+                    {
+                        t+=space+it->second[i][k];
+                        space=" ";
+                    }
+                    for(int k=1;k<start[it->first][j].size();k++)
+                    {
+                        t+=space+start[it->first][j][k];                        
+                    }
+                    r[t]++;
+                }
+            }
+        }
+        for(map<string,int>::iterator it=r.begin();it!=r.end();it++)
+        {
+            vector<string> temp=getTotal(it->first);
+            int f=0;
+            int n=temp.size();
+            if(n%2==1)
+            {
+                for(int i=0;i<=n/2;i++)
+                {
+                    if(temp[i]!=temp[i+n/2])
+                    {
+                        f=1;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                f=1;
+            }
+            if(f==0)
+            {
+                if(it->second>1)
+                {
+                    result.push_back(it->first);
+                }
+            }
+            else
+            {
+                result.push_back(it->first);
+            }
+        }
+        sort(result.begin(),result.end());
+        return result;
+    }
+};

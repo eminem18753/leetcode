@@ -1,0 +1,38 @@
+class Solution {
+public:
+    
+    int c=0;
+    unordered_map<string,int> total;
+    // Encodes a URL to a shortened URL.
+    string encode(string longUrl) 
+    {
+        if(total.find(longUrl)!=total.end())
+        {
+            total[longUrl]=c;
+            c++;
+            return to_string(c);        
+        }
+        else
+        {
+            return to_string(total[longUrl]);
+        }
+    }
+
+    // Decodes a shortened URL to its original URL.
+    string decode(string shortUrl)
+    {
+        unordered_map<string,int>::iterator it;
+        for(it=total.begin();it!=total.end();it++)
+        {
+            if(to_string(it->second)==shortUrl)
+            {
+                return it->first;
+            }
+        }
+        return "";
+    }
+};
+
+// Your Solution object will be instantiated and called as such:
+// Solution solution;
+// solution.decode(solution.encode(url));

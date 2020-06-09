@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int subarraysDivByK(vector<int>& A, int K) 
+    {
+        int result=0;
+        int overall[10001];
+        memset(overall,0,sizeof(overall));
+        vector<int> total;
+        total.push_back(0);
+        for(int i=0;i<A.size();i++)
+        {
+            total.push_back(total[i]+A[i]);
+        }
+        for(int i=1;i<total.size();i++)
+        {
+            overall[(total[i]+K*10000)%K]+=1;
+        }
+        for(int i=0;i<K;i++)
+        {
+            result+=overall[i]*(overall[i]-1)/2;
+        }
+        result+=overall[0];
+        return result;
+    }
+};

@@ -1,0 +1,43 @@
+class Solution 
+{
+    public:
+    int numTeams(vector<int>& rating) 
+    {
+        int result=0;
+        vector<int> larger;
+        vector<int> smaller;
+        for(int i=0;i<rating.size();i++)
+        {
+            int c1=0;
+            int c2=0;
+            for(int j=i+1;j<rating.size();j++)
+            {
+                if(rating[j]>rating[i])
+                {
+                    c1++;
+                }
+                if(rating[j]<rating[i])
+                {
+                    c2++;
+                }
+            }
+            larger.push_back(c1);
+            smaller.push_back(c2);
+        }
+        for(int i=0;i<rating.size();i++)
+        {
+            for(int j=i+1;j<rating.size();j++)
+            {
+                if(rating[j]>rating[i])
+                {
+                    result+=larger[j];
+                }
+                if(rating[i]>rating[j])
+                {
+                    result+=smaller[j];
+                }
+            }
+        }
+        return result;
+    }
+};

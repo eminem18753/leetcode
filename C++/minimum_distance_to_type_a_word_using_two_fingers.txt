@@ -1,0 +1,78 @@
+class Solution
+{
+    public:
+    int getDistance(char a,char b)
+    {
+        int n1=(int)(a-'A');
+        int r1=n1/6;
+        int c1=n1%6;
+        int n2=(int)(b-'A');
+        int r2=n2/6;
+        int c2=n2%6;
+        return abs(r1-r2)+abs(c1-c2);
+    }
+    int minimumDistance(string word) 
+    {
+        if(word.length()==0)
+        {
+            return 0;
+        }
+        int result=2147483647;
+        int n=word.length();
+        vector<int> d1(26,2147483647);
+        vector<vector<int>> d2(26,vector<int>(26,2147483647));
+
+        vector<int> t1(26,2147483647);
+        vector<vector<int>> t2(26,vector<int>(26,2147483647));
+        t1[word[0]-'A']=0;
+        for(int i=1;i<n;i++)
+        {
+            //全部用手指1
+            for(int j=0;j<26;j++)
+            {
+                if(t1[j]!=2147483647)
+                {
+                    d1[word[i]-'A']=t1[j]+getDistance((char)(j+'A'),word[i]);
+                }
+            }
+            //用手指2
+            for(int j=0;j<26;j++)
+            {
+                if(t1[j]!=2147483647)
+                {
+                    d2[j][word[i]-'A']=t1[j];
+                }
+            }
+            for(int j=0;j<26;j++)
+            {
+                for(int k=0;k<26;k++)
+                {
+                    if(t2[j][k]!=2147483647)
+                    {
+                        d2[word[i]-'A'][k]=min(d2[word[i]-'A'][k],t2[j][k]+getDistance((char)(j+'A'),word[i]));
+                        d2[j][word[i]-'A']=min(d2[j][word[i]-'A'],t2[j][k]+getDistance((char)(k+'A'),word[i]));
+                    }
+                }
+            }
+            //更新t1 t2
+            for(int j=0;j<26;j++)
+            {
+                t1[j]=d1[j];
+                d1[j]=2147483647;
+                for(int k=0;k<26;k++)
+                {
+                    t2[j][k]=d2[j][k];
+                    d2[j][k]=2147483647;
+                }
+            }
+        }
+        for(int i=0;i<26;i++)
+        {
+            for(int j=0;j<26;j++)
+            {
+                result=min(result,t2[i][j]);
+            }
+        }
+        return result;
+    }
+};

@@ -1,0 +1,13 @@
+class Solution(object):
+    def combination(self,n,k):
+        r=1
+        for i in range(0,k):
+            r*=n-i
+            r/=i+1
+        return r
+    def numberOfWays(self, num_people):
+        """
+        :type num_people: int
+        :rtype: int
+        """
+        return (self.combination(num_people,num_people/2)-self.combination(num_people,num_people/2+1))%1000000007

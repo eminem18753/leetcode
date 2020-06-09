@@ -1,0 +1,56 @@
+bool compare(vector<int> a,vector<int> b)
+{
+    return a[0]<b[0];
+}
+class Solution {
+public:
+    int earliestAcq(vector<vector<int>>& logs, int N)
+    {
+        sort(logs.begin(),logs.end(),compare);
+        int a[N];
+        memset(a,0,sizeof(a));
+        int c=1;
+        for(int i=0;i<logs.size();i++)
+        {
+            if(a[logs[i][1]]==0&&a[logs[i][2]]==0)
+            {
+                a[logs[i][1]]=c;
+                a[logs[i][2]]=c;
+                c++;
+            }
+            else if(a[logs[i][1]]==0)
+            {
+                a[logs[i][1]]=a[logs[i][2]];
+            }
+            else if(a[logs[i][2]]==0)
+            {
+                a[logs[i][2]]=a[logs[i][1]];
+            }
+            else
+            {
+                int temp=a[logs[i][2]];
+                for(int j=0;j<N;j++)
+                {
+                    if(a[j]==temp)
+                    {
+                        a[j]=a[logs[i][1]];
+                    }
+                }
+            }
+            int flag=0;
+            for(int i=1;i<N;i++)
+            {
+                if(a[i]!=a[i-1])
+                {
+                    flag=1;
+                    break;
+                }
+            }
+            if(flag==0)
+            {
+                return logs[i][0];
+            }
+        }
+        return -1;
+    }
+};

@@ -1,0 +1,65 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution 
+{
+public:
+    map<int,vector<TreeNode*>> total;
+    
+    vector<TreeNode*> allPossibleFBT(int N)
+    {
+        vector<TreeNode*> result;
+        if(N%2==0)
+        {
+            return result;            
+        }
+        N--;
+        if(N==0)
+        {
+            TreeNode* temp=new TreeNode(0);
+            result.push_back(temp);
+            return result;
+        }
+        for(int i=1;i<min(N,20);i+=2)
+        {
+            vector<TreeNode*> l1;
+            vector<TreeNode*> l2;
+            if(total.find(i)==total.end())
+            {
+                l1=allPossibleFBT(i);
+            }
+            else
+            {
+                l1=total[i];
+            }
+            
+            if(total.find(N-i)==total.end())
+            {
+                l2=allPossibleFBT(N-i);
+            }
+            else
+            {
+                l2=total[N-i];
+            }     
+            total[i]=l1;
+            total[N-i]=l2;
+            for(int l=0;l<l1.size();l++)
+            {
+                for(int r=0;r<l2.size();r++)
+                {
+                    TreeNode* root=new TreeNode(0);
+                    root->left=l1[l];
+                    root->right=l2[r];
+                    result.push_back(root);
+                }
+            }
+        }
+        return result;
+    }
+};

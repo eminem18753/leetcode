@@ -1,0 +1,88 @@
+class Excel 
+{
+    public:
+    vector<vector<int>> total;
+    vector<vector<vector<string>>> t;
+    int m;
+    int n;
+    Excel(int H, char W) 
+    {
+        int m=H;
+        int n=W-'A'+1;
+        total=vector<vector<int>>(m+1,vector<int>(n+1,0));
+        t=vector<vector<vector<string>>>(m+1,vector<vector<string>>(n+1,vector<string>()));
+    }
+    
+    void set(int r, char c, int v) 
+    {
+        total[r][c-'A'+1]=v;
+        if(t[r][c-'A'+1].size()>0)
+        {
+            t[r][c-'A'+1].clear();
+        }
+    }
+    
+    int get(int r, char c) 
+    {
+        if(t[r][c-'A'+1].size()>0)
+        {
+            return check(t[r][c-'A'+1]);
+        }
+        return total[r][c-'A'+1];
+    }
+    int check(vector<string> strs)
+    {
+        int s=0;
+        for(int i=0;i<strs.size();i++)
+        {
+            int x1;
+            char y1;
+            int index=-1;
+            for(int j=0;j<strs[i].length();j++)
+            {
+                if(strs[i][j]==':')
+                {
+                    index=j;
+                    break;
+                }
+            }
+            if(index!=-1)
+            {
+                int x2;
+                char y2;
+                x1=stoi(strs[i].substr(1,index-1));
+                y1=strs[i][0];
+                x2=stoi(strs[i].substr(index+2));
+                y2=strs[i][index+1];
+                for(int j=x1;j<=x2;j++)
+                {
+                    for(int k=y1;k<=y2;k++)
+                    {
+                        s+=get(j,k);
+                    }
+                }
+            }
+            else
+            {
+                x1=stoi(strs[i].substr(1));
+                y1=strs[i][0];
+                s+=get(x1,y1);
+            }
+        }
+        return s;
+    }
+    int sum(int r, char c, vector<string> strs) 
+    {
+        total[r][c-'A'+1]=check(strs);
+        t[r][c-'A'+1]=strs;
+        return total[r][c-'A'+1];
+    }
+};
+
+/**
+ * Your Excel object will be instantiated and called as such:
+ * Excel* obj = new Excel(H, W);
+ * obj->set(r,c,v);
+ * int param_2 = obj->get(r,c);
+ * int param_3 = obj->sum(r,c,strs);
+ */

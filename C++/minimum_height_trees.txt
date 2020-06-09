@@ -1,0 +1,72 @@
+class Solution 
+{
+    public:
+    vector<int> findMinHeightTrees(int n, vector<vector<int>>& edges) 
+    {
+        if(n==1)
+        {
+            return {0};   
+        }
+        unordered_map<int,unordered_map<int,int>> total;
+        set<int> overall;
+        for(int i=0;i<edges.size();i++)
+        {
+            total[edges[i][0]][edges[i][1]]=1;
+            total[edges[i][1]][edges[i][0]]=1;
+        }
+        deque<int> q;
+        deque<int> c;
+        map<int,int> layer;
+        for(unordered_map<int,unordered_map<int,int>>::iterator it1=total.begin();it1!=total.end();it1++)
+        {
+            if(it1->second.size()==1)
+            {
+                q.push_back(it1->first);
+                c.push_back(1);
+                layer[it1->first]=1;
+                overall.insert(it1->first);
+            }
+        }
+        int last=-1;
+        while(q.size()>0)
+        {
+            int p=q.front();
+            int k=c.front();
+            if(q.size()==1)
+            {
+                return {q[0]};   
+            }
+            if(q.size()==2&&layer[q[0]]==layer[q[1]]&&total[q[0]][q[1]]==1)
+            {
+                return {q[0],q[1]};
+            }
+            
+            q.pop_front();
+            c.pop_front();
+            for(unordered_map<int,int>::iterator it=total[p].begin();it!=total[p].end();it++)
+            {
+                if(overall.find(it->first)==overall.end())
+                {
+                    int f=0;
+                    for(unordered_map<int,int>::iterator check=total[it->first].begin();check!=total[it->first].end();check++)
+                    {
+                        if(total.find(check->first)!=total.end())
+                        {
+                            f++;
+                        }
+                    }
+                    
+                    if(f<3)
+                    {
+                        q.push_back(it->first);
+                        c.push_back(k+1);
+                        layer[it->first]=k+1;
+                        overall.insert(it->first);
+                    }
+                }
+            }
+            total.erase(p);
+        }
+        return {};
+    }
+};

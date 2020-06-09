@@ -1,0 +1,60 @@
+class Solution {
+public:
+    bool areSentencesSimilarTwo(vector<string>& words1, vector<string>& words2, vector<vector<string>>& pairs) 
+    {
+        unordered_map<string,int> total;
+        int c=1;
+        for(int i=0;i<pairs.size();i++)
+        {
+            if(pairs[i][0]==pairs[i][1])
+            {
+                continue;
+            }
+            if(total.find(pairs[i][0])!=total.end()&&total[pairs[i][0]]==total[pairs[i][1]])
+            {
+                continue;
+            }
+            if(total.find(pairs[i][0])==total.end()&&total.find(pairs[i][1])==total.end())
+            {
+                total[pairs[i][0]]=c;
+                total[pairs[i][1]]=c;
+                c++;                
+            }
+            else if(total.find(pairs[i][0])!=total.end()&&total.find(pairs[i][1])==total.end())
+            {
+                total[pairs[i][1]]=total[pairs[i][0]];
+            }
+            else if(total.find(pairs[i][0])==total.end()&&total.find(pairs[i][1])!=total.end())
+            {
+                total[pairs[i][0]]=total[pairs[i][1]];                
+            }
+            else if(total.find(pairs[i][0])!=total.end()&&total.find(pairs[i][1])!=total.end())
+            {
+                unordered_map<string,int>::iterator it;
+                for(it=total.begin();it!=total.end();it++)
+                {
+                    if(total[it->first]==total[pairs[i][0]]||total[it->first]==total[pairs[i][1]])
+                    {
+                        if(it->first!=pairs[i][1])
+                        {
+                            total[it->first]=total[pairs[i][0]];
+                        }
+                    }
+                }
+                total[pairs[i][1]]=total[pairs[i][0]];
+            }
+        }
+        if(words1.size()!=words2.size())
+        {
+            return false;
+        }
+        for(int i=0;i<words1.size();i++)
+        {
+            if(words1[i]!=words2[i]&&(total.find(words1[i])==total.end()||total[words1[i]]!=total[words2[i]]))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+};

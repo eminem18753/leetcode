@@ -1,0 +1,86 @@
+class Solution 
+{
+    public:
+    bool isAdditiveNumber(string num) 
+    {
+        bool r=false;
+        int n=num.size();
+        if(n<3)
+        {
+            return false;
+        }
+        for(int i=1;i<=n/2;i++)
+        {
+            if(r==true)
+            {
+                break;
+            }
+            string t1=num.substr(0,i);
+            if(i>=10)
+            {
+                if(!(i==10&&num.substr(0,i)<="2147483647"))
+                {
+                    break;                    
+                }
+            }
+            if((int)t1.length()>1)
+            {
+                if(t1[0]=='0')
+                {
+                    continue;
+                }
+            }
+            for(int j=i;j<=i+n/2;j++)
+            {
+                if(r==true)
+                {
+                    break;
+                }
+                if(j-i+1>=10)
+                {
+                    if(!(j-i+1==10&&num.substr(i,j-i+1)<="2147483647"))
+                    {
+                        break;                    
+                    }
+                }
+                string t2=num.substr(i,j-i+1);
+                
+                if((int)t2.length()>1)
+                {
+                    if(t2[0]=='0')
+                    {
+                        continue;
+                    }
+                }
+                long long test=(long long)stoi(t1)+(long long)stoi(t2);
+                
+                string t3=to_string((long long)stoi(t1)+(long long)stoi(t2));
+                int c=j+1;
+                string r1=t2;
+                string r2=t3;
+                if(c>(int)num.length())
+                {
+                    break;
+                }
+                while(t3==num.substr(c,(int)t3.length()))
+                {
+                    c+=(int)t3.length();
+                    if(c==(int)num.length())
+                    {
+                        r=true;
+                        break;
+                    }
+                    else if(c>(int)num.length())
+                    {
+                        break;
+                    }
+                    t3=to_string(stoi(r1)+stoi(r2));
+                    r1=r2;
+                    r2=t3;
+                }
+            }
+        }
+        
+        return r;
+    }
+};

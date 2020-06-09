@@ -1,0 +1,66 @@
+class Solution {
+public:
+    vector<int> prisonAfterNDays(vector<int>& cells, int N) 
+    {
+        vector<int> first=cells;
+        vector<int> second=cells;
+        vector<string> overall;
+        vector<vector<int>> r;
+        map<string,int> total; 
+        second[0]=0;
+        second[7]=0;
+        int p1;
+        int p2;
+        int flag=0;
+        string z;
+        for(int index=0;index<N;index++)
+        {
+            
+            for(int i=1;i<cells.size()-1;i++)
+            {
+                if(first[i-1]==first[i+1])
+                {
+                    second[i]=1;
+                }
+                else
+                {
+                    second[i]=0;
+                }
+            }
+            first=second;
+            
+            string t="";
+            for(int i=0;i<second.size();i++)
+            {
+                t+=to_string(second[i]);
+            }
+            if(total[t]!=0)
+            {
+                p1=total[t];
+                z=t;
+                p2=index;
+                flag=1;
+                break;
+            }
+            total[t]=index;
+            overall.push_back(t);
+            r.push_back(second);
+        }
+        if(flag==0)
+        {
+            return second;
+        }
+        int l=p2-p1;
+        int m=(N-p1)%l;
+        int f=-1;
+        int n=overall.size();
+        for(int i=0;i<overall.size();i++)
+        {
+            if(overall[i]==z)
+            {
+                f=i;
+            }
+        }
+        return r[(f+m-1)%n];
+    }
+};

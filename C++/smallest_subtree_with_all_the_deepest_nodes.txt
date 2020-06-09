@@ -1,0 +1,82 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution 
+{
+    public:
+    int h=0;
+    vector<TreeNode*> total;
+    map<TreeNode*,TreeNode*> p;
+    void test(TreeNode* root,int l)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        h=max(h,l);
+        if(root->left!=NULL)
+        {
+            p[root->left]=root;
+        }
+        if(root->right!=NULL)
+        {
+            p[root->right]=root;
+        }
+        test(root->left,l+1);
+        test(root->right,l+1);        
+    }
+    void dfs(TreeNode* root,int l)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        if(l==h)
+        {
+            total.push_back(root);
+        }
+        dfs(root->left,l+1);
+        dfs(root->right,l+1);        
+    }
+    TreeNode* subtreeWithAllDeepest(TreeNode* root) 
+    {
+        if(root==NULL)
+        {
+            return root;
+        }
+        test(root,1);
+        dfs(root,1);
+        vector<TreeNode*> overall;
+        
+        while(true)
+        {
+            int flag=0;
+            for(int i=1;i<total.size();i++)
+            {
+                if(total[i]!=total[i-1])
+                {
+                    flag=1;
+                    break;
+                }
+            }
+            if(flag==0)
+            {
+                return total.back();
+            }
+            for(int i=0;i<total.size();i++)
+            {
+                overall.push_back(p[total[i]]);
+            }
+            total=overall;
+            overall.clear();
+        }
+        return root;
+        return root;    
+    }
+};

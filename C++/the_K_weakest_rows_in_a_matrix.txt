@@ -1,0 +1,39 @@
+bool compare(vector<int> a,vector<int> b)
+{
+    if(a[0]!=b[0])
+    {
+        return a[0]<b[0];
+    }
+    return a[1]<b[1];
+}
+class Solution 
+{
+    public:
+    vector<int> kWeakestRows(vector<vector<int>>& mat, int k) 
+    {
+        vector<int> result;
+        vector<vector<int>> total;
+        for(int i=0;i<mat.size();i++)
+        {
+            int c=0;
+            for(int j=0;j<mat[i].size();j++)
+            {
+                if(mat[i][j]==1)
+                {
+                    c++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            total.push_back({c,i});
+        }
+        sort(total.begin(),total.end(),compare);
+        for(int i=0;i<k;i++)
+        {
+            result.push_back(total[i][1]);
+        }
+        return result;
+    }
+};

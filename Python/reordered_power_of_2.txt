@@ -1,0 +1,24 @@
+from itertools import permutations
+class Solution(object):
+    def reorderedPowerOf2(self, N):
+        """
+        :type N: int
+        :rtype: bool
+        """
+        overall=list(permutations(list(str(N))))
+        total=[]
+        for i in range(0,len(overall)):
+            current=''.join(overall[i])
+            if current[0]=='0':
+                continue
+            number=int(''.join(overall[i]))
+            c=0
+            for j in range(0,32):
+                if ((1<<j)&number)!=0:
+                    c+=1
+                if c>1:
+                    break
+            if c==1:
+                return True
+        return False
+        

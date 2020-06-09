@@ -1,0 +1,47 @@
+class Solution 
+{
+    public:
+    string findReplaceString(string S, vector<int>& indexes, vector<string>& sources, vector<string>& targets) 
+    {
+        string result="";
+        vector<int> index;
+        vector<string> source;
+        vector<string> target;
+        for(int i=0;i<indexes.size();i++)
+        {
+            if(S.substr(indexes[i],(int)sources[i].length())==sources[i])
+            {
+                index.push_back(indexes[i]);
+                source.push_back(sources[i]);
+                target.push_back(targets[i]);
+            }
+        }
+        for(int i=0;i<index.size();i++)
+        {
+            for(int j=i+1;j<index.size();j++)
+            {
+                if(index[j]>index[i])
+                {
+                    int temp=index[i];
+                    index[i]=index[j];
+                    index[j]=temp;
+                    
+                    string t1=source[i];
+                    source[i]=source[j];
+                    source[j]=t1;
+                    
+                    string t2=target[i];
+                    target[i]=target[j];
+                    target[j]=t2;
+                }
+            }
+        }
+        result=S;
+        for(int i=0;i<index.size();i++)
+        {
+            result=result.substr(0,index[i])+target[i]+result.substr(index[i]+(int)source[i].length());
+        }
+        
+        return result;
+    }
+};

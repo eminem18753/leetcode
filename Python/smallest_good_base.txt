@@ -1,0 +1,25 @@
+class Solution(object):
+    def check(self,k,m):
+        return (pow(k,m)-1)/(k-1)
+    def smallestGoodBase(self, n):
+        """
+        :type n: str
+        :rtype: str
+        """
+        result=-1
+        number=int(n)
+        l=int(math.log(number)/math.log(2))+1
+        for i in range(l+1,1,-1):
+            p1=2
+            p2=number-1
+            while p1<p2:
+                middle=int((p1+p2)/2)
+                r=self.check(middle,i)
+                if r>number:
+                    p2=middle
+                elif r<number:
+                    p1=middle+1
+                else:
+                    return str(middle)
+                
+        return str(number-1)

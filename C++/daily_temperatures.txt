@@ -1,0 +1,56 @@
+class Solution 
+{
+public:
+    vector<int> dailyTemperatures(vector<int>& T) 
+    {
+        vector<int> result;
+        map<int,vector<int>> total;
+        for(int i=0;i<T.size();i++)
+        {
+            total[T[i]].push_back(i);
+        }
+        for(int i=0;i<T.size();i++)
+        {
+            int temp=T[i];
+            int r=2147483647;
+            for(int j=temp+1;j<=100;j++)
+            {
+                if(total[j].size()==0)
+                {
+                    continue;
+                }
+                
+                vector<int>::iterator up;
+                up=lower_bound(total[j].begin(),total[j].end(),i+1);
+                int index=(int)(up-total[j].begin());
+                if(index>=total[j].size())
+                {
+                    if(index-1<total[j].size()&&total[j][index-1]>i)
+                    {
+                        r=min(r,total[j][index-1]-i);
+                    }
+                }
+                else
+                {
+                    if(index-1>=0&&index-1<total[j].size()&&total[j][index-1]>i)
+                    {
+                        r=min(r,total[j][index-1]-i);
+                    }
+                    else if(total[j][index]>i)
+                    {
+                        r=min(r,total[j][index]-i);                        
+                    }
+                }
+            }
+            if(r==2147483647)
+            {
+                result.push_back(0);
+            }
+            else
+            {
+                result.push_back(r);   
+            }
+        }
+        return result;
+    }
+};

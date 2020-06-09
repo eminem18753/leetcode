@@ -1,0 +1,58 @@
+class Solution 
+{
+    public:
+    int result=0;
+    set<string> total;
+    bool check(int a,int b)
+    {
+        return (int)(floor(sqrt(a+b)))==(int)(ceil(sqrt(a+b)));
+    }
+    void dfs(vector<int> &A,int index)
+    {
+        if(index==A.size())
+        {
+            string temp="";
+            for(int i=0;i<A.size();i++)
+            {
+                temp+=to_string(A[i])+",";
+            }
+            if(total.find(temp)==total.end())
+            {
+                result++;
+                total.insert(temp);
+            }
+            return;
+        }
+        if(index>A.size())
+        {
+            return;
+        }
+        for(int i=index;i<A.size();i++)
+        {
+            if(index==0||(index>0&&check(A[i],A[index-1])))
+            {
+                int temp=A[index];
+                A[index]=A[i];
+                A[i]=temp;
+                string c="";
+                for(int j=0;j<index+1;j++)
+                {
+                    c+=to_string(A[j])+",";
+                }
+                if(total.find(c)==total.end())
+                {
+                    dfs(A,index+1);
+                    total.insert(c);
+                }
+                temp=A[index];
+                A[index]=A[i];
+                A[i]=temp;
+            }
+        }
+    }
+    int numSquarefulPerms(vector<int>& A) 
+    {
+        dfs(A,0);
+        return result;
+    }
+};

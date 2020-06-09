@@ -1,0 +1,44 @@
+class Solution(object):
+    def gcd(self,a,b):
+        if b==0:
+            return a
+        else:
+            return self.gcd(b,a%b)
+    def lcd(self,a):
+        a=map(str,a)
+        if len(a)==1:
+            return len(a[0])
+        result=len(a[0])
+        for i in range(1,len(a)):
+            result*=len(a[i])/self.gcd(result,len(a[i]))
+        return result
+    def largestNumber(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: str
+        """
+        if len(nums)==0:
+            return ""
+        suffices=[]
+        
+        t=map(str,nums)
+        maximum=self.lcd(t)
+        for i in range(0,len(t)):
+            if len(t[i])<maximum:
+                suffices.append(len(t[i]))
+                t[i]=t[i]*(maximum/len(t[i]))
+            else:
+                suffices.append(len(t[i]))
+                
+        t, suffices = zip(*sorted(zip(t, suffices),reverse=True))
+        t=list(t)
+        suffices=list(suffices)
+
+        for i in range(len(t)):
+            t[i]=t[i][:suffices[i]]
+        
+        result=''.join(t)
+        if result[0]=='0':
+            return '0'
+        return result
+        

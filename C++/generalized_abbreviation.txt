@@ -1,0 +1,37 @@
+class Solution {
+public:
+    vector<string> result;
+    void dfs(string word,string temp,int c,int f)
+    {
+        if(c>(int)word.length())
+        {
+            return;
+        }
+        if(f==word.length())
+        {
+            result.push_back(temp);
+            return;
+        }
+        dfs(word,temp,c+1,f);
+        if(c==f)
+        {
+            temp+=word[c];        
+            dfs(word,temp,c+1,f+1);
+            temp.pop_back();
+        }
+        if(!isdigit(temp.back()))
+        {
+            string r=temp;
+            int q=c-f+1;
+            temp+=to_string(q);
+            dfs(word,temp,c+1,f+q);
+            temp=r;
+        }
+        
+    }
+    vector<string> generateAbbreviations(string word) 
+    {
+        dfs(word,"",0,0);
+        return result;
+    }
+};

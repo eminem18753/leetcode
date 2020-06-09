@@ -1,0 +1,39 @@
+map<char,int> total;
+bool compare1(string a,string b)
+{
+    for(int i=0;i<min(a.length(),b.length());i++)
+    {
+        if(total[a[i]]<total[b[i]])
+        {
+            return true;
+        }
+        else if(total[a[i]]>total[b[i]])
+        {
+            return false;
+        }
+    }
+    return a.length()==min(a.length(),b.length());
+}
+class Solution 
+{
+    public:
+    
+    bool isAlienSorted(vector<string>& words, string order) 
+    {
+        for(int i=0;i<order.length();i++)
+        {
+            total[order[i]]=i;
+        }
+        vector<string> original;
+        original.assign(words.begin(),words.end());
+        sort(words.begin(),words.end(),compare1);
+        for(int i=0;i<words.size();i++)
+        {
+            if(words[i]!=original[i])
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+};

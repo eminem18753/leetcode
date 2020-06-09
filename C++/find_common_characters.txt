@@ -1,0 +1,45 @@
+class Solution {
+public:
+    vector<string> commonChars(vector<string>& A) 
+    {
+        vector<string> result;
+        int total[26];
+        memset(total,0,sizeof(total));
+        for(int i=0;i<A.size();i++)
+        {
+            int temp[26];
+            memset(temp,0,sizeof(temp));
+            for(int j=0;j<A[i].length();j++)
+            {
+                temp[A[i][j]-'a']+=1;
+            }
+            if(i==0)
+            {
+                for(int j=0;j<26;j++)
+                {
+                    total[j]=temp[j];
+                }
+            }
+            else
+            {
+                for(int j=0;j<26;j++)
+                {
+                    if(temp[j]<total[j])
+                    {
+                        total[j]=temp[j];
+                    }
+                }
+            }
+        }
+        for(int i=0;i<26;i++)
+        {
+            for(int j=0;j<total[i];j++)
+            {
+                string current="";
+                current+=i+'a';
+                result.push_back(current);
+            }
+        }
+        return result;
+    }
+};

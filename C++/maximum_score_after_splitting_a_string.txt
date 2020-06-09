@@ -1,0 +1,38 @@
+class Solution 
+{
+    public:
+    int maxScore(string s) 
+    {
+        int result=0;
+        deque<int> sum_left={0};
+        deque<int> sum_right={0};
+        
+        for(int i=0;i<s.length();i++)
+        {
+            if(s[i]=='0')
+            {
+                sum_left.push_back(sum_left.back()+1);
+            }
+            else
+            {
+                sum_left.push_back(sum_left.back());
+            }
+        }
+        for(int i=(int)s.length()-1;i>-1;i--)
+        {
+            if(s[i]=='1')
+            {
+                sum_right.push_front(sum_right.front()+1);
+            }
+            else
+            {
+                sum_right.push_front(sum_right.front());
+            }
+        }
+        for(int i=1;i<(int)sum_left.size()-1;i++)
+        {
+            result=max(result,sum_left[i]+sum_right[i]);
+        }
+        return result;
+    }
+};

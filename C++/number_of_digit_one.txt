@@ -1,0 +1,13 @@
+class Solution 
+{
+    public:
+    int countDigitOne(int n) 
+    {
+        long long int result=0;
+        for(long long int i=1;i<=n;i*=10)
+        {
+            result+=(n/i+8)/10*i+(((n/i)%10==1)?(n%i+1):0);
+        }
+        return (int)result;
+    }
+};

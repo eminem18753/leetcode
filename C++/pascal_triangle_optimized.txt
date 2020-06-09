@@ -1,0 +1,43 @@
+class Solution {
+public:
+    int choice(int n,int k)
+    {
+        double result=1;
+        for(int i=0;i<k;i++)
+        {
+            result=result*(n-i)/(i+1);
+        }
+        return (int)result;
+    }
+
+    vector<int> getRow(int rowIndex) 
+    {
+        vector<int> result;
+        for(int i=0;i<rowIndex+1;i++)
+        {
+            if(rowIndex%2==1)
+            {
+                if(i<(rowIndex+1)/2)
+                {
+                    result.push_back(choice(rowIndex,i));								
+                }
+                else
+                {
+                    result.push_back(result[rowIndex-i]);	
+                }
+            }
+            else
+            {
+                if(i<=rowIndex/2)
+                {
+                    result.push_back(choice(rowIndex,i));								
+                }
+                else
+                {
+                    result.push_back(result[rowIndex-i]);	
+                }
+            }
+        }
+        return result;    
+    }
+};

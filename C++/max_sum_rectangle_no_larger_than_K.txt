@@ -1,0 +1,44 @@
+class Solution 
+{
+    public:
+    int maxSumSubmatrix(vector<vector<int>>& matrix, int K) 
+    {
+        int result=-2147483648;
+        int m=matrix.size();
+        int n=matrix[0].size();
+        vector<vector<int>> total(m+1,vector<int>(n+1,0));
+        vector<vector<int>> overall(m+1,vector<int>(n+1,0));
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                total[i+1][j+1]=total[i+1][j]+matrix[i][j];
+            }
+        }
+        for(int j=0;j<n;j++)
+        {
+            for(int i=0;i<m;i++)
+            {
+                overall[i+1][j+1]=overall[i][j+1]+total[i+1][j+1];
+            }
+        }
+        for(int i=0;i<n;i++)
+        {
+            for(int j=i+1;j<n+1;j++)
+            {
+                for(int k=0;k<m;k++)
+                {
+                    for(int l=k+1;l<m+1;l++)
+                    {
+                        int s=overall[l][j]+overall[k][i]-overall[k][j]-overall[l][i];
+                        if(s<=K)
+                        {
+                            result=max(result,s);
+                        }
+                    }
+                }
+            }
+        }
+        return result;
+    }
+};

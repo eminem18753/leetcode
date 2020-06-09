@@ -1,0 +1,48 @@
+class Solution 
+{
+    public:
+    vector<int> movesToStamp(string stamp, string target) 
+    {
+        vector<int> result;
+        string current=target;
+        int m=stamp.length();
+        int n=target.length();
+        while(true)
+        {
+            int flag=0;
+            if(current==string(n,'?'))
+            {
+                reverse(result.begin(),result.end());
+                return result;
+            }
+            for(int i=0;i<n-m+1;i++)
+            {
+                if(current.substr(i,m)==string(m,'?'))
+                {
+                    continue;
+                }
+                int f=0;
+                for(int j=i;j<i+m;j++)
+                {
+                    if(current[j]=='?'||current[j]==stamp[j-i])
+                    {
+                        continue;
+                    }
+                    f=1;
+                    break;
+                }
+                if(f==0)
+                {
+                    flag=1;
+                    result.push_back(i);
+                    current=current.substr(0,i)+string(m,'?')+current.substr(i+m);
+                }
+            }
+            if(flag==0)
+            {
+                break;
+            }
+        }
+        return {};
+    }
+};

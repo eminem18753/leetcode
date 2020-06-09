@@ -1,0 +1,32 @@
+class Solution {
+public:
+    bool canPartition(vector<int>& nums)
+    {
+        if(nums.size()==0)
+        {
+            return true;
+        }
+        map<int,int> total;
+        map<int,int> overall;
+        int summation=0;
+        for(int i=0;i<nums.size();i++)
+        {
+            summation+=nums[i];
+        }
+        if(summation%2==1)
+        {
+            return false;
+        }
+        int target=summation/2;
+        for(int i=0;i<nums.size();i++)
+        {
+            for(map<int,int>::iterator it=overall.begin();it!=overall.end();it++)
+            {
+                total[it->first+nums[i]]=1;
+            }
+            total[nums[i]]=1;
+            overall=total;
+        }
+        return total.find(target)!=total.end();
+    }
+};

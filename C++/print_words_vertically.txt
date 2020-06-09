@@ -1,0 +1,45 @@
+class Solution 
+{
+    public:
+    vector<string> printVertically(string s) 
+    {
+        vector<string> result;
+        vector<string> total;
+        string temp="";
+        int M=0;
+        for(int i=0;i<s.length();i++)
+        {
+            if(s[i]!=' ')
+            {
+                temp+=s[i];
+            }
+            else
+            {
+                total.push_back(temp);
+                M=max(M,(int)temp.length());
+                temp="";
+            }
+        }
+        total.push_back(temp);
+        M=max(M,(int)temp.length());
+        result=vector<string>(M,string((int)total.size(),' '));
+        for(int i=0;i<M;i++)
+        {
+            for(int j=0;j<(int)total.size();j++)
+            {
+                if(i<total[j].length())
+                {
+                    result[i][j]=total[j][i];
+                }
+            }
+        }
+        for(int i=0;i<result.size();i++)
+        {
+            while(result[i].back()==' ')
+            {
+                result[i].pop_back();
+            }
+        }
+        return result;
+    }
+};

@@ -1,0 +1,41 @@
+class UndergroundSystem 
+{
+    public:
+    unordered_map<int,vector<pair<string,double>>> total;
+    unordered_map<string,pair<double,double>> get_average;
+    UndergroundSystem() 
+    {
+        
+    }
+    
+    void checkIn(int id, string stationName, int t) 
+    {
+        total[id].push_back({stationName,t});
+    }
+    
+    void checkOut(int id, string stationName, int t) 
+    {
+        total[id].push_back({stationName,t});
+        if(get_average.find(total[id][(int)total[id].size()-2].first+","+total[id][(int)total[id].size()-1].first)==get_average.end())
+        {
+            get_average[total[id][(int)total[id].size()-2].first+","+total[id][(int)total[id].size()-1].first]={total[id][(int)total[id].size()-1].second-total[id][(int)total[id].size()-2].second,1};
+        }
+        else
+        {
+            get_average[total[id][(int)total[id].size()-2].first+","+total[id][(int)total[id].size()-1].first]={(total[id][(int)total[id].size()-1].second-total[id][(int)total[id].size()-2].second+(double)get_average[total[id][(int)total[id].size()-2].first+","+total[id][(int)total[id].size()-1].first].first*(double)(get_average[total[id][(int)total[id].size()-2].first+","+total[id][(int)total[id].size()-1].first].second))/(double)(get_average[total[id][(int)total[id].size()-2].first+","+total[id][(int)total[id].size()-1].first].second+1),(double)(get_average[total[id][(int)total[id].size()-2].first+","+total[id][(int)total[id].size()-1].first].second+1)};
+        }
+    }
+    
+    double getAverageTime(string startStation, string endStation) 
+    {
+        return get_average[startStation+","+endStation].first;
+    }
+};
+
+/**
+ * Your UndergroundSystem object will be instantiated and called as such:
+ * UndergroundSystem* obj = new UndergroundSystem();
+ * obj->checkIn(id,stationName,t);
+ * obj->checkOut(id,stationName,t);
+ * double param_3 = obj->getAverageTime(startStation,endStation);
+ */

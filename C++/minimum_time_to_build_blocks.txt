@@ -1,0 +1,20 @@
+class Solution 
+{
+    public:
+    int minBuildTime(vector<int>& blocks, int split) 
+    {
+        priority_queue<int,vector<int>,greater<int>> q;
+        for(int i=0;i<blocks.size();i++)
+        {
+            q.push(blocks[i]);   
+        }
+        while(q.size()>1)
+        {
+            q.pop();
+            int t=q.top();
+            q.pop();
+            q.push(t+split);
+        }
+        return q.top();
+    }
+};

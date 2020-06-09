@@ -1,0 +1,151 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution
+{
+    public:
+    int h=0;
+    int D=0;
+    int V=0;
+    map<TreeNode*,TreeNode*> p;
+    map<TreeNode*,int> a;
+    map<TreeNode*,int> b;
+    map<TreeNode*,int> c;
+    void dfs(TreeNode* root,int l)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        h=max(h,l);
+        if(root->left!=NULL)
+        {
+            p[root->left]=root;
+        }
+        if(root->right!=NULL)
+        {
+            p[root->right]=root;
+        }
+        dfs(root->left,l+1);
+        dfs(root->right,l+1);
+    }
+    void test(TreeNode* root,int l)
+    {
+        if(root==NULL||c.find(root)!=c.end())
+        {
+            return;
+        }
+        if(l==D)
+        {
+            TreeNode* parent=p[root];
+            if(parent->left==root&&a.find(parent)==a.end())
+            {
+                a[parent]=1;
+                TreeNode* t1=new TreeNode(V);
+                parent->left=t1;
+                t1->left=root;
+                t1->right=NULL;
+                p[root]=t1;
+                p[t1]=parent;
+                if(parent->right==NULL)
+                {
+                    TreeNode* t2=new TreeNode(V);
+                    parent->right=t2;
+                    t2->left=NULL;
+                    t2->right=NULL;
+                    p[t2]=parent;
+                    c[t2]=1;
+                }
+                
+            }
+            else if(parent->right==root&&b.find(parent)==b.end())
+            {
+                b[parent]=1;
+                TreeNode* t1=new TreeNode(V);
+                parent->right=t1;
+                t1->left=NULL;
+                t1->right=root; 
+                p[root]=t1;
+                p[t1]=parent;
+                
+                if(parent->left==NULL)
+                {
+                    TreeNode* t2=new TreeNode(V);
+                    parent->left=t2;
+                    t2->left=NULL;
+                    t2->right=NULL;
+                    p[t2]=parent;
+                    c[t2]=1;
+                }
+                
+            }
+        }
+        else if(l==D-1&&root->left==NULL&&root->right==NULL)
+        {
+            TreeNode* t1=new TreeNode(V);
+            TreeNode* t2=new TreeNode(V);
+            t1->left=NULL;
+            t1->right=NULL;
+            t2->left=NULL;
+            t2->right=NULL;
+            c[t1]=1;
+            c[t2]=1;
+            root->left=t1;
+            root->right=t2;
+            
+        }
+        test(root->left,l+1);
+        test(root->right,l+1);
+    }
+    void addLast(TreeNode* root,int l)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        
+        if(l==D-1)
+        {
+            TreeNode* t1=new TreeNode(V);
+            TreeNode* t2=new TreeNode(V);
+            t1->left=NULL;
+            t1->right=NULL;
+            t2->left=NULL;
+            t2->right=NULL;
+            root->left=t1;
+            root->right=t2;
+        }
+        
+        addLast(root->left,l+1);
+        addLast(root->right,l+1);
+    }
+    TreeNode* addOneRow(TreeNode* root, int v, int d) 
+    {
+        p[root]=root;
+        dfs(root,1);
+        D=d;
+        V=v;
+        if(D==1)
+        {
+            TreeNode* node=new TreeNode(V);
+            node->left=root;
+            node->right=NULL;
+            return node;
+        }
+        else if(D<=h)
+        {
+            test(root,1);
+        }
+        else
+        {
+            addLast(root,1);
+        }
+        return root;
+    }
+};

@@ -1,0 +1,99 @@
+class Solution 
+{
+    public:
+    int search(vector<int>& nums, int target) 
+    {
+        if(nums.size()==0)
+        {
+            return -1;
+        }
+        int n=nums.size();
+        int p1=0;
+        int p2=n-1;
+        int k1=-1;
+        int k2=-1;
+        while(p1<p2)
+        {
+            int m=(p1+p2+1)/2;
+            if(nums[p1]<nums[m])
+            {
+                p1=m;
+            }
+            else
+            {
+                p2=m;
+            }
+            if(k1==p1&&k2==p2)
+            {
+                if(nums[k1]<nums[k2])
+                {
+                    p1=k1;
+                }
+                else
+                {
+                    p1=k2;
+                }
+                break;
+            }
+            k1=p1;
+            k2=p2;
+        }
+        int middle;
+        int f1;
+        int f2;
+        f1=p1;
+        f2=(p1+n-1)%n;
+        int l1=-1;
+        int l2=-1;
+        while(f1!=f2)
+        {
+            if(nums[f1]==target)
+            {
+                return f1;
+            }
+            if(nums[f2]==target)
+            {
+                return f2;
+            }
+            if(f1>f2)
+            {
+                middle=((f1+f2+n)/2)%n;
+            }
+            else
+            {
+                middle=((f1+f2)/2)%n;                
+            }
+            if(nums[middle]>target)
+            {
+                f2=middle;
+            }
+            else if(nums[middle]<target)
+            {
+                f1=middle;
+            }
+            else
+            {
+                return middle;
+            }
+            if(nums[f1]==target)
+            {
+                return f1;
+            }
+            if(nums[f2]==target)
+            {
+                return f2;
+            }
+            if(l1==f1&&l2==f2)
+            {
+                break;
+            }
+            l1=f1;
+            l2=f2;
+        }
+        if(nums[f1]==target)
+        {
+            return f1;   
+        }
+        return -1;
+    }
+};

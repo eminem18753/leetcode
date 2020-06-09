@@ -1,0 +1,14 @@
+class Solution 
+{
+    public:
+    int newInteger(int n) 
+    {
+        string result="";
+        while(n)
+        {
+            result=to_string(n%9)+result;
+            n/=9;
+        }
+        return stoi(result);
+    }
+};

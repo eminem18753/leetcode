@@ -1,0 +1,26 @@
+class Solution 
+{
+    public:
+    int countBinarySubstrings(string S)
+    {
+        int result=0;
+        int counter_last=0;
+        int counter_current=1;
+        for(int i=1;i<S.length();i++)
+        {
+            if(S[i]==S[i-1])
+            {
+                counter_current+=1;
+            }
+            else
+            {
+                result+=min(counter_current,counter_last);
+                counter_last=counter_current;
+                counter_current=1;
+            }
+        }
+        
+        result+=min(counter_current,counter_last);
+        return result;
+    }
+};

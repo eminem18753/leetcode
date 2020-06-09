@@ -1,0 +1,77 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution 
+{
+    public:
+    ListNode* removeZeroSumSublists(ListNode* head) 
+    {
+        if(head==NULL)
+        {
+            return NULL;
+        }
+        vector<int> r;
+        ListNode* c=head;
+        while(c)
+        {
+            r.push_back(c->val);
+            c=c->next;
+        }
+        vector<int> s;
+        s.push_back(0);
+        for(int i=0;i<r.size();i++)
+        {
+            s.push_back(s.back()+r[i]);
+        }
+        while(true)
+        {
+            int n=s.size();
+            int f=0;
+            for(int i=0;i<n-1;i++)
+            {
+                for(int j=i+1;j<n;j++)
+                {
+                    if(s[j]-s[i]==0)
+                    {
+                        r.erase(r.begin()+i,r.begin()+j);
+                        f=1;
+                        break;
+                    }
+                }
+                if(f==1)
+                {
+                    break;
+                }
+            }
+            if(f==0||r.size()==0)
+            {
+                break;
+            }
+            s.clear();
+            s.push_back(0);
+            for(int i=0;i<r.size();i++)
+            {
+                s.push_back(s.back()+r[i]);
+            }
+        }
+        if(r.size()==0)
+        {
+            return NULL;
+        }
+        ListNode* f=new ListNode(r[0]);
+        ListNode* output=f;
+        for(int i=1;i<r.size();i++)
+        {
+            ListNode* temp=new ListNode(r[i]);
+            f->next=temp;
+            f=f->next;
+            f->next=NULL;
+        }
+        return output;
+    }
+};

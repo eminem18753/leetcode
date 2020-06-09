@@ -1,0 +1,29 @@
+class Solution 
+{
+    public:
+    int minSwap(vector<int>& A, vector<int>& B) 
+    {
+        int s=1;
+        int f=0;
+        for(int i=1;i<A.size();i++)
+        {
+            if(A[i-1]>=A[i]||B[i-1]>=B[i])
+            {
+                int temp=s;
+                s=f+1;
+                f=temp;
+            }
+            else if(A[i-1]>=B[i]||B[i-1]>=A[i])
+            {
+                s++;
+            }
+            else
+            {
+                int m=min(s,f);
+                s=m+1;
+                f=m;
+            }
+        }
+        return min(s,f);
+    }
+};

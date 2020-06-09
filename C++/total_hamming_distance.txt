@@ -1,0 +1,36 @@
+class Solution {
+public:
+    int totalHammingDistance(vector<int>& nums)
+    {
+        if(nums.size()<2)
+        {
+            return 0;
+        }
+        int result=0;
+        int a[nums.size()][32];
+        memset(a,0,sizeof(a));
+        for(int i=0;i<nums.size();i++)
+        {
+            for(int j=0;j<32;j++)
+            {
+                if((nums[i])&(1<<j))
+                {
+                    a[i][j]=1;
+                }
+            }
+        }
+        for(int j=0;j<32;j++)
+        {
+            int ones=0;
+            for(int i=0;i<nums.size();i++)
+            {
+                if(a[i][j]==1)
+                {
+                    ones+=1;
+                }
+            }
+            result+=(ones)*(nums.size()-ones);
+        }
+        return result;
+    }
+};

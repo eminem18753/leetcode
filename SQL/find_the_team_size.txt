@@ -1,0 +1,5 @@
+# Write your MySQL query statement below
+SELECT employee_id,
+(SELECT COUNT(*) FROM Employee as b
+WHERE a.team_id=b.team_id) as team_size
+FROM Employee as a;

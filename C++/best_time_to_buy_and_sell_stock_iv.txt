@@ -1,0 +1,48 @@
+class Solution {
+public:
+    int maxProfit(int k, vector<int>& prices) 
+    {
+        int M=0;
+        if(prices.size()==0)
+        {
+            return 0;
+        }
+        if(k>prices.size())
+        {
+            int n=prices.size();
+            int b[n];
+            int s[n];
+            b[0]=-prices[0];
+            s[0]=0;
+            for(int i=1;i<n;i++)
+            {
+                b[i]=max(b[i-1],s[i-1]-prices[i]);
+                s[i]=max(s[i-1],b[i-1]+prices[i]);
+            }
+            M=s[n-1];
+        }
+        else
+        {
+            int b[k+1];
+            int s[k+1];
+            for(int i=0;i<k+1;i++)
+            {
+                b[i]=-2147483648;
+                s[i]=0;
+            }
+            for(int i=0;i<prices.size();i++)
+            {
+                for(int j=k;j>0;j--)
+                {
+                    s[j]=max(s[j],b[j]+prices[i]);
+                    b[j]=max(b[j],s[j-1]-prices[i]);
+                }
+            }
+            for(int i=0;i<k+1;i++)
+            {
+                M=max(M,s[i]);
+            }            
+        }
+        return M;
+    }
+};

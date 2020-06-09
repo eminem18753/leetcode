@@ -1,0 +1,45 @@
+import re
+from fractions import Fraction
+class Solution(object):
+    def fractionAddition(self, expression):
+        """
+        :type expression: str
+        :rtype: str
+        """
+        total=[]
+        signs=[]
+        
+        if len(expression)==0:
+            return '0'
+        
+        if expression[0]=='-':
+            signs.append(-1)
+        else:
+            signs.append(1)
+            
+        if signs[0]==-1:
+            temp=expression[1:]
+        else:
+            temp=expression[:]
+        
+        overall=temp.split("+")
+        output=[]
+        for i in range(0,len(overall)):
+            output.extend(overall[i].split("-"))
+            
+        for i in range(0,len(temp)):
+            if temp[i]=='-':
+                signs.append(-1)
+            elif temp[i]=='+':
+                signs.append(1)
+        
+        c=output[0].split('/')
+        result=Fraction(signs[0]*int(c[0]),int(c[1]))
+        for i in range(1,len(output)):
+            c=output[i].split('/')
+            result+=Fraction(signs[i]*int(c[0]),int(c[1]))
+
+        output=str(result)
+        if "/" not in output:
+            output+="/1"
+        return output

@@ -1,0 +1,69 @@
+class Solution {
+public:
+    vector<vector<int>> imageSmoother(vector<vector<int>>& M)
+    {
+        vector<vector<int>> result;
+        
+        int m=M.size();
+        int n=M[0].size();
+        for(int i=0;i<m;i++)
+        {
+            vector<int> temp;
+            for(int j=0;j<n;j++)
+            {
+                temp.push_back(0);
+            }
+            result.push_back(temp);
+        }
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                int counter=1;
+                result[i][j]=M[i][j];
+                if(i-1>=0&&j-1>=0)
+                {
+                    counter+=1;
+                    result[i][j]+=M[i-1][j-1];
+                }
+                if(i-1>=0)
+                {
+                    counter+=1;
+                    result[i][j]+=M[i-1][j];
+                }
+                if(j-1>=0)
+                {
+                    counter+=1;
+                    result[i][j]+=M[i][j-1];
+                }
+                if(i-1>=0&&j+1<n)
+                {
+                    counter+=1;
+                    result[i][j]+=M[i-1][j+1];
+                }
+                if(j+1<n)
+                {
+                    counter+=1;
+                    result[i][j]+=M[i][j+1];
+                }
+                if(i+1<m&&j-1>=0)
+                {
+                    counter+=1;
+                    result[i][j]+=M[i+1][j-1];
+                }
+                if(i+1<m)
+                {
+                    counter+=1;
+                    result[i][j]+=M[i+1][j];
+                }
+                if(i+1<m&&j+1<n)
+                {
+                    counter+=1;
+                    result[i][j]+=M[i+1][j+1];
+                }
+                result[i][j]=floor(result[i][j]/counter);
+            }
+        }
+        return result;
+    }
+};

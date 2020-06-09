@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int counter=0;
+    int countSubstrings(string s) 
+    {
+        if(s.length()==0)
+        {
+            return 0;
+        }
+        for(int i=0;i<s.length();i++)
+        {
+            extended(s,i,i);
+            extended(s,i,i+1);
+        }
+        
+        return counter;
+    }
+    void extended(string s,int left,int right)
+    {
+        while(left>=0&&right<s.length()&&s[left]==s[right])
+        {
+            left--;
+            right++;
+            counter+=1;
+        }
+    }
+};

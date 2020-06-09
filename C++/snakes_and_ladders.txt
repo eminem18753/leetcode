@@ -1,0 +1,144 @@
+class Solution 
+{
+    public:
+    int snakesAndLadders(vector<vector<int>>& board) 
+    {
+        vector<int> total;
+        int n=(int)board.size()*(int)board.size();
+        for(int i=0;i<board.size();i++)
+        {
+            if((int)board.size()%2==0)
+            {
+                if(i%2==0)
+                {
+                    for(int j=0;j<board[i].size();j++)
+                    {
+                        total.push_back(board[i][j]);
+                    }
+                }
+                else
+                {
+                    for(int j=(int)board[i].size()-1;j>-1;j--)
+                    {
+                        total.push_back(board[i][j]);
+                    }
+                }
+            }
+            else
+            {
+                if(i%2==1)
+                {
+                    for(int j=0;j<board[i].size();j++)
+                    {
+                        total.push_back(board[i][j]);
+                    }
+                }
+                else
+                {
+                    for(int j=(int)board[i].size()-1;j>-1;j--)
+                    {
+                        total.push_back(board[i][j]);
+                    }
+                }                
+            }
+        }
+        total.push_back(0);
+        reverse(total.begin(),total.end());
+        deque<int> q;
+        deque<int> c;
+        set<int> overall;
+        q.push_back(1);
+        c.push_back(0);
+        overall.insert(1);
+        while(q.size()>0)
+        {
+            int temp=q.front();
+            int k=c.front();
+            q.pop_front();
+            c.pop_front();
+            if(temp==n)
+            {
+                return k;
+            }
+            if(temp+1<=n&&overall.find(temp+1)==overall.end())
+            {
+                if(total[temp+1]==-1)
+                {
+                    q.push_back(temp+1);
+                }
+                else
+                {
+                    q.push_back(total[temp+1]);
+                }
+                c.push_back(k+1);
+                overall.insert(temp+1);
+            }
+            if(temp+2<=n&&overall.find(temp+2)==overall.end())
+            {
+                if(total[temp+2]==-1)
+                {
+                    q.push_back(temp+2);
+                }
+                else
+                {
+                    q.push_back(total[temp+2]);
+                }
+                c.push_back(k+1);
+                overall.insert(temp+2);
+            }
+            if(temp+3<=n&&overall.find(temp+3)==overall.end())
+            {
+                if(total[temp+3]==-1)
+                {
+                    q.push_back(temp+3);
+                }
+                else
+                {
+                    q.push_back(total[temp+3]);
+                }
+                c.push_back(k+1);
+                overall.insert(temp+3);
+            }
+            if(temp+4<=n&&overall.find(temp+4)==overall.end())
+            {
+                if(total[temp+4]==-1)
+                {
+                    q.push_back(temp+4);
+                }
+                else
+                {
+                    q.push_back(total[temp+4]);
+                }
+                c.push_back(k+1);
+                overall.insert(temp+4);
+            }
+            if(temp+5<=n&&overall.find(temp+5)==overall.end())
+            {
+                if(total[temp+5]==-1)
+                {
+                    q.push_back(temp+5);
+                }
+                else
+                {
+                    q.push_back(total[temp+5]);
+                }
+                c.push_back(k+1);
+                overall.insert(temp+5);
+            }
+            if(temp+6<=n&&overall.find(temp+6)==overall.end())
+            {
+                if(total[temp+6]==-1)
+                {
+                    q.push_back(temp+6);
+                }
+                else
+                {
+                    q.push_back(total[temp+6]);
+                }
+                c.push_back(k+1);
+                overall.insert(temp+6);
+            }
+        }
+        return -1;
+    }
+};

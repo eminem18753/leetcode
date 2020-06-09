@@ -1,0 +1,20 @@
+class Solution 
+{
+    public:
+    int superEggDrop(int K, int N) 
+    {
+        int dp[N+1][K+1];
+        memset(dp,0,sizeof(dp));
+        int m=0;
+        
+        while(dp[m][K]<N)
+        {
+            m++;
+            for(int i=1;i<=K;i++)
+            {
+                dp[m][i]=dp[m-1][i-1]+dp[m-1][i]+1;
+            }
+        }
+        return m;
+    }
+};

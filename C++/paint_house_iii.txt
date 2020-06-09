@@ -1,0 +1,62 @@
+class Solution 
+{
+    public:
+    int minCost(vector<int>& houses, vector<vector<int>>& cost, int m, int n, int target) 
+    {
+        int result=2000000000;
+        vector<vector<vector<int>>> dp(m+1,vector<vector<int>>(n+1,vector<int>(target+1,2000000000)));//到第幾間房，以甚麼顏色結束，共累積幾個鄰居的最小成本
+        for(int i=0;i<=n;i++)
+        {
+            dp[0][i][0]=0;
+        }
+        for(int i=1;i<=m;i++)
+        {
+            if(houses[i-1]!=0)
+            {
+                for(int j=1;j<=n;j++)
+                {
+                    for(int k=1;k<=target;k++)
+                    {
+                        if(j!=houses[i-1])
+                        {
+                            dp[i][houses[i-1]][k]=min(dp[i][houses[i-1]][k],dp[i-1][j][k-1]);
+                        }
+                        else
+                        {
+                            dp[i][houses[i-1]][k]=min(dp[i][houses[i-1]][k],dp[i-1][j][k]);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for(int j=1;j<=n;j++)
+                {
+                    for(int k=1;k<=n;k++)
+                    {
+                        for(int l=1;l<=target;l++)
+                        {
+                            if(j!=k)
+                            {
+                                dp[i][k][l]=min(dp[i][k][l],dp[i-1][j][l-1]+cost[i-1][k-1]);
+                            }
+                            else
+                            {
+                                dp[i][k][l]=min(dp[i][k][l],dp[i-1][j][l]+cost[i-1][k-1]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        for(int i=0;i<=n;i++)
+        {
+            result=min(result,dp[m][i][target]);
+        }
+        if(result==2000000000)
+        {
+            return -1;
+        }
+        return result;
+    }
+};

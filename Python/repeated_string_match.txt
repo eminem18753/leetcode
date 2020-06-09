@@ -1,0 +1,15 @@
+class Solution(object):
+    def repeatedStringMatch(self, A, B):
+        """
+        :type A: str
+        :type B: str
+        :rtype: int
+        """
+        n=len(B)/len(A)
+        if B in A*n:
+            return n
+        if B in A*(n+1):
+            return n+1
+        if B in A*(n+2):
+            return n+2
+        return -1

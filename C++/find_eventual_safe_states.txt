@@ -1,0 +1,50 @@
+class Solution 
+{
+    public:
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) 
+    {
+        set<int> f1;
+        set<int> f2;
+        for(int i=0;i<graph.size();i++)
+        {
+            if(graph[i].size()!=0)
+            {
+                f1.insert(i);
+            }
+            else
+            {
+                f2.insert(i);
+            }
+        }
+        while(true)
+        {
+            int f=0;
+            for(int i=0;i<graph.size();i++)
+            {
+                if(graph[i].size()==0)
+                {
+                    continue;
+                }
+                for(int j=(int)graph[i].size()-1;j>-1;j--)
+                {
+                    if(f1.find(graph[i][j])==f1.end())
+                    {
+                        f=1;
+                        graph[i].erase(graph[i].begin()+j);
+                    }
+                    if(graph[i].size()==0)
+                    {
+                        f1.erase(i);
+                        f2.insert(i);
+                    }
+                }
+            }
+            if(f==0)
+            {
+                break;
+            }
+        }
+        vector<int> result(f2.begin(),f2.end());
+        return result;
+    }
+};

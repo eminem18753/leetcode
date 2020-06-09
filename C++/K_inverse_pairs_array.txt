@@ -1,0 +1,23 @@
+class Solution 
+{
+    public:
+    int kInversePairs(int n, int k) 
+    {
+        int dp[n+1][k+1];
+        int m=1000000007;
+        memset(dp,0,sizeof(dp));
+        dp[0][0]=1;
+        for(int i=0;i<=n;i++)
+        {
+            dp[i][0]=1;   
+        }
+        for(int i=1;i<=n;i++)
+        {
+            for(int j=1;j<=k;j++)
+            {
+                dp[i][j]=(((dp[i-1][j]%m+dp[i][j-1]%m)%m+m)%m-((j>=i?dp[i-1][j-i]:0)+m)%m)%m;   
+            }
+        }
+        return dp[n][k];
+    }
+};

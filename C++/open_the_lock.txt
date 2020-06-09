@@ -1,0 +1,160 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Solution {
+public:
+    int openLock(vector<string>& deadends, string target) 
+    {
+        set<string> total;
+        set<string> a;
+        int result=0;
+        int c1=0;
+        int c2=0;
+        int c3=0;
+        int c4=0;
+        int c5=0;
+        int c6=0;
+        int c7=0;
+        int c8=0;
+        for(int i=0;i<deadends.size();i++)
+        {
+            total.insert(deadends[i]);
+        }
+        string c="0000";
+        if(c==target)
+        {
+            return 0;
+        }
+        if(total.find(c)!=total.end())
+        {
+            return -1;
+        }
+        deque<string> overall;
+        deque<int> t;
+        overall.push_back(c);
+        t.push_back(0);
+        while(overall.size()>0)
+        {
+            string temp=overall.front();
+            int counter=t.front();
+            if(temp==target)
+            {
+                return counter;
+            }
+            
+            string a1="";
+            a1+=to_string((temp[0]-'0'+1)%10);
+            a1+=temp[1];
+            a1+=temp[2];
+            a1+=temp[3];
+
+            string a2="";
+            a2+=to_string((temp[0]-'0'+9)%10);
+            a2+=temp[1];
+            a2+=temp[2];
+            a2+=temp[3];
+            
+            string a3="";
+            a3+=temp[0];
+            a3+=to_string((temp[1]-'0'+1)%10);
+            a3+=temp[2];
+            a3+=temp[3];
+            
+            string a4="";
+            a4+=temp[0];
+            a4+=to_string((temp[1]-'0'+9)%10);
+            a4+=temp[2];
+            a4+=temp[3];
+            
+            string a5="";
+            a5+=temp[0];
+            a5+=temp[1];
+            a5+=to_string((temp[2]-'0'+1)%10);
+            a5+=temp[3];
+            
+            string a6="";
+            a6+=temp[0];
+            a6+=temp[1];
+            a6+=to_string((temp[2]-'0'+9)%10);
+            a6+=temp[3];
+            
+            string a7="";
+            a7+=temp[0];
+            a7+=temp[1];
+            a7+=temp[2];
+            a7+=to_string((temp[3]-'0'+1)%10);
+            
+            string a8="";
+            a8+=temp[0];
+            a8+=temp[1];
+            a8+=temp[2];
+            a8+=to_string((temp[3]-'0'+9)%10);
+            
+            overall.pop_front();
+            t.pop_front();
+            
+            if(a.find(a1)==a.end()&&total.find(a1)==total.end())
+            {
+                overall.push_back(a1);
+                t.push_back(counter+1);
+            }
+            if(a.find(a2)==a.end()&&total.find(a2)==total.end())
+            {
+                overall.push_back(a2);
+                t.push_back(counter+1);
+            }
+            if(a.find(a3)==a.end()&&total.find(a3)==total.end())
+            {
+                overall.push_back(a3);
+                t.push_back(counter+1);
+            }
+            if(a.find(a4)==a.end()&&total.find(a4)==total.end())
+            {
+                overall.push_back(a4);
+                t.push_back(counter+1);
+            }
+            if(a.find(a5)==a.end()&&total.find(a5)==total.end())
+            {
+                overall.push_back(a5);
+                t.push_back(counter+1);
+            }
+            if(a.find(a6)==a.end()&&total.find(a6)==total.end())
+            {
+                overall.push_back(a6);
+                t.push_back(counter+1);
+            }
+            if(a.find(a7)==a.end()&&total.find(a7)==total.end())
+            {
+                overall.push_back(a7);
+                t.push_back(counter+1);
+            }
+            if(a.find(a8)==a.end()&&total.find(a8)==total.end())
+            {
+                overall.push_back(a8);
+                t.push_back(counter+1);
+            }
+            a.insert(a1);
+            a.insert(a2);
+            a.insert(a3);
+            a.insert(a4);
+            a.insert(a5);
+            a.insert(a6);
+            a.insert(a7);
+            a.insert(a8);
+            
+        }
+        return -1;
+    }
+};

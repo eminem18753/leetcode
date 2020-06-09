@@ -1,0 +1,15 @@
+class Solution 
+{
+    public:
+    vector<int> replaceElements(vector<int>& arr) 
+    {
+        int M=-1;
+        for(int i=(int)arr.size()-1;i>-1;i--)
+        {
+            int temp=arr[i];
+            arr[i]=M;
+            M=max(M,temp);
+        }
+        return arr;
+    }
+};

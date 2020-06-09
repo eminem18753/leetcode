@@ -1,0 +1,45 @@
+class Solution 
+{
+    public:
+    int shortestPathLength(vector<vector<int>>& graph) 
+    {
+        int n=graph.size();
+        int target=0;
+        unordered_set<string> v;
+        deque<pair<int,int>> q;
+        deque<int> c;
+        for(int i=0;i<n;i++)
+        {
+            target|=(1<<i);
+            v.insert(to_string(i)+","+to_string(1<<i));
+            q.push_back({i,1<<i});
+            c.push_back(0);
+        }
+        while(q.size()>0)
+        {
+            pair<int,int> p=q.front();
+            int k=c.front();
+            q.pop_front();
+            c.pop_front();
+            int position=p.first;
+            int state=p.second;
+            if(state==target)
+            {
+                return k;
+            }
+            for(int i=0;i<graph[position].size();i++)
+            {
+                int p1=graph[position][i];
+                int s1=state|(1<<graph[position][i]);
+                string temp=to_string(p1)+","+to_string(s1);
+                if(v.find(temp)==v.end())
+                {
+                    q.push_back({p1,s1});
+                    c.push_back(k+1);
+                    v.insert(temp);
+                }
+            }
+        }
+        return -1;
+    }
+};

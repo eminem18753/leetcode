@@ -1,0 +1,61 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution 
+{
+    public:
+    long s=0;
+    double target;
+    double m=2147483647;
+    long closest=-1;
+    void getSum(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        s+=root->val;
+        getSum(root->left);
+        getSum(root->right);
+    }
+    double postOrder(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return 0;
+        }
+        if(root->left==NULL&&root->right==NULL)
+        {
+            if(abs(root->val-target)<m)
+            {
+                m=abs(root->val-target);
+                closest=(long)root->val;
+            }
+            return (double)root->val;
+        }
+        double left_value=postOrder(root->left);
+        double right_value=postOrder(root->right);
+        if(abs((double)root->val+left_value+right_value-target)<m)
+        {
+            m=abs((double)root->val+left_value+right_value-target);
+            closest=(long)((double)root->val+left_value+right_value);
+        }
+        return (double)root->val+left_value+right_value;
+    }
+    int maxProduct(TreeNode* root) 
+    {
+        long m=1000000007;
+        getSum(root);
+        target=(double)s/(double)2;
+        postOrder(root);
+        
+        long result=(closest*(s-closest))%m;
+        return result;
+    }
+};

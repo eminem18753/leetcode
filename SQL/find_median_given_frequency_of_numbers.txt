@@ -1,0 +1,4 @@
+# Write your MySQL query statement below
+SELECT AVG(n.Number) as median
+FROM Numbers as n
+WHERE n.Frequency>=abs((SELECT SUM(Frequency) FROM Numbers WHERE n.Number<=Number)-(SELECT SUM(Frequency) FROM Numbers WHERE n.Number>=Number));

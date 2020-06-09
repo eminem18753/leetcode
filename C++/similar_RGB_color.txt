@@ -1,0 +1,131 @@
+class Solution {
+public:
+    string similarRGB(string color)
+    {
+        string result="#";
+        int p1;
+        int p2;
+        int p3;
+        map<char,int> total;
+        map<int,char> overall;
+        total['0']=0;
+        total['1']=1;
+        total['2']=2;
+        total['3']=3;
+        total['4']=4;
+        total['5']=5;
+        total['6']=6;
+        total['7']=7;
+        total['8']=8;
+        total['9']=9;
+        total['a']=10;
+        total['b']=11;
+        total['c']=12;
+        total['d']=13;
+        total['e']=14;
+        total['f']=15;
+        overall[0]='0';
+        overall[1]='1';
+        overall[2]='2';
+        overall[3]='3';
+        overall[4]='4';
+        overall[5]='5';
+        overall[6]='6';
+        overall[7]='7';
+        overall[8]='8';
+        overall[9]='9';
+        overall[10]='a';
+        overall[11]='b';
+        overall[12]='c';
+        overall[13]='d';
+        overall[14]='e';
+        overall[15]='f';
+        p1=total[color[1]]*16+total[color[2]];
+        p2=total[color[3]]*16+total[color[4]];
+        p3=total[color[5]]*16+total[color[6]];
+        int r1=p1%17;
+        int r2=p2%17;
+        int r3=p3%17;
+        if(total[color[2]]>=total[color[1]])
+        {
+            if(r1>8)
+            {
+                result+=overall[total[color[1]]+1];
+                result+=overall[total[color[1]]+1];
+            }
+            else
+            {
+                result+=overall[total[color[1]]];
+                result+=overall[total[color[1]]];
+            }
+        }
+        else
+        {
+            if(r1>8)
+            {
+                result+=overall[total[color[1]]];
+                result+=overall[total[color[1]]];
+            }
+            else
+            {
+                result+=overall[total[color[1]]-1];
+                result+=overall[total[color[1]]-1];
+            }            
+        }
+        if(total[color[4]]>=total[color[3]])
+        {
+            if(r2>8)
+            {
+                result+=overall[total[color[3]]+1];
+                result+=overall[total[color[3]]+1];
+            }
+            else
+            {
+                result+=overall[total[color[3]]];
+                result+=overall[total[color[3]]];
+            }
+        }
+        else
+        {
+            if(r2>8)
+            {
+                result+=overall[total[color[3]]];
+                result+=overall[total[color[3]]];
+            }
+            else
+            {
+                result+=overall[total[color[3]]-1];
+                result+=overall[total[color[3]]-1];
+            }
+            
+        }
+        if(total[color[6]]>=total[color[5]])
+        {
+            if(r3>8)
+            {
+                result+=overall[total[color[5]]+1];
+                result+=overall[total[color[5]]+1];
+            }
+            else
+            {
+                result+=overall[total[color[5]]];
+                result+=overall[total[color[5]]];
+            }
+        }
+        else
+        {
+            if(r3>8)
+            {
+                result+=overall[total[color[5]]];
+                result+=overall[total[color[5]]];
+            }
+            else
+            {
+                result+=overall[total[color[5]]-1];
+                result+=overall[total[color[5]]-1];
+            }
+
+        }
+        return result;
+    }
+};

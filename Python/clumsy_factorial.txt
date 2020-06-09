@@ -1,0 +1,18 @@
+class Solution(object):
+    def clumsy(self, N):
+        """
+        :type N: int
+        :rtype: int
+        """
+        flag=0;
+        total="";
+        a=['*','/','+','-']
+        c=0
+        while N>0:
+            if flag==1:
+                total+=a[c%4]
+                c+=1
+            total+=str(N);
+            N-=1
+            flag=1
+        return eval(total);

@@ -1,0 +1,56 @@
+class Solution {
+public:
+    vector<bool> camelMatch(vector<string>& queries, string pattern){
+        vector<bool> result;
+        for(int i=0;i<queries.size();i++)
+        {
+            int p1=0;
+            int flag=0;
+            for(int j=0;j<queries[i].length();j++)
+            {
+                if(p1==pattern.length())
+                {
+                    flag=1;
+                    while(j!=queries[i].length())
+                    {
+                        if(queries[i][j]>=65&&queries[i][j]<=90)
+                        {
+                            flag=2;
+                            break;
+                        }
+                        j++;
+                    }
+                    if(flag==1)
+                    {
+                        result.push_back(true);
+                    }
+                    else if(flag==2)
+                    {
+                        result.push_back(false);
+                    }
+                    break;
+                }
+                if(queries[i][j]>=65&&queries[i][j]<=90&&queries[i][j]!=pattern[p1])
+                {
+                    result.push_back(false);
+                    flag=1;
+                    break;
+                }
+                if(queries[i][j]==pattern[p1])
+                {
+                    p1++;
+                }
+            }
+            
+            if(p1==pattern.length()&&flag==0)
+            {
+                result.push_back(true);
+            }
+            else if(flag==0)
+            {
+                result.push_back(false);
+            }
+        }
+        return result;
+    }
+};

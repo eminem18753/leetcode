@@ -1,0 +1,45 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    double output=-2147483648;
+    double result=0;
+    double c=0;
+    void tree(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        
+        tree(root->left);
+        tree(root->right);
+        result+=root->val;
+        c+=1;
+    }
+    void test(TreeNode* root)
+    {
+        result=0;
+        c=0;
+        if(root==NULL)
+        {
+            return;
+        }
+        tree(root);
+        output=max(output,result/c);
+        test(root->left);
+        test(root->right);
+    }
+    double maximumAverageSubtree(TreeNode* root)
+    {
+        test(root);
+        return output;
+    }
+};

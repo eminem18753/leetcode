@@ -1,0 +1,22 @@
+class Solution(object):
+    def partition(self, s):
+        """
+        :type s: str
+        :rtype: List[List[str]]
+        """
+        def check(s):
+            return s==s[::-1]
+        def dfs(s,l,temp):
+            if len(s)==0:
+                r.append(temp[:])
+                return
+            if l>len(s):
+                return
+            if check(s[:l]):
+                temp.append(s[:l])
+                dfs(s[l:],1,temp)
+                temp.pop()
+            dfs(s,l+1,temp)
+        r=[]
+        dfs(s,1,[])
+        return r

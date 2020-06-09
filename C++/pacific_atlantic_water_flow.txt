@@ -1,0 +1,56 @@
+class Solution 
+{
+    public:
+    void dfs(vector<vector<int>> &A,vector<vector<int>> &B,int i,int j,int c)
+    {
+        if(i<0||j<0||i>=(int)A.size()||j>=(int)A[0].size()||B[i][j]==1)
+        {
+            return;
+        }
+        if(A[i][j]<c)
+        {
+            return;
+        }
+        B[i][j]=1;
+        c=A[i][j];
+        
+        dfs(A,B,i+1,j,c);
+        dfs(A,B,i-1,j,c);
+        dfs(A,B,i,j+1,c);
+        dfs(A,B,i,j-1,c);
+    }
+    vector<vector<int>> pacificAtlantic(vector<vector<int>>& matrix)
+    {
+        vector<vector<int>> result;
+        if(matrix.size()==0||matrix[0].size()==0)
+        {
+            return result;   
+        }
+        int m=matrix.size();
+        int n=matrix[0].size();
+        
+        vector<vector<int>> B(m,vector<int>(n,0));
+        vector<vector<int>> C(m,vector<int>(n,0));
+        for(int i=0;i<m;i++)
+        {
+            dfs(matrix,B,i,0,0);
+            dfs(matrix,C,i,n-1,0);
+        }
+        for(int i=0;i<n;i++)
+        {
+            dfs(matrix,B,0,i,0);
+            dfs(matrix,C,m-1,i,0);
+        }
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                if(B[i][j]==1&&C[i][j]==1)
+                {
+                    result.push_back({i,j});
+                }
+            }
+        }
+        return result;
+    }
+};

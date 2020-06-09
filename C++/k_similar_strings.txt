@@ -1,0 +1,46 @@
+class Solution 
+{
+    public:
+    int kSimilarity(string A, string B) 
+    {
+        for(int i=0;i<A.length();i++)
+        {
+            if(A[i]==B[i])
+            {
+                continue;
+            }
+            vector<int> matches;
+            for(int j=i+1;j<A.length();j++)
+            {
+                if(A[j]==B[i])
+                {
+                    if(A[j]==B[j])
+                    {
+                        continue;
+                    }
+                    matches.push_back(j);
+                    if(A[i]==B[j])
+                    {
+                        int temp=A[i];
+                        A[i]=A[j];
+                        A[j]=temp;
+                        return 1+kSimilarity(A.substr(i+1),B.substr(i+1));
+                    }
+                }
+            }
+            int best=2147483647;
+            for(int j=0;j<matches.size();j++)
+            {
+                int temp=A[i];
+                A[i]=A[matches[j]];
+                A[matches[j]]=temp;
+                best=min(best,1+kSimilarity(A.substr(i+1),B.substr(i+1)));
+                temp=A[i];
+                A[i]=A[matches[j]];
+                A[matches[j]]=temp;
+            }
+            return best;
+        }
+        return 0;
+    }
+};

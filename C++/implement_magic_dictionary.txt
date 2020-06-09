@@ -1,0 +1,78 @@
+class MagicDictionary {
+public:
+    /** Initialize your data structure here. */
+    bool result=true;
+    struct trie
+    {
+        map<char,trie*> next;
+        char val;
+        bool isEnd;
+    };
+    typedef struct trie trie;
+    trie* root;
+    MagicDictionary() 
+    {
+        root=new trie();
+        root->val='\0';
+        root->isEnd=false;
+    }
+    
+    /** Build a dictionary through a list of words */
+    void buildDict(vector<string> dict) 
+    {
+        for(int i=0;i<dict.size();i++)
+        {
+            trie* c=root;
+            for(int j=0;j<dict[i].length();j++)
+            {
+                if(c->next.find(dict[i][j])==c->next.end())
+                {
+                    c->next[dict[i][j]]=new trie();
+                    c->next[dict[i][j]]->val=dict[i][j];
+                    c->next[dict[i][j]]->isEnd=false;
+                }
+                c=c->next[dict[i][j]];
+            }
+            c->isEnd=true;
+        }
+    }
+    
+    void dfs(trie* root,string word,int s,int d)
+    {
+        if(d==1&&s==word.length()&&root->isEnd==true)
+        {
+            result=true;
+            return;
+        }
+        if(d>1||s>=word.length()||root==NULL)
+        {
+            return;
+        }
+        for(map<char,trie*>::iterator it=root->next.begin();it!=root->next.end();it++)
+        {
+            if(it->first==word[s])
+            {
+                dfs(root->next[it->first],word,s+1,d);
+            }
+            else
+            {
+                dfs(root->next[it->first],word,s+1,d+1);                
+            }
+        }
+    }
+    /** Returns if there is any word in the trie that equals to the given word after modifying exactly one character */
+    bool search(string word) 
+    {
+        result=false;
+        dfs(root,word,0,0);
+        
+        return result;
+    }
+};
+
+/**
+ * Your MagicDictionary object will be instantiated and called as such:
+ * MagicDictionary* obj = new MagicDictionary();
+ * obj->buildDict(dict);
+ * bool param_2 = obj->search(word);
+ */

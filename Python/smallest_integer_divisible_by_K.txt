@@ -1,0 +1,18 @@
+class Solution(object):
+    def smallestRepunitDivByK(self, K):
+        """
+        :type K: int
+        :rtype: int
+        """
+        if K%2==0:
+            return -1
+        if K%5==0:
+            return -1
+        r=0
+        for i in range(0,K):
+            r*=10
+            r+=1
+            if r%K==0:
+                return i+1
+            
+        return -1

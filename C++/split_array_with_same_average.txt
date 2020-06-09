@@ -1,0 +1,47 @@
+class Solution 
+{
+    public:
+    bool splitArraySameAverage(vector<int>& A) 
+    {
+        bool possible=false;
+        int s=0;
+        int n=A.size();
+        int m=n/2;
+        for(int i=0;i<n;i++)
+        {
+            s+=A[i];
+        }
+        for(int i=1;i<=m;i++)
+        {
+            if((s*i)%n==0)
+            {
+                possible=true;
+                break;
+            }
+        }
+        if(possible==false)
+        {
+            return false;
+        }
+        vector<unordered_set<int>> dp(m+1);
+        dp[0].insert(0);
+        for(int i=0;i<A.size();i++)
+        {
+            for(int j=m;j>0;j--)
+            {
+                for(unordered_set<int>::iterator it=dp[j-1].begin();it!=dp[j-1].end();it++)
+                {
+                    dp[j].insert(*it+A[i]);
+                }
+            }
+        }
+        for(int i=1;i<=m;i++)
+        {
+            if((s*i)%n==0&&dp[i].find(s*i/n)!=dp[i].end())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+};

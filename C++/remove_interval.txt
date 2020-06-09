@@ -1,0 +1,39 @@
+class Solution 
+{
+    public:
+    vector<vector<int>> removeInterval(vector<vector<int>>& intervals, vector<int>& toBeRemoved) 
+    {
+        int start=toBeRemoved[0];
+        int end=toBeRemoved[1];
+        for(int i=(int)intervals.size()-1;i>-1;i--)
+        {
+            if(intervals[i][0]<start&&intervals[i][1]>end)
+            {
+                int f1=intervals[i][0];
+                int f2=intervals[i][1];
+                intervals.erase(intervals.begin()+i);
+                intervals.insert(intervals.begin()+i,{end,f2});
+                intervals.insert(intervals.begin()+i,{f1,start});
+            }
+            else if(intervals[i][0]<start&&intervals[i][1]>start)
+            {
+                int f1=intervals[i][0];
+                int f2=intervals[i][1];
+                intervals.erase(intervals.begin()+i);
+                intervals.insert(intervals.begin()+i,{f1,start});
+            }
+            else if(intervals[i][0]<end&&intervals[i][1]>end)
+            {
+                int f1=intervals[i][0];
+                int f2=intervals[i][1];
+                intervals.erase(intervals.begin()+i);
+                intervals.insert(intervals.begin()+i,{end,f2});
+            }
+            else if(intervals[i][0]>=start&&intervals[i][1]<=end)
+            {
+                intervals.erase(intervals.begin()+i);
+            }
+        }
+        return intervals;
+    }
+};

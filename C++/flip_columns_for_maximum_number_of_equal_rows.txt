@@ -1,0 +1,40 @@
+class Solution 
+{
+public:
+    string inverse(string r)
+    {
+        for(int i=0;i<r.length();i++)
+        {
+            if(r[i]=='0')
+            {
+                r[i]='1';
+            }
+            else if(r[i]=='1')
+            {
+                r[i]='0';
+            }
+        }
+        return r;
+    }
+    int maxEqualRowsAfterFlips(vector<vector<int>>& matrix) 
+    {
+        int result=0;
+        map<string,int> total;
+        for(int i=0;i<matrix.size();i++)
+        {
+            string temp="";
+            for(int j=0;j<matrix[i].size();j++)
+            {
+                temp+=to_string(matrix[i][j]);
+            }
+            total[temp]++;
+        }
+        for(map<string,int>::iterator it=total.begin();it!=total.end();it++)
+        {
+            string temp=it->first;
+            int n=total[inverse(temp)];
+            result=max(result,it->second+n);
+        }
+        return result;
+    }
+};

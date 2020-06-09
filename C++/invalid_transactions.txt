@@ -1,0 +1,59 @@
+class Solution 
+{
+public:
+    string getResult(vector<string> r)
+    {
+        string result="";
+        result+=r[0]+","+r[1]+","+r[2]+","+r[3];
+        return result;
+    }
+    vector<string> invalidTransactions(vector<string>& t) 
+    {
+        vector<string> result;
+        vector<vector<string>> transactions;
+        for(int i=0;i<t.size();i++)
+        {
+            vector<string> current;
+            string temp="";
+            for(int j=0;j<t[i].length();j++)
+            {
+                if(t[i][j]!=',')
+                {
+                    temp+=t[i][j];
+                }
+                else
+                {
+                    current.push_back(temp);
+                    temp="";
+                }
+            }
+            current.push_back(temp);
+            transactions.push_back(current);
+        }
+        
+        for(int i=0;i<transactions.size();i++)
+        {
+            if(stoi(transactions[i][2])>1000)
+            {
+                result.push_back(getResult(transactions[i]));
+                continue;
+            }
+            for(int j=0;j<transactions.size();j++)
+            {
+                if(i!=j)
+                {
+                    if(transactions[i][0]==transactions[j][0]&&transactions[i][3]!=transactions[j][3])
+                    {
+                        if(abs(stoi(transactions[i][1])-stoi(transactions[j][1]))<=60)
+                        {
+                            result.push_back(getResult(transactions[i]));
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        
+        return result;
+    }
+};

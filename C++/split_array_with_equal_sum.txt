@@ -1,0 +1,64 @@
+class Solution 
+{
+    public:
+    bool splitArray(vector<int>& nums) 
+    {
+        if(nums.size()<7)
+        {
+            return false;   
+        }
+        int n=nums.size();
+        vector<int> ls;
+        vector<int> rs;
+        for(int i=0;i<nums.size();i++)
+        {
+            if(i==0)
+            {
+                ls.push_back(nums[i]);   
+            }
+            else
+            {
+                ls.push_back(ls.back()+nums[i]);   
+            }
+        }
+        for(int i=(int)nums.size()-1;i>-1;i--)
+        {
+            if(i==(int)nums.size()-1)
+            {
+                rs.push_back(nums[i]);   
+            }
+            else
+            {
+                rs.push_back(rs.back()+nums[i]);   
+            }
+        }
+        reverse(rs.begin(),rs.end());
+        for(int i=0;i<nums.size();i++)
+        {
+            if(i<3)
+            {
+                continue;   
+            }
+            if(n-i<=3)
+            {
+                continue;   
+            }
+            set<int> overall;
+            for(int j=1;j<i-1;j++)
+            {
+                if(ls[i-1]-ls[j]==ls[j-1])
+                {
+                    overall.insert(ls[j-1]);
+                }
+            }
+            for(int k=i+2;k<n-1;k++)
+            {
+                if(rs[i+1]-rs[k]==rs[k+1]&&overall.find(rs[k+1])!=overall.end())
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+};

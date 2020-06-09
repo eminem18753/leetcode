@@ -1,0 +1,101 @@
+class Solution 
+{
+    public:
+    string toString(vector<vector<int>>& mat)
+    {
+        string result="";
+        for(int i=0;i<mat.size();i++)
+        {
+            for(int j=0;j<mat[i].size();j++)
+            {
+                result+=to_string(mat[i][j])+",";
+            }
+        }
+        return result;
+    }
+    int minFlips(vector<vector<int>>& mat) 
+    {
+        deque<vector<vector<int>>> q;
+        q.push_back(mat);
+        unordered_set<string> v;
+        v.insert(toString(mat));
+        int c=0;
+        int dx[4]={1,0,-1,0};
+        int dy[4]={0,1,0,-1};
+        int f=0;
+        for(int i=0;i<mat.size();i++)
+        {
+            for(int j=0;j<mat[i].size();j++)
+            {
+                if(mat[i][j]==1)
+                {
+                    f=1;
+                    break;
+                }
+            }
+            if(f==1)
+            {
+                break;
+            }
+        }
+        if(f==0)
+        {
+            return 0;
+        }
+        while(q.size()>0)
+        {
+            int s=q.size();
+            c++;
+            for(int i=0;i<s;i++)
+            {
+                vector<vector<int>> p=q.front();
+                q.pop_front();
+                vector<vector<int>> temp=p;
+                for(int j=0;j<temp.size();j++)
+                {
+                    for(int k=0;k<temp[j].size();k++)
+                    {
+                        temp[j][k]=1-temp[j][k];
+                        for(int d=0;d<4;d++)
+                        {
+                            int x=j+dx[d];
+                            int y=k+dy[d];
+                            if(x>=0&&x<temp.size()&&y>=0&&y<temp[0].size())
+                            {
+                                temp[x][y]=1-temp[x][y];
+                            }
+                        }
+                        string output=toString(temp);
+                        if(v.find(output)==v.end())
+                        {
+                            int f=0;
+                            for(int c1=0;c1<temp.size();c1++)
+                            {
+                                for(int c2=0;c2<temp[c1].size();c2++)
+                                {
+                                    if(temp[c1][c2]==1)
+                                    {
+                                        f=1;
+                                        break;
+                                    }
+                                }
+                                if(f==1)
+                                {
+                                    break;
+                                }
+                            }
+                            if(f==0)
+                            {
+                                return c;
+                            }
+                            q.push_back(temp);
+                            v.insert(output);
+                        }
+                        temp=p;
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+};

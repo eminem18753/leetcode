@@ -1,0 +1,51 @@
+class Solution {
+public:
+    int findBlackPixel(vector<vector<char>>& picture, int N) 
+    {
+        int result=0;
+        int m=picture.size();
+        int n=picture[0].size();
+        vector<int> r[m];
+        vector<int> c[n];
+        vector<string> total;
+        for(int i=0;i<m;i++)
+        {
+            string temp="";
+            for(int j=0;j<n;j++)
+            {
+                temp+=picture[i][j];
+                if(picture[i][j]=='B')
+                {
+                    r[i].push_back(j);
+                    c[j].push_back(i);
+                }
+            }
+            total.push_back(temp);
+        }
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                if(r[i].size()!=N||c[j].size()!=N)
+                {
+                    continue;
+                }
+                int flag=0;
+                for(int k=0;k<c[j].size();k++)
+                {
+                    if(total[i]!=total[c[j][k]])
+                    {
+                        flag=1;
+                        break;
+                    }
+                }
+                if(flag==0)
+                {
+                    result++;
+                }
+            }
+        }
+        
+        return result;
+    }
+};

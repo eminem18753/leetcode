@@ -1,0 +1,84 @@
+unordered_set<string> total;
+class Solution 
+{
+    public:
+    void f(string current,int& l)
+    {
+        if(current.length()>l)
+        {
+            return;
+        }
+        if(current.length()==l)
+        {
+            if(current.length()>1&&current[0]=='0')
+            {
+                return;
+            }
+            total.insert(current);
+            return;
+        }
+        f("0"+current+"0",l);
+        f("1"+current+"1",l);
+        f("8"+current+"8",l);
+        f("6"+current+"9",l);
+        f("9"+current+"6",l);
+    }
+    void dfs(string& t,string current,int& l,int& result)
+    {
+        if(current.length()>l)
+        {
+            return;
+        }
+        if(current.length()==l)
+        {
+            if(current.length()>1&&current[0]=='0')
+            {
+                return;
+            }
+            if(stol(current)>stol(t))
+            {
+                return;
+            }
+            if(total.find(current)!=total.end())
+            {
+                return;
+            }
+            result++;
+            return;
+        }
+        dfs(t,current+"0",l,result);
+        dfs(t,current+"1",l,result);
+        dfs(t,current+"8",l,result);
+        dfs(t,current+"6",l,result);
+        dfs(t,current+"9",l,result);
+    }
+    int confusingNumberII(int N) 
+    {
+        if(total.size()==0)
+        {
+            for(int i=1;i<=9;i++)
+            {
+                f("",i);
+                f("0",i);
+                f("1",i);
+                f("8",i);
+            }
+        }
+        int result=0;
+        if(N==1000000000)
+        {
+            result++;
+            N--;
+        }
+        string t=to_string(N);
+        for(int i=1;i<=t.length();i++)
+        {
+            dfs(t,"0",i,result);
+            dfs(t,"1",i,result);
+            dfs(t,"6",i,result);
+            dfs(t,"8",i,result);
+            dfs(t,"9",i,result);
+        }
+        return result;
+    }
+};

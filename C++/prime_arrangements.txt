@@ -1,0 +1,39 @@
+class Solution 
+{
+    public:
+    long long m=1000000007;
+    int f(int n)
+    {
+        if(n==1)
+        {
+            return 1;
+        }
+        return ((long long)(n%m)*(long long)(f(n-1)%m))%m;
+    }
+    int numPrimeArrangements(int n) 
+    {
+        int result=0;
+        int k=0;
+        if(n==1)
+        {
+            return 1;
+        }
+        for(int i=2;i<=n;i++)
+        {
+            int f=0;
+            for(int j=2;j<i;j++)
+            {
+                if(i%j==0)
+                {
+                    f=1;
+                    break;
+                }
+            }
+            if(f==0)
+            {
+                k++;
+            }
+        }
+        return (int)(((long long)(f(n-k)%m)*(long long)(f(k)%m))%m);
+    }
+};

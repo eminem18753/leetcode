@@ -1,0 +1,89 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) 
+    {
+        int flag=0;
+        if(l1==NULL&&l2==NULL)
+        {
+            return NULL;
+        }
+        ListNode *total=new ListNode(NULL);
+        ListNode *result=total;
+        while(l1&&l2)
+        {
+            if(l1->val<l2->val)
+            {
+                total->val=l1->val;
+                total->next=new ListNode(NULL);
+                total=total->next;
+                if(l1->next)
+                {
+                    l1=l1->next;
+                }
+                else
+                {
+                    l1=NULL;
+                    break;
+                }
+            }
+            else
+            {
+                total->val=l2->val;
+                total->next=new ListNode(NULL);
+                total=total->next;
+                if(l2->next)
+                {
+                    l2=l2->next;
+                }
+                else
+                {
+                    l2=NULL;
+                    break;
+                }
+            }
+        }
+        if(l1)
+        {
+            while(l1)
+            {
+                total->val=l1->val;
+                if(l1->next!=NULL)
+                {
+                    l1=l1->next;
+                    total->next=new ListNode(NULL);
+                    total=total->next;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+        else
+        {
+            while(l2)
+            {
+                total->val=l2->val;
+                if(l2->next!=NULL)
+                {
+                    total->next=new ListNode(NULL);
+                    total=total->next;
+                    l2=l2->next;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+};

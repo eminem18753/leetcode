@@ -1,0 +1,54 @@
+class Solution 
+{
+    public:
+    int findRotateSteps(string ring, string key) 
+    {
+        int result=2147483647;
+        int m=key.length();
+        int n=ring.length();
+        vector<int> d1(n,2147483647);
+        vector<int> d2(n,2147483647);
+        for(int i=0;i<m;i++)
+        {
+            if(i==0)
+            {
+                char c=key[i];
+                for(int j=0;j<n;j++)
+                {
+                    if(ring[j]==c)
+                    {
+                        d2[j]=min(j,n-j);
+                    }
+                }
+            }
+            else
+            {
+                char c=key[i];
+                for(int j=0;j<n;j++)
+                {
+                    for(int k=0;k<n;k++)
+                    {
+                        if(d2[j]!=2147483647&&ring[k]==c)
+                        {
+                            int d=abs(k-j);
+                            d1[k]=min(d1[k],d2[j]+min(d,n-d));
+                        }
+                    }
+                }
+                for(int j=0;j<n;j++)
+                {
+                    d2[j]=d1[j];
+                    d1[j]=2147483647;
+                }
+            }
+        }
+        for(int j=0;j<n;j++)
+        {
+            if(d2[j]!=2147483647)
+            {
+                result=min(result,d2[j]);
+            }
+        }
+        return result+m;
+    }
+};

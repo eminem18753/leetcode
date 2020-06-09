@@ -1,0 +1,46 @@
+class Solution 
+{
+    public:
+    int minimumSwap(string s1, string s2) 
+    {
+        if(s1.length()!=s2.length())
+        {
+            return -1;   
+        }
+        string c1="";
+        string c2="";
+        int x=0;
+        int y=0;
+        int r=0;
+        for(int i=0;i<s1.length();i++)
+        {
+            if(s1[i]!=s2[i])
+            {
+                if(s1[i]=='x')
+                {
+                    x++;   
+                }
+                else
+                {
+                    y++;   
+                }
+                c1+=s1[i];
+                c2+=s2[i];
+            }
+        }
+        if(x%2==1&&y%2==0)
+        {
+            return -1;   
+        }
+        if(x%2==0&&y%2==1)
+        {
+            return -1;       
+        }
+        r=x/2+y/2;
+        if(x%2==1&&y%2==1)
+        {
+            r+=2;   
+        }
+        return r;
+    }
+};

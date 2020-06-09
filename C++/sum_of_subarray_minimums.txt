@@ -1,0 +1,61 @@
+class Solution {
+public:
+    int sumSubarrayMins(vector<int>& A)
+    {
+        int m=1000000007;
+        int result=0;
+        vector<int> s1;
+        vector<int> i1;
+        vector<int> r1;
+        vector<int> s2;
+        vector<int> i2;
+        vector<int> r2;
+        
+        int c=0;
+        for(int i=0;i<A.size();i++)
+        {
+            while(s1.size()!=0&&A[i]<s1.back())
+            {
+                s1.pop_back();
+                i1.pop_back();
+            }
+            if(s1.size()==0)
+            {
+                r1.push_back(-1);
+            }
+            else
+            {
+                r1.push_back(i1.back());
+            }
+            s1.push_back(A[i]);
+            i1.push_back(i);
+        }
+
+        for(int i=A.size()-1;i>-1;i--)
+        {
+            while(s2.size()!=0&&A[i]<=s2.back())
+            {
+                s2.pop_back();
+                i2.pop_back();
+            }
+            if(s2.size()==0)
+            {
+                r2.push_back(A.size());
+            }
+            else
+            {
+                r2.push_back(i2.back());
+            }
+            s2.push_back(A[i]);
+            i2.push_back(i);
+        }
+        reverse(r2.begin(),r2.end());
+        for(int i=0;i<A.size();i++)
+        {
+            result+=((i-r1[i])%m)*((r2[i]-i)%m)*(A[i]%m)%m;
+            result%=m;
+        }
+        
+        return result;
+    }
+};

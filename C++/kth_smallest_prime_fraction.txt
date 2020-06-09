@@ -1,0 +1,43 @@
+class Solution 
+{
+    public:
+    vector<int> kthSmallestPrimeFraction(vector<int>& A, int K) 
+    {
+        double p1=0;
+        double p2=1;
+        while(abs(p2-p1)>1e-8)
+        {
+            double m=(p1+p2)/2;
+            int p=0;
+            int q=1;
+            int c=0;
+            int n=A.size();
+            for(int i=0,j=0;i<n;i++)
+            {
+                while(j<n&&A[i]>=m*A[j])
+                {
+                    j++;   
+                }
+                c+=n-j;
+                if(j<n&&p*A[j]<q*A[i])
+                {
+                    p=A[i];
+                    q=A[j];
+                }
+            }
+            if(c==K)
+            {
+                return {p,q};   
+            }
+            if(c<K)
+            {
+                p1=m;  
+            }
+            else
+            {
+                p2=m;   
+            }
+        }
+        return {};
+    }
+};

@@ -1,0 +1,42 @@
+class HitCounter {
+public:
+    deque<int> total;
+    /** Initialize your data structure here. */
+    HitCounter() 
+    {
+        total.clear();    
+    }
+    
+    /** Record a hit.
+        @param timestamp - The current timestamp (in seconds granularity). */
+    void hit(int timestamp) 
+    {
+        while(total.size()>0&&total.front()<=timestamp-300)
+        {
+            total.pop_front();
+        }
+        total.push_back(timestamp);
+    }
+    
+    /** Return the number of hits in the past 5 minutes.
+        @param timestamp - The current timestamp (in seconds granularity). */
+    int getHits(int timestamp) 
+    {
+        int n=total.size();
+        for(int i=0;i<total.size();i++)
+        {
+            if(total[i]>timestamp-300)
+            {
+                return n-i;
+            }
+        }
+        return 0;    
+    }
+};
+
+/**
+ * Your HitCounter object will be instantiated and called as such:
+ * HitCounter* obj = new HitCounter();
+ * obj->hit(timestamp);
+ * int param_2 = obj->getHits(timestamp);
+ */

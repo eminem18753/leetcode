@@ -1,0 +1,25 @@
+class Solution 
+{
+    public:
+    int nthSuperUglyNumber(int n, vector<int>& primes) 
+    {
+        vector<int> s(n,2147483647);
+        vector<int> index((int)primes.size(),0);
+        s[0]=1;
+        for(int i=1;i<n;i++)
+        {
+            for(int j=0;j<primes.size();j++)
+            {
+                s[i]=min(s[i],primes[j]*s[index[j]]);
+            }
+            for(int j=0;j<primes.size();j++)
+            {
+                if(s[i]==primes[j]*s[index[j]])
+                {
+                    index[j]++;
+                }
+            }
+        }
+        return s[n-1];
+    }
+};

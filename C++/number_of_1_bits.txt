@@ -1,0 +1,22 @@
+class Solution 
+{
+public:
+    int hammingWeight(uint32_t n) 
+    {
+        int result=0;
+        while(n/2!=0)
+        {
+            int y=n%2;
+            n/=2;
+            if(y==1)
+            {
+                result+=1;
+            }
+        }
+        if(n==1)
+        {
+            result+=1;	
+        }
+        return result;
+    }
+};

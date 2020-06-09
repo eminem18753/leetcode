@@ -1,0 +1,12 @@
+# Write your MySQL query statement below
+SELECT "[0-5>" as bin,COUNT(*) as total FROM Sessions
+WHERE duration<300
+UNION
+SELECT "[5-10>",COUNT(*) FROM Sessions
+WHERE duration>=300 AND duration<600
+UNION
+SELECT "[10-15>",COUNT(*) FROM Sessions
+WHERE duration>=600 AND duration<900
+UNION
+SELECT "15 or more",COUNT(*) FROM Sessions
+WHERE duration>=900;

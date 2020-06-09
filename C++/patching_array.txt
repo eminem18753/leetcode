@@ -1,0 +1,24 @@
+class Solution 
+{
+    public:
+    int minPatches(vector<int>& nums, int n) 
+    {
+        long long int m=1;
+        long long int current=0;
+        long long int result=0;
+        while(m<=n)
+        {
+            if(current<nums.size()&&nums[current]<=m)
+            {
+                m+=nums[current];
+                current++;
+            }
+            else
+            {
+                m*=2;
+                result++;
+            }
+        }
+        return (int)result;
+    }
+};

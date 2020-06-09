@@ -1,0 +1,51 @@
+class Solution 
+{
+    public:
+    unordered_map<string,unordered_map<int,bool>> total;
+    bool check(vector<int> a,int t)
+    {
+        string c="";
+        for(int i=0;i<a.size();i++)
+        {
+            c+=to_string(a[i])+",";
+        }
+        if(total.find(c)!=total.end()&&total[c].find(t)!=total[c].end())
+        {
+            return total[c][t];
+        }
+        for(int i=0;i<a.size();i++)
+        {
+            if(a[i]>=t)
+            {
+                total[c][t]=true;
+                return true;
+            }
+        }
+        for(int i=0;i<a.size();i++)
+        {
+            vector<int> temp(a.begin(),a.end());
+            temp.erase(temp.begin()+i);
+            if(!check(temp,t-a[i]))
+            {
+                total[c][t]=true;
+                return true;
+            }
+        }
+        total[c][t]=false;
+        return false;
+    }
+    bool canIWin(int maxChoosableInteger, int desiredTotal)
+    {
+        if(maxChoosableInteger*(maxChoosableInteger+1)/2<desiredTotal)
+        {
+            return false;
+        }
+        vector<int> a;
+        for(int i=0;i<maxChoosableInteger;i++)
+        {
+            a.push_back(i+1);
+        }
+        reverse(a.begin(),a.end());
+        return check(a,desiredTotal);
+    }
+};

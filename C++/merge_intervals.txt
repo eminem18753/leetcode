@@ -1,0 +1,40 @@
+bool compare(vector<int> a,vector<int> b)
+{
+    return a[0]<b[0];
+}
+class Solution {
+public:
+    vector<vector<int>> merge(vector<vector<int>>& intervals) 
+    {
+        vector<vector<int>> result;
+        if(intervals.size()==0)
+        {
+            return result;
+        }
+        sort(intervals.begin(),intervals.end(),compare);
+        for(int i=0;i<intervals.size();i++)
+        {
+            if(result.size()==0)
+            {
+                result.push_back(intervals[i]);
+            }
+            else
+            {
+                vector<int> p1=result.back();
+                if(p1[1]>=intervals[i][0])
+                {
+                    vector<int> temp;
+                    temp.push_back(p1[0]);
+                    temp.push_back(max(p1[1],intervals[i][1]));
+                    result.pop_back();
+                    result.push_back(temp);
+                }
+                else
+                {
+                    result.push_back(intervals[i]);
+                }
+            }
+        }
+        return result;
+    }
+};

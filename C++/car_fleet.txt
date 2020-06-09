@@ -1,0 +1,55 @@
+bool compare(vector<double> a,vector<double> b)
+{
+    return a[0]<b[0];
+}
+class Solution 
+{
+    public:
+    int carFleet(int target, vector<int>& position, vector<int>& speed)
+    {
+        int result=0;
+        vector<vector<double>> total;
+        
+        for(int i=0;i<position.size();i++)
+        {
+            vector<double> temp;
+            temp.push_back((double)position[i]);
+            temp.push_back((double)speed[i]);
+            total.push_back(temp);
+        }
+        sort(total.rbegin(),total.rend(),compare);
+        
+        deque<double> p;
+        deque<double> s;
+        for(int i=0;i<position.size();i++)
+        {
+            p.push_back((double)total[i][0]);
+            s.push_back((double)total[i][1]);
+        }
+        deque<double> r1;
+        deque<double> r2;
+        while(p.size()>0)
+        {
+            result++;
+            double temp=p.front();
+            double c=s.front();
+            p.pop_front();
+            s.pop_front();
+            for(int i=0;i<p.size();i++)
+            {
+                p[i]+=(double)(target-temp)/(double)c*s[i];
+                if(p[i]<target)
+                {
+                    r1.push_back(p[i]);
+                    r2.push_back(s[i]);
+                }
+            }
+            
+            p=r1;
+            s=r2;
+            r1.clear();
+            r2.clear();
+        }
+        return result;
+    }
+};

@@ -1,0 +1,181 @@
+class Solution 
+{
+    public:
+    long long int getR(string s)
+    {
+        string t="";
+        for(int i=0;i<s.length();i++)
+        {
+            if(i!=(int)s.length()-1&&s[i]=='-'&&s[i+1]=='-')
+            {
+                t+='+';
+                i++;
+            }
+            else if(i!=(int)s.length()-1&&s[i]=='+'&&s[i+1]=='-')
+            {
+                t+='-';
+                i++;
+            }
+            else if(i!=(int)s.length()-1&&s[i]=='-'&&s[i+1]=='+')
+            {
+                t+='-';
+                i++;
+            }
+            else
+            {
+                t+=s[i];
+            }
+        }
+        s=t;
+        int counter=0;
+        for(int i=0;i<s.length();i++)
+        {
+            if(!isdigit(s[i]))
+            {
+                counter++;
+            }
+        }
+        if(s[0]=='-'&&counter==1)
+        {
+            return stoi(s);
+        }
+        vector<string> digits;
+        vector<string> signs;
+        vector<long long int> numbers;
+        
+        string temp="";
+        for(int i=0;i<s.length();i++)
+        {
+            if(isdigit(s[i])||(i==0&&s[i]=='-'))
+            {
+                temp+=s[i];
+            }
+            else if(i>0&&!isdigit(s[i-1])&&!isdigit(s[i]))
+            {
+                temp+=s[i];   
+            }
+            else
+            {
+                string r="";
+                r+=s[i];
+                digits.push_back(temp);
+                signs.push_back(r);
+                temp="";
+            }
+        }
+        digits.push_back(temp);
+        for(int i=0;i<digits.size();i++)
+        {
+            long long int current=0;
+            long long int q=1;
+            for(int j=0;j<digits[i].length();j++)
+            {
+                if(digits[i][j]=='-')
+                {
+                    q=-1;
+                }
+                else
+                {
+                    current*=(long long int)10;
+                    current+=(long long int)(digits[i][j]-'0');
+                }
+            }
+            numbers.push_back(q*current);
+        }
+        if(numbers.size()==1)
+        {
+            return numbers[0];
+        }
+        while(true)
+        {
+            int f=0;
+            for(int i=0;i<signs.size();i++)
+            {
+                if(signs[i]=="*")
+                {
+                    numbers[i]=numbers[i]*numbers[i+1];
+                    numbers.erase(numbers.begin()+i+1);
+                    signs.erase(signs.begin()+i);
+                    f=1;
+                    break;
+                }
+                else if(signs[i]=="/")
+                {
+                    numbers[i]=numbers[i]/numbers[i+1];
+                    numbers.erase(numbers.begin()+i+1);
+                    signs.erase(signs.begin()+i);
+                    f=1;
+                    break;
+                }
+            }
+            if(f==0)
+            {
+                break;
+            }
+        }
+        for(int i=0;i<signs.size();i++)
+        {
+            if(signs[i]=="+")
+            {
+                numbers[i+1]=numbers[i]+numbers[i+1];
+            }
+            else
+            {
+                numbers[i+1]=numbers[i]-numbers[i+1];
+            }
+        }
+        return (int)numbers.back();
+    }
+    int getP(string s)
+    {
+        string t=s.substr(1,(int)s.length()-2);
+        int flag=0;
+        for(int i=0;i<t.length();i++)
+        {
+            if(t[i]=='('||t[i]==')')
+            {
+                flag=1;
+                break;
+            }
+        }
+        if(flag==0)
+        {
+            return getR(t);
+        }
+        int f=0;
+        int start=-1;
+        for(int i=0;i<t.length();i++)
+        {
+            if(t[i]=='(')
+            {
+                f++;
+                if(f==1)
+                {
+                    start=i;
+                }
+            }
+            else if(t[i]==')')
+            {
+                f--;
+                if(f==0)
+                {
+                    t=t.substr(0,start)+to_string(getP(t.substr(start,i-start+1)))+t.substr(i+1);
+                }
+            }
+        }
+        return getP("("+t+")");
+    }
+    int calculate(string s) 
+    {
+        string t="";
+        for(int i=0;i<s.length();i++)
+        {
+            if(s[i]!=' ')
+            {
+                t+=s[i];
+            }
+        }
+        t="("+t+")";
+        return getP(t);
+    }
+};

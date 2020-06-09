@@ -1,0 +1,63 @@
+class Solution 
+{
+public:
+    int numDecodings(string s) 
+    {
+        if(s.length()==0)
+        {
+            return 0;
+        }
+        if(s[0]=='0')
+        {
+            return 0;
+        }
+        vector<int> total;
+        total.push_back(1);
+        total.push_back(2);
+        int c=0;
+        int result=1;
+        int n=s.length();
+        for(int i=1;i<n;i++)
+        {
+            if(s[i]=='0'&&s[i-1]!='1'&&s[i-1]!='2')
+            {
+                return 0;
+            }
+        }
+        for(int i=1;i<n;i++)
+        {
+            string temp="";
+            temp+=s[i-1];
+            temp+=s[i];
+            int r=stoi(temp);
+            if(r<=26&&s[i]!='0')
+            {
+                c++;
+            }
+            else
+            {
+                if(s[i]=='0')
+                {
+                    c--;
+                }
+                c=max(c,0);
+                while(c>=total.size())
+                {
+                    total.push_back(total[total.size()-1]+total[total.size()-2]);
+                }
+                result*=total[c];
+                c=0;
+                if(s[i]=='0')
+                {
+                    i++;
+                }
+            }
+        }
+        while(c>=total.size())
+        {
+            total.push_back(total[total.size()-1]+total[total.size()-2]);
+        }
+        result*=total[c];
+        return result;
+    }
+};

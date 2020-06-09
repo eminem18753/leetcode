@@ -1,0 +1,88 @@
+class Solution 
+{
+    public:
+    unordered_map<char,int> times;
+    int result=2147483647;
+    void dfs(string board,int counter)
+    {
+        if(board=="")
+        {
+            result=min(result,counter);
+            return;
+        }
+        int c=1;
+        char p=board[0];
+        string b=board;
+        for(int i=1;i<board.length();i++)
+        {
+            if(board[i]==board[i-1])
+            {
+                c++;
+            }
+            else
+            {
+                if(times.find(p)!=times.end()&&times[p]>=3-c)
+                {
+                    times[p]-=max((3-c),0);
+                    board=board.substr(0,i-c)+board.substr(i);
+                    while(true)
+                    {
+                        int f=0;
+                        int t=1;
+                        for(int j=1;j<board.length();j++)
+                        {
+                            if(board[j]==board[j-1])
+                            {
+                                t++;
+                            }
+                            else
+                            {
+                                if(t>=3)
+                                {
+                                    board=board.substr(0,j-t)+board.substr(j);
+                                    f=1;
+                                }
+                                t=1;
+                            }
+                        }
+                        if(t>=3)
+                        {
+                            board=board.substr(0,(int)board.length()-t);
+                            f=1;
+                        }
+                        if(f==0)
+                        {
+                            break;
+                        }
+                    }
+                    dfs(board,counter+max((3-c),0));
+                    board=b;
+                    times[p]+=max((3-c),0);
+                }
+                c=1;
+                p=board[i];
+            }
+        }
+        if(times.find(p)!=times.end()&&times[p]>=3-c)
+        {
+            times[p]-=max((3-c),0);
+            board=board.substr(0,(int)board.length()-c);
+            dfs(board,counter+max((3-c),0));
+            board=b;
+            times[p]+=max((3-c),0);
+        }
+    }
+    int findMinStep(string board, string hand) 
+    {
+        for(int i=0;i<hand.length();i++)
+        {
+            times[hand[i]]++;
+        }
+        dfs(board,0);
+        if(result==2147483647)
+        {
+            return -1;
+        }
+        return result;
+    }
+};

@@ -1,0 +1,36 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* result=NULL;
+    int minimum=2147483647;
+    void test(TreeNode* root,TreeNode* p)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        test(root->left,p);
+        if(root->val>p->val)
+        {
+            if(root->val<minimum)
+            {
+                minimum=root->val;
+                result=root;
+            }
+        }
+        test(root->right,p);
+    }
+    TreeNode* inorderSuccessor(TreeNode* root, TreeNode* p) 
+    {
+        test(root,p);
+        return result;
+    }
+};

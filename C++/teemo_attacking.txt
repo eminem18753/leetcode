@@ -1,0 +1,13 @@
+class Solution {
+public:
+    int findPoisonedDuration(vector<int>& t, int d) 
+    {
+        long long n=t.size();
+        long long s=n*d;
+        for(int i=1;i<t.size();i++)
+        {
+            s-=max(0,d-t[i]+t[i-1]);
+        }
+        return (int)s;
+    }
+};

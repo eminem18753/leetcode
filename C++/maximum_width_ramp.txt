@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int maxWidthRamp(vector<int>& A)
+    {
+        int result=0;
+        vector<int> total;
+        for(int i=0;i<A.size();i++)
+        {
+            if(total.size()==0||A[total[total.size()-1]]>=A[i])
+            {
+                total.push_back(i);
+            }
+        }
+        for(int i=A.size()-1;i>0;i--)
+        {
+            while(total.size()>0&&A[total[total.size()-1]]<=A[i])
+            {
+                result=max(result,i-total[total.size()-1]);
+                total.pop_back();
+            }
+        }
+        return result;
+    }
+};

@@ -1,0 +1,94 @@
+class Solution
+{
+    public:
+    string nearestPalindromic(string n) 
+    {
+        string result="";
+        long long int m=2147483647;
+        vector<string> total;
+        int l=n.length();
+        if(l%2==1)
+        {
+            string temp=n.substr(0,l/2+1);
+            string r=temp;
+            r.pop_back();
+            reverse(r.begin(),r.end());
+            
+            string f1=temp+r;
+            temp=to_string(stoi(temp)+1);
+            r=temp;
+            r.pop_back();
+            reverse(r.begin(),r.end());
+            string f2=temp+r;
+            
+            temp=to_string(stoi(temp)-2);
+            r=temp;
+            r.pop_back();
+            reverse(r.begin(),r.end());
+            string f3=temp+r;
+            total.push_back(f1);
+            total.push_back(f2);
+            total.push_back(f3);
+        }
+        else
+        {
+            string temp=n.substr(0,l/2);
+            string r=temp;
+            reverse(r.begin(),r.end());
+            
+            string f1=temp+r;
+            
+            temp=to_string(stoi(temp)+1);
+            r=temp;
+            reverse(r.begin(),r.end());
+            string f2=temp+r;
+            
+            temp=to_string(stoi(temp)-2);
+            r=temp;
+            reverse(r.begin(),r.end());
+            string f3=temp+r;
+            total.push_back(f1);
+            total.push_back(f2);
+            total.push_back(f3);          
+        }
+        string f4="";
+        string f5="1";
+        for(int i=0;i<l-1;i++)
+        {
+            f4+="9";   
+        }
+        for(int i=0;i<l-1;i++)
+        {
+            f5+="0";   
+        }
+        f5+="1";
+        sort(total.begin(),total.end());
+        total.insert(total.begin(),f4);
+        total.push_back(f5);
+        long long int p1=0;
+        for(int i=0;i<l;i++)
+        {
+            p1*=10;
+            p1+=n[i]-'0';
+        }
+        for(int i=0;i<total.size();i++)
+        {
+            if(total[i]=="")
+            {
+                continue;   
+            }
+            long long int p2=0;
+            for(int j=0;j<total[i].length();j++)
+            {
+                p2*=10;
+                p2+=total[i][j]-'0';
+            }
+            if(abs(p1-p2)<m&&p1!=p2)
+            {
+                m=abs(p1-p2);
+                result=total[i];
+            }
+        }
+        return result;
+    }
+};

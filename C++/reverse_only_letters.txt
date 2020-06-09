@@ -1,0 +1,52 @@
+class Solution {
+public:
+    string reverseOnlyLetters(string S) 
+    {
+        vector<int> pos;
+        string temp="";
+        string total="";
+        string result="";
+        int index=0;
+        for(int i=0;i<S.length();i++)
+        {
+            if((S[i]>='A'&&S[i]<='Z')||(S[i]>='a'&&S[i]<='z'))
+            {
+                total=S[i]+total;
+            }
+            else
+            {
+                index++;
+                pos.push_back(i-index);
+                temp+=S[i];
+            }
+        }
+        int c=0;
+        for(int j=0;j<pos.size();j++)
+        {
+            if(pos[j]==-1)
+            {
+                result+=temp[c++];
+            }
+        }
+        
+        for(int i=0;i<total.length();i++)
+        {
+            result+=total[i];
+            if(binary_search(pos.begin(),pos.end(),i))
+            {
+                for(int j=0;j<pos.size();j++)
+                {
+                    if(pos[j]==i)
+                    {
+                        result+=temp[c++];
+                    }
+                }
+            }
+        }
+        for(int i=c;i<pos.size();i++)
+        {
+            result+=temp[i];
+        }
+        return result;
+    }
+};

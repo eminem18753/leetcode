@@ -1,0 +1,29 @@
+class Solution 
+{
+    public:
+    int maxSumAfterPartitioning(vector<int>& A, int K) 
+    {
+        int result=0;
+        int n=A.size();
+        int dp[n];
+        memset(dp,0,sizeof(dp));
+        dp[0]=A[0];
+        int M=A[0];
+        for(int i=1;i<K;i++)
+        {
+            M=max(M,A[i]);
+            dp[i]=M*(i+1);
+        }
+        
+        for(int i=K;i<A.size();i++)
+        {
+            M=A[i];
+            for(int j=1;j<=K;j++)
+            {
+                M=max(M,A[i-j+1]);
+                dp[i]=max(dp[i],dp[i-j]+M*j);
+            }
+        }
+        return dp[n-1];
+    }
+};

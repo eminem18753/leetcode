@@ -1,0 +1,35 @@
+class Solution {
+public:
+    vector<int> distributeCandies(int candies, int num_people) {
+        vector<int> result;
+        int n=floor(((double)-1+(double)sqrt(1+(double)8*(double)candies))/(double)2);
+        int r=0;
+        if((int)floor(((double)-1+(double)sqrt((double)1+(double)8*(double)candies))/(double)2)!=(int)ceil(((double)-1+(double)sqrt((double)1+(double)8*(double)candies))/(double)2))
+        {
+            r=1;
+        }
+        int round=n/num_people;
+        int last=n%num_people+r;
+        for(int i=0;i<num_people;i++)
+        {
+            int c=0;
+            int t=round;
+            if(i+1<last)
+            {
+                t+=1;
+            }
+            c+=t*(i+1);
+            c+=t*(t-1)/2*num_people;
+            if(i+1==last&&r!=0)
+            {
+                c+=candies-n*(n+1)/2;
+            }
+            else if(i+1==last)
+            {
+                c+=candies-n*(n-1)/2;
+            }
+            result.push_back(c);
+        }
+        return result;
+    }
+};

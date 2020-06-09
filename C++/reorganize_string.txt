@@ -1,0 +1,71 @@
+class Solution {
+public:
+    string reorganizeString(string S)
+    {
+        string result="";
+        for(int i=0;i<S.length();i++)
+        {
+            result+='-';
+        }
+        int a[26];
+        memset(a,0,sizeof(a));
+        for(int i=0;i<S.length();i++)
+        {
+            a[S[i]-'a']++;
+        }
+        int b[26];
+        memset(b,0,sizeof(b));
+        for(int i=0;i<26;i++)
+        {
+            b[i]=a[i];
+        }
+        
+        int n=S.length();
+        int counter=0;
+        sort(b,b+26,greater<>());
+        int c[26];
+        memset(c,0,sizeof(c));
+        int d[26];
+        memset(d,0,sizeof(d));
+        for(int i=0;i<26;i++)
+        {
+            for(int j=0;j<26;j++)
+            {
+                if(a[i]==b[j]&&d[j]==0)
+                {
+                    c[i]=j;
+                    d[j]=1;
+                    break;
+                }
+                
+            }
+        }
+
+        for(int i=0;i<26;i++)
+        {
+            for(int j=0;j<26;j++)
+            {
+                if(i==c[j])
+                {
+                    for(int k=0;k<a[j];k++)
+                    {
+                        result[counter]=(char)(j+'a');
+                        counter+=2;
+                        if(counter>n-1)
+                        {
+                            counter=1;
+                        }
+                    }
+                }
+            }
+        }
+        for(int i=1;i<n;i++)
+        {
+            if(result[i]==result[i-1])
+            {
+                return "";
+            }
+        }
+        return result;
+    }
+};

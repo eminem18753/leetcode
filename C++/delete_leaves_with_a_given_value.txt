@@ -1,0 +1,67 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution 
+{
+    public:
+    map<TreeNode*,TreeNode*> p;
+    bool nothing=false;
+    void getP(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        if(root->left!=NULL)
+        {
+            p[root->left]=root;
+        }
+        if(root->right!=NULL)
+        {
+            p[root->right]=root;
+        }
+        getP(root->left);
+        getP(root->right);
+    }
+    void dfs(TreeNode* root,int& target)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        dfs(root->left,target);
+        dfs(root->right,target);
+        if(root->left==NULL&&root->right==NULL&&root->val==target)
+        {
+            if(root==p[root]->left)
+            {
+                p[root]->left=NULL;
+            }
+            else if(root==p[root]->right)
+            {
+                p[root]->right=NULL;
+            }
+        }
+        if(root->val==target&&p[root]==root&&root->left==NULL&&root->right==NULL)
+        {
+            nothing=true;
+        }
+    }
+    TreeNode* removeLeafNodes(TreeNode* root, int target) 
+    {
+        p[root]=root;
+        getP(root);
+        dfs(root,target);
+        if(nothing)
+        {
+            return NULL;
+        }
+        return root;
+    }
+};

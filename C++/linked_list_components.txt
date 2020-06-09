@@ -1,0 +1,42 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+map<int,int> total;
+bool compare1(int a,int b)
+{
+    return total[a]<total[b];
+}
+class Solution {
+public:
+    int numComponents(ListNode* head, vector<int>& G) 
+    {
+        if(G.size()==0)
+        {
+            return 0;
+        }
+        int result=0;
+        int index=0;
+        while(head)
+        {
+            total[head->val]=index;
+            head=head->next;
+            index++;
+        }
+        sort(G.begin(),G.end(),compare1);
+                
+        for(int i=1;i<G.size();i++)
+        {
+            if(total[G[i]]!=(total[G[i-1]]+1))
+            {
+                result++;
+            }
+        }
+        result+=1;
+        return result;
+    }
+};

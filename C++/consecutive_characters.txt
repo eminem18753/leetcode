@@ -1,0 +1,22 @@
+class Solution 
+{
+    public:
+    int maxPower(string s) 
+    {
+        int result=1;
+        int c=1;
+        for(int i=1;i<s.length();i++)
+        {
+            if(s[i]==s[i-1])
+            {
+                c++;
+                result=max(result,c);
+            }
+            else
+            {
+                c=1;
+            }
+        }
+        return result;
+    }
+};

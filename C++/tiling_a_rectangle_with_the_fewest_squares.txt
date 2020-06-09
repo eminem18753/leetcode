@@ -1,0 +1,54 @@
+class Solution 
+{
+    public:
+    int result;
+    int M;
+    int N;
+    void dfs(int c,vector<int>& h)
+    {
+        if(c>=result)
+        {
+            return;
+        }
+        vector<int>::iterator low;
+        low=min_element(h.begin(),h.end());
+        if(*low==N)
+        {
+            result=c;
+            return;
+        }
+        int s=(int)(low-h.begin());
+        int e=s;
+        while(e<M&&h[s]==h[e]&&(e-s+1+*low)<=N)
+        {
+            e++;
+        }
+        e--;
+        for(int i=e;i>=s;i--)
+        {
+            int l=i-s+1;
+            for(int j=s;j<=i;j++)
+            {
+                h[j]+=l;
+            }
+            dfs(c+1,h);
+            for(int j=s;j<=i;j++)
+            {
+                h[j]-=l;
+            }
+        }
+    }
+    int tilingRectangle(int n, int m) 
+    {
+        if(n>m)
+        {
+            return tilingRectangle(m,n);
+        }
+        result=m*n;
+        M=m;
+        N=n;
+        vector<int> h(m,0);
+        dfs(0,h);
+        return result;
+    }
+};

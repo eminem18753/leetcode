@@ -1,0 +1,60 @@
+class Solution {
+public:
+    int numSubarrayBoundedMax(vector<int>& A, int L, int R)
+    {
+        int result=0;
+        vector<int> s1;
+        vector<int> p1;
+        vector<int> f1;
+
+        vector<int> s2;
+        vector<int> p2;
+        vector<int> f2;
+        for(int i=0;i<A.size();i++)
+        {
+            while(s1.size()>0&&A[i]>=s1.back())
+            {
+                s1.pop_back();
+                f1.pop_back();
+            }
+            if(f1.size()==0)
+            {
+                p1.push_back(i+1);
+            }
+            else
+            {
+                p1.push_back(i-f1.back());
+            }
+            f1.push_back(i);
+            s1.push_back(A[i]);
+        }
+        
+        for(int i=(int)A.size()-1;i>-1;i--)
+        {
+            while(s2.size()>0&&A[i]>s2.back())
+            {
+                s2.pop_back();
+                f2.pop_back();
+            }
+            if(f2.size()==0)
+            {
+                p2.push_back((int)A.size()-i);
+            }
+            else
+            {
+                p2.push_back(f2.back()-i);
+            }
+            f2.push_back(i);   
+            s2.push_back(A[i]);
+        }
+        reverse(p2.begin(),p2.end());
+        for(int i=0;i<A.size();i++)
+        {
+            if(A[i]>=L&&A[i]<=R)
+            {
+                result+=p1[i]*p2[i];
+            }
+        }
+        return result;
+    }
+};

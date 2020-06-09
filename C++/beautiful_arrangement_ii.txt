@@ -1,0 +1,46 @@
+class Solution {
+public:
+    vector<int> constructArray(int n, int k) 
+    {
+        vector<int> result;
+        if(k>=n)
+        {
+            return result;
+        }
+        int p1=1;
+        int p2=n;
+        int current=0;
+        for(int i=1;i<=n;i++)
+        {
+            if(i<k)
+            {
+                if(current%2==0)
+                {
+                    result.push_back(p1);
+                    p1++;
+                    current++;
+                }
+                else
+                {
+                    result.push_back(p2);
+                    p2--;
+                    current++;
+                }
+            }
+            else
+            {
+                if(current%2==0)
+                {
+                    result.push_back(p1);
+                    p1++;
+                }
+                else
+                {
+                    result.push_back(p2);
+                    p2--;
+                }
+            }
+        }
+        return result;
+    }
+};

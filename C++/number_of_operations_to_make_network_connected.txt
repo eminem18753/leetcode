@@ -1,0 +1,47 @@
+class Solution 
+{
+    public:
+    int f(int x)
+    {
+        if(x!=p[x])
+        {
+            x=f(p[x]);
+        }
+        return x;
+    }
+    void u(int x,int y)
+    {
+        p[f(x)]=f(y);
+    }
+    vector<int> p;
+    int makeConnected(int n, vector<vector<int>>& connections) 
+    {
+        int result=0;
+        int remainings=0;
+        unordered_set<int> total;
+        for(int i=0;i<n;i++)
+        {
+            p.push_back(i);
+        }
+        for(int i=0;i<connections.size();i++)
+        {
+            if(f(connections[i][0])!=f(connections[i][1]))
+            {
+                u(connections[i][0],connections[i][1]);
+            }
+            else
+            {
+                remainings++;
+            }
+        }
+        for(int i=0;i<n;i++)
+        {
+            total.insert(f(i));
+        }
+        if((int)total.size()-1>remainings)
+        {
+            return -1;
+        }
+        return (int)total.size()-1;
+    }
+};

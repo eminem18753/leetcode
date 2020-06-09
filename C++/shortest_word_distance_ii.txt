@@ -1,0 +1,32 @@
+class WordDistance {
+public:
+    vector<string> w;
+    map<string,vector<int>> total;
+    WordDistance(vector<string>& w) 
+    {
+        for(int i=0;i<w.size();i++)
+        {
+            total[w[i]].push_back(i);
+        }
+    }
+    
+    int shortest(string word1, string word2) 
+    {
+        int result=2147483647;
+        for(int i=0;i<total[word1].size();i++)
+        {
+            for(int j=0;j<total[word2].size();j++)
+            {
+                result=min(result,abs(total[word1][i]-total[word2][j]));
+            }
+        }
+        
+        return result;
+    }
+};
+
+/**
+ * Your WordDistance object will be instantiated and called as such:
+ * WordDistance* obj = new WordDistance(words);
+ * int param_1 = obj->shortest(word1,word2);
+ */

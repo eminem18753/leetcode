@@ -1,0 +1,18 @@
+class Solution 
+{
+    public:
+    vector<int> countSmaller(vector<int>& nums) 
+    {
+        vector<int> result;
+        vector<int> total;
+        for(int i=(int)nums.size()-1;i>-1;i--)
+        {
+            vector<int>::iterator low=lower_bound(total.begin(),total.end(),nums[i]);
+            int index=(int)(low-total.begin());
+            result.push_back(index);
+            total.insert(total.begin()+index,nums[i]);
+        }
+        reverse(result.begin(),result.end());
+        return result;
+    }
+};

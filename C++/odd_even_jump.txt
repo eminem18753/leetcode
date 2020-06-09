@@ -1,0 +1,36 @@
+class Solution 
+{
+    public:
+    int oddEvenJumps(vector<int>& A) 
+    {
+        int result=1;
+        int n=A.size();
+        int dp[n][2];
+        memset(dp,0,sizeof(dp));
+        map<int,int> m;
+        dp[n-1][0]=1;
+        dp[n-1][1]=1;
+        m[A[n-1]]=n-1;
+        for(int i=n-2;i>-1;i--)
+        {
+            map<int,int>::iterator low;
+            low=m.lower_bound(A[i]);
+            if(low!=m.end())
+            {
+                dp[i][0]=dp[low->second][1];
+            }
+            map<int,int>::iterator up;
+            up=m.upper_bound(A[i]);
+            if(up!=m.begin())
+            {
+                dp[i][1]=dp[prev(up)->second][0];
+            }
+            if(dp[i][0])
+            {
+                result++;
+            }
+            m[A[i]]=i;
+        }
+        return result;
+    }
+};

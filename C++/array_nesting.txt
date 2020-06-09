@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int arrayNesting(vector<int>& nums) 
+    {
+        int M=0;
+        int n=nums.size();
+        int a[n];
+        map<int,int> total;
+        for(int i=0;i<n;i++)
+        {
+            a[i]=-1;
+        }
+        for(int i=0;i<n;i++)
+        {            
+            if(a[i]==-1)
+            {
+                int c=i;
+                int t=i;
+                while(a[c]==-1)
+                {
+                    a[c]=i;
+                    c=nums[c];
+                }
+            }
+        }
+        for(int i=0;i<n;i++)
+        {
+            total[a[i]]++;
+            M=max(M,total[a[i]]);
+        }
+        return M;
+    }
+};

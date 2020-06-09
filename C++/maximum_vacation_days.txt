@@ -1,0 +1,60 @@
+class Solution 
+{
+    public:
+    int maxVacationDays(vector<vector<int>>& flights, vector<vector<int>>& days) 
+    {
+        int result=0;
+        map<int,vector<int>> total;
+        for(int i=0;i<flights.size();i++)
+        {
+            for(int j=0;j<flights[i].size();j++)
+            {
+                if(flights[i][j]==1)
+                {
+                    total[i].push_back(j);
+                }
+                if(i==j)
+                {
+                    total[i].push_back(i);
+                }
+            }
+        }
+        int n=days.size();
+        int d=days[0].size();
+        int d1[n];
+        int d2[n];
+        int v1[n];
+        int v2[n];
+        memset(d1,0,sizeof(d1));
+        memset(d2,0,sizeof(d2));
+        memset(v1,0,sizeof(v1));
+        memset(v2,0,sizeof(v1));
+        v2[0]=1;
+        for(int i=1;i<=d;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                for(int k=0;k<total[j].size();k++)
+                {
+                    if(v2[j]==1)
+                    {
+                        d1[total[j][k]]=max(d1[total[j][k]],d2[j]+days[total[j][k]][i-1]);
+                        v1[total[j][k]]=1;
+                    }
+                }
+            }
+            for(int j=0;j<n;j++)
+            {
+                d2[j]=d1[j];
+                d1[j]=0;
+                v2[j]=v1[j];
+                v1[j]=0;
+            }
+        }
+        for(int i=0;i<n;i++)
+        {
+            result=max(result,d2[i]);
+        }
+        return result;
+    }
+};

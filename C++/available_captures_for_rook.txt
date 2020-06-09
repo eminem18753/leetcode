@@ -1,0 +1,94 @@
+class Solution {
+public:
+    int numRookCaptures(vector<vector<char>>& board)
+    {
+        int total=0;
+        int column=-1;
+        int row=-1;
+        vector<vector<int>> result;
+        for(int i=0;i<board.size();i++)
+        {
+            vector<int> temp;
+            for(int j=0;j<board[i].size();j++)
+            {
+                temp.push_back(0);
+            }
+            result.push_back(temp);
+        }
+        for(int i=0;i<board.size();i++)
+        {
+            for(int j=0;j<board[i].size();j++)
+            {
+                if(board[i][j]=='R')
+                {
+                    column=i;
+                    row=j;
+                    result[i][j]=1;
+                }
+                if(board[i][j]=='p')
+                {
+                    result[i][j]=2;
+                }
+                else if(board[i][j]=='B')
+                {
+                    result[i][j]=3;
+                }
+                
+            }
+        }
+        //up
+        for(int i=column-1;i>-1;i--)
+        {
+            if(result[i][row]==3)
+            {
+                break;
+            }
+            else if(result[i][row]==2)
+            {
+                total+=1;
+                break;
+            }
+        }
+        //down
+        for(int i=column+1;i<result.size();i++)
+        {
+            if(result[i][row]==3)
+            {
+                break;
+            }
+            else if(result[i][row]==2)
+            {
+                total+=1;
+                break;
+            }
+        }        
+        //left
+        for(int i=row-1;i>-1;i--)
+        {
+            if(result[column][i]==3)
+            {
+                break;
+            }
+            else if(result[column][i]==2)
+            {
+                total+=1;
+                break;
+            }
+        }
+        
+        //right
+        for(int i=row+1;i<result[0].size();i++)
+        {
+            if(result[column][i]==3)
+            {
+                break;
+            }
+            else if(result[column][i]==2)
+            {
+                total+=1;
+                break;
+            }
+        }
+        return total;
+    }
+};

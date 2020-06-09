@@ -1,0 +1,20 @@
+# Enter your code here. Read input from STDIN. Print output to STDOUT
+f=[1]*14
+for i in range(2,14):
+    f[i]=f[i-1]*i
+n=int(raw_input())
+def swapNode(x,y):
+    for i in range(y,x,-1):
+        s[i],s[i-1]=s[i-1],s[i]
+def calculate(n,k,pos=0):
+    if k==0:
+        return
+    swapNode(pos,(n-1)//f[k]+pos)
+    calculate((n-1)%f[k]+1,k-1,pos+1)
+for i in range(0,n):
+    l=int(raw_input())
+    s=list("abcdefghijklm")
+    t=len(s)-1
+    calculate(l,t)
+    print(''.join(s))
+    

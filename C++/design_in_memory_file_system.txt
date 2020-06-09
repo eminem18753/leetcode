@@ -1,0 +1,124 @@
+class FileSystem 
+{
+    public:
+    struct trie
+    {
+        map<string,trie*> next;
+        string isFile;
+    };
+    typedef struct trie trie;
+    trie* root;
+    FileSystem() 
+    {
+        root=new trie;
+        root->isFile="";
+    }
+    vector<string> parse(string s)
+    {
+        vector<string> result;
+        string temp="";
+        for(int i=0;i<s.length();i++)
+        {
+            if(s[i]!='/')
+            {
+                temp+=s[i];
+            }
+            else
+            {
+                if(temp!="")
+                {
+                    result.push_back(temp);
+                }
+                temp=s[i];
+            }
+        }
+        if(temp!="")
+        {
+            result.push_back(temp);
+        }
+        return result;
+    }
+    vector<string> ls(string path) 
+    {
+        int f=0;
+        if(path=="/")
+        {
+            path="";          
+            f=1;
+        }
+        vector<string> result;
+        vector<string> total=parse(path);
+        trie* c=root;
+        for(int i=0;i<total.size();i++)
+        {
+            if(c->next.find(total[i])==c->next.end())
+            {
+                c->next[total[i]]=new trie;
+            }
+            c=c->next[total[i]];
+        }
+        if(c->isFile!="")
+        {
+            return {total.back().substr(1)};
+        }
+        for(map<string,trie*>::iterator it=c->next.begin();it!=c->next.end();it++)
+        {
+            string current=it->first.substr(1);
+            result.push_back(current);
+        }
+        return result;
+    }
+    
+    void mkdir(string path) 
+    {
+        vector<string> total=parse(path);
+        trie* c=root;
+        for(int i=0;i<total.size();i++)
+        {
+            if(c->next.find(total[i])==c->next.end())
+            {
+                c->next[total[i]]=new trie;
+            }
+            c=c->next[total[i]];
+        }
+    }
+    
+    void addContentToFile(string filePath, string content) 
+    {
+        vector<string> total=parse(filePath);
+        trie* c=root;
+        for(int i=0;i<total.size();i++)
+        {
+            if(c->next.find(total[i])==c->next.end())
+            {
+                c->next[total[i]]=new trie;
+            }
+            c=c->next[total[i]];
+        }
+        c->isFile+=content;
+    }
+    
+    string readContentFromFile(string filePath) 
+    {
+        vector<string> total=parse(filePath);
+        trie* c=root;
+        for(int i=0;i<total.size();i++)
+        {
+            if(c->next.find(total[i])==c->next.end())
+            {
+                c->next[total[i]]=new trie;
+            }
+            c=c->next[total[i]];
+        }
+        return c->isFile;
+    }
+};
+
+/**
+ * Your FileSystem object will be instantiated and called as such:
+ * FileSystem* obj = new FileSystem();
+ * vector<string> param_1 = obj->ls(path);
+ * obj->mkdir(path);
+ * obj->addContentToFile(filePath,content);
+ * string param_4 = obj->readContentFromFile(filePath);
+ */

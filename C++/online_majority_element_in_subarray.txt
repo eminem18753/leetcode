@@ -1,0 +1,34 @@
+class MajorityChecker 
+{
+    public:
+    unordered_map<int,vector<int>> m;
+    MajorityChecker(vector<int>& arr) 
+    {
+        for(int i=0;i<arr.size();i++)
+        {
+            m[arr[i]].push_back(i);
+        }
+    }
+    
+    int query(int left, int right, int threshold) 
+    {
+        for(unordered_map<int,vector<int>>::iterator it=m.begin();it!=m.end();it++)
+        {
+            vector<int>::iterator low;
+            vector<int>::iterator up;
+            low=lower_bound(it->second.begin(),it->second.end(),left);
+            up=upper_bound(it->second.begin(),it->second.end(),right);
+            if(up-low>=threshold)
+            {
+                return it->first;
+            }
+        }
+        return -1;
+    }
+};
+
+/**
+ * Your MajorityChecker object will be instantiated and called as such:
+ * MajorityChecker* obj = new MajorityChecker(arr);
+ * int param_1 = obj->query(left,right,threshold);
+ */

@@ -1,0 +1,43 @@
+class Solution 
+{
+    public:
+    string minWindow(string S, string T) 
+    {
+        string result="";
+        map<char,vector<int>> total;
+        int m=2147483647;
+        
+        for(int i=0;i<S.length();i++)
+        {
+            total[S[i]].push_back(i);
+        }
+        for(int i=0;i<total[T[0]].size();i++)
+        {
+            int start=total[T[0]][i];
+            int current=start;
+            int f=0;
+            for(int j=1;j<T.length();j++)
+            {
+                vector<int>::iterator up;
+                up=upper_bound(total[T[j]].begin(),total[T[j]].end(),current);
+                int index=(int)(up-total[T[j]].begin());
+                if(index>=total[T[j]].size())
+                {
+                    f=1;
+                    break;
+                }
+                current=total[T[j]][index];
+            }
+            if(f==1)
+            {
+                break;
+            }
+            if(current-start+1<m)
+            {
+                m=current-start+1;
+                result=S.substr(start,current-start+1);
+            }
+        }
+        return result;
+    }
+};

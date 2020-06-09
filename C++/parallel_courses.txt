@@ -1,0 +1,54 @@
+class Solution 
+{
+    public:
+    unordered_map<int,vector<int>> p;
+    unordered_map<int,int> m;
+    unordered_set<int> v;
+    int dfs(int current)
+    {
+        if(m.find(current)!=m.end())
+        {
+            return m[current];
+        }
+        if(p[current].size()==0)
+        {
+            m[current]=1;
+            return 1;
+        }
+        int r=0;
+        for(int i=0;i<p[current].size();i++)
+        {
+            if(v.find(p[current][i])!=v.end())
+            {
+                return 2147483647;
+            }
+            v.insert(p[current][i]);
+            int temp=dfs(p[current][i]);
+            if(temp==2147483647)
+            {
+                return temp;
+            }
+            r=max(r,temp+1);
+        }
+        m[current]=r;
+        return r;
+    }
+    int minimumSemesters(int N, vector<vector<int>>& relations) 
+    {
+        int result=0;
+        for(int i=0;i<relations.size();i++)
+        {
+            p[relations[i][1]].push_back(relations[i][0]);
+        }
+        for(int i=1;i<=N;i++)
+        {
+            v={i};
+            result=max(result,dfs(i));
+        }
+        if(result==2147483647)
+        {
+            return -1;
+        }
+        return result;
+    }
+};

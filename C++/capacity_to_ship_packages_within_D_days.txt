@@ -1,0 +1,58 @@
+class Solution 
+{
+    public:
+    vector<int> w;
+    bool check(int total,int D)
+    {
+        vector<int> r(D,0);
+        int c=0;
+        for(int i=0;i<w.size();i++)
+        {
+            if(r[c]+w[i]<=total)
+            {
+                r[c]+=w[i];
+            }
+            else
+            {
+                c++;
+                if(c>=D)
+                {
+                    return false;
+                }
+                if(r[c]+w[i]>total)
+                {
+                    return false;
+                }
+                else
+                {
+                    r[c]+=w[i];
+                }
+            }
+        }
+        return true;
+    }
+    int shipWithinDays(vector<int>& weights, int D) 
+    {
+        w=weights;
+        int s=0;
+        for(int i=0;i<weights.size();i++)
+        {
+            s+=weights[i];
+        }
+        int p1=1;
+        int p2=s;
+        while(p1<p2)
+        {
+            int middle=(p1+p2)/2;
+            if(check(middle,D)==true)
+            {
+                p2=middle;
+            }
+            else
+            {
+                p1=middle+1;
+            }
+        }
+        return p1;
+    }
+};

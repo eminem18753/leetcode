@@ -1,0 +1,29 @@
+class Solution 
+{
+    public:
+    int strangePrinter(string s) 
+    {
+        if(s=="")
+        {
+            return 0;   
+        }
+        int n=s.length();
+        int dp[n][n];
+        memset(dp,0,sizeof(dp));
+        for(int i=n-1;i>-1;i--)
+        {
+            for(int j=i;j<n;j++)
+            {
+                dp[i][j]=((i==j)?1:1+dp[i+1][j]);   
+                for(int k=i+1;k<=j;k++)
+                {
+                    if(s[i]==s[k])
+                    {
+                        dp[i][j]=min(dp[i][j],dp[i+1][k-1]+dp[k][j]);   
+                    }
+                }
+            }
+        }
+        return dp[0][n-1];
+    }
+};

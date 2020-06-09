@@ -1,0 +1,56 @@
+class Solution 
+{
+    public:
+    vector<int> dp;
+    int stone(vector<int>& stoneValue,int start)
+    {
+        if(start==stoneValue.size())
+        {
+            return 0;
+        }
+        if(dp[start]!=-1000000)
+        {
+            return dp[start];
+        }
+        int a=-2147483648;
+        int b=-2147483648;
+        int c=-2147483648;
+        if(stoneValue.size()==start+1)
+        {
+            a=stoneValue[start];
+            dp[start]=a;
+        }
+        else if(stoneValue.size()==start+2)
+        {
+            a=stoneValue[start];
+            b=stoneValue[start]+stoneValue[start+1];
+            dp[start]=max(b,a-stone(stoneValue,start+1));
+        }
+        else if(stoneValue.size()>start+2)
+        {
+            a=stoneValue[start];
+            b=stoneValue[start]+stoneValue[start+1];
+            c=stoneValue[start]+stoneValue[start+1]+stoneValue[start+2];
+            dp[start]=max(c-stone(stoneValue,start+3),max(b-stone(stoneValue,start+2),a-stone(stoneValue,start+1)));
+        }
+        return dp[start];
+    }
+    string stoneGameIII(vector<int>& stoneValue) 
+    {
+        int n=stoneValue.size();
+        dp=vector<int>(n+1,-1000000);
+        int result=stone(stoneValue,0);
+        if(result>0)
+        {
+            return "Alice";
+        }
+        else if(result==0)
+        {
+            return "Tie";
+        }
+        else
+        {
+            return "Bob";
+        }
+    }
+};

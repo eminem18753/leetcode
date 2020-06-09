@@ -1,0 +1,148 @@
+class Solution 
+{
+    public:
+    string validIPAddress(string ip)
+    {
+        int c=0;
+        int colon=0;
+        int dot=0;
+        set<char> s;
+        s.insert('a');
+        s.insert('b');
+        s.insert('c');
+        s.insert('d');
+        s.insert('e');
+        s.insert('f');
+
+        s.insert('A');
+        s.insert('B');
+        s.insert('C');
+        s.insert('D');
+        s.insert('E');
+        s.insert('F');
+        for(int i=0;i<ip.length();i++)
+        {
+            if(i>0)
+            {
+                if(ip[i]=='.'&&ip[i-1]=='.')
+                {
+                    return "Neither";
+                }
+                if(ip[i]==':'&&ip[i-1]==':')
+                {
+                    return "Neither";
+                }
+            }
+            if(ip[i]=='.')
+            {
+                dot++;
+            }
+            else if(ip[i]==':')
+            {
+                colon++;
+            }
+        }
+        if(dot==3&&colon==0)
+        {
+            c=1;
+        }
+        else if(dot==0&&colon==7)
+        {
+            c=2;
+        }
+        else
+        {
+            return "Neither";
+        }
+        if(c==1)
+        {
+            vector<string> total;
+            string temp="";
+            for(int i=0;i<ip.length();i++)
+            {
+                if(ip[i]!='.')
+                {
+                    temp+=ip[i];
+                }
+                else
+                {
+                    total.push_back(temp);
+                    temp="";
+                }
+            }
+            total.push_back(temp);
+            
+            for(int i=0;i<total.size();i++)
+            {
+                if(total[i]=="")
+                {
+                    return "Neither";
+                }
+                if(total[i].length()>3)
+                {
+                    return "Neither";
+                }
+                if(total[i].length()>1&&total[i][0]=='0')
+                {
+                    return "Neither";
+                }
+                for(int j=0;j<total[i].length();j++)
+                {
+                    if(!isdigit(total[i][j]))
+                    {
+                        return "Neither";
+                    }
+                }
+                if(total[i].length()==3)
+                {
+                    if(total[i]>="256")
+                    {
+                        return "Neither";
+                    }
+                }
+            }
+            return "IPv4";
+        }
+        else if(c==2)
+        {
+            vector<string> total;
+            string temp="";
+            for(int i=0;i<ip.length();i++)
+            {
+                if(ip[i]!=':')
+                {
+                    temp+=ip[i];
+                }
+                else
+                {
+                    total.push_back(temp);
+                    temp="";
+                }
+            }
+            total.push_back(temp);
+
+            for(int i=0;i<total.size();i++)
+            {
+                if(total[i]=="")
+                {
+                    return "Neither";
+                }
+                if(total[i].length()>4)
+                {
+                    return "Neither";
+                }
+                for(int j=0;j<total[i].length();j++)
+                {
+                    if(!isdigit(total[i][j])&&s.find(total[i][j])==s.end())
+                    {
+                        return "Neither";
+                    }
+                }
+            }
+            
+            return "IPv6";
+        }
+        
+        return "Neither";
+    }
+};

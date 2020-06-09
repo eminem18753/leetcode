@@ -1,0 +1,66 @@
+class Solution {
+public:
+    bool equationsPossible(vector<string>& equations) 
+    {
+        int total[26];
+        int current=1;
+        memset(total,0,sizeof(total));
+        for(int i=0;i<equations.size();i++)
+        {
+            if(equations[i][1]=='=')
+            {
+                if(total[equations[i][0]-'a']!=0||total[equations[i][3]-'a']!=0)
+                {
+                    if(total[equations[i][0]-'a']!=0&&total[equations[i][3]-'a']!=0)
+                    {
+                        int t1=total[equations[i][0]-'a'];
+                        int t2=total[equations[i][3]-'a'];
+                        total[equations[i][0]-'a']=min(total[equations[i][0]-'a'],total[equations[i][3]-'a']);
+                        total[equations[i][3]-'a']=min(total[equations[i][0]-'a'],total[equations[i][3]-'a']);
+
+                        for(int j=0;j<26;j++)
+                        {
+                            if((total[j]==t1)||(total[j]==t2))
+                            {
+                                total[j]=min(total[equations[i][0]-'a'],total[equations[i][3]-'a']);
+                            }
+                        }
+                    }
+                    else if(total[equations[i][0]-'a']!=0)
+                    {
+                        total[equations[i][3]-'a']=total[equations[i][0]-'a'];
+                    }
+                    else
+                    {
+                        total[equations[i][0]-'a']=total[equations[i][3]-'a'];
+                    }
+                }
+                else
+                {
+                    total[equations[i][0]-'a']=current;
+                    total[equations[i][3]-'a']=current;
+                    current+=1;
+                }
+            }
+        }
+        
+        for(int i=0;i<equations.size();i++)
+        {
+            if(equations[i][1]=='!')
+            {
+                if(total[equations[i][0]-'a']!=0&&total[equations[i][3]-'a']!=0)
+                {
+                    if(total[equations[i][0]-'a']==total[equations[i][3]-'a'])
+                    {
+                        return false;
+                    }
+                }                
+                if(equations[i][0]==equations[i][3])
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+};

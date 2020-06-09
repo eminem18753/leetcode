@@ -1,0 +1,27 @@
+class Solution 
+{
+    public:
+    bool hasAllCodes(string s, int k) 
+    {
+        if(s.length()<pow(2,k)+1)
+        {
+            return false;
+        }
+        int current=0;
+        unordered_set<int> v;
+        for(int i=0;i<k;i++)
+        {
+            current<<=1;
+            current+=(s[i]-'0');
+        }
+        v.insert(current);
+        for(int i=k;i<s.length();i++)
+        {
+            current-=pow(2,k-1)*(s[i-k]-'0');
+            current<<=1;
+            current+=(s[i]-'0');
+            v.insert(current);
+        }
+        return v.size()==pow(2,k);
+    }
+};

@@ -1,0 +1,29 @@
+class Solution {
+public:
+    bool areSentencesSimilar(vector<string>& words1, vector<string>& words2, vector<vector<string>>& pairs) 
+    {
+        map<string,set<string>> total;
+        for(int i=0;i<pairs.size();i++)
+        {
+            total[pairs[i][0]].insert(pairs[i][1]);
+            total[pairs[i][1]].insert(pairs[i][0]);
+        }
+        if(words1.size()!=words2.size())
+        {
+            return false;
+        }
+        for(int i=0;i<words1.size();i++)
+        {
+            int flag=0;
+            if(total[words2[i]].find(words1[i])!=total[words2[i]].end())
+            {
+                flag=1;
+            }
+            if(words1[i]!=words2[i]&&flag==0)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+};

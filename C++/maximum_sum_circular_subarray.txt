@@ -1,0 +1,53 @@
+class Solution {
+public:
+    int maxSubarraySumCircular(vector<int>& A) 
+    {
+        if(A.size()==1)
+        {
+            return A[0];
+        }
+        int result=-2147483648;
+        int first[A.size()];
+        int second[A.size()];
+        int maximum1[A.size()];
+        int maximum2[A.size()];
+        int maximum3[A.size()];
+        int minimum1[A.size()];
+        int minimum2[A.size()];
+        memset(first,0,sizeof(first));
+        memset(second,0,sizeof(second));
+        memset(maximum1,-2147483648,sizeof(maximum1));
+        memset(maximum2,-2147483648,sizeof(maximum2));
+        memset(maximum3,-2147483648,sizeof(maximum3));
+        memset(minimum1,2147483647,sizeof(minimum1));
+        memset(minimum2,2147483647,sizeof(minimum2));
+        first[0]=A[0];
+        second[A.size()-1]=A[A.size()-1];
+        maximum1[0]=A[0];
+        maximum2[A.size()-1]=A[A.size()-1];
+        maximum3[A.size()-1]=A[A.size()-1];
+        minimum1[0]=A[0];
+        minimum2[A.size()-1]=A[A.size()-1];
+        for(int i=1;i<A.size();i++)
+        {
+            first[i]=first[i-1]+A[i];
+            second[A.size()-i-1]=second[A.size()-i]+A[A.size()-i-1];
+            minimum1[i]=min(minimum1[i-1],first[i]);
+            minimum2[A.size()-i-1]=min(minimum2[A.size()-i],second[A.size()-i-1]);
+            maximum1[i]=max(maximum1[i-1],first[i]-minimum1[i-1]);
+            maximum2[A.size()-i-1]=max(maximum2[A.size()-i],second[A.size()-i-1]-minimum2[A.size()-i]);
+            maximum3[A.size()-i-1]=max(maximum3[A.size()-i],second[A.size()-i-1]);
+            
+        }
+        for(int i=0;i<A.size()-1;i++)
+        {
+            if(first[i]+maximum3[i+1]>result)
+            {
+                result=first[i]+maximum3[i+1];
+            }
+        }
+        result=max(result,maximum1[A.size()-1]);
+        result=max(result,maximum2[0]);
+        return result;
+    }
+};

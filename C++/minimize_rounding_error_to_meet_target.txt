@@ -1,0 +1,67 @@
+bool compare(string a,string b)
+{
+    int l1=a.length();
+    int l2=b.length();
+    return a.substr(l1-4,4)<b.substr(l2-4,4);
+}
+class Solution {
+public:
+    double toDouble(string a)
+    {
+        string output="0";
+        int l1=a.length();
+        output+=a.substr(l1-4,4);
+        return stof(output);
+    }
+    string minimizeError(vector<string>& prices, int target) 
+    {
+        string result="";
+        double total=0;
+        int m=0;
+        int M=0;
+        int c=0;
+        sort(prices.begin(),prices.end(),compare);
+        for(int i=0;i<prices.size();i++)
+        {
+            int l=prices[i].length();
+            if(prices[i].substr(l-3,3)=="000")
+            {
+                c++;
+            }
+            m+=floor(stof(prices[i]));
+            M+=ceil(stof(prices[i]));
+        }
+        if(target<m||target>M)
+        {
+            return "-1";
+        }
+        int t=M-target+c;
+        for(int i=0;i<prices.size();i++)
+        {
+            int l=prices[i].length();
+            if(prices[i].substr(l-3,3)=="000")
+            {
+                continue;
+            }
+            else if(i<t)
+            {
+                total+=toDouble(prices[i]);
+            }
+            else
+            {
+                total+=(double)(1-toDouble(prices[i]));
+            }
+        }
+        string overall=to_string(total);
+        int index=-1;
+        for(int i=0;i<overall.length();i++)
+        {
+            if(overall[i]=='.')
+            {
+                index=i;
+                break;
+            }
+        }
+        return overall.substr(0,index+4);
+    }
+};

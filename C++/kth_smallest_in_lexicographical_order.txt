@@ -1,0 +1,32 @@
+class Solution 
+{
+    public:
+    int findKthNumber(int n, int k) 
+    {
+        int result=1;
+        k--;
+        while(k>0)
+        {
+            long long int step=0;
+            long long int first=result;
+            long long int second=result+1;
+            while(first<=n)
+            {
+                step+=min((long long)n+1,second)-first;
+                first*=10;
+                second*=10;
+            }
+            if(step<=k)
+            {
+                result++;
+                k-=step;   
+            }
+            else
+            {
+                result*=10;
+                k--;
+            }
+        }
+        return result;
+    }
+};

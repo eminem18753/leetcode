@@ -1,0 +1,40 @@
+class Solution 
+{
+    public:
+    int numWays(int steps, int arrLen) 
+    {
+        int m=1000000007;
+        int n=min(steps+1,arrLen);
+        int dp1[n];
+        int dp2[n];
+        memset(dp1,0,sizeof(dp1));
+        memset(dp2,0,sizeof(dp2));
+        dp1[0]=1;
+        dp2[0]=0;
+        for(int i=0;i<steps;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                if(j>0)
+                {
+                    dp2[j]=(dp2[j]+dp1[j-1])%m;
+                    if(dp1[j-1]==0)
+                    {
+                        break;
+                    }
+                }
+                if(j<n-1)
+                {
+                    dp2[j]=(dp2[j]+dp1[j+1])%m;
+                }
+                dp2[j]=(dp2[j]+dp1[j])%m;
+            }
+            for(int j=0;j<n;j++)
+            {
+                dp1[j]=dp2[j];
+                dp2[j]=0;
+            }
+        }
+        return dp1[0];
+    }
+};

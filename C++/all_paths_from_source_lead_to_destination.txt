@@ -1,0 +1,41 @@
+class Solution 
+{
+    public:
+    bool leadsToDestination(int n, vector<vector<int>>& edges, int source, int destination) 
+    {
+        map<int,vector<int>> total;
+        map<int,int> r;
+        for(int i=0;i<edges.size();i++)
+        {
+            total[edges[i][0]].push_back(edges[i][1]);
+            r[edges[i][1]]++;
+        }
+        deque<int> q;
+        q.push_back(source);
+        map<int,int> overall;
+        int f=0;
+        while(q.size()>0)
+        {
+            int p=q.front();
+            q.pop_front();
+            if(total[p].size()==0&&p!=destination)
+            {
+                return false;
+            }
+            if(total[p].size()==0&&p==destination)
+            {
+                f=1;
+            }
+            for(int i=0;i<total[p].size();i++)
+            {
+                if(overall.find(total[p][i])!=overall.end()&&overall[total[p][i]]>r[total[p][i]])
+                {
+                    return false;
+                }
+                q.push_back(total[p][i]);
+                overall[total[p][i]]++;
+            }
+        }
+        return f==1;
+    }
+};

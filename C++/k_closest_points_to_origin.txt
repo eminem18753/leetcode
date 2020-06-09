@@ -1,0 +1,31 @@
+class Solution
+{
+    public:
+    int square(int a,int b)
+    {
+        return a*a+b*b;
+    }
+    vector<vector<int>> kClosest(vector<vector<int>>& points, int K) 
+    {
+        vector<vector<int>> result;
+        vector<int> t;
+        for(int i=0;i<points.size();i++)
+        {
+            t.push_back(points[i][0]*points[i][0]+points[i][1]*points[i][1]);
+        }
+        sort(t.begin(),t.end());
+        set<int> r;
+        for(int i=0;i<K;i++)
+        {
+            r.insert(t[i]);
+        }
+        for(int i=0;i<points.size();i++)
+        {
+            if(r.find(points[i][0]*points[i][0]+points[i][1]*points[i][1])!=r.end())
+            {
+                result.push_back(points[i]);
+            }
+        }
+        return result;
+    }
+};

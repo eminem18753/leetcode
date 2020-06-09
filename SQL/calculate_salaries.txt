@@ -1,0 +1,15 @@
+# Write your MySQL query statement below
+SELECT a.company_id,a.employee_id,a.employee_name,
+ROUND(a.salary*
+(
+    CASE WHEN b.max_salary<1000 THEN 1
+        WHEN b.max_salary>=1000 AND b.max_salary<=10000 THEN 0.76
+        ELSE 0.51 END
+)) as salary
+FROM Salaries as a
+JOIN
+(
+    SELECT company_id,MAX(salary) as max_salary FROM Salaries
+    GROUP BY company_id
+) as b
+ON a.company_id=b.company_id;

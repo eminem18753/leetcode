@@ -1,0 +1,46 @@
+class Solution {
+public:
+    vector<double> medianSlidingWindow(vector<int>& nums, int k)
+    {
+        vector<double> result;
+        vector<int> w;
+        vector<int> index;
+        for(int i=0;i<nums.size();i++)
+        {
+            if(i<k)
+            {
+                vector<int>::iterator low;
+                low=lower_bound(w.begin(),w.end(),nums[i]);
+                int k=low-w.begin();
+                w.insert(low,nums[i]);
+                index.push_back(nums[i]);
+            }
+            else
+            {
+                vector<int>::iterator f;
+                f=lower_bound(w.begin(),w.end(),index[0]);
+                w.erase(f,f+1);
+                index.erase(index.begin(),index.begin()+1);
+                vector<int>::iterator low;
+                low=lower_bound(w.begin(),w.end(),nums[i]);
+                int k=low-w.begin();
+                w.insert(low,nums[i]);
+                index.push_back(nums[i]);
+            }
+            int n=w.size();
+            if(i<k-1)
+            {
+                continue;
+            }
+            if(n%2==1)
+            {
+                result.push_back((double)w[(n-1)/2]);
+            }
+            else
+            {
+                result.push_back(((double)w[n/2]+(double)w[n/2-1])/(double)2);
+            }
+        }
+        return result;
+    }
+};

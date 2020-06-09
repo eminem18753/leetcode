@@ -1,0 +1,42 @@
+class Solution 
+{
+    public:
+    int findNumberOfLIS(vector<int>& nums) 
+    {
+        int result=0;
+        int n=nums.size();
+        vector<int> l(n,0);
+        vector<int> c(n,0);
+        int M=0;
+        for(int i=0;i<nums.size();i++)
+        {
+            l[i]++;
+            c[i]++;
+            for(int j=0;j<i;j++)
+            {
+                if(nums[i]>nums[j])
+                {
+                    if(l[i]==l[j]+1)
+                    {
+                        c[i]+=c[j];   
+                    }
+                    else if(l[i]<l[j]+1)
+                    {
+                        l[i]=l[j]+1;
+                        c[i]=c[j];
+                    }
+                }
+            }
+            if(l[i]>M)
+            {
+                M=l[i];
+                result=c[i];
+            }
+            else if(l[i]==M)
+            {
+                result+=c[i];
+            }
+        }
+        return result;
+    }
+};

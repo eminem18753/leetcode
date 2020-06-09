@@ -1,0 +1,78 @@
+class Solution 
+{
+    public:
+    vector<vector<int>> M;
+    bool r=false;
+    int result=2147483647;
+    void dfs(vector<vector<int>>& A,int i,int j)
+    {
+        if(i==(int)A.size()-1&&j==(int)A[0].size()-1&&A[i][j]==1)
+        {
+            r=true;
+            return;
+        }
+        if(i<0||j<0||i>=(int)A.size()||j>=(int)A[0].size()||r==true)
+        {
+            return;
+        }
+        if(A[i][j]!=1)
+        {
+            return;
+        }
+        A[i][j]=2;
+        dfs(A,i+1,j);
+        dfs(A,i-1,j);
+        dfs(A,i,j+1);
+        dfs(A,i,j-1);
+        A[i][j]=0;
+    }
+    bool check(int t)
+    {
+        vector<vector<int>> temp((int)M.size(),vector<int>((int)M[0].size()));
+        for(int i=0;i<M.size();i++)
+        {
+            for(int j=0;j<M[i].size();j++)
+            {
+                if(M[i][j]>=t)
+                {
+                    temp[i][j]=1;
+                }
+            }
+        }
+        r=false;
+        dfs(temp,0,0);
+        return r;
+    }
+    int maximumMinimumPath(vector<vector<int>>& A) 
+    {
+        M=A;
+        set<int> s;
+        for(int i=0;i<A.size();i++)
+        {
+            for(int j=0;j<A[i].size();j++)
+            {
+                s.insert(A[i][j]);
+            }
+        }
+        vector<int> q(s.begin(),s.end());
+        int p1=q[0];
+        int p2=q.back();
+        while(p1<p2)
+        {
+            int middle=(p1+p2)/2;
+            if(check(middle)==true)
+            {
+                p1=middle+1;
+            }
+            else
+            {
+                p2=middle;
+            }
+        }
+        if(!check(p1))
+        {
+            return p1-1;
+        }
+        return p1;
+    }
+};

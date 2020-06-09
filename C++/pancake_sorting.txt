@@ -1,0 +1,19 @@
+class Solution {
+public:
+    vector<int> pancakeSort(vector<int>& A) 
+    {
+        vector<int> result;
+        int index=0;
+        for(int i=A.size();i>0;i--)
+        {
+            for(index=0;A[index]!=i;index++);
+            reverse(A.begin(),A.begin()+index+1);
+            
+            result.push_back(index+1);
+            reverse(A.begin(),A.begin()+i);
+            
+            result.push_back(i);
+        }
+        return result;
+    }
+};

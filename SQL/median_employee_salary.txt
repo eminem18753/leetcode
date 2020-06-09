@@ -1,0 +1,22 @@
+# Write your MySQL query statement below
+SELECT c.i as Id, c.com as Company, c.s as Salary FROM
+(
+    SELECT e1.Id as i, e1.Company as com, e1.Salary as s FROM Employee e1
+    ORDER BY Company ASC, Salary ASC
+) c
+WHERE
+(
+    SELECT Id as i FROM Employee e2
+    WHERE c.i=e2.Id AND 
+    ABS(
+    (
+        SELECT COUNT(*) FROM Employee e3
+        WHERE e2.Company=e3.Company AND e3.Salary<e2.Salary
+    )-
+    (
+        SELECT COUNT(*) FROM Employee e4
+        WHERE e2.Company=e4.Company AND e4.Salary>e2.Salary    
+    ))<=1
+) IS NOT NULL
+GROUP BY Salary,Company
+ORDER BY Company ASC,Salary ASC;

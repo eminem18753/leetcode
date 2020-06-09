@@ -1,0 +1,79 @@
+class Solution(object):
+    def solveEquation(self, equation):
+        """
+        :type equation: str
+        :rtype: str
+        """
+        left_signs=[]
+        right_signs=[]
+        left_number=[]
+        right_number=[]
+        
+        left,right=equation.split('=')
+        #print(left,right)
+        
+        index_left=0
+        
+        if left[0]=='-':
+            left_signs.append(-1)
+            index_left=1
+        else:
+            left_signs.append(1)
+            
+        left_temp=left[index_left:].split('+')
+        for i in range(0,len(left_temp)):
+            left_number.extend(left_temp[i].split('-'))
+                
+        index_right=0
+        
+        if right[0]=='-':
+            right_signs.append(-1)
+            index_right=1
+        else:
+            right_signs.append(1)
+        
+        right_temp=right[index_right:].split('+')
+        for i in range(0,len(right_temp)):
+            right_number.extend(right_temp[i].split('-'))
+
+        left_current=left[index_left:]
+        right_current=right[index_right:]
+        for i in range(0,len(left_current)):
+            if left_current[i]=='-':
+                left_signs.append(-1)
+            elif left_current[i]=='+':
+                left_signs.append(1)
+        
+        for i in range(0,len(right_current)):
+            if right_current[i]=='-':
+                right_signs.append(-1)
+            elif right_current[i]=='+':
+                right_signs.append(1)
+                
+        x_total=0
+        number_total=0
+        for i in range(0,len(left_signs)):
+            if 'x' in left_number[i]:
+                if len(left_number[i])==1:
+                    x_total+=left_signs[i]
+                else:
+                    x_total+=left_signs[i]*int(left_number[i][:-1])
+            else:
+                number_total-=left_signs[i]*int(left_number[i])
+             
+        for i in range(0,len(right_signs)):
+            if 'x' in right_number[i]:
+                if len(right_number[i])==1:
+                    x_total-=right_signs[i]
+                else:
+                    x_total-=right_signs[i]*int(right_number[i][:-1])
+            else:
+                number_total+=right_signs[i]*int(right_number[i])
+                
+        if x_total==0:
+            if number_total==0:
+                return "Infinite solutions"
+            else:
+                return "No solution"
+        
+        return "x="+str(number_total/x_total)

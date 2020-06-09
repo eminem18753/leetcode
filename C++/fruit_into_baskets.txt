@@ -1,0 +1,46 @@
+class Solution {
+public:
+    int totalFruit(vector<int>& tree) 
+    {
+        int result=0;
+        int c=0;
+        int p1=-1;
+        int p2=-1;
+        int f1=-1;
+        int f2=-1;
+        for(int i=0;i<tree.size();i++)
+        {
+            if(p1==-1)
+            {
+                p1=i;
+                f1=tree[i];
+                c++;
+            }
+            else if(tree[i]!=f1&&p2==-1)
+            {
+                p2=i;
+                f2=tree[i];
+                c++;
+            }
+            else if(tree[i]==f1)
+            {
+                c++;
+            }
+            else if(tree[i]==f2)
+            {
+                c++;
+            }
+            else if(tree[i]!=f1&&tree[i]!=f2)
+            {
+                i=p2;
+                p1=i;
+                p2=-1;
+                f1=tree[i];
+                f2=-1;
+                c=1;
+            }
+            result=max(result,c);
+        }
+        return result;
+    }
+};

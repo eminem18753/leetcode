@@ -1,0 +1,61 @@
+bool compare(vector<int> a,vector<int> b)
+{
+    if(a[0]!=b[0])
+    {
+        return a[0]<b[0];
+    }
+    return a[1]>b[1];
+}
+class Solution 
+{
+    public:
+    int minTaps(int n, vector<int>& ranges) 
+    {
+        int result=-1;
+        vector<vector<int>> intervals;
+        for(int i=0;i<ranges.size();i++)
+        {
+            if(ranges[i]==0)
+            {
+                continue;
+            }
+            intervals.push_back({i-ranges[i],i+ranges[i]});
+        }
+        sort(intervals.begin(),intervals.end(),compare);
+        int start_index=-1;
+        int max_cover=-1;
+        for(int i=0;i<intervals.size();i++)
+        {
+            if(intervals[i][0]<=0)
+            {
+                start_index=i+1;
+                max_cover=max(max_cover,intervals[i][1]);
+                result=1;
+            }
+        }
+        int M=max_cover;
+        while(start_index<intervals.size()&&max_cover<n)
+        {
+            if(intervals[start_index][0]>max_cover)
+            {
+                result++;
+                if(M<intervals[start_index][0])
+                {
+                    return -1;
+                }
+                max_cover=M;
+            }
+            M=max(M,intervals[start_index][1]);
+            if(M>=n)
+            {
+                return result+1;
+            }
+            start_index++;
+        }
+        if(M<n)
+        {
+            return -1;
+        }
+        return result;
+    }
+};

@@ -1,0 +1,68 @@
+class WordDictionary 
+{
+public:
+    /** Initialize your data structure here. */
+    bool result=true;
+    struct Node
+    {
+        map<char,Node*> a;
+        bool isEnd;
+    };
+    typedef struct Node Node;
+    Node* head;
+    WordDictionary() 
+    {
+        head=new Node();
+        head->isEnd=false;
+    }
+    
+    /** Adds a word into the data structure. */
+    void addWord(string word)
+    {
+        Node* t=head;
+        for(int i=0;i<word.length();i++)
+        {
+            if(t->a.find(word[i])==t->a.end())
+            {
+                t->a[word[i]]=new Node();
+                t->a[word[i]]->isEnd=false;
+            }
+            t=t->a[word[i]];
+        }
+        t->isEnd=true;            
+    }
+    void dfs(Node* t,string word,int s)
+    {
+        if(s>word.length())
+        {
+            return;
+        }
+        if(s==word.length()&&t->isEnd==true)
+        {
+            result=true;
+            return;
+        }
+        for(map<char,Node*>::iterator it=t->a.begin();it!=t->a.end();it++)
+        {
+            if(it->first==word[s]||word[s]=='.')
+            {
+                dfs(t->a[it->first],word,s+1);
+            }
+        }
+            
+    }
+    /** Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter. */
+    bool search(string word)
+    {
+        result=false;
+        dfs(head,word,0);
+        return result;
+    }
+};
+
+/**
+ * Your WordDictionary object will be instantiated and called as such:
+ * WordDictionary* obj = new WordDictionary();
+ * obj->addWord(word);
+ * bool param_2 = obj->search(word);
+ */

@@ -1,0 +1,35 @@
+class Solution(object):
+    def numSpecialEquivGroups(self, A):
+        """
+        :type A: List[str]
+        :rtype: int
+        """
+        total=[]
+        result=0
+        A=list(set(A))
+        
+        for i in range(1,len(A)):
+            flag=0
+            for j in range(0,i):
+                f1=""
+                f2=""
+                s1=""
+                s2=""
+                if ''.join(sorted(A[i]))==''.join(sorted(A[j])):
+                    for k in range(0,len(A[i])):
+                        if k%2==0:
+                            f1+=A[i][k]
+                        else:
+                            f2+=A[i][k]
+                    
+                    for k in range(0,len(A[j])):
+                        if k%2==0:
+                            s1+=A[j][k]
+                        else:
+                            s2+=A[j][k]
+                    
+                    if ''.join(sorted(f1))==''.join(sorted(s1)) and ''.join(sorted(f2))==''.join(sorted(s2)):
+                        result+=1
+                        break
+                    
+        return len(A)-result

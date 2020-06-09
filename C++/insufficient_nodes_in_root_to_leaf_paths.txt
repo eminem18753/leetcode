@@ -1,0 +1,90 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution 
+{
+    public:
+    int l;
+    map<TreeNode*,int> total;
+    void dfs(TreeNode* root,int s)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        if(root->left==NULL&&root->right==NULL)
+        {
+            if(s+root->val<l)
+            {
+                total[root]=-1;
+            }
+        }
+        dfs(root->left,s+root->val);
+        dfs(root->right,s+root->val);
+    }
+    void t1(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        t1(root->left);
+        t1(root->right);
+        if(root->left!=NULL&&root->right!=NULL)
+        {
+            if(total.find(root->left)!=total.end()&&total.find(root->right)!=total.end())
+            {
+                total[root]=-1;
+            }
+        }
+        else if(root->left!=NULL)
+        {
+            if(total.find(root->left)!=total.end())
+            {
+                total[root]=-1;
+            }
+        }
+        else if(root->right!=NULL)
+        {
+            if(total.find(root->right)!=total.end())
+            {
+                total[root]=-1;
+            }
+        }
+    }
+    void t2(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        if(total.find(root->left)!=total.end())
+        {
+            root->left=NULL;
+        }
+        if(total.find(root->right)!=total.end())
+        {
+            root->right=NULL;
+        }
+        t2(root->left);
+        t2(root->right);
+    }
+    TreeNode* sufficientSubset(TreeNode* root, int limit) 
+    {
+        l=limit;
+        dfs(root,0);
+        t1(root);
+        if(total.find(root)!=total.end())
+        {
+            return NULL;
+        }
+        t2(root);
+        return root;
+    }
+};

@@ -1,0 +1,32 @@
+// Forward declaration of the knows API.
+bool knows(int a, int b);
+
+class Solution 
+{
+    public:
+    int findCelebrity(int n) 
+    {
+        for(int i=0;i<n;i++)
+        {
+            int f=0;
+            for(int j=0;j<n;j++)
+            {
+                if(i!=j&&knows(i,j)==1)
+                {
+                    f=1;
+                    break;
+                }
+                if(i!=j&&knows(j,i)==0)
+                {
+                    f=1;
+                    break;
+                }
+            }
+            if(f==0)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+};

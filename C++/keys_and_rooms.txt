@@ -1,0 +1,46 @@
+class Solution {
+public:
+    bool canVisitAllRooms(vector<vector<int>>& rooms) 
+    {
+        if(rooms.size()<=1)
+        {
+            return true;
+        }
+        int n=rooms.size();
+        int a[n];
+        int u[n];
+        memset(a,0,sizeof(a));
+        memset(u,0,sizeof(u));
+        deque<int> total;
+        a[0]=1;
+        for(int i=0;i<rooms[0].size();i++)
+        {
+            total.push_back(rooms[0][i]);
+            a[rooms[0][i]]=1;
+            u[0]=1;
+        }
+        while(total.size()>0)
+        {
+            int f=total.front();
+            a[f]=1;
+            for(int i=0;i<rooms[f].size();i++)
+            {
+                if(u[rooms[f][i]]==0)
+                {
+                    total.push_back(rooms[f][i]);
+                }
+                a[rooms[f][i]]=1;
+                u[f]=1;
+            }
+            total.pop_front();
+        }
+        for(int i=0;i<n;i++)
+        {
+            if(a[i]==0)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+};

@@ -1,0 +1,54 @@
+bool compare(pair<string,int>& a,pair<string,int>& b)
+{
+    if(a.first.length()!=b.first.length())
+    {
+        return a.first.length()<b.first.length();
+    }
+    return a.second<b.second;
+}
+class Solution 
+{
+    public:
+    string arrangeWords(string text) 
+    {
+        string result="";
+        string space="";
+        int c=0;
+        text+=" ";
+        string current="";
+        vector<pair<string,int>> total;
+        for(int i=0;i<text.length();i++)
+        {
+           if(text[i]!=' ')
+           {
+               current+=text[i];
+           }
+           else
+           {
+               total.push_back({current,c++});
+               current="";
+           }
+        }
+        sort(total.begin(),total.end(),compare);
+        for(int i=0;i<total.size();i++)
+        {
+            if(i==0)
+            {
+                if(total[i].first[0]>='a'&&total[i].first[0]<='z')
+                {
+                    total[i].first[0]-=32;
+                }
+            }
+            else
+            {
+                if(total[i].first[0]>='A'&&total[i].first[0]<='Z')
+                {
+                    total[i].first[0]+=32;
+                }
+            }
+            result+=space+total[i].first;
+            space=" ";
+        }
+        return result;
+    }
+};

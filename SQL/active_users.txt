@@ -1,0 +1,21 @@
+# Write your MySQL query statement below
+SELECT DISTINCT a.current_id as id,b.name as name FROM
+(
+    SELECT id as current_id,
+    @current_count:=(CASE WHEN @previous_id=id AND DATEDIFF(login_date,@previous_date)=1 THEN @current_count+1 ELSE 1 END) as counts
+    ,@previous_id:=id
+    ,@previous_date:=login_date
+    FROM
+    (
+        SELECT DISTINCT * FROM Logins
+        ORDER BY id,login_date
+    ) as days
+    ,
+    (
+        SELECT @previous_id:=-1,@previous_date:=-1,@current_count:=0
+    ) as v
+) a
+JOIN Accounts as b
+ON a.current_id=b.id
+WHERE a.counts>=5
+ORDER BY id;

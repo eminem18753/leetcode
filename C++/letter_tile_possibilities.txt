@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int numTilePossibilities(string tiles) 
+    {
+        int a[26];
+        memset(a,0,sizeof(a));
+        for(int i=0;i<tiles.length();i++)
+        {
+            a[tiles[i]-'A']++;
+        }
+        return dfs(a);
+    }
+    int dfs(int a[26])
+    {
+        int s=0;
+        for(int i=0;i<26;i++)
+        {
+            if(a[i]==0)
+            {
+                continue;
+            }
+            s++;
+            a[i]--;
+            s+=dfs(a);
+            a[i]++;
+        }
+        return s;
+    }
+};

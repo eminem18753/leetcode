@@ -1,0 +1,48 @@
+class Solution {
+public:
+    void test(bool total[51][51],vector<vector<int>>& image,int pivot,int r,int c,int n)
+    {
+        if(r<0||r>=image.size())
+        {
+            return;
+        }
+        if(c<0||c>=image[0].size())
+        {
+            return;
+        }
+        if(image[r][c]!=pivot)
+        {
+            return;
+        }
+        if(total[r][c]==true)
+        {
+            return;
+        }
+        total[r][c]=true;
+        if(image[r][c]==pivot)
+        {
+            image[r][c]=n;
+        }
+        test(total,image,pivot,r+1,c,n);
+        test(total,image,pivot,r-1,c,n);
+        test(total,image,pivot,r,c+1,n);
+        test(total,image,pivot,r,c-1,n);
+    }
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) 
+    {
+        if(image.size()==0)
+        {
+            return image;
+        }
+        if(image[0].size()==0)
+        {
+            return image;
+        }
+        bool total[51][51];
+        memset(total,false,sizeof(total));
+        int pivot=image[sr][sc];
+        test(total,image,pivot,sr,sc,newColor);
+        
+        return image;
+    }
+};

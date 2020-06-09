@@ -1,0 +1,20 @@
+class Solution 
+{
+    public:
+    int maxNumberOfApples(vector<int>& arr) 
+    {
+        int r=0;
+        int c=0;
+        sort(arr.begin(),arr.end());
+        for(int i=0;i<arr.size();i++)
+        {
+            r+=arr[i];
+            if(r>5000)
+            {
+                break;
+            }
+            c++;
+        }
+        return c;
+    }
+};

@@ -1,0 +1,44 @@
+class Solution {
+public:
+    vector<int> powerfulIntegers(int x, int y, int bound)
+    {
+        vector<int> result;
+        for(int i=2;i<=bound;i++)
+        {
+            int current=i;
+            int p=1;
+            if(x==1&&y==1)
+            {
+                if(bound>=2)
+                {
+                    result.push_back(2);
+                    return result;
+                }
+                else
+                {
+                    return result;
+                }
+            }
+            while(current-p>0&&y!=1)
+            {
+                if(current-p==y)
+                {
+                    result.push_back(i);
+                    break;
+                }
+                if(ceil((double)log(current-p)/(double)log(y))==floor((double)log(current-p)/(double)log(y)))
+                {
+                    result.push_back(i);
+                    break;
+                }
+                p*=x;
+                if(x==1)
+                {
+                    break;
+                }
+            }
+            
+        }
+        return result;
+    }
+};

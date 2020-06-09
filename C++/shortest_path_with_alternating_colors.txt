@@ -1,0 +1,114 @@
+class Solution 
+{
+    public:
+    vector<int> shortestAlternatingPaths(int n, vector<vector<int>>& red_edges, vector<vector<int>>& blue_edges) 
+    {
+        vector<int> result(n,2147483647);
+        map<int,vector<int>> red;
+        map<int,vector<int>> blue;
+        for(int i=0;i<red_edges.size();i++)
+        {
+            red[red_edges[i][0]].push_back(red_edges[i][1]);
+        }
+        for(int i=0;i<blue_edges.size();i++)
+        {
+            blue[blue_edges[i][0]].push_back(blue_edges[i][1]);
+        }
+        //starts from red
+        deque<int> q1;
+        deque<int> c;
+        set<int> o1;
+        set<int> o2;
+        q1.push_back(0);
+        c.push_back(0);
+        o1.insert(0);
+        while(q1.size()>0)
+        {
+            int r=c.front();
+            c.pop_front();
+            
+            if(r%2==0)
+            {
+                int current=q1.front();
+                q1.pop_front();
+                result[current]=min(result[current],r);
+                for(int i=0;i<blue[current].size();i++)
+                {
+                    if(o2.find(blue[current][i])==o2.end())
+                    {
+                        o2.insert(blue[current][i]);
+                        q1.push_back(blue[current][i]);
+                        c.push_back(r+1);
+                    }
+                }
+            }
+            else
+            {
+                int current=q1.front();
+                q1.pop_front();
+                result[current]=min(result[current],r);
+                for(int i=0;i<red[current].size();i++)
+                {
+                    if(o1.find(red[current][i])==o1.end())
+                    {
+                        o1.insert(red[current][i]);
+                        q1.push_back(red[current][i]);
+                        c.push_back(r+1);
+                    }
+                }
+            }
+        }
+        //starts from blue
+        q1.clear();
+        c.clear();
+        o1.clear();
+        o2.clear();
+        q1.push_back(0);
+        c.push_back(0);
+        o1.insert(0);
+        while(q1.size()>0)
+        {
+            int r=c.front();
+            c.pop_front();
+            
+            if(r%2==0)
+            {
+                int current=q1.front();
+                q1.pop_front();
+                result[current]=min(result[current],r);
+                for(int i=0;i<red[current].size();i++)
+                {
+                    if(o1.find(red[current][i])==o1.end())
+                    {
+                        o1.insert(red[current][i]);
+                        q1.push_back(red[current][i]);
+                        c.push_back(r+1);
+                    }
+                }
+            }
+            else
+            {
+                int current=q1.front();
+                q1.pop_front();
+                result[current]=min(result[current],r);
+                for(int i=0;i<blue[current].size();i++)
+                {
+                    if(o2.find(blue[current][i])==o2.end())
+                    {
+                        o2.insert(blue[current][i]);
+                        q1.push_back(blue[current][i]);
+                        c.push_back(r+1);
+                    }
+                }
+            }
+        }
+        for(int i=0;i<result.size();i++)
+        {
+            if(result[i]==2147483647)
+            {
+                result[i]=-1;
+            }
+        }
+        return result;
+    }
+};

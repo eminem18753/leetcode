@@ -1,0 +1,28 @@
+class Solution {
+public:
+    bool checkPerfectNumber(int num) 
+    {
+        int result=0;
+        for(int i=2;i<=sqrt(num);i++)
+        {
+            if(num%i==0)
+            {
+                result+=i+num/i;
+            }
+            if(sqrt(num)==ceil(sqrt(num)))
+            {
+                result-=sqrt(num);
+            }
+        }
+        result+=1;
+        cout<<result<<endl;
+        if(result==num&&num!=1)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+};

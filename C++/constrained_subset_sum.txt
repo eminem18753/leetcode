@@ -1,0 +1,32 @@
+class Solution 
+{
+    public:
+    int constrainedSubsetSum(vector<int>& nums, int k) 
+    {
+        int result=-2147483648;
+        int n=nums.size();
+        int dp[n+1];
+        memset(dp,0,sizeof(dp));
+        multiset<int> m={0};
+        for(int i=0;i<n;i++)
+        {
+            dp[i+1]=nums[i];
+            dp[i+1]=max(dp[i+1],dp[i+1]+*m.rbegin());
+            if(m.size()<k)
+            {
+                m.insert(dp[i+1]);
+            }
+            else
+            {
+                m.erase(m.find(dp[i+1-k]));
+                m.insert(dp[i+1]);
+            }
+        }
+        
+        for(int i=1;i<=n;i++)
+        {
+            result=max(result,dp[i]);
+        }
+        return result;
+    }
+};

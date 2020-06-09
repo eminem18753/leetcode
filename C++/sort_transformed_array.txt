@@ -1,0 +1,77 @@
+class Solution {
+public:
+    vector<int> sortTransformedArray(vector<int>& nums, int a, int b, int c) 
+    {
+        vector<int> result;
+        vector<int> index;
+        double x=(double)(-b)/(double)2/(double)a;  
+        vector<int>::iterator low;
+        low=lower_bound(nums.begin(),nums.end(),(int)floor(x));
+        int i1=low-nums.begin();
+        int p1=min(i1-1,(int)nums.size()-1);
+        if(p1<nums.size()-2&&abs(nums[p1]-x)>abs(nums[p1+1]-x))
+        {
+            p1+=1;
+        }
+        int p2=p1+1;
+        while(index.size()<nums.size())
+        {
+            if(p1<0)
+            {
+                index.push_back(p2);
+                p2++;
+            }
+            else if(p2>nums.size()-1)
+            {
+                index.push_back(p1);
+                p1--;
+            }
+            else if(abs((double)nums[p1]-x)<abs((double)nums[p2]-x))
+            {
+                index.push_back(p1);
+                p1--;
+            }
+            else
+            {
+                index.push_back(p2);
+                p2++;
+            }
+        }
+        if(a>0)
+        {
+            for(int i=0;i<nums.size();i++)
+            {
+                result.push_back(a*nums[index[i]]*nums[index[i]]+b*nums[index[i]]+c);
+            }
+        }
+        else if(a<0)
+        {
+            for(int i=nums.size()-1;i>-1;i--)
+            {
+                result.push_back(a*nums[index[i]]*nums[index[i]]+b*nums[index[i]]+c);
+            }            
+        }
+        else if(a==0&&b>0)
+        {
+            for(int i=0;i<nums.size();i++)
+            {
+                result.push_back(a*nums[i]*nums[i]+b*nums[i]+c);
+            }                        
+        }
+        else if(a==0&&b<0)
+        {
+            for(int i=nums.size()-1;i>-1;i--)
+            {
+                result.push_back(a*nums[i]*nums[i]+b*nums[i]+c);
+            }                                    
+        }
+        else
+        {
+            for(int i=0;i<nums.size();i++)
+            {
+                result.push_back(c);
+            }                                    
+        }
+        return result;
+    }
+};

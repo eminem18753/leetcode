@@ -1,0 +1,35 @@
+class Solution {
+public:
+    vector<vector<int>> result;
+    void test(int s,vector<int> temp,vector<int> candidates,int n)
+    {
+        if(n==0)
+        {
+            result.push_back(temp);
+            return;
+        }
+        if(n<0)
+        {
+            return;
+        }
+        for(int i=s;i<candidates.size();i++)
+        {
+            temp.push_back(candidates[i]);
+            if((n-candidates[i])<0)
+            {
+                break;
+            }
+            test(i,temp,candidates,n-candidates[i]);
+            temp.pop_back();
+        }
+    }
+    
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) 
+    {
+        sort(candidates.begin(),candidates.end());
+        vector<int> temp;
+        int s=0;
+        test(s,temp,candidates,target);
+        return result;
+    }
+};

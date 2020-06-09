@@ -1,0 +1,38 @@
+class Solution {
+public:
+    int findLength(vector<int>& A, vector<int>& B)
+    {
+        int result=0;
+        int m=A.size();
+        int n=B.size();
+        map<int,vector<int>> total;
+        map<int,int> d;
+        for(int i=0;i<A.size();i++)
+        {
+            total[A[i]].push_back(i);
+        }
+        for(int i=0;i<B.size();i++)
+        {
+            for(int j=0;j<total[B[i]].size();j++)
+            {
+                int c=total[B[i]][j];
+                int d=i;
+                if(m-c<result)
+                {
+                    continue;
+                }
+                if(n-d<result)
+                {
+                    continue;
+                }
+                int r=0;
+                while(c<A.size()&&d<B.size()&&A[c++]==B[d++])
+                {
+                    r++;
+                    result=max(result,r);
+                }
+            }
+        }
+        return result;
+    }
+};

@@ -1,0 +1,103 @@
+class Solution 
+{
+public:
+    int pathSum(vector<int>& nums) 
+    {
+        int result=0;
+        map<string,int> total;
+        for(int i=0;i<nums.size();i++)
+        {
+            string temp=to_string(nums[i]).substr(0,2);
+            total[temp]=nums[i]%10;
+        }
+        if(nums.size()==1)
+        {
+            return nums[0]%10;
+        }
+        int f1=0;
+        int s1=0;
+        if(total.find("41")!=total.end())
+        {
+            f1=1;
+            s1=1;
+            result+=total["11"]+total["21"]+total["31"]+total["41"];
+        }
+        if(total.find("42")!=total.end())
+        {
+            f1=1;
+            s1=1;
+            result+=total["11"]+total["21"]+total["31"]+total["42"];        
+        }
+        if(total.find("31")!=total.end()&&f1==0)
+        {
+            s1=1;
+            result+=total["11"]+total["21"]+total["31"];
+        }
+        int f2=0;
+        if(total.find("43")!=total.end())
+        {
+            f2=1;
+            s1=1;
+            result+=total["11"]+total["21"]+total["32"]+total["43"];
+        }
+        if(total.find("44")!=total.end())
+        {
+            s1=1;
+            f2=1;
+            result+=total["11"]+total["21"]+total["32"]+total["44"];
+        }
+        if(total.find("32")!=total.end()&&f2==0)
+        {
+            s1=1;
+            result+=total["11"]+total["21"]+total["32"];
+        }
+        if(total.find("21")!=total.end()&&s1==0)
+        {
+            result+=total["11"]+total["21"];            
+        }
+        int f3=0;
+        int s2=0;
+        if(total.find("45")!=total.end())
+        {
+            s2=1;
+            f3=1;
+            result+=total["11"]+total["22"]+total["33"]+total["45"];
+        }
+        if(total.find("46")!=total.end())
+        {
+            s2=1;
+            f3=1;
+            result+=total["11"]+total["22"]+total["33"]+total["46"];
+        }
+        if(total.find("33")!=total.end()&&f3==0)
+        {
+            s2=1;
+            result+=total["11"]+total["22"]+total["33"];
+        }
+        int f4=0;
+        
+        if(total.find("47")!=total.end())
+        {
+            s2=1;
+            f4=1;
+            result+=total["11"]+total["22"]+total["34"]+total["47"];
+        }
+        if(total.find("48")!=total.end())
+        {
+            s2=1;
+            f4=1;
+            result+=total["11"]+total["22"]+total["34"]+total["48"];
+        }
+        if(total.find("34")!=total.end()&&f4==0)
+        {
+            s2=1;
+            result+=total["11"]+total["22"]+total["34"];
+        }
+        if(total.find("22")!=total.end()&&s2==0)
+        {
+            result+=total["11"]+total["22"];            
+        }
+
+        return result;
+    }
+};

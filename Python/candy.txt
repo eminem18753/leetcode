@@ -1,0 +1,16 @@
+class Solution(object):
+    def candy(self, ratings):
+        """
+        :type ratings: List[int]
+        :rtype: int
+        """
+        candy=[]
+        for i in range(0,len(ratings)):
+            candy.append(1)
+        for i in range(0,len(ratings)-1):
+            if ratings[i+1]>ratings[i]:
+                candy[i+1]+=candy[i]
+        for i in range(len(ratings)-1,0,-1):
+            if ratings[i-1]>ratings[i] and candy[i-1]<candy[i]+1:
+                candy[i-1]=candy[i]+1
+        return sum(candy)

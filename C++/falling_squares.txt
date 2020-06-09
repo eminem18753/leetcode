@@ -1,0 +1,39 @@
+class Solution 
+{
+    public:
+    vector<int> fallingSquares(vector<vector<int>>& positions) 
+    {
+        vector<int> result;
+        vector<vector<int>> total;
+        for(int i=0;i<positions.size();i++)
+        {
+            int left=positions[i][0];
+            int right=positions[i][0]+positions[i][1];
+            int height=positions[i][1];
+            int M=0;
+            int current=0;
+            for(int j=0;j<total.size();j++)
+            {
+                if(left>total[j][0]&&left<total[j][1])
+                {
+                    M=max(M,total[j][2]);
+                }
+                else if(right>total[j][0]&&right<total[j][1])
+                {
+                    M=max(M,total[j][2]);
+                }
+                else if(left<=total[j][0]&&right>=total[j][1])
+                {
+                    M=max(M,total[j][2]);
+                }
+                else
+                {
+                    current=max(current,total[j][2]);
+                }
+            }
+            total.push_back({left,right,height+M});
+            result.push_back(max(current,height+M));
+        }
+        return result;
+    }
+};

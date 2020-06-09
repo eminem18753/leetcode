@@ -1,0 +1,64 @@
+class Solution 
+{
+    public:
+    set<string> multiply(set<string>& a,set<string>& b)
+    {
+        set<string> result;
+        for(set<string>::iterator i1=a.begin();i1!=a.end();i1++)
+        {
+            for(set<string>::iterator i2=b.begin();i2!=b.end();i2++)
+            {
+                result.insert(*i1+*i2);
+            }
+        }
+        return result;
+    }
+    set<string> getResult(string& expression,int& c)
+    {
+        set<string> result;
+        if(expression[c]>='a'&&expression[c]<='z')
+        {
+            result.insert(string(1,expression[c]));
+            c++;
+        }
+        else
+        {
+            result.insert("");
+            while(expression[c]=='{')
+            {
+                c++;
+                set<string> r;
+                while(true)
+                {
+                    set<string> t=getResult(expression,c);
+                    c++;
+                    r.insert(t.begin(),t.end());
+                    if(expression[c-1]=='}')
+                    {
+                        break;
+                    }
+                }
+                result=multiply(result,r);
+            }
+        }
+        return result;
+    }
+    vector<string> braceExpansionII(string expression) 
+    {
+        string total="";
+        for(int i=0;i<expression.length();i++)
+        {
+            if(expression[i]>='a'&&expression[i]<='z')
+            {
+                total+="{"+string(1,expression[i])+"}";
+            }
+            else
+            {
+                total+=expression[i];
+            }
+        }
+        int c=0;
+        set<string> r=getResult(total,c);
+        return vector<string>(r.begin(),r.end());
+    }
+};

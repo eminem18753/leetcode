@@ -1,0 +1,23 @@
+class Solution 
+{
+    public:
+    int largestPalindrome(int n) 
+    {
+        int upper=pow(10,n)-1;
+        int lower=upper/10;
+        for(int i=upper;i>lower;i--)
+        {
+            string temp=to_string(i);
+            string current=temp+string(temp.rbegin(),temp.rend());
+            long long int c=stol(current);
+            for(long long int j=upper;j*j>=c;j--)
+            {
+                if(c%j==0)
+                {
+                    return c%1337;
+                }
+            }
+        }
+        return 9;
+    }
+};

@@ -1,0 +1,87 @@
+bool compare(vector<int> a,vector<int> b)
+{
+    if(a[2]!=b[2])
+    {
+        return a[2]<b[2];
+    }
+    return a[1]>b[1];
+}
+class Solution 
+{
+    public:
+    vector<int> exclusiveTime(int n, vector<string>& logs) 
+    {
+        vector<int> result(n,0);
+        vector<vector<int>> total;
+        for(int i=0;i<logs.size();i++)
+        {
+            vector<int> temp;
+            int i1=-1;
+            int i2=-1;
+            for(int j=0;j<logs[i].length();j++)
+            {
+                if(logs[i][j]==':'&&i1==-1)
+                {
+                    i1=j;   
+                }
+                else if(logs[i][j]==':'&&i1!=-1)
+                {
+                    i2=j;   
+                }
+            }
+            temp.push_back(stoi(logs[i].substr(0,i1)));
+            if(logs[i].substr(i1+1,i2-i1-1)=="start")
+            {
+                temp.push_back(1);   
+            }
+            else
+            {
+                temp.push_back(-1);   
+            }
+            temp.push_back(stoi(logs[i].substr(i2+1)));
+            total.push_back(temp);
+        }
+        sort(total.begin(),total.end(),compare);
+        
+        vector<int> s;
+        for(int i=0;i<total.size();i++)
+        {
+            if(i==0)
+            {
+                s.push_back(total[i][0]);
+            }
+            else
+            {
+                if(total[i][1]==-1)
+                {
+                    s.pop_back();   
+                }
+                int d=total[i][2]-total[i-1][2];
+                if(total[i][1]==1&&total[i-1][1]==1)
+                {
+                    result[total[i-1][0]]+=d;
+                }
+                if(total[i][1]==-1&&total[i-1][1]==-1)
+                {
+                    result[total[i][0]]+=d;
+                }
+                if(total[i][1]==-1&&total[i-1][1]==1)
+                {
+                    result[total[i][0]]+=d+1;
+                }
+                if(total[i][1]==1&&total[i-1][1]==-1)
+                {
+                    if(s.size()>0)
+                    {
+                        result[s.back()]+=d-1;
+                    }
+                }
+                if(total[i][1]==1)
+                {
+                    s.push_back(total[i][0]);   
+                }
+            }
+        }
+        return result;
+    }
+};

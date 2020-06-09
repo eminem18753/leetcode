@@ -1,0 +1,40 @@
+class Solution 
+{
+    public:
+    bool canConvert(string str1, string str2) 
+    {
+        map<char,set<int>> a1;
+        map<char,set<int>> a2;
+        map<char,char> a3;
+        for(int i=0;i<str1.length();i++)
+        {
+            a1[str1[i]].insert(i);
+            a2[str2[i]].insert(i);
+            a3[str1[i]]=str2[i];
+        }
+        
+        if(a1.size()<a2.size())
+        {
+            return false;
+        }
+        if(a1.size()==26&&a2.size()==26)
+        {
+            if(str1!=str2)
+            {
+                return false;
+            }                
+        }
+        
+        for(map<char,set<int>>::iterator it=a1.begin();it!=a1.end();it++)
+        {
+            for(set<int>::iterator i1=a1[it->first].begin();i1!=a1[it->first].end();i1++)
+            {
+                if(a2[a3[it->first]].find(*i1)==a2[a3[it->first]].end())
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+};

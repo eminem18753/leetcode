@@ -1,0 +1,24 @@
+class Solution {
+public:
+    vector<int> numberOfLines(vector<int>& widths, string S) 
+    {
+        vector<int> result;
+        int counter1=1;
+        int counter2=0;
+        for(int i=0;i<S.length();i++)
+        {
+            if(counter2+widths[S[i]-'a']<=100)
+            {
+                counter2+=widths[S[i]-'a'];
+            }
+            else
+            {
+                counter1+=1;
+                counter2=widths[S[i]-'a'];
+            }
+        }
+        result.push_back(counter1);
+        result.push_back(counter2);
+        return result;
+    }
+};

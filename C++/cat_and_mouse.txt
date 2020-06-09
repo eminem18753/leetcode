@@ -1,0 +1,90 @@
+class Solution 
+{
+    public:
+    vector<vector<vector<int>>> dp;
+    int dfs(vector<vector<int>>& graph,int times,int x,int y)
+    {
+        if(times==2*(int)graph.size())
+        {
+            return 0;
+        }
+        if(x==y)
+        {
+            dp[times][x][y]=2;
+            return 2;
+        }
+        if(x==0)
+        {
+            dp[times][x][y]=1;
+            return 1;
+        }
+        if(dp[times][x][y]!=-1)
+        {
+            return dp[times][x][y];
+        }
+        if(times%2==0)
+        {
+            bool catWin=true;
+            for(int i=0;i<graph[x].size();i++)
+            {
+                int r=dfs(graph,times+1,graph[x][i],y);
+                if(r==1)
+                {
+                    dp[times][x][y]=1;
+                    return 1;
+                }
+                else if(r==0)
+                {
+                    catWin=false;
+                }
+            }
+            if(catWin==true)
+            {
+                dp[times][x][y]=2;
+                return 2;
+            }
+            else
+            {
+                dp[times][x][y]=0;
+                return 0;
+            }
+        }
+        else
+        {
+            bool mouseWin=true;
+            for(int i=0;i<graph[y].size();i++)
+            {
+                if(graph[y][i]==0)
+                {
+                    continue;
+                }
+                int r=dfs(graph,times+1,x,graph[y][i]);
+                if(r==2)
+                {
+                    dp[times][x][y]=2;
+                    return 2;
+                }
+                else if(r==0)
+                {
+                    mouseWin=false;
+                }
+            }
+            if(mouseWin==true)
+            {
+                dp[times][x][y]=1;
+                return 1;
+            }
+            else
+            {
+                dp[times][x][y]=0;
+                return 0;
+            }
+        }
+    }
+    int catMouseGame(vector<vector<int>>& graph) 
+    {
+        int n=graph.size();
+        dp=vector<vector<vector<int>>>(2*n,vector<vector<int>>(n,vector<int>(n,-1)));
+        return dfs(graph,0,1,2);
+    }
+};

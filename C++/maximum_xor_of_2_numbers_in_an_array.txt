@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int findMaximumXOR(vector<int>& nums)
+    {
+        int mask=0;
+        int ans=0;
+        for(int i=31;i>=0;i--)
+        {
+            mask|=(1<<i);
+            int temp=ans|(1<<i);
+            set<int> total;
+            for(int j=0;j<nums.size();j++)
+            {
+                int num=nums[j]&mask;
+                if(total.count(temp^num))
+                {
+                    ans=temp;
+                    break;
+                }
+                total.insert(num);
+            }
+        }
+        return ans;
+    }
+};

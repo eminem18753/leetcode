@@ -1,0 +1,56 @@
+from threading import Thread
+from threading import Lock
+
+# """
+# This is HtmlParser's API interface.
+# You should not implement it, or speculate about its implementation
+# """
+#class HtmlParser(object):
+#    def getUrls(self, url):
+#        """
+#        :type url: str
+#        :rtype List[str]
+#        """
+
+class Solution(object):
+    def __init__(self):
+        self.lock=Lock()
+        self.q=collections.deque()
+        self.v=set()
+    def getU(self,url,htmlParser,hostname):
+        links=htmlParser.getUrls(url)
+        n=len(hostname)
+        self.lock.acquire()
+        for i in links:
+            if i not in self.v and i[0:n]==hostname:
+                self.q.append(i)
+                self.v.add(i)
+        self.lock.release()
+        
+    def crawl(self, startUrl, htmlParser):
+        """
+        :type startUrl: str
+        :type htmlParser: HtmlParser
+        :rtype: List[str]
+        """
+        hostname=""
+        for i in range(1,len(startUrl)):
+            if i<len(startUrl)-1 and startUrl[i]=='/' and startUrl[i-1]!='/' and startUrl[i+1]!='/':
+                hostname=startUrl[0:i]
+                break
+            elif i==len(startUrl)-1:
+                hostname=startUrl
+        self.q.append(startUrl)
+        self.v.add(startUrl)
+        while len(self.q)>0:
+            current=self.q.popleft()
+            t=list()
+            t.append(Thread(target=self.getU,args=(current,htmlParser,hostname)))
+            while len(self.q)>0:
+                current=self.q.popleft()
+                t.append(Thread(target=self.getU,args=(current,htmlParser,hostname)))
+            for i in range(0,len(t)):
+                t[i].start()
+            for i in range(0,len(t)):
+                t[i].join()
+        return list(self.v)

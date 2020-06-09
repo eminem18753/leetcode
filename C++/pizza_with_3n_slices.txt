@@ -1,0 +1,29 @@
+class Solution 
+{
+    public:
+    int pizza(vector<int>& slices,int n)
+    {
+        int result=0;
+        vector<vector<int>> total((int)slices.size()+2,vector<int>(n+1,-2147483648));
+        for(int i=0;i<total.size();i++)
+        {
+            total[i][0]=0;
+        }
+        for(int i=2;i<total.size();i++)
+        {
+            for(int j=1;j<=n;j++)
+            {
+                total[i][j]=max(total[i-1][j],total[i-2][j-1]+slices[i-2]);
+            }
+            result=max(result,total[i][n]);
+        }
+        return result;
+    }
+    int maxSizeSlices(vector<int>& slices) 
+    {
+        int n=(int)slices.size()/3;
+        vector<int> l1=vector<int>(slices.begin(),slices.end()-1);
+        vector<int> l2=vector<int>(slices.begin()+1,slices.end());
+        return max(pizza(l1,n),pizza(l2,n));
+    }
+};

@@ -1,0 +1,44 @@
+class Solution
+{
+    public:
+    void d1(vector<vector<int>>& tree,vector<int>& result,vector<int>& c,int current,int previous)
+    {
+        for(int i=0;i<tree[current].size();i++)
+        {
+            if(tree[current][i]==previous)
+            {
+                continue;
+            }
+            d1(tree,result,c,tree[current][i],current);
+            c[current]+=c[tree[current][i]];
+            result[current]+=result[tree[current][i]]+c[tree[current][i]];
+        }
+        c[current]++;
+    }
+    void d2(vector<vector<int>>& tree,vector<int>& result,vector<int>& c,int current,int previous)
+    {
+        for(int i=0;i<tree[current].size();i++)
+        {
+            if(tree[current][i]==previous)
+            {
+                continue;
+            }
+            result[tree[current][i]]=result[current]-c[tree[current][i]]+(int)result.size()-c[tree[current][i]];
+            d2(tree,result,c,tree[current][i],current);
+        }
+    }
+    vector<int> sumOfDistancesInTree(int N, vector<vector<int>>& edges) 
+    {
+        vector<vector<int>> tree(N);
+        vector<int> result(N,0);
+        vector<int> c(N,0);
+        for(int i=0;i<edges.size();i++)
+        {
+            tree[edges[i][0]].push_back(edges[i][1]);
+            tree[edges[i][1]].push_back(edges[i][0]);
+        }
+        d1(tree,result,c,0,-1);
+        d2(tree,result,c,0,-1);
+        return result;
+    }
+};

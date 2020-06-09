@@ -1,0 +1,25 @@
+class Solution 
+{
+public:
+    int trailingZeroes(int n) 
+    {
+        int result=0;
+        int count=0;
+        int temp=1;
+        while(temp<n)
+        {
+            temp*=5;
+            count+=1;
+            if(temp>n/5)
+            {
+                break;
+            }
+        }
+
+        for(int i=1;i<=count;i++)
+        {
+            result+=n/pow(5,i);
+        }
+        return result;
+    }
+};

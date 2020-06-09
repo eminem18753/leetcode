@@ -1,0 +1,46 @@
+class Solution 
+{
+    public:
+    vector<int> smallestRange(vector<vector<int>>& nums) 
+    {
+        vector<int> result={-1000000,1000000};
+        map<int,vector<int>> t1;
+        map<int,vector<int>> t2;
+        map<int,int> c;
+        for(int i=0;i<nums.size();i++)
+        {
+            t1[nums[i][0]].push_back(i);
+            t2[-nums[i][0]].push_back(i);
+            if(c.find(nums[i][0])==c.end())
+            {
+                c[nums[i][0]]=0;   
+            }
+            c[nums[i][0]]++;
+        }
+        while(true)
+        {
+            int f1=t1.begin()->first;
+            int f2=t1.begin()->second[0];
+            if(result[1]-result[0]>-(t2.begin()->first)-t1.begin()->first)
+            {
+                result={t1.begin()->first,-(t2.begin()->first)};
+            }
+            c[f1]--;
+            t1.begin()->second.erase(t1.begin()->second.begin());
+            if(c[f1]==0)
+            {
+                t1.erase(f1);
+                t2.erase(-f1);
+            }
+            nums[f2].erase(nums[f2].begin());
+            if(nums[f2].size()==0)
+            {
+                break;   
+            }
+            t1[nums[f2][0]].push_back(f2);
+            t2[-nums[f2][0]].push_back(f2);
+            c[nums[f2][0]]++;
+        }
+        return result;
+    }
+};

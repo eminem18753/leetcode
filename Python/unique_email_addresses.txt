@@ -1,0 +1,31 @@
+class Solution(object):
+    def numUniqueEmails(self, emails):
+        """
+        :type emails: List[str]
+        :rtype: int
+        """
+        total=set()
+        for i in range(0,len(emails)):
+            p1=-1
+            f=-1
+            for j in range(0,len(emails[i])):
+                if emails[i][j]=='@':
+                    p1=j
+                    break
+            first=emails[i][:p1]
+            second=emails[i][p1:]
+            for j in range(0,len(first)):
+                if emails[i][j]=='+':
+                    p2=j
+                    f=1
+                    break
+           
+            if f==1:
+                t=emails[i][p2:p1]
+                first=first.replace(t,"")
+                
+            first=first.replace(".","")
+            overall=first+second
+            total.add(overall)
+        return len(total)
+        

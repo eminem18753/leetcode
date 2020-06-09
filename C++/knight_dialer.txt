@@ -1,0 +1,45 @@
+class Solution 
+{
+public:
+    int knightDialer(int N) 
+    {
+        long long m=1000000007;
+        long long result=0;
+        
+        long long d1[10];
+        long long d2[10];
+        memset(d1,0,sizeof(d1));
+        memset(d2,0,sizeof(d2));
+        if(N==1)
+        {
+            return 10;
+        }
+        for(int i=0;i<10;i++)
+        {
+            d1[i]=1;
+        }
+        for(int i=1;i<N;i++)
+        {
+            d2[0]=d1[4]+d1[6];
+            d2[1]=d1[6]+d1[8];
+            d2[2]=d1[7]+d1[9];
+            d2[3]=d1[4]+d1[8];
+            d2[4]=d1[3]+d1[9]+d1[0];
+            d2[5]=0;
+            d2[6]=d1[1]+d1[7]+d1[0];
+            d2[7]=d1[2]+d1[6];
+            d2[8]=d1[1]+d1[3];
+            d2[9]=d1[2]+d1[4];
+            for(int j=0;j<10;j++)
+            {
+                d1[j]=d2[j]%m;
+            }
+        }
+        for(int i=0;i<10;i++)
+        {
+            result+=d2[i];
+            result%=m;
+        }
+        return result;
+    }
+};

@@ -1,0 +1,67 @@
+class Solution {
+public:
+    int D(vector<int> p1,vector<int> p2)
+    {
+        return (p1[0]-p2[0])*(p1[0]-p2[0])+(p1[1]-p2[1])*(p1[1]-p2[1]);
+    }
+    bool T(vector<int> p1,vector<int> p2,vector<int> p3)
+    {
+        int t1=D(p1,p2);
+        int t2=D(p2,p3);
+        int t3=D(p1,p3);
+        if(t1==t2&&t3==2*t1)
+        {
+            return true;
+        }
+        if(t1==t3&&t2==2*t1)
+        {
+            return true;
+        }
+        if(t2==t3&&t1==2*t2)
+        {
+            return true;
+        }
+        return false;
+    }
+    bool validSquare(vector<int>& p1, vector<int>& p2, vector<int>& p3, vector<int>& p4) 
+    {
+        int summation=0;
+        map<int,int> total;
+        total[D(p1,p2)]+=1;
+        total[D(p1,p3)]+=1;
+        total[D(p1,p4)]+=1;
+        total[D(p2,p3)]+=1;
+        total[D(p2,p4)]+=1;
+        total[D(p3,p4)]+=1;
+        
+        map<int,int>::iterator it;
+        if(total.size()!=2)
+        {
+            return false;
+        }
+        for(it=total.begin();it!=total.end();it++)
+        {
+            if(it->second!=4&&it->second!=2)
+            {
+                return false;
+            }
+        }
+        if(!T(p2,p3,p4))
+        {
+            return false;
+        }
+        if(!T(p1,p3,p4))
+        {
+            return false;
+        }
+        if(!T(p1,p2,p4))
+        {
+            return false;
+        }
+        if(!T(p1,p2,p3))
+        {
+            return false;
+        }
+        return true;
+    }
+};

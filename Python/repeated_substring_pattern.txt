@@ -1,0 +1,25 @@
+class Solution(object):
+    def repeatedSubstringPattern(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        if len(s)==1:
+            return False
+        total=[]
+        current=[]
+        for i in range(1,int(math.ceil(math.sqrt(len(s))))):
+            if len(s)%i==0:
+                current.append(i)
+        
+        total.extend(current)
+        if int(math.floor(math.sqrt(len(s))))==int(math.ceil(math.sqrt(len(s)))):
+            total.append(int(math.sqrt(len(s))))
+        for i in range(len(current)-1,0,-1):
+            total.append(len(s)/current[i])
+        
+        for i in range(0,len(total)):
+            if s[:total[i]]*(len(s)/total[i])==s:
+                return True
+        
+        return False;

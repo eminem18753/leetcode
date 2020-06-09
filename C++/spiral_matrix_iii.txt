@@ -1,0 +1,53 @@
+class Solution {
+public:
+    vector<vector<int>> spiralMatrixIII(int R, int C, int r0, int c0)
+    {
+        vector<vector<int>> result;
+        int direction=0;//0:right,1:down,2:left,up:3
+        int x=r0;
+        int y=c0;
+        int number=1;
+        int flag=0;
+        while(result.size()<R*C)
+        {
+            for(int i=0;i<number;i++)
+            {
+                if(x>=0&&x<R&&y>=0&&y<C)
+                {
+                    vector<int> temp;
+                    temp.push_back(x);
+                    temp.push_back(y);
+                    result.push_back(temp);
+                }
+
+                if(direction==0)
+                {
+                    flag=0;
+                    y++;
+                }
+                else if(direction==1)
+                {
+                    flag=1;
+                    x++;
+                }
+                else if(direction==2)
+                {
+                    flag=0;
+                    y--;
+                }
+                else if(direction==3)
+                {
+                    flag=1;
+                    x--;
+                }            
+            }
+            direction++;
+            direction%=4;
+            if(flag==1)
+            {
+                number+=1;
+            }
+        }
+        return result;
+    }
+};

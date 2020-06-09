@@ -1,0 +1,71 @@
+class Solution 
+{
+public:
+    string complexNumberMultiply(string a, string b)
+    {
+        int c;
+        int d;
+        int e;
+        int f;
+        int flag1=0;
+        int flag2=0;
+        string cs="";
+        string ds="";
+        string es="";
+        string fs="";
+        string result="";
+        for(int i=0;i<a.length();i++)
+        {
+            if(a[i]=='+')
+            {
+                flag1=1;
+            }
+            else if(flag1==0)
+            {
+                cs+=a[i];
+            }
+            else if(flag1==1)
+            {
+                if(a[i]!='i')
+                {
+                    ds+=a[i];
+                }
+            }	    
+        }
+        for(int i=0;i<b.length();i++)
+        {
+            if(b[i]=='+')
+            {
+                flag2=1;
+            }
+            else if(flag2==0)
+            {
+                es+=b[i];
+            }
+            else if(flag2==1)
+            {
+                if(b[i]!='i')
+                {
+                    fs+=b[i];
+                }
+            }
+        }
+        c=atoi(cs.c_str());
+        d=atoi(ds.c_str());
+        e=atoi(es.c_str());
+        f=atoi(fs.c_str());
+        int resultReal=c*e-d*f;
+        int resultImagine=c*f+d*e;
+        string final="";
+        ostringstream ss1;
+        ss1<<resultReal;
+        final+=ss1.str();
+        final+='+';
+        ostringstream ss2;
+        ss2<<resultImagine;
+        final+=ss2.str();
+        final+='i';
+        result=final;
+        return result;      
+    }
+};

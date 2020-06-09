@@ -1,0 +1,21 @@
+class Solution {
+public:
+    string convertToTitle(int n) {
+        string result="";
+        n-=1;
+        while(n/26!=0)
+        {
+            int y=n%26;
+            n/=26;
+            n-=1;
+            result+=y+65;
+        }
+        result+=n+65;
+        string finalResult="";
+        for(int i=result.length()-1;i>-1;i--)
+        {
+            finalResult+=result[i];
+        }
+        return finalResult;
+    }
+};

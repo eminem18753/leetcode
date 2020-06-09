@@ -1,0 +1,78 @@
+class Solution {
+public:
+    int surfaceArea(vector<vector<int>>& grid)
+    {
+        int n=grid.size();
+        int result=n*n*2;
+        for(int i=0;i<grid.size();i++)
+        {
+            int maximum=-1;
+            int c=0;
+            for(int j=0;j<grid.size();j++)
+            {
+                if(grid[i][j]>maximum)
+                {
+                    maximum=grid[i][j];
+                }
+                if(grid[i][j]==0)
+                {
+                    c+=1;
+                }
+            }
+            result+=maximum*2;
+            result-=c*2;
+        }
+        for(int i=0;i<grid.size();i++)
+        {
+            int maximum=-1;
+            int c=0;
+            for(int j=0;j<grid.size();j++)
+            {
+                if(grid[j][i]>maximum)
+                {
+                    maximum=grid[j][i];
+                }
+            }
+            result+=maximum*2;
+        }
+        for(int i=0;i<grid.size();i++)
+        {
+            vector<int> s;
+            int flag=0;
+            for(int j=0;j<grid.size();j++)
+            {
+                while(s.size()>0&&grid[i][j]>=s.back())
+                {
+                    if(s.size()>1&&flag==0)
+                    {
+                        result+=(min(grid[i][j],s[0])-s.back())*2;
+                    }
+                    flag=1;
+                    s.pop_back();
+                }
+                flag=0;
+                s.push_back(grid[i][j]);
+            }
+        }
+        for(int i=0;i<grid.size();i++)
+        {
+            vector<int> s;
+            int flag=0;
+            for(int j=0;j<grid.size();j++)
+            {
+                while(s.size()>0&&grid[j][i]>=s.back())
+                {
+                    if(s.size()>1&&flag==0)
+                    {
+                        result+=(min(grid[j][i],s[0])-s.back())*2;
+                    }
+                    flag=1;
+                    s.pop_back();
+                }
+                flag=0;
+                s.push_back(grid[j][i]);
+            }
+        }
+        return result;
+    }
+};

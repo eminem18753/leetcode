@@ -1,0 +1,15 @@
+# Write your MySQL query statement below
+#SELECT student_id as s,MIN(course_id) as c,grade as g FROM Enrollments
+#GROUP BY student_id,grade
+SELECT a.s as student_id,a.c as course_id,a.g as grade FROM 
+(
+    SELECT student_id as s,MIN(course_id) as c,grade as g FROM Enrollments
+    GROUP BY student_id,grade
+) a
+JOIN
+(
+    SELECT student_id as s,MAX(grade) as g FROM Enrollments
+    GROUP BY student_id
+) b
+WHERE a.s=b.s AND a.g=b.g
+ORDER BY student_id ASC;

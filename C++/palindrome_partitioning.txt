@@ -1,0 +1,65 @@
+class Solution 
+{
+    public:
+    vector<vector<string>> result;
+    
+    bool check(string a)
+    {
+        int n=a.length();
+        if(n%2==1)
+        {
+            int p1=(n-1)/2;
+            int p2=(n-1)/2;
+            while(p1>=0&&p2<n)
+            {
+                if(a[p1]!=a[p2])
+                {
+                    return false;
+                }
+                p1--;
+                p2++;
+            }
+            return true;
+        }
+        else
+        {
+            int p1=n/2-1;
+            int p2=n/2;
+            while(p1>=0&&p2<n)
+            {
+                if(a[p1]!=a[p2])
+                {
+                    return false;
+                }
+                p1--;
+                p2++;
+            }
+            return true;
+        }
+    }
+    void dfs(string s,int l,vector<string> temp)
+    {
+        if(s.length()==0)
+        {
+            result.push_back(temp);
+            return;
+        }
+        if(l>(int)s.length())
+        {
+            return;
+        }
+        if(check(s.substr(0,l)))
+        {
+            temp.push_back(s.substr(0,l));
+            dfs(s.substr(l),1,temp);
+            temp.pop_back();
+        }
+        dfs(s,l+1,temp);
+    }
+    vector<vector<string>> partition(string s)
+    {
+        dfs(s,1,{});
+
+        return result;
+    }
+};

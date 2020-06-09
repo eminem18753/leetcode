@@ -1,0 +1,31 @@
+#include <iostream>
+#include <vector>
+class Solution {
+public:
+    vector<vector<int> > generate(int numRows) 
+    {
+    	vector<vector<int> > result;
+        for(int i=0;i<numRows;i++)
+        {
+            vector<int> tempRow;
+            if(i==0)
+            {
+                tempRow.push_back(1);	
+            }
+            else
+            {
+                for(int j=0;j<i+1;j++)
+                {
+                    tempRow.push_back(0);	
+                }
+                for(int j=0;j<i;j++)
+                {
+                    tempRow[j]=tempRow[j]+result[i-1][j];
+                    tempRow[j+1]=tempRow[j+1]+result[i-1][j];
+                }
+            }
+            result.push_back(tempRow);	
+        }
+        return result;
+    }
+};

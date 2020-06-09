@@ -1,0 +1,72 @@
+class Solution {
+public:
+    vector<string> findMissingRanges(vector<int>& nums, int lower, int upper) 
+    {
+        vector<string> result;
+        long long p1=-1;
+        long long p2=-1;
+        if(nums.size()==0)
+        {
+            if(lower==upper)
+            {
+                result.push_back(to_string(lower));
+                return result;
+            }
+            string temp="";
+            temp+=to_string(lower);
+            temp+="->";
+            temp+=to_string(upper);
+            result.push_back(temp);
+            return result;
+        }
+        if((long long)nums[0]==(long long)lower+1)
+        {
+            result.push_back(to_string(lower));
+        }
+        else if((long long)nums[0]>(long long)lower)
+        {
+            string temp="";
+            temp+=to_string(lower);
+            temp+="->";
+            temp+=to_string(nums[0]-1);
+            result.push_back(temp);
+        }
+        for(int i=1;i<nums.size();i++)
+        {
+            p1=nums[i-1];
+            p2=nums[i];
+            long long t1=p1+1;
+            long long t2=p2-1;
+            if(t1>t2)
+            {
+                continue;
+            }
+            else if(t1==t2)
+            {
+                result.push_back(to_string(t1));
+            }
+            else
+            {
+                string temp="";
+                temp+=to_string(t1);
+                temp+="->";
+                temp+=to_string(t2);
+                result.push_back(temp);
+            }
+        }
+        if(nums.back()==(long long)upper-1)
+        {
+            result.push_back(to_string(upper));
+        }
+        else if(nums.back()<upper)
+        {
+            string temp="";
+            temp+=to_string(nums.back()+1);
+            temp+="->";
+            temp+=to_string(upper);
+            result.push_back(temp);
+        }
+        
+        return result;
+    }
+};

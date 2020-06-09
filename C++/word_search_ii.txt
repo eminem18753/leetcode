@@ -1,0 +1,63 @@
+class Solution
+{
+    public:
+    struct trie
+    {
+        map<char,trie*> next;
+        string isEnd;
+    };
+    typedef struct trie trie;
+    trie* root;
+    set<string> result;
+    void dfs(vector<vector<char>>& board,int i,int j,trie* c)
+    {
+        if(i<0||j<0||i>=board.size()||j>=board[i].size()||c->next.find(board[i][j])==c->next.end())
+        {
+            return;
+        }
+        c=c->next[board[i][j]];
+        if(c->isEnd!="")
+        {
+            result.insert(c->isEnd);
+        }
+        char temp=board[i][j];
+        board[i][j]='0';
+        dfs(board,i+1,j,c);
+        dfs(board,i-1,j,c);
+        dfs(board,i,j+1,c);
+        dfs(board,i,j-1,c);
+        board[i][j]=temp;
+    }
+    vector<string> findWords(vector<vector<char>>& board, vector<string>& words) 
+    {
+        if(words.size()==0)
+        {
+            return {};
+        }
+        root=new trie;
+        root->isEnd="";
+        for(int i=0;i<words.size();i++)
+        {
+            trie* c=root;
+            for(int j=0;j<words[i].length();j++)
+            {
+                if(c->next.find(words[i][j])==c->next.end())
+                {
+                    c->next[words[i][j]]=new trie;
+                    c->next[words[i][j]]->isEnd="";
+                }
+                c=c->next[words[i][j]];
+            }
+            c->isEnd=words[i];
+        }
+        for(int i=0;i<board.size();i++)
+        {
+            for(int j=0;j<board[i].size();j++)
+            {
+                trie* c=root;
+                dfs(board,i,j,c);
+            }
+        }
+        return vector<string>(result.begin(),result.end());
+    }
+};

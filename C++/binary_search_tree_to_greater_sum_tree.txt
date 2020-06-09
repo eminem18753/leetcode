@@ -1,0 +1,72 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> total;
+    int overall[102];
+    int mapping[102];
+    int maximum=0;
+    int summation=0;
+    void test(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        total.push_back(root->val);
+        summation+=root->val;
+        maximum=max(maximum,root->val);
+        overall[root->val]+=1;
+        if(root->left!=NULL)
+        {
+            test(root->left);
+        }
+        if(root->right!=NULL)
+        {
+            test(root->right);
+        }
+    }
+    void processing(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        root->val=mapping[root->val];
+        if(root->left!=NULL)
+        {
+            processing(root->left);
+        }
+        if(root->right!=NULL)
+        {
+            processing(root->right);
+        }
+        
+    }
+    TreeNode* bstToGst(TreeNode* root) 
+    {
+        if(root==NULL)
+        {
+            return NULL;
+        }
+        TreeNode* current=root;
+        memset(overall,0,sizeof(overall));
+        test(root);
+        memset(mapping,0,sizeof(mapping));
+        mapping[0]=summation;
+        for(int i=1;i<=maximum;i++)
+        {
+            mapping[i]=mapping[i-1]-overall[i-1]*(i-1);
+        }
+        root=current;
+        processing(root);
+        return current;
+    }
+};

@@ -1,0 +1,19 @@
+# Write your MySQL query statement below
+SELECT a.m as pay_month,b.department_id as department_id,
+CASE WHEN abs(AVG(a.amount)-c.r)<0.001 THEN "same"
+    WHEN AVG(a.amount)>c.r THEN "higher"
+    ELSE "lower" END as comparison
+FROM
+(
+    SELECT id,employee_id,amount,pay_date,SUBSTR(pay_date,1,7) as m FROM salary
+) as a
+JOIN employee as b
+ON a.employee_id=b.employee_id
+JOIN
+(
+    SELECT SUBSTR(pay_date,1,7) as m,AVG(amount) as r FROM salary
+    GROUP BY m
+) as c
+ON a.m=c.m
+GROUP BY a.m,b.department_id
+ORDER BY 2 ASC,1 ASC;

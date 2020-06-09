@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int sumOfDigits(vector<int>& A) 
+    {
+        int minimum=2147483647;
+        for(int i=0;i<A.size();i++)
+        {
+            minimum=min(minimum,A[i]);
+        }
+        int counter=0;
+        while(minimum)
+        {
+            counter+=minimum%10;
+            minimum/=10;
+        }
+        return counter%2==0;
+    }
+};

@@ -1,0 +1,85 @@
+class Solution 
+{
+    public:
+    bool a_larger(int a[10],int b[10])
+    {
+        for(int i=8;i>-1;i--)
+        {
+            if(a[i]>b[i])
+            {
+                return true;
+            }
+            else if(a[i]<b[i])
+            {
+                return false;
+            }
+        }
+        return false;
+    }
+    string largestNumber(vector<int>& cost, int target) 
+    {
+        string result="";
+        int dp[target+1][10];
+        memset(dp,0,sizeof(dp));
+        map<int,int> total;
+        for(int i=0;i<cost.size();i++)
+        {
+            total[cost[i]]=i;
+        }
+        for(int i=1;i<=target;i++)
+        {
+            for(map<int,int>::iterator it=total.begin();it!=total.end();it++)
+            {
+                if(i-it->first<0)
+                {
+                    break;
+                }
+                else
+                {
+                    int new_digits=dp[i-it->first][9]+1;
+                    if(new_digits<dp[i][9]||(i-it->first!=0&&dp[i-it->first][9]==0))
+                    {
+                        continue;
+                    }
+                    if(new_digits>dp[i][9])
+                    {
+                        for(int j=0;j<9;j++)
+                        {
+                            dp[i][j]=dp[i-it->first][j];
+                        }
+                        dp[i][it->second]++;
+                        dp[i][9]=new_digits;
+                    }
+                    else
+                    {
+                        int temp[10];
+                        for(int j=0;j<9;j++)
+                        {
+                            temp[j]=dp[i-it->first][j];
+                        }
+                        temp[it->second]++;
+                        if(a_larger(temp,dp[i]))
+                        {
+                            for(int j=0;j<9;j++)
+                            {
+                                dp[i][j]=temp[j];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        for(int i=8;i>-1;i--)
+        {
+            for(int j=0;j<dp[target][i];j++)
+            {
+                result+=to_string(i+1);
+            }
+        }
+        if(result=="")
+        {
+            return "0";
+        }
+        return result;
+    }
+};

@@ -1,0 +1,40 @@
+class Solution {
+public:
+    int gcd(int a,int b)
+    {
+        if(b==0)
+        {
+            return a;
+        }
+        return gcd(b,a%b);
+    }
+    int lcm(int a,int b)
+    {
+        return a*b/gcd(a,b);
+    }
+    int mirrorReflection(int p, int q) 
+    {
+        int total=lcm(p,q);
+        int number_x=lcm(p,q)/q;
+        int number_y=lcm(p,q)/p;
+        
+        int x=number_x%2;
+        int y=number_y%2;
+        if(x==0)
+        {
+            return 2;
+        }
+        else
+        {
+            if(y==0)
+            {
+                return 0;
+            }
+            else
+            {
+                return 1;
+            }
+        }
+        return 0;
+    }
+};

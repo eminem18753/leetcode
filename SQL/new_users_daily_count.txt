@@ -1,0 +1,10 @@
+# Write your MySQL query statement below
+SELECT a.activity_date as login_date,COUNT(DISTINCT a.user_id) as user_count FROM Traffic as a
+WHERE activity="login" AND DATEDIFF("2019-06-30",activity_date)<=90
+AND activity_date=
+(
+    SELECT MIN(activity_date) FROM Traffic b
+    WHERE activity="login" AND a.user_id=b.user_id
+    GROUP BY user_id
+)
+GROUP BY a.activity_date;

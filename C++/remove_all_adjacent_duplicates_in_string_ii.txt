@@ -1,0 +1,35 @@
+class Solution 
+{
+    public:
+    string removeDuplicates(string s, int k) 
+    {
+        while(true)
+        {
+            int f=0;
+            for(int i=0;i<(int)s.length()-k+1;i++)
+            {
+                int check=0;
+                int index;
+                for(int j=1;j<k;j++)
+                {
+                    if(s[i+j]!=s[i+j-1])
+                    {
+                        check=1;
+                        break;
+                    }
+                }
+                if(check==0)
+                {
+                    f=1;
+                    s=s.substr(0,i)+s.substr(i+k);
+                    break;
+                }
+            }
+            if(f==0)
+            {
+                break;
+            }
+        }
+        return s;
+    }
+};

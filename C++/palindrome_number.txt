@@ -1,0 +1,28 @@
+class Solution 
+{
+public:
+    bool isPalindrome(int x) 
+    {
+        int temp=x;
+        if(x<0)
+        {
+            return false;
+        }
+        int result=0;
+        while(x/10!=0)
+        {
+            int y=x%10;
+            x=x/10;
+            result=result*10+y;
+        }
+        result=result*10+x;
+        if(result==temp)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+};

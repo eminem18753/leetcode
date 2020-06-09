@@ -1,0 +1,66 @@
+class Solution 
+{
+    public:
+    double frogPosition(int n, vector<vector<int>>& edges, int t, int target) 
+    {
+        double result=1;
+        unordered_map<int,unordered_set<int>> m;
+        for(int i=0;i<edges.size();i++)
+        {
+            m[edges[i][0]].insert(edges[i][1]);
+            m[edges[i][1]].insert(edges[i][0]);
+        }
+        if(target==1)
+        {
+            if(t==0||m[1].size()==0)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        deque<int> q={1};
+        deque<double> r={1};
+        vector<int> result1;
+        vector<double> result2;
+        for(int i=0;i<t;i++)
+        {
+            int s=q.size();
+            for(int j=0;j<s;j++)
+            {
+                int p=q.front();
+                double result=r.front();
+                q.pop_front();
+                r.pop_front();
+                for(unordered_set<int>::iterator it=m[p].begin();it!=m[p].end();it++)
+                {
+                    q.push_back(*it);
+                    r.push_back(result*(double)1/(double)m[p].size());
+                    m[*it].erase(p);
+                }
+                if(m[p].size()==0)
+                {
+                    result1.push_back(p);
+                    result2.push_back(result);
+                }
+            }
+        }
+        for(int i=0;i<q.size();i++)
+        {
+            if(q[i]==target)
+            {
+                return r[i];
+            }
+        }
+        for(int i=0;i<result1.size();i++)
+        {
+            if(result1[i]==target)
+            {
+                return result2[i];
+            }
+        }
+        return 0;
+    }
+};

@@ -1,0 +1,112 @@
+class MyCircularQueue {
+public:
+    /** Initialize your data structure here. Set the size of the queue to be k. */
+    struct Node
+    {
+        Node* next;
+        Node* prev;
+        int val;
+    };
+    typedef struct Node Node;
+
+    Node* head=NULL;
+    Node* last=NULL;
+    
+    int K;
+    int c=0;
+    MyCircularQueue(int k)
+    {
+        K=k;
+    }
+    
+    /** Insert an element into the circular queue. Return true if the operation is successful. */
+    bool enQueue(int value) 
+    {
+        if(isFull())
+        {
+            return false;
+        }
+        if(head==NULL)
+        {
+            head=new Node;
+            head->val=value;
+            head->next=NULL;
+            head->prev=NULL;
+            
+            last=head;
+        }
+        else
+        {
+            Node* temp=new Node;
+            temp->val=value;
+            temp->next=NULL;
+            temp->prev=last;
+            last->next=temp;
+            last=temp;
+        }
+        c++;
+        return true;
+    }
+    
+    /** Delete an element from the circular queue. Return true if the operation is successful. */
+    bool deQueue() 
+    {
+        if(isEmpty())
+        {
+            return false;
+        }
+        Node* temp=head->next;
+        head=NULL;
+        head=temp;
+        if(c==1)
+        {
+            head=NULL;
+            last=NULL;
+        }
+        c--;
+        return true;
+    }
+    
+    /** Get the front item from the queue. */
+    int Front() 
+    {
+        if(head==NULL)
+        {
+            return -1;
+        }
+        return head->val;
+    }
+    
+    /** Get the last item from the queue. */
+    int Rear() 
+    {
+        if(last==NULL)
+        {
+            return -1;
+        }
+        return last->val;
+    }
+    
+    /** Checks whether the circular queue is empty or not. */
+    bool isEmpty() 
+    {
+        return c==0;
+    }
+    
+    /** Checks whether the circular queue is full or not. */
+    bool isFull() 
+    {
+        return c==K;
+    }
+};
+
+/**
+ * Your MyCircularQueue object will be instantiated and called as such:
+ * MyCircularQueue* obj = new MyCircularQueue(k);
+ * bool param_1 = obj->enQueue(value);
+ * bool param_2 = obj->deQueue();
+ * int param_3 = obj->Front();
+ * int param_4 = obj->Rear();
+ * bool param_5 = obj->isEmpty();
+ * bool param_6 = obj->isFull();
+ */

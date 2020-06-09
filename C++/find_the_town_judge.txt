@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int findJudge(int N, vector<vector<int>>& trust) 
+    {
+        int c=0;
+        int result=0;
+        bool total[N+1];
+        int counts[N+1];
+        memset(total,true,sizeof(total));
+        memset(counts,0,sizeof(counts));
+        for(int i=0;i<trust.size();i++)
+        {
+            total[trust[i][0]]=false;
+            counts[trust[i][1]]+=1;
+        }
+        for(int i=1;i<N+1;i++)
+        {
+            if(total[i])
+            {
+                c+=1;
+                result=i;
+            }
+        }
+        if(c==1&&counts[result]==N-1)
+        {
+            return result;
+        }
+        return -1;
+    }
+};

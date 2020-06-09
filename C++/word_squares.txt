@@ -1,0 +1,68 @@
+class Solution
+{
+    public:
+    struct trie
+    {
+        map<char,trie*> next;
+        string isEnd;
+    };
+    typedef struct trie trie;
+    trie* root;
+    vector<vector<string>> result;
+    int n;
+    void dfs(int s,int t,vector<string> grid,trie* c)
+    {
+        if(s==n)
+        {
+            result.push_back(grid);
+            return;
+        }
+        if(t<n)
+        {
+            for(map<char,trie*>::iterator it=c->next.begin();it!=c->next.end();it++)
+            {
+                if(grid[s][t]=='0')
+                {
+                    grid[s][t]=it->first;
+                    grid[t][s]=it->first;
+                    dfs(s,t+1,grid,it->second);
+                    grid[s][t]='0';
+                    grid[t][s]='0';
+                }
+                else if(grid[s][t]==it->first)
+                {
+                    dfs(s,t+1,grid,it->second);
+                }
+            }
+        }
+        else
+        {
+            c=root;
+            dfs(s+1,0,grid,c);
+        }
+    }
+    vector<vector<string>> wordSquares(vector<string>& words) 
+    {
+        root=new trie;
+        root->isEnd="";
+        n=words[0].length();
+        for(int i=0;i<words.size();i++)
+        {
+            trie* c=root;
+            for(int j=0;j<words[i].length();j++)
+            {
+                if(c->next.find(words[i][j])==c->next.end())
+                {
+                    c->next[words[i][j]]=new trie;
+                    c->next[words[i][j]]->isEnd="";
+                }
+                c=c->next[words[i][j]];
+            }
+            c->isEnd=words[i];
+        }
+        trie* c=root;
+        vector<string> grid(n,string(n,'0'));
+        dfs(0,0,grid,c);
+        return result;
+    }
+};

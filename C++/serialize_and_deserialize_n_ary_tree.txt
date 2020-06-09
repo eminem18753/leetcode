@@ -1,0 +1,80 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val = NULL;
+    vector<Node*> children;
+
+    Node() {}
+
+    Node(int _val, vector<Node*> _children) {
+        val = _val;
+        children = _children;
+    }
+};
+*/
+class Codec 
+{
+    public:
+
+    // Encodes a tree to a single string.
+    void s(Node* root,string &r)
+    {
+        if(root==NULL)
+        {
+            r+="# ";
+            return;
+        }
+        r+=to_string(root->val)+" "+to_string((int)root->children.size())+" ";
+        for(int i=0;i<root->children.size();i++)
+        {
+            s(root->children[i],r);
+        }
+    }
+    string serialize(Node* root) 
+    {
+        string r="";
+        s(root,r);
+        return r;
+    }
+
+    // Decodes your encoded data to tree.
+    Node* d(vector<string> &total,int &i)
+    {
+        if(total[i]=="#"||i>=(int)total.size())
+        {
+            return NULL;
+        }
+        Node* r=new Node(stoi(total[i]));
+        i++;
+        int s=stoi(total[i]);
+        for(int c=0;c<s;c++)
+        {
+            r->children.push_back(d(total,++i));
+        }
+        return r;
+    }
+    Node* deserialize(string data) 
+    {
+        vector<string> total;
+        string temp="";
+        for(int i=0;i<data.length();i++)
+        {
+            if(data[i]!=' ')
+            {
+                temp+=data[i];
+            }
+            else
+            {
+                total.push_back(temp);
+                temp="";
+            }
+        }
+        int i=0;
+        return d(total,i);
+    }
+};
+
+// Your Codec object will be instantiated and called as such:
+// Codec codec;
+// codec.deserialize(codec.serialize(root));

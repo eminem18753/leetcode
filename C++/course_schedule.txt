@@ -1,0 +1,48 @@
+class Solution 
+{
+    public:
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) 
+    {
+        int a[numCourses][numCourses];
+        int r[numCourses];
+        memset(a,0,sizeof(a));
+        memset(r,0,sizeof(r));
+        
+        for(int i=0;i<prerequisites.size();i++)
+        {
+            a[prerequisites[i][1]][prerequisites[i][0]]=1;
+            r[prerequisites[i][0]]++;
+        }
+        int index=0;
+        while(index<numCourses)
+        {
+            int flag=0;
+            index++;
+            for(int i=0;i<numCourses;i++)
+            {
+                if(r[i]<0)
+                {
+                    continue;
+                }
+                if(r[i]==0)
+                {
+                    r[i]=-1;
+                    for(int j=0;j<numCourses;j++)
+                    {
+                        if(a[i][j]==1)
+                        {
+                            r[j]--;
+                        }
+                    }
+                    flag=1;
+                    break;
+                }
+            }
+            if(flag==0)
+            {
+                return false;
+            }
+        }            
+        return true;
+    }
+};

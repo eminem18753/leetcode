@@ -1,0 +1,114 @@
+class Solution 
+{
+    public:
+    int m;
+    int n;
+    int dx[4]={1,0,-1,0};
+    int dy[4]={0,1,0,-1};
+    void dfs(vector<vector<int>>& grid,unordered_set<int>& v,unordered_set<int>& infected,int i,int j,int& c1,int& c2)
+    {
+        if(i<0||j<0||i>=m||j>=n||grid[i][j]!=1||v.find(i*n+j)!=v.end())
+        {
+            return;
+        }
+        for(int d=0;d<4;d++)
+        {
+            int cx=i+dx[d];
+            int cy=j+dy[d];
+            if(cx>=0&&cx<m&&cy>=0&&cy<n&&grid[cx][cy]%2==0)
+            {
+                grid[cx][cy]+=2;
+                if(infected.find(cx*n+cy)==infected.end())
+                {
+                    c1++;
+                    infected.insert(cx*n+cy);
+                }
+                c2++;
+            }
+        }
+        v.insert(i*n+j);
+        dfs(grid,v,infected,i+1,j,c1,c2);
+        dfs(grid,v,infected,i-1,j,c1,c2);
+        dfs(grid,v,infected,i,j+1,c1,c2);
+        dfs(grid,v,infected,i,j-1,c1,c2);
+    }
+    void addWalls(vector<vector<int>>& grid,unordered_set<int>& v,int i,int j)
+    {
+        if(i<0||j<0||i>=m||j>=n||grid[i][j]!=1||v.find(i*n+j)!=v.end())
+        {
+            return;
+        }
+        grid[i][j]=3;
+        for(int d=0;d<4;d++)
+        {
+            int cx=i+dx[d];
+            int cy=j+dy[d];
+            if(cx>=0&&cy>=0&&cx<m&&cy<n&&grid[cx][cy]%2==0)
+            {
+                grid[cx][cy]-=2;
+            }
+        }
+        v.insert(i*n+j);
+        addWalls(grid,v,i+1,j);
+        addWalls(grid,v,i-1,j);
+        addWalls(grid,v,i,j+1);
+        addWalls(grid,v,i,j-1);
+    }
+    int containVirus(vector<vector<int>>& grid) 
+    {
+        int result=0;
+        m=grid.size();
+        n=grid[0].size();
+        while(true)
+        {
+            int flag=0;
+            unordered_set<int> v;
+            vector<vector<int>> total;
+            for(int i=0;i<m;i++)
+            {
+                for(int j=0;j<n;j++)
+                {
+                    if(grid[i][j]==1&&v.find(i*n+j)==v.end())
+                    {
+                        flag=1;
+                        int c1=0;
+                        int c2=0;
+                        unordered_set<int> infected;
+                        dfs(grid,v,infected,i,j,c1,c2);
+                        total.push_back({i,j,c1,c2});
+                    }
+                }
+            }
+            int maximum=0;
+            for(int i=0;i<total.size();i++)
+            {
+                maximum=max(maximum,total[i][2]);
+            }
+            for(int i=0;i<total.size();i++)
+            {
+                if(total[i][2]==maximum)
+                {
+                    result+=total[i][3];
+                    unordered_set<int> v;
+                    addWalls(grid,v,total[i][0],total[i][1]);
+                    break;
+                }
+            }
+            for(int i=0;i<m;i++)
+            {
+                for(int j=0;j<n;j++)
+                {
+                    if(grid[i][j]>0&&grid[i][j]%2==0)
+                    {
+                        grid[i][j]=1;
+                    }
+                }
+            }
+            if(flag==0)
+            {
+                break;
+            }
+        }
+        return result;
+    }
+};

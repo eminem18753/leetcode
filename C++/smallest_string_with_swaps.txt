@@ -1,0 +1,63 @@
+class Solution 
+{
+    public:
+    vector<int> f;
+    int q(int x)
+    {
+        if(x!=f[x])
+        {
+            f[x]=q(f[x]);
+        }
+        return f[x];
+    }
+    void u(int x,int y)
+    {
+        if(x<y)
+        {
+            f[q(x)]=q(y);
+        }
+        else
+        {
+            f[q(y)]=q(x);
+        }
+    }
+    string smallestStringWithSwaps(string s, vector<vector<int>>& pairs) 
+    {
+        string result="";
+        for(int i=0;i<s.length();i++)
+        {
+            f.push_back(i);
+        }
+        for(int i=0;i<pairs.size();i++)
+        {
+            u(pairs[i][0],pairs[i][1]);
+        }
+        for(int i=0;i<pairs.size();i++)
+        {
+            u(pairs[i][0],pairs[i][1]);
+        }
+        map<int,string> total;
+        for(int i=0;i<f.size();i++)
+        {
+            if(total.find(f[i])==total.end())
+            {
+                total[f[i]]=s[i];
+            }
+            else
+            {
+                total[f[i]]+=s[i];
+            }
+        }
+        for(map<int,string>::iterator it=total.begin();it!=total.end();it++)
+        {
+            sort(it->second.begin(),it->second.end());
+        }
+        map<int,int> c;
+        for(int i=0;i<f.size();i++)
+        {
+            result+=total[f[i]][c[f[i]]];
+            c[f[i]]++;
+        }
+        return result;
+    }
+};

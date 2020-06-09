@@ -1,0 +1,27 @@
+class Solution 
+{
+    public:
+    bool verifyPreorder(vector<int>& preorder) 
+    {
+        vector<int> stack;
+        int M=-2147483648;
+        if(preorder.size()==0)
+        {
+            return true;
+        }
+        for(int i=0;i<preorder.size();i++)
+        {
+            while(stack.size()>0&&stack.back()<preorder[i])
+            {
+                M=max(M,stack.back());
+                stack.pop_back();
+            }
+            if(preorder[i]<M)
+            {
+                return false;
+            }
+            stack.push_back(preorder[i]);
+        }
+        return true;
+    }
+};

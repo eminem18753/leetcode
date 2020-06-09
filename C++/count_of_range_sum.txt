@@ -1,0 +1,18 @@
+class Solution 
+{
+    public:
+    int countRangeSum(vector<int>& nums, int lower, int upper) 
+    {
+        int result=0;
+        long long int s=0;
+        multiset<long long int> total;
+        total.insert(0);        
+        for(int i=0;i<nums.size();i++)
+        {
+            s+=nums[i];
+            result+=distance(total.lower_bound(s-(long long int)upper),total.upper_bound(s-(long long int)lower));
+            total.insert(s);
+        }
+        return result;
+    }
+};

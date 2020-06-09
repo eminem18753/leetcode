@@ -1,0 +1,38 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution 
+{
+    public:
+    bool result=false;
+    void dfs(TreeNode* root,vector<int>& arr,int level)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        if(root->left==NULL&&root->right==NULL&&root->val==arr.back()&&level==(int)arr.size()-1)
+        {
+            result=true;
+            return;
+        }
+        if(level<arr.size()&&root->val==arr[level])
+        {
+            dfs(root->left,arr,level+1);
+            dfs(root->right,arr,level+1);
+        }
+    }
+    bool isValidSequence(TreeNode* root, vector<int>& arr) 
+    {
+        dfs(root,arr,0);
+        return result;
+    }
+};

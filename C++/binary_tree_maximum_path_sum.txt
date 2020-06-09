@@ -1,0 +1,50 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution 
+{
+    public:
+    map<TreeNode*,vector<int>> total;
+    void dfs(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return;   
+        }
+        if(root->left==NULL&&root->right==NULL)
+        {
+            total[root]={root->val,root->val};
+            return;
+        }
+        dfs(root->left);
+        dfs(root->right);
+        if(root->left!=NULL&&root->right!=NULL)
+        {
+            total[root]={root->val+max(total[root->left][1],0)+max(total[root->right][1],0),root->val+max(max(total[root->left][1],0),max(total[root->right][1],0))};
+        }
+        else if(root->left!=NULL)
+        {
+            total[root]={root->val+max(total[root->left][1],0),root->val+max(total[root->left][1],0)};            
+        }
+        else if(root->right!=NULL)
+        {
+            total[root]={root->val+max(total[root->right][1],0),root->val+max(total[root->right][1],0)};                        
+        }
+    }
+    int maxPathSum(TreeNode* root) 
+    {
+        dfs(root);
+        int result=-2147483648;
+        for(map<TreeNode*,vector<int>>::iterator it=total.begin();it!=total.end();it++)
+        {
+            result=max(result,it->second[0]);//it->second[0]:節點及左右子樹和,it->second[1]:節點及左右子樹之較大者和
+        }
+        return result;
+    }
+};

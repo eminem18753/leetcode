@@ -1,0 +1,117 @@
+class Solution 
+{
+    public:
+    unordered_map<string,vector<int>> total;
+    
+    int dfs(string& expression,int& c)
+    {
+        //parentheses
+        if(expression[c]=='(')
+        {
+            c++;
+            int r=dfs(expression,c);
+            c++;
+            return r;
+        }
+        //parse the first
+        string current="";
+        while(true)
+        {
+            if(c<expression.length()&&expression[c]!=' '&&expression[c]!=')')
+            {
+                current+=expression[c];
+            }
+            else
+            {
+                break;
+            }
+            c++;
+        }
+        //end condition
+        if(current!="add"&&current!="mult"&&current!="let")
+        {
+            if(isdigit(current[0])||current[0]=='-')
+            {
+                return stoi(current);
+            }
+            else
+            {
+                return total[current].back();
+            }
+        }
+        //add,mult,let
+        c++;//jump over the space
+        if(current=="add")
+        {
+            int first=dfs(expression,c);
+            c++;
+            int second=dfs(expression,c);
+            return first+second;
+        }
+        else if(current=="mult")
+        {
+            int first=dfs(expression,c);
+            c++;
+            int second=dfs(expression,c);
+            return first*second;
+        }
+        else if(current=="let")
+        {
+            unordered_map<string,int> overall;
+            while(true)
+            {
+                string variable_name="";
+                int k=c;
+                int t=0;
+                while(true)
+                {
+                    if(c<expression.length()&&(expression[c]!=' '||t>0))
+                    {
+                        variable_name+=expression[c];
+                    }
+                    else
+                    {
+                        break;
+                    }
+                    if(expression[c]=='(')
+                    {
+                        t++;
+                    }
+                    else if(expression[c]==')')
+                    {
+                        t--;
+                        if(t<=0)
+                        {
+                            break;
+                        }
+                    }
+                    c++;
+                }
+                if(c<expression.length()&&expression[c]==')')
+                {
+                    c=k;
+                    int r=dfs(expression,c);
+                    for(unordered_map<string,int>::iterator it=overall.begin();it!=overall.end();it++)
+                    {
+                        for(int i=0;i<it->second;i++)
+                        {
+                            total[it->first].pop_back();
+                        }
+                    }
+                    return r;
+                }
+                c++;
+                int r=dfs(expression,c);
+                total[variable_name].push_back(r);
+                overall[variable_name]++;
+                c++;
+            }
+        }
+        return -1;
+    }
+    int evaluate(string expression) 
+    {
+        int c=0;
+        return dfs(expression,c);
+    }
+};

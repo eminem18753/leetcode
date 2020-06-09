@@ -1,0 +1,37 @@
+class Solution 
+{
+    public:
+    vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) 
+    {
+        int f1=newInterval[0];
+        int f2=newInterval[1];
+        int index=0;
+        for(int i=(int)intervals.size()-1;i>-1;i--)
+        {
+            if(f1>=intervals[i][0]&&f1<=intervals[i][1])
+            {
+                f1=min(f1,intervals[i][0]);
+                f2=max(f2,intervals[i][1]);
+                intervals.erase(intervals.begin()+i);
+                index=i;
+            }
+            else if(f2>=intervals[i][0]&&f2<=intervals[i][1])
+            {
+                f1=min(f1,intervals[i][0]);
+                f2=max(f2,intervals[i][1]);
+                intervals.erase(intervals.begin()+i);
+                index=i;
+            }
+            else if(f1<=intervals[i][0]&&f2>=intervals[i][1])
+            {
+                f1=min(f1,intervals[i][0]);
+                f2=max(f2,intervals[i][1]);
+                intervals.erase(intervals.begin()+i);
+                index=i;
+            }
+        }
+        intervals.insert(intervals.begin()+index,{f1,f2});
+        sort(intervals.begin(),intervals.end());
+        return intervals;
+    }
+};

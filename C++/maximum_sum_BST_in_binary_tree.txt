@@ -1,0 +1,61 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution 
+{
+    public:
+    deque<bool> total;
+    int output=0;
+    vector<int> check(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return {2147483647,-2147483647,1};
+        }
+        vector<int> l=check(root->left);
+        vector<int> r=check(root->right);
+        int current_max=max(l[1],root->val);
+        int current_min=min(r[0],root->val);
+        bool result;
+        if((l[1]<root->val&&l[2]==1)&&(r[0]>root->val&&r[2]==1))
+        {
+            result=true;
+        }
+        else
+        {
+            result=false;
+        }
+        total.push_back(result);
+        return {current_min,current_max,(result?1:0)};
+    }
+    int dfs(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return 0;
+        }
+        int l=dfs(root->left);
+        int r=dfs(root->right);
+        bool b=total.front();
+        total.pop_front();
+        if(b)
+        {
+            output=max(output,root->val+l+r);
+        }
+        return root->val+l+r;
+    }
+    int maxSumBST(TreeNode* root) 
+    {
+        //左邊最大小於中間
+        //右邊最小大於中間
+        check(root);
+        dfs(root);
+        return output;
+    }
+};

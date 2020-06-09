@@ -1,0 +1,31 @@
+class Solution {
+public:
+    bool isHappy(int n) 
+    {
+        int result=0;
+        int temp=n;
+        vector<int> allResult;
+        while(result!=1)
+        {
+
+            result=0;
+            while(n/10!=0)
+            {
+                int y=n%10;
+                n=n/10;
+                result=result+y*y;
+            }
+            result=result+n*n;
+            n=result;
+            for(int i=0;i<allResult.size();i++)
+            {
+                if(n==allResult[i])
+                {
+                    return false;
+                }
+            }
+            allResult.push_back(result);
+        }
+        return true;
+    }
+};

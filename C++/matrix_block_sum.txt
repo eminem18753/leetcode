@@ -1,0 +1,34 @@
+class Solution 
+{
+    public:
+    vector<vector<int>> matrixBlockSum(vector<vector<int>>& mat, int K) 
+    {
+        int m=mat.size();
+        int n=mat[0].size();
+        vector<vector<int>> result(m,vector<int>(n,0));
+        vector<vector<int>> r(m+1,vector<int>(n+1,0));
+        vector<vector<int>> s(m+1,vector<int>(n+1,0));
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                r[i+1][j+1]=r[i+1][j]+mat[i][j];
+            }
+        }
+        for(int j=1;j<=n;j++)
+        {
+            for(int i=0;i<m;i++)
+            {
+                s[i+1][j]=s[i][j]+r[i+1][j];
+            }
+        }
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                result[i][j]=s[min(i+K+1,m)][min(j+K+1,n)]+s[max(i-K,0)][max(j-K,0)]-s[min(i+K+1,m)][max(j-K,0)]-s[max(i-K,0)][min(j+K+1,n)];
+            }
+        }
+        return result;
+    }
+};

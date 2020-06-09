@@ -1,0 +1,10 @@
+# Write your MySQL query statement below
+
+SELECT ROUND(sum(t.d)/COUNT(*)*100,2) as average_daily_percent FROM
+(
+    SELECT COUNT(DISTINCT b.post_id)/COUNT(DISTINCT a.post_id) as d FROM Actions as a
+    LEFT JOIN Removals as b
+    ON a.post_id=b.post_id
+    WHERE a.extra="spam"
+    GROUP BY a.action_date
+) t

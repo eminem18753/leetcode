@@ -1,0 +1,128 @@
+class Skiplist 
+{
+    public:
+    struct node
+    {
+        int val;
+        node* next{NULL};
+        node* previous{NULL};
+        node* down{NULL};
+    };
+    typedef struct node node;
+    node* head;
+    int value=0;
+    Skiplist() 
+    {
+        srand(time(NULL));
+        head=new node();
+    }
+    
+    bool search(int target) 
+    {
+        node* p=head;
+        while(p)
+        {
+            while(p->next&&p->next->val<target)
+            {
+                p=p->next;
+            }
+            if(p->next&&p->next->val==target)
+            {
+                return true;
+            }
+            p=p->down;
+        }
+        return false;
+    }
+    
+    void add(int num) 
+    {
+        vector<node*> path(value,NULL);
+        node* p=head;
+        for(int i=value-1;i>-1;i--)
+        {
+            while(p->next&&p->next->val<num)
+            {
+                p=p->next;
+            }
+            path[i]=p;
+            p=p->down;
+        }
+        for(int i=0;i<=path.size();i++)
+        {
+            p=new node();
+            p->val=num;
+            if(i==path.size())
+            {
+                node* last=head;
+                head=new node();
+                head->down=last;
+                head->next=p;
+                p->previous=head;
+                value++;
+            }
+            else
+            {
+                p->next=path[i]->next;
+                p->previous=path[i];
+                path[i]->next=p;
+                if(p->next)
+                {
+                    p->next->previous=p;
+                }
+            }
+            if(i>0)
+            {
+                p->down=path[i-1]->next;
+            }
+            if(rand()%2==0)
+            {
+                break;
+            }
+        }
+    }
+    
+    bool erase(int num) 
+    {
+        node* p=head;
+        while(p)
+        {
+            while(p->next&&p->next->val<num)
+            {
+                p=p->next;
+            }
+            if(p->next&&p->next->val==num)
+            {
+                p=p->next;
+                while(p)
+                {
+                    p->previous->next=p->next;
+                    if(p->next)
+                    {
+                        p->next->previous=p->previous;
+                    }
+                    p=p->down;
+                }
+                while(head&&head->next==NULL)
+                {
+                    head=head->down;
+                    value--;
+                }
+                return true;
+            }
+            else
+            {
+                p=p->down;
+            }
+        }
+        return false;
+    }
+};
+
+/**
+ * Your Skiplist object will be instantiated and called as such:
+ * Skiplist* obj = new Skiplist();
+ * bool param_1 = obj->search(target);
+ * obj->add(num);
+ * bool param_3 = obj->erase(num);
+ */

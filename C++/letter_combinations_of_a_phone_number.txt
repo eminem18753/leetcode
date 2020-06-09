@@ -1,0 +1,37 @@
+class Solution {
+public:
+    string a[10];
+    vector<string> result;
+    void dfs(string digits,string temp,int index)
+    {
+        if(index==digits.length())
+        {
+            result.push_back(temp);
+            return;
+        }
+        for(int i=0;i<a[digits[index]-'0'].length();i++)
+        {
+            temp+=a[digits[index]-'0'][i];
+            dfs(digits,temp,index+1);
+            temp.pop_back();
+        }
+    }
+    vector<string> letterCombinations(string digits)
+    {
+        if(digits.length()==0)
+        {
+            return result;
+        }
+        a[2]="abc";
+        a[3]="def";
+        a[4]="ghi";
+        a[5]="jkl";
+        a[6]="mno";
+        a[7]="pqrs";
+        a[8]="tuv";
+        a[9]="wxyz";
+        string temp="";
+        dfs(digits,temp,0); 
+        return result;
+    }
+};

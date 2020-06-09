@@ -1,0 +1,98 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool outcome=false;
+    bool result=true;
+    void test(TreeNode* s,TreeNode* t)
+    {
+        if(s==NULL||t==NULL)
+        {
+            return;
+        }
+        if(s->val!=t->val)
+        {
+            result&=false;
+        }
+        if(s->left!=NULL||t->left!=NULL)
+        {
+            if(s->left==NULL)
+            {
+                result&=false;
+            }
+            else if(t->left==NULL)
+            {
+                result&=false;
+            }
+            else
+            {
+                test(s->left,t->left);
+            }
+        }
+        if(s->right!=NULL||t->right!=NULL)
+        {
+            if(s->right==NULL)
+            {
+                result&=false;
+            }
+            else if(t->right==NULL)
+            {
+                result&=false;
+            }
+            else
+            {
+                test(s->right,t->right);
+            }
+        }
+        if(s->left==NULL&&t->left!=NULL)
+        {
+            result&=false;
+        }
+        else if(s->right==NULL&&t->right!=NULL)
+        {
+            result&=false;
+        }
+        else if(s->left!=NULL&&t->left==NULL)
+        {
+            result&=false;
+        }
+        else if(s->right!=NULL&&t->right==NULL)
+        {
+            result&=false;
+        }
+    }
+    bool overall_check(TreeNode* s,TreeNode* t)
+    {
+        result=true;
+        test(s,t);
+        return result;
+    }
+    void total(TreeNode* s,TreeNode* t)
+    {
+        if(s==NULL)
+        {
+            return;
+        }
+        outcome|=overall_check(s,t);
+        if(s->left!=NULL)
+        {
+            total(s->left,t);
+        }
+        if(s->right!=NULL)
+        {
+            total(s->right,t);
+        }
+    }
+    bool isSubtree(TreeNode* s, TreeNode* t) 
+    {
+        total(s,t);
+        return outcome;
+    }
+};

@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int climbStairs(int n) 
+    {
+        int result=1;
+        int temp1=1;
+        int temp2=1;
+        for(int i=1;i<n;i++)
+        {
+            result=temp1+temp2;
+            int swapResult=temp2;
+            temp2=result;
+            temp1=swapResult;
+        }
+        return result;    
+    }
+};

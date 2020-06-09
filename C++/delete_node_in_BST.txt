@@ -1,0 +1,121 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution 
+{
+    public:
+    int flag=0;
+    map<TreeNode*,TreeNode*> p;
+    void dfs(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        if(root->left!=NULL)
+        {
+            p[root->left]=root;
+        }
+        if(root->right!=NULL)
+        {
+            p[root->right]=root;
+        }
+        dfs(root->left);
+        dfs(root->right);
+    }
+    TreeNode* deleteNode(TreeNode* root, int key) 
+    {
+        if(root==NULL)
+        {
+            return NULL;
+        }
+        p[root]=root;
+        if(flag==0)
+        {
+            flag=1;
+            dfs(root);
+        }
+        if(root->val>key)
+        {
+            root->left=deleteNode(root->left,key);
+        }
+        else if(root->val<key)
+        {
+            root->right=deleteNode(root->right,key);
+        }
+        else
+        {
+            if(root->left==NULL&&root->right==NULL)
+            {
+                if(p[root]->left=root)
+                {
+                    p[root]->left=NULL;
+                    root=NULL;
+                }
+                else
+                {
+                    p[root]->right=NULL;
+                    root=NULL;
+                }
+                return root;
+            }
+            else if(root->right==NULL)
+            {
+                TreeNode* temp=root->left;
+                int f=0;
+                TreeNode* last=temp;
+                while(temp->right!=NULL)
+                {
+                    f=1;
+                    last=temp;
+                    temp=temp->right;
+                }
+                if(f==1)
+                {
+                    last->right=NULL;
+                    temp->left=root->left;
+                    root=temp;
+                }
+                else
+                {
+                    root=root->left;
+                }
+                return root;
+            }
+            TreeNode* temp=root->right;
+            TreeNode* last=temp;
+            int f=0;
+            while(temp->left!=NULL)
+            {
+                f=1;
+                last=temp;
+                temp=temp->left;
+            }
+            if(f==0)
+            {
+                temp->left=root->left;
+            }
+            else
+            {
+                if(last->left->right!=NULL)
+                {
+                    last->left=last->left->right;
+                }
+                else
+                {
+                    last->left=NULL;
+                }
+                temp->left=root->left;
+                temp->right=root->right;
+            }
+            root=temp;
+        }
+        return root;
+    }
+};

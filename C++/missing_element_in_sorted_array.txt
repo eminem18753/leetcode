@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int missingElement(vector<int>& nums, int k) 
+    {
+        int c=0;
+        for(int i=1;i<nums.size();i++)
+        {
+            if(c+nums[i]-nums[i-1]-1>=k)
+            {
+                return nums[i-1]+k-c;
+            }
+            c+=nums[i]-nums[i-1]-1;
+        }
+        return nums.back()+k-c;
+    }
+};

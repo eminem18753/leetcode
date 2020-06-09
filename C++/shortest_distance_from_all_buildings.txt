@@ -1,0 +1,98 @@
+class Solution 
+{
+    public:
+    int shortestDistance(vector<vector<int>>& grid) 
+    {
+        int result=2147483647;
+        int m=grid.size();
+        int n=grid[0].size();
+        vector<vector<int>> steps(m,vector<int>(n,0));
+        vector<vector<int>> temp(m,vector<int>(n,0));
+        vector<vector<int>> index;
+        int dx[4]={1,0,-1,0};
+        int dy[4]={0,1,0,-1};
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                if(grid[i][j]!=0)
+                {
+                    steps[i][j]=-1;
+                    temp[i][j]=-1;
+                }
+                if(grid[i][j]==1)
+                {
+                    index.push_back({i,j});
+                }
+            }
+        }
+        for(int i=0;i<index.size();i++)
+        {
+            int sx=index[i][0];
+            int sy=index[i][1];
+            deque<int> x;
+            deque<int> y;
+            deque<int> c;
+            x.push_back(sx);
+            y.push_back(sy);
+            c.push_back(0);
+            unordered_set<string> overall;
+            overall.insert(to_string(sx)+","+to_string(sy));
+            vector<vector<int>> t=temp;
+            while(x.size()>0)
+            {
+                int tx=x.front();
+                int ty=y.front();
+                int k=c.front();
+                x.pop_front();
+                y.pop_front();
+                c.pop_front();
+                if(grid[tx][ty]==0)
+                {
+                    steps[tx][ty]+=k;
+                    t[tx][ty]+=k;
+                }
+                for(int j=0;j<4;j++)
+                {
+                    int cx=tx+dx[j];
+                    int cy=ty+dy[j];
+                    string temp=to_string(cx)+","+to_string(cy);
+                    if(cx>=0&&cx<m&&cy>=0&&cy<n&&grid[cx][cy]==0&&overall.find(temp)==overall.end())
+                    {
+                        x.push_back(cx);
+                        y.push_back(cy);
+                        c.push_back(k+1);
+                        overall.insert(temp);
+                    }
+                }
+            }
+            for(int j=0;j<m;j++)
+            {
+                for(int k=0;k<n;k++)
+                {
+                    if(t[j][k]==0)
+                    {
+                        steps[j][k]=-1;
+                        grid[j][k]=2;
+                    }
+                }
+            }
+        }
+        for(int i=0;i<steps.size();i++)
+        {
+            for(int j=0;j<steps[i].size();j++)
+            {
+                if(steps[i][j]==-1)
+                {
+                    continue;
+                }
+                result=min(result,steps[i][j]);
+            }
+        }
+        if(result==2147483647)
+        {
+            return -1;
+        }
+        return result;
+    }
+};

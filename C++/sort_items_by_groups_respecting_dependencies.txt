@@ -1,0 +1,155 @@
+class Solution 
+{
+    public:
+    vector<int> sortItems(int n, int m, vector<int>& group, vector<vector<int>>& beforeItems) 
+    {
+        //sort the inner group
+        //sort the groups (in conflict, then empty)
+        vector<int> result;
+        vector<int> order;
+        unordered_map<int,vector<int>> g;
+        unordered_map<int,vector<int>> sorted_group;
+        for(int i=0;i<group.size();i++)
+        {
+            g[group[i]].push_back(i);
+        }
+        //sort the inner group
+        for(unordered_map<int,vector<int>>::iterator it=g.begin();it!=g.end();it++)
+        {
+            if(it->first==-1)
+            {
+                continue;
+            }
+            unordered_map<int,unordered_map<int,int>> adjacency;
+            unordered_map<int,int> r;
+            
+            for(int i=0;i<it->second.size();i++)
+            {
+                for(int j=0;j<beforeItems[it->second[i]].size();j++)
+                {
+                    if(group[it->second[i]]==group[beforeItems[it->second[i]][j]])
+                    {
+                        adjacency[beforeItems[it->second[i]][j]][it->second[i]]=1;
+                        r[it->second[i]]++;
+                    }
+                }
+            }
+            while(true)
+            {
+                int flag=0;
+                for(int i=0;i<it->second.size();i++)
+                {
+                    if(r[it->second[i]]==-1)
+                    {
+                        continue;
+                    }
+                    if(r[it->second[i]]==0)
+                    {
+                        flag=1;
+                        sorted_group[it->first].push_back(it->second[i]);
+                        r[it->second[i]]=-1;
+                        for(unordered_map<int,int>::iterator t=adjacency[it->second[i]].begin();t!=adjacency[it->second[i]].end();t++)
+                        {
+                            if(t->second==1)
+                            {
+                                r[t->first]--;
+                            }
+                            t->second=0;
+                        }
+                    }
+                }
+                if(flag==0)
+                {
+                    break;
+                }
+            }
+            for(int i=0;i<it->second.size();i++)
+            {
+                if(r[it->second[i]]!=-1&&it->second.size()!=1)
+                {
+                    return {};
+                }
+            }            
+        }
+        int index=m+1;
+        for(int i=0;i<group.size();i++)
+        {
+            if(group[i]==-1)
+            {
+                group[i]=index;
+                sorted_group[index].push_back(i);
+                index++;
+            }
+        }
+        //sort the groups (m groups)
+        unordered_map<int,unordered_map<int,int>> adjacency;
+        unordered_map<int,int> r;
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<beforeItems[i].size();j++)
+            {
+                if(group[i]==group[beforeItems[i][j]])
+                {
+                    continue;
+                }
+                if(adjacency[group[i]][group[beforeItems[i][j]]]==1)
+                {
+                    return {};
+                }
+                else if(adjacency[group[beforeItems[i][j]]][group[i]]==1)
+                {
+                    continue;
+                }
+                adjacency[group[beforeItems[i][j]]][group[i]]=1;
+                r[group[i]]++;
+            }
+        }
+        unordered_set<int> u(group.begin(),group.end());
+        vector<int> d(u.begin(),u.end());
+        while(true)
+        {
+            int flag=0;
+            for(int i=0;i<d.size();i++)
+            {
+                if(r[d[i]]==-1||r.find(d[i])==r.end())
+                {
+                    continue;
+                }
+                if(r[d[i]]==0)
+                {
+                    flag=1;
+                    order.push_back(d[i]);
+                    r[d[i]]=-1;
+                    for(unordered_map<int,int>::iterator t=adjacency[d[i]].begin();t!=adjacency[d[i]].end();t++)
+                    {
+                        if(t->second==1)
+                        {
+                            r[t->first]--;
+                        }
+                        t->second=0;
+                    }
+                }
+            }
+            if(flag==0)
+            {
+                break;
+            }
+        }
+        for(int i=0;i<d.size();i++)
+        {
+            if(r[d[i]]!=-1)
+            {
+                return {};
+            }
+        }
+        //sort the items
+        for(int i=0;i<order.size();i++)
+        {
+            for(int j=0;j<sorted_group[order[i]].size();j++)
+            {
+                result.push_back(sorted_group[order[i]][j]);
+            }
+        }
+        return result;
+    }
+};

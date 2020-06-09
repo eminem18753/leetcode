@@ -1,0 +1,67 @@
+class Solution 
+{
+    public:
+    string findShortestWay(vector<vector<int>>& maze, vector<int>& ball, vector<int>& hole) 
+    {
+        deque<pair<int,int>> q;
+        int dx[4]={1,0,-1,0};
+        int dy[4]={0,1,0,-1};
+        string direction="drul";
+        unordered_map<int,string> total;
+        int m=maze.size();
+        int n=maze[0].size();
+        vector<vector<int>> dp(m,vector<int>(n,2147483647));
+        dp[ball[0]][ball[1]]=0;
+        q.push_back({ball[0],ball[1]});
+        while(q.size()>0)
+        {
+            pair<int,int> location=q.front();
+            q.pop_front();
+            for(int i=0;i<4;i++)
+            {
+                int x=location.first;
+                int y=location.second;
+                int d=dp[x][y];
+                string temp=total[x*n+y];
+                while(x>=0&&x<m&&y>=0&&y<n&&maze[x][y]==0&&(x!=hole[0]||y!=hole[1]))
+                {
+                    x+=dx[i];
+                    y+=dy[i];
+                    d++;
+                }
+                if(x!=hole[0]||y!=hole[1])
+                {
+                    x-=dx[i];
+                    y-=dy[i];
+                    d--;
+                }
+                temp+=direction[i];
+                if(d<dp[x][y])
+                {
+                    dp[x][y]=d;
+                    total[x*n+y]=temp;
+                    if(x!=hole[0]||y!=hole[1])
+                    {
+                        q.push_back({x,y});
+                    }
+                }
+                else if(d==dp[x][y])
+                {
+                    if(temp<total[x*n+y])
+                    {
+                        total[x*n+y]=temp;
+                        if(x!=hole[0]||y!=hole[1])
+                        {
+                            q.push_back({x,y});
+                        }
+                    }
+                }
+            }
+        }
+        if(total[hole[0]*n+hole[1]]=="")
+        {
+            return "impossible";
+        }
+        return total[hole[0]*n+hole[1]];
+    }
+};

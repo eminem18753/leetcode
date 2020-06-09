@@ -1,0 +1,58 @@
+class Solution 
+{
+    public:
+    vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) 
+    {
+        vector<vector<string>> result;
+        map<int,map<string,set<string>>> overall;
+        while(true)
+        {
+            int f=0;
+            for(int i=0;i<accounts.size();i++)
+            {
+                int id=i;
+                for(int j=1;j<accounts[i].size();j++)
+                {
+                    for(map<int,map<string,set<string>>>::iterator it1=overall.begin();it1!=overall.end();it1++)
+                    {
+                        for(map<string,set<string>>::iterator it2=it1->second.begin();it2!=it1->second.end();it2++)
+                        {
+                            if(it2->second.find(accounts[i][j])!=it2->second.end())
+                            {
+                                id=it1->first;
+                                break;
+                            }
+                        }
+                    }
+                }
+                if(id!=i)
+                {
+                    f=1;
+                }
+                for(int j=1;j<accounts[i].size();j++)
+                {
+                    overall[id][accounts[i][0]].insert(accounts[i][j]);
+                }
+            }
+
+            for(map<int,map<string,set<string>>>::iterator it1=overall.begin();it1!=overall.end();it1++)
+            {
+                for(map<string,set<string>>::iterator it2=it1->second.begin();it2!=it1->second.end();it2++)
+                {
+                    vector<string> temp(it2->second.begin(),it2->second.end());
+                    sort(temp.begin(),temp.end());
+                    temp.insert(temp.begin(),it2->first);
+                    result.push_back(temp);
+                }
+            }
+            accounts=result;
+            result.clear();
+            overall.clear();
+            if(f==0)
+            {
+                break;
+            }
+        }
+        return accounts;
+    }
+};

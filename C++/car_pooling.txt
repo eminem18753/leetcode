@@ -1,0 +1,28 @@
+class Solution {
+public:
+    bool carPooling(vector<vector<int>>& trips, int capacity) 
+    {
+        int result=0;
+        int maximum=-1;
+        for(int i=0;i<trips.size();i++)
+        {
+            maximum=max(maximum,trips[i][2]);
+        }
+        int n[maximum+1];
+        int s[maximum+1];
+        memset(n,0,sizeof(n));
+        memset(s,0,sizeof(s));
+        for(int i=0;i<trips.size();i++)
+        {
+            n[trips[i][1]]+=trips[i][0];
+            n[trips[i][2]]-=trips[i][0];
+        }
+        n[0]=s[0];
+        for(int i=1;i<maximum+1;i++)
+        {
+            s[i]=s[i-1]+n[i];
+            result=max(result,s[i]);
+        }
+        return result<=capacity;
+    }
+};

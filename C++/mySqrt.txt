@@ -1,0 +1,28 @@
+class Solution 
+{
+public:
+    int mySqrt(int x) 
+    {
+        int result;
+        if(x==0)
+        {
+            result=0;
+            return result;	
+        }
+        int count=-1;
+        int summation=0;
+        int temp=1;
+        while(summation<=x)
+        {
+            count+=1;
+            if(count>=46340)
+            {
+                return count;	
+            }
+            summation+=temp;
+            temp+=2;	
+        }
+        result=count;
+        return result;
+    }
+};

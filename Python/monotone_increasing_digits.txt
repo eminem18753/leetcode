@@ -1,0 +1,30 @@
+class Solution(object):
+    def monotoneIncreasingDigits(self, N):
+        """
+        :type N: int
+        :rtype: int
+        """
+        index=0
+        temp=0
+        current=map(int,list(str(N)))
+        if len(current)==1:
+            return N
+        
+        flag=0
+        for i in range(0,len(current)-1):
+            if i>0:
+                if current[i]!=current[i-1]:
+                    temp=i
+            if current[i]>current[i+1]:
+                flag=1
+                index=temp
+                break
+                
+        if flag==0:                
+            return N
+        
+        current[index]-=1
+        for i in range(index+1,len(current)):
+            current[i]=9
+            
+        return int(''.join(map(str,current)))

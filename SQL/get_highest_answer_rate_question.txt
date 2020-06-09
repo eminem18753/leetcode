@@ -1,0 +1,9 @@
+# Write your MySQL query statement below
+SELECT DISTINCT a.question_id as survey_log FROM survey_log as a
+JOIN
+(
+    SELECT SUM(CASE WHEN t.action='answer' THEN 1 ELSE 0 END)/SUM(CASE WHEN t.action='show' THEN 1 ELSE 0 END),question_id as i FROM survey_log as t
+    GROUP BY question_id
+    ORDER BY 1 DESC LIMIT 1
+) b
+WHERE a.question_id=b.i;

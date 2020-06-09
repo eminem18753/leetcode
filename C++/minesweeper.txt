@@ -1,0 +1,73 @@
+class Solution 
+{
+public:
+    void dfs(vector<vector<char>>& board,int x,int y)
+    {        
+        if(x<0||y<0||x>=board.size()||y>=board[0].size()||board[x][y]=='B'||(board[x][y]>='0'&&board[x][y]<='9'))
+        {
+            return;
+        }
+        int r=0;
+        if(x-1>=0&&y-1>=0&&board[x-1][y-1]=='M')
+        {
+            r++;
+        }
+        if(x-1>=0&&y>=0&&board[x-1][y]=='M')
+        {
+            r++;
+        }
+        if(x-1>=0&&y+1<board[0].size()&&board[x-1][y+1]=='M')
+        {
+            r++;
+        }
+        if(x>=0&&y-1>=0&&board[x][y-1]=='M')
+        {
+            r++;
+        }
+        if(x>=0&&y+1<board[0].size()&&board[x][y+1]=='M')
+        {
+            r++;
+        }
+        if(x+1<board.size()&&y-1>=0&&board[x+1][y-1]=='M')
+        {
+            r++;
+        }
+        if(x+1<board.size()&&y>=0&&board[x+1][y]=='M')
+        {
+            r++;
+        }
+        if(x+1<board.size()&&y+1<board[0].size()&&board[x+1][y+1]=='M')
+        {
+            r++;
+        }
+        if(r>0)
+        {
+            board[x][y]=r+'0';
+            return;
+        }
+        else
+        {
+            board[x][y]='B';
+        }
+        dfs(board,x-1,y-1);
+        dfs(board,x-1,y);
+        dfs(board,x-1,y+1);
+        dfs(board,x,y-1);
+        dfs(board,x,y+1);
+        dfs(board,x+1,y-1);
+        dfs(board,x+1,y);
+        dfs(board,x+1,y+1);
+    }
+    vector<vector<char>> updateBoard(vector<vector<char>>& board, vector<int>& click)
+    {
+        int x=click[0];
+        int y=click[1];
+        if(board[x][y]=='M')
+        {
+            board[x][y]='X';
+            return board;
+        }
+        dfs(board,x,y);
+        return board;
+    }
+};

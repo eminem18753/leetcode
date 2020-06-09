@@ -1,0 +1,34 @@
+vector<int> total;
+int f=0;
+class Solution 
+{
+    public:
+    int findMinFibonacciNumbers(int k) 
+    {
+        if(f==0)
+        {
+            int a=1;
+            int b=1;
+            int c=0;
+            total.push_back(a);
+            while(a+b<1000000000)
+            {
+                c=a+b;
+                a=b;
+                b=c;
+                total.push_back(c);
+            }
+            f=1;
+        }
+        int result=0;
+        while(k>0)
+        {
+            vector<int>::iterator up;
+            up=upper_bound(total.begin(),total.end(),k);
+            int index=(int)(up-total.begin())-1;
+            k-=total[index];
+            result++;
+        }
+        return result;
+    }
+};

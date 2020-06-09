@@ -1,0 +1,29 @@
+class Solution 
+{
+    public:
+    int removePalindromeSub(string s) 
+    {
+        if(s=="")
+        {
+            return 0;
+        }
+        bool f=true;
+        int p1=0;
+        int p2=(int)s.length()-1;
+        while(p1<p2)
+        {
+            if(s[p1]!=s[p2])
+            {
+                f=false;
+                break;
+            }
+            p1++;
+            p2--;
+        }
+        if(f)
+        {
+            return 1;
+        }
+        return 2;
+    }
+};

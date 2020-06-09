@@ -1,0 +1,33 @@
+class Solution 
+{
+    public:
+    int m=1000000007;
+    int p(long long int a,long long int b)
+    {
+        long long int result=1;
+        while(b)
+        {
+            if(b%2==1)
+            {
+                result=(result*a)%m;
+            }
+            a=((a%m)*(a%m))%m;
+            b>>=1;
+        }
+        return (int)result%m;
+    }
+    int sumSubseqWidths(vector<int>& A) 
+    {
+        long long int result=0;
+        int n=A.size();
+        sort(A.begin(),A.end());
+        for(int i=0;i<A.size();i++)
+        {
+            result+=(((long long int)A[i]%(long long int)m)*((long long int)p(2,i)%(long long int)m))%(long long int)m;
+            result%=m;
+            result-=(((long long int)A[i]%(long long int)m)*((long long int)p(2,n-i-1)%(long long int)m))%(long long int)m;
+            result%=m;
+        }
+        return (int)result;
+    }
+};

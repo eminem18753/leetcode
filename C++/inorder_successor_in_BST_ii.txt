@@ -1,0 +1,48 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* left;
+    Node* right;
+    Node* parent;
+};
+*/
+class Solution {
+public:
+    Node* result=NULL;
+    int minimum=2147483647;
+    int p=-1;
+    void test(Node* node)
+    {
+        if(node==NULL)
+        {
+            return;
+        }
+        test(node->left);
+        if(node->val>p)
+        {
+            if(node->val<minimum)
+            {
+                minimum=node->val;
+                result=node;
+            }
+        }
+        test(node->right);
+    }
+    Node* inorderSuccessor(Node* node) 
+    {
+        Node* root=node;
+        p=node->val;
+        while(node)
+        {
+            node=node->parent;
+            if(node)
+            {
+                root=node;
+            }
+        }
+        test(root);
+        return result;
+    }
+};

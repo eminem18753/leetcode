@@ -1,0 +1,82 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution 
+{
+    public:
+    TreeNode* recoverFromPreorder(string S) 
+    {
+        if(S.length()==0)
+        {
+            return NULL;
+        }
+        vector<string> total;
+        vector<int> l;
+        string temp="";
+        int f=0;
+        for(int i=0;i<S.length();i++)
+        {
+            if(isdigit(S[i]))
+            {
+                if(f==0)
+                {
+                    temp+=S[i];                
+                }
+                else
+                {
+                    l.push_back((int)temp.length());
+                    temp=S[i];
+                    f=0;
+                }
+            }
+            else
+            {
+                if(f==0)
+                {
+                    total.push_back(temp);
+                    temp=S[i];
+                    f=1;
+                }
+                else
+                {
+                    temp+=S[i];
+                }
+            }
+        }
+        total.push_back(temp);
+
+        vector<vector<TreeNode*>> overall;
+        overall.push_back({new TreeNode(stoi(total[0]))});
+        
+        for(int i=0;i<l.size();i++)
+        {
+            if(overall.size()<l[i]+1)
+            {
+                vector<TreeNode*> temp;
+                overall.push_back(temp);
+            }
+            TreeNode* t=new TreeNode(stoi(total[i+1]));
+            if(overall[l[i]-1].back()->left==NULL)
+            {
+                overall[l[i]-1].back()->left=t;
+            }
+            else
+            {
+                overall[l[i]-1].back()->right=t;                
+            }
+            overall[l[i]].push_back(t);
+        }
+        
+        if(overall.size()==0)
+        {
+            return NULL;
+        }
+        return overall[0][0];
+    }
+};

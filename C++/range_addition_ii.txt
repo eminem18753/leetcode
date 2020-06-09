@@ -1,0 +1,29 @@
+class Solution
+{
+public:
+    int maxCount(int m, int n, vector<vector<int>>& ops) 
+    {
+        int result=0;
+        int rowMin=2147483647;
+        int columnMin=2147483647;
+        if(ops.size()==0)
+        {
+            return m*n;	
+        }
+        for(int i=0;i<ops.size();i++)
+        {
+            int a=ops[i][0];
+            int b=ops[i][1];
+            if(a<rowMin)
+            {
+                rowMin=a;	
+            }
+            if(b<columnMin)
+            {
+                columnMin=b;	
+            }
+        }
+        result=rowMin*columnMin;
+        return result;
+    }
+};

@@ -1,0 +1,78 @@
+class Solution 
+{
+    public:
+    vector<vector<int>> candyCrush(vector<vector<int>>& board) 
+    {
+        int m=board.size();
+        int n=board[0].size();
+        while(true)
+        {
+            int f=0;
+            vector<vector<int>> temp(m,vector<int>(n,0));
+            for(int i=0;i<m;i++)
+            {
+                for(int j=1;j<n-1;j++)
+                {
+                    if(board[i][j]!=0&&board[i][j]==board[i][j-1]&&board[i][j]==board[i][j+1])
+                    {
+                        temp[i][j-1]=1;
+                        temp[i][j]=1;
+                        temp[i][j+1]=1;
+                        f=1;
+                    }
+                }
+            }
+            
+            for(int j=0;j<n;j++)
+            {
+                for(int i=1;i<m-1;i++)
+                {
+                    if(board[i][j]!=0&&board[i][j]==board[i-1][j]&&board[i][j]==board[i+1][j])
+                    {
+                        temp[i-1][j]=1;
+                        temp[i][j]=1;
+                        temp[i+1][j]=1;
+                        f=1;
+                    }                    
+                }
+            }
+            for(int i=0;i<m;i++)
+            {
+                for(int j=0;j<n;j++)
+                {
+                    if(temp[i][j]==1)
+                    {
+                        board[i][j]=0;
+                        f=1;
+                    }
+                }
+            }
+            while(true)
+            {
+                int k=0;
+                for(int j=0;j<n;j++)
+                {
+                    for(int i=m-1;i>=1;i--)
+                    {
+                        if(board[i][j]==0&&board[i-1][j]!=0)
+                        {
+                            int temp=board[i][j];
+                            board[i][j]=board[i-1][j];
+                            board[i-1][j]=temp;
+                            k=1;
+                        }
+                    }
+                }
+                if(k==0)
+                {
+                    break;   
+                }
+            }
+            if(f==0)
+            {
+                break;   
+            }
+        }
+        return board;
+    }
+};

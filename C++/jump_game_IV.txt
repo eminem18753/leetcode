@@ -1,0 +1,61 @@
+class Solution 
+{
+    public:
+    int minJumps(vector<int>& arr) 
+    {
+        if(arr.size()==1)
+        {
+            return 0;
+        }
+        unordered_map<int,vector<int>> total;
+        int n=arr.size();
+        for(int i=0;i<n;i++)
+        {
+            total[arr[i]].push_back(i);
+        }
+        unordered_set<int> v={0};
+        deque<int> q={0};
+        int c=0;
+        while(q.size()>0)
+        {
+            int s=q.size();
+            c++;
+            for(int i=0;i<s;i++)
+            {
+                int p=q.front();
+                q.pop_front();
+                if(p-1>=0&&v.find(p-1)==v.end())
+                {
+                    if(p-1==n-1)
+                    {
+                        return c;
+                    }
+                    q.push_back(p-1);
+                    v.insert(p-1);
+                }
+                if(p<n-1&&v.find(p+1)==v.end())
+                {
+                    if(p+1==n-1)
+                    {
+                        return c;
+                    }
+                    q.push_back(p+1);
+                    v.insert(p+1);
+                }
+                for(int j=(int)total[arr[p]].size()-1;j>-1;j--)
+                {
+                    if(v.find(total[arr[p]][j])==v.end())
+                    {
+                        if(total[arr[p]][j]==n-1)
+                        {
+                            return c;
+                        }
+                        q.push_back(total[arr[p]][j]);
+                        v.insert(total[arr[p]][j]);
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+};

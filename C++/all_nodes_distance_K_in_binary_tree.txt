@@ -1,0 +1,84 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    map<TreeNode*,TreeNode*> total;
+    set<int> overall;
+    vector<int> result;
+    vector<TreeNode*> f1;
+    vector<TreeNode*> f2;
+    TreeNode* start;
+    int t;
+    int g;
+    void dfs(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        if(root->left!=NULL)
+        {
+            total[root->left]=root;
+        }
+        if(root->right!=NULL)
+        {
+            total[root->right]=root;
+        }
+        dfs(root->left);
+        dfs(root->right);
+    }
+    void bfs(TreeNode* root,int flag)
+    {
+        if(flag!=0)
+        {
+            if(root==NULL||overall.find(root->val)!=overall.end())
+            {
+                return;
+            }
+        }
+        if(flag==1)
+        {
+            f2.push_back(root);
+        }
+        overall.insert(root->val);
+        for(int i=0;i<f1.size();i++)
+        {
+            bfs(f1[i]->left,1);
+            bfs(f1[i]->right,1);
+            bfs(total[f1[i]],1);
+        }
+    }
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int K) 
+    {
+        g=K;
+        total[root]=root;
+        dfs(root);
+        f1.push_back(target);
+        if(K==0)
+        {
+            result.push_back(target->val);
+            return result;
+        }
+        for(int i=0;i<K;i++)
+        {
+            f2.clear();
+            if(f1.size()>0)
+            {
+                bfs(f1[0],0);
+            }
+            f1=f2;
+        }
+        for(int i=0;i<f2.size();i++)
+        {
+            result.push_back(f2[i]->val);
+        }
+        return result;
+    }
+};

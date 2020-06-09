@@ -1,0 +1,70 @@
+class Solution {
+public:
+    string toString(int n)
+    {
+        string r="";
+        while(n)
+        {
+            r=to_string(n%2)+r;
+            n>>=1;
+        }
+        return r;
+    }
+    bool validUtf8(vector<int>& data) 
+    {
+        bool result=true;
+        int p=0;
+        vector<string> total;
+        for(int i=0;i<data.size();i++)
+        {
+            string t=toString(data[i]);
+            for(int i=0;i<8-(int)t.length();i++)
+            {
+                t="0"+t;
+            }
+            total.push_back(t);
+        }
+        int c=0;
+        while(p<total.size())
+        {
+            if(c==0)
+            {
+                for(int i=0;i<total[p].size();i++)
+                {
+                    if(total[p][i]=='1')
+                    {
+                        c++;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                if(c==1)
+                {
+                    return false;
+                }
+                if(c>4)
+                {
+                    return false;
+                }
+                c-=1;
+                c=max(c,0);
+            }
+            else
+            {
+                if(total[p][0]!='1'||total[p][1]!='0')
+                {
+                    return false;
+                }
+                c--;
+            }
+            p++;
+        }
+        if(c!=0)
+        {
+            return false;
+        }
+        return result;
+    }
+};

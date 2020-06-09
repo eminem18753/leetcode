@@ -1,0 +1,26 @@
+from collections import Counter
+class Solution(object):
+    def isIsomorphic(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: bool
+        """
+        if len(s)!=len(t):
+            return False
+        a={}
+        b={}
+        for i in range(0,len(s)):
+            if s[i] in a:
+                if a[s[i]]!=t[i]:
+                    return False
+            else:
+                a[s[i]]=t[i]
+        for i in range(0,len(t)):
+            if t[i] in b:
+                if b[t[i]]!=s[i]:
+                    return False
+            else:
+                b[t[i]]=s[i]
+        return True
+        

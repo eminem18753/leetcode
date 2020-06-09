@@ -1,0 +1,62 @@
+bool compare(vector<int> a,vector<int> b)
+{
+    return a[2]<b[2];
+}
+class Solution 
+{
+    public:
+    int f(int x)
+    {
+        if(x!=g[x])
+        {
+            x=f(g[x]);
+        }
+        return x;
+    }
+    void u(int x,int y)
+    {
+        money[f(y)]=min(money[f(x)],money[f(y)]);
+        g[f(x)]=f(y);
+    }
+    vector<int> g;
+    unordered_map<int,int> money;
+    int minCostToSupplyWater(int n, vector<int>& wells, vector<vector<int>>& pipes) 
+    {
+        int result=0;
+        for(int i=0;i<=n;i++)
+        {
+            g.push_back(i);
+        }
+        for(int i=0;i<wells.size();i++)
+        {
+            money[i+1]=wells[i];
+        }
+        sort(pipes.begin(),pipes.end(),compare);
+        for(int i=0;i<pipes.size();i++)
+        {
+            int a=pipes[i][0];
+            int b=pipes[i][1];
+            int cost=pipes[i][2];
+            if(f(a)!=f(b))
+            {
+                int m=min(money[f(a)],money[f(b)]);
+                int total=money[f(a)]+money[f(b)];
+                if(total>m+cost)
+                {
+                    u(f(a),f(b));
+                    result+=cost;
+                }
+            }
+        }
+        unordered_set<int> v;
+        for(int i=1;i<=n;i++)
+        {
+            if(v.find(f(i))==v.end())
+            {
+                result+=money[f(i)];
+                v.insert(f(i));
+            }
+        }
+        return result;
+    }
+};

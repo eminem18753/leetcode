@@ -1,0 +1,75 @@
+class Solution {
+public:
+    vector<string> letterCasePermutation(string S) 
+    {
+        vector<int> location;
+        vector<string> result;
+        vector<string> overall;
+        int count=0;
+        for(int i=0;i<S.length();i++)
+        {
+            if((S[i]>=65&&S[i]<=90)||(S[i]>=97&&S[i]<=122))
+            {
+                count+=1;
+                location.push_back(i);
+            }
+        }
+        if(count==0)
+        {
+            result.push_back(S);	
+        }
+        else
+        {
+            for(int i=0;i<pow(2,count);i++)
+            {
+                string temp="";
+                int another=i;
+                while(another/2!=0)
+                {
+                    int y=another%2;
+                    another/=2;
+                    if(y==0)
+                    {
+                        temp+="0";
+                    }
+                    else if(y==1)
+                    {
+                        temp+="1";
+                    }
+                }
+                if(another==0)
+                {
+                    temp+="0";
+                }
+                else if(another==1)
+                {
+                    temp+="1";
+                }
+                while(temp.length()<count)
+                {
+                    temp=temp+"0";
+                }
+                string sub=S;
+                for(int i=0;i<temp.length();i++)
+                {
+                    if(temp[i]=='0')
+                    {
+                        if(sub[location[i]]>=65&&sub[location[i]]<=90)
+                        {
+                            sub[location[i]]+=32;
+                        }
+                    }
+                    else if(temp[i]=='1')
+                    {
+                        if(sub[location[i]]>=97&&sub[location[i]]<=122)
+                        {
+                            sub[location[i]]-=32;
+                        }				
+                    }
+                }
+                result.push_back(sub);
+            }
+        }
+        return result;
+    }
+};

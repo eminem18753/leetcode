@@ -1,0 +1,23 @@
+from collections import Counter
+class Solution(object):
+    def gcd(self,a,b):
+        if b==0:
+            return a
+        else:
+            return self.gcd(b,a%b)
+    def hasGroupsSizeX(self, deck):
+        """
+        :type deck: List[int]
+        :rtype: bool
+        """
+        v=Counter(deck).values()
+        if len(set(v))==1 and v[0]>=2:
+            return True
+        if v[0]<2:
+            return False
+        v=list(set(sorted(v)))
+        for i in range(1,len(v)):
+            if self.gcd(v[i],v[0])==1:
+                return False
+            
+        return True

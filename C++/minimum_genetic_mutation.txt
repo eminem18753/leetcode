@@ -1,0 +1,46 @@
+class Solution 
+{
+    public:
+    int minMutation(string start, string end, vector<string>& bank) 
+    {
+        if(start==end)
+        {
+            return 0;
+        }
+        set<string> total;
+        deque<string> q;
+        q.push_back(start);
+        deque<int> c;
+        c.push_back(0);
+        total.insert(start);
+        while(q.size()>0)
+        {
+            string current=q.front();
+            int k=c.front();
+            q.pop_front();
+            c.pop_front();
+            if(current==end)
+            {
+                return k;
+            }
+            for(int i=0;i<bank.size();i++)
+            {
+                int r=0;
+                for(int j=0;j<bank[i].length();j++)
+                {
+                    if(bank[i][j]!=current[j])
+                    {
+                        r++;
+                    }
+                }
+                if(r==1&&total.find(bank[i])==total.end())
+                {
+                    q.push_back(bank[i]);
+                    c.push_back(k+1);
+                    total.insert(bank[i]);
+                }
+            }
+        }
+        return -1;
+    }
+};

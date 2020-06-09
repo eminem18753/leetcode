@@ -1,0 +1,32 @@
+class Solution {
+public:
+    vector<int> fairCandySwap(vector<int>& A, vector<int>& B)
+    {
+        int sA=0;
+        int sB=0;
+        int d=0;
+        vector<int> result;
+        sort(A.begin(),A.end());
+        sort(B.begin(),B.end());
+        for(int i=0;i<A.size();i++)
+        {
+            sA+=A[i];
+        }
+        for(int i=0;i<B.size();i++)
+        {
+            sB+=B[i];
+        }
+        d=(sA-sB)/2;
+        for(int i=0;i<A.size();i++)
+        {
+            if(binary_search(B.begin(),B.end(),A[i]-d))
+            {
+                vector<int>::iterator pos=upper_bound(B.begin(),B.end(),A[i]-d);
+                result.push_back(A[i]);
+                result.push_back(B[(int)(pos-B.begin()-1)]);
+                return result;
+            }
+        }
+        return result;
+    }
+};

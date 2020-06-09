@@ -1,0 +1,46 @@
+class Solution 
+{
+    public:
+    vector<vector<int>> dp;
+    int m;
+    int n;
+    int dx[4]={0,0,1,-1};
+    int dy[4]={1,-1,0,0};
+    deque<pair<int,int>> q;
+    void dfs(vector<vector<int>>& grid,int r,int c,int cost)
+    {
+        if(r<0||r>=m||c<0||c>=n||dp[r][c]!=2147483647)
+        {
+            return;
+        }
+        dp[r][c]=cost;
+        q.push_back({r,c});
+        int direction=grid[r][c]-1;
+        dfs(grid,r+dx[direction],c+dy[direction],cost);
+    }
+    int minCost(vector<vector<int>>& grid) 
+    {
+        m=grid.size();
+        n=grid[0].size();
+        dp=vector<vector<int>>(m,vector<int>(n,2147483647));
+        int cost=0;
+        dfs(grid,0,0,cost);
+        while(q.size()>0)
+        {
+            cost++;
+            int s=q.size();
+            for(int i=0;i<s;i++)
+            {
+                pair<int,int> p=q.front();
+                q.pop_front();
+                int r=p.first;
+                int c=p.second;
+                for(int j=0;j<4;j++)
+                {
+                    dfs(grid,r+dx[j],c+dy[j],cost);
+                }
+            }
+        }
+        return dp[m-1][n-1];
+    }
+};

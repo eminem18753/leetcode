@@ -1,0 +1,23 @@
+class Solution 
+{
+    public:
+    int missingNumber(vector<int>& arr) 
+    {
+        int result=0;
+        int m=2147483647;
+        int M=-2147483648;
+        for(int i=1;i<arr.size();i++)
+        {
+            m=min(m,abs(arr[i]-arr[i-1]));
+            M=max(M,abs(arr[i]-arr[i-1]));
+        }
+        for(int i=1;i<arr.size();i++)
+        {
+            if(abs(arr[i]-arr[i-1])==M)
+            {
+                return (arr[i]+arr[i-1])/2;
+            }
+        }
+        return -1;
+    }
+};

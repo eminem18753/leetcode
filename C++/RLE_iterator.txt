@@ -1,0 +1,40 @@
+class RLEIterator {
+public:
+    vector<int> t;
+    vector<long long> s;
+    int index=0;
+    int current=-1;
+    int number=-1;
+    long long c=0;
+    RLEIterator(vector<int>& A) 
+    {
+        t=A;
+        if(A.size()>0)
+        {
+            s.push_back((long long)A[0]);
+        }
+        for(int i=2;i<A.size();i+=2)
+        {
+            s.push_back((long long)s.back()+(long long)A[i]);
+        }
+    }
+    
+    int next(int n)
+    {
+        c+=(long long)n;
+        if(s.size()==0||c>s.back())
+        {
+            return -1;
+        }
+        vector<long long>::iterator low;
+        low=lower_bound(s.begin(),s.end(),c);
+        int temp=(int)(low-s.begin());
+        return t[2*temp+1];
+    }
+};
+
+/**
+ * Your RLEIterator object will be instantiated and called as such:
+ * RLEIterator* obj = new RLEIterator(A);
+ * int param_1 = obj->next(n);
+ */

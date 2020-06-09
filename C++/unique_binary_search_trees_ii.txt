@@ -1,0 +1,72 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution 
+{
+    public:
+    vector<TreeNode*> getResult(int start,int last)
+    {
+        if(start==last)
+        {
+            return {new TreeNode(start)};
+        }
+        if(start>last)
+        {
+            return {};
+        }
+        vector<TreeNode*> result;
+        for(int i=start;i<=last;i++)
+        {
+            vector<TreeNode*> l=getResult(start,i-1);
+            vector<TreeNode*> r=getResult(i+1,last);
+            for(int j=0;j<l.size();j++)
+            {
+                for(int k=0;k<r.size();k++)
+                {
+                    TreeNode* current=new TreeNode(i);
+                    current->left=l[j];
+                    current->right=r[k];
+                    result.push_back(current);
+                }
+            }
+            if(l.size()==0&&r.size()==0)
+            {
+                TreeNode* current=new TreeNode(i);
+                current->left=NULL;
+                current->right=NULL;
+                result.push_back(current);
+            }
+            else if(r.size()==0)
+            {
+                for(int j=0;j<l.size();j++)
+                {
+                    TreeNode* current=new TreeNode(i);
+                    current->left=l[j];
+                    current->right=NULL;
+                    result.push_back(current);
+                }
+            }
+            else if(l.size()==0)
+            {
+                for(int j=0;j<r.size();j++)
+                {
+                    TreeNode* current=new TreeNode(i);
+                    current->left=NULL;
+                    current->right=r[j];
+                    result.push_back(current);
+                }
+            }
+        }
+        return result;        
+    }
+    vector<TreeNode*> generateTrees(int n) 
+    {
+        return getResult(1,n);
+    }
+};

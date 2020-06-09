@@ -1,0 +1,52 @@
+class Solution 
+{
+    public:
+    int makeArrayIncreasing(vector<int>& arr1, vector<int>& arr2) 
+    {
+        set<int> s(arr2.begin(),arr2.end());
+        arr2.assign(s.begin(),s.end());
+        int m=arr1.size();
+        int n=arr2.size();
+        vector<int> keep(m,1e9);
+        vector<int> swap(n,1);
+        keep[0]=0;
+        for(int i=1;i<m;i++)
+        {
+            if(arr1[i]>arr1[i-1])
+            {
+                keep[i]=keep[i-1];   
+            }
+            int min_swap=1e9;
+            int min_keep=1e9;
+            vector<int> temp(n,1e9);
+            for(int j=0;j<n;j++)
+            {
+                if(j>0)
+                {
+                    min_swap=min(min_swap,swap[j-1]+1);   
+                }
+                if(arr1[i]>arr2[j])
+                {
+                    min_keep=min(min_keep,swap[j]);   
+                }
+                if(arr2[j]>arr1[i-1])
+                {
+                    temp[j]=keep[i-1]+1;   
+                }
+                temp[j]=min(temp[j],min_swap);
+            }
+            keep[i]=min(keep[i],min_keep);
+            temp.swap(swap);
+        }
+        int result=keep.back();
+        for(int i=0;i<n;i++)
+        {
+            result=min(result,swap[i]);   
+        }
+        if(result==1e9)
+        {
+            return -1;   
+        }
+        return result;
+    }
+};

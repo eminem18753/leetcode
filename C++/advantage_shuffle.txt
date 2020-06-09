@@ -1,0 +1,33 @@
+class Solution 
+{
+public:
+    vector<int> advantageCount(vector<int>& A, vector<int>& B) 
+    {
+        vector<int> result;
+        sort(A.begin(),A.end());
+        
+        for(int i=0;i<B.size();i++)
+        {
+            vector<int>::iterator low;
+            low=lower_bound(A.begin(),A.end(),B[i]+1);
+            int index=(int)(low-A.begin());
+            if(index>=(int)A.size())
+            {
+                result.push_back(A[0]);
+                A.erase(A.begin());                
+            }
+            else if(A[index]<=B[i])
+            {
+                result.push_back(A[0]);
+                A.erase(A.begin());   
+            }
+            else
+            {
+                result.push_back(A[index]);
+                A.erase(A.begin()+index);
+            }
+        }
+        
+        return result;
+    }
+};

@@ -1,0 +1,25 @@
+class Solution {
+public:
+    bool confusingNumber(int N) 
+    {
+        int c=N;
+        string temp=to_string(c);
+        int r=0;
+        
+        int a[10]={0,1,-1,-1,-1,-1,9,-1,8,6};
+        for(int i=temp.length()-1;i>-1;i--)
+        {
+            if(temp[i]!='0'&&temp[i]!='1'&&temp[i]!='6'&&temp[i]!='8'&&temp[i]!='9')
+            {
+                return false;
+            }
+            else
+            {
+                int c=a[temp[i]-'0'];
+                r*=10;
+                r+=c;
+            }
+        }
+        return r!=c;
+    }
+};

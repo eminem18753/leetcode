@@ -1,0 +1,34 @@
+class Solution 
+{
+    public:
+    int numberOfArithmeticSlices(vector<int>& A) 
+    {
+        if(A.size()==0)
+        {
+            return 0;   
+        }
+        unordered_map<long long int,unordered_map<long long int,long long int>> total;
+        int n=A.size();
+        int result=0;
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<i;j++)
+            {
+                if(total[i].find((long long )A[i]-(long long )A[j])==total[i].end())
+                {
+                    total[i][(long long )A[i]-(long long )A[j]]=1;                
+                }
+                else
+                {
+                    total[i][A[i]-A[j]]++;                                    
+                }
+                if(total[j].find((long long int)A[i]-(long long int)A[j])!=total[j].end())
+                {
+                    result+=total[j][(long long )A[i]-(long long )A[j]];
+                    total[i][(long long int)A[i]-(long long int)A[j]]+=total[j][(long long int)A[i]-(long long int)A[j]];
+                }
+            }
+        }
+        return result;
+    }
+};

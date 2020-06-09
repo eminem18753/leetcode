@@ -1,0 +1,36 @@
+class MedianFinder {
+public:
+    /** initialize your data structure here. */
+    vector<int> total;
+    MedianFinder() 
+    {
+        
+    }
+    
+    void addNum(int num) 
+    {
+        vector<int>::iterator low;
+        low=lower_bound(total.begin(),total.end(),num);
+        total.insert(low,num);
+    }
+    
+    double findMedian() 
+    {
+        int n=total.size();
+        if(n%2==1)
+        {
+            return (double)total[(n-1)/2];
+        }
+        else
+        {
+            return ((double)total[n/2]+(double)total[n/2-1])/(double)2;
+        }
+    }
+};
+
+/**
+ * Your MedianFinder object will be instantiated and called as such:
+ * MedianFinder* obj = new MedianFinder();
+ * obj->addNum(num);
+ * double param_2 = obj->findMedian();
+ */

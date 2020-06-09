@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int findMaxLength(vector<int>& nums) 
+    {
+        int result=0;
+        map<int,int> total;
+        int c=0;
+        total[0]=0;
+        for(int i=0;i<nums.size();i++)
+        {
+            if(nums[i]==0)
+            {
+                c--;
+            }
+            else
+            {
+                c++;
+            }
+            if(total.find(c)==total.end())
+            {
+                total[c]=i+1;
+            }
+            result=max(result,i+1-total[c]);
+        }
+        
+        return result;
+    }
+};

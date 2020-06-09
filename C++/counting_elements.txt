@@ -1,0 +1,17 @@
+class Solution 
+{
+    public:
+    int countElements(vector<int>& arr) 
+    {
+        int result=0;
+        unordered_set<int> v(arr.begin(),arr.end());
+        for(int i=0;i<arr.size();i++)
+        {
+            if(v.find(arr[i]+1)!=v.end())
+            {
+                result++;
+            }
+        }
+        return result;
+    }
+};

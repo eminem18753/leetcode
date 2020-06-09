@@ -1,0 +1,49 @@
+class Solution 
+{
+    public:
+    unordered_set<string> v;
+    bool check(string& A,string& B)
+    {
+        int c=0;
+        for(int i=0;i<A.length();i++)
+        {
+            if(A[i]!=B[i])
+            {
+                c++;
+                if(c>2)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    void dfs(vector<string>& A,string s)
+    {
+        if(v.find(s)!=v.end())
+        {
+            return;
+        }
+        v.insert(s);
+        for(int i=0;i<A.size();i++)
+        {
+            if(check(A[i],s))
+            {
+                dfs(A,A[i]);
+            }
+        }
+    }
+    int numSimilarGroups(vector<string>& A) 
+    {
+        int r=0;
+        for(int i=0;i<A.size();i++)
+        {
+            if(v.find(A[i])==v.end())
+            {
+                r++;
+                dfs(A,A[i]);
+            }
+        }
+        return r;
+    }
+};

@@ -1,0 +1,62 @@
+class Solution 
+{
+    public:
+    int evalRPN(vector<string>& tokens) 
+    {
+        deque<string> s;
+        for(int i=(int)tokens.size()-1;i>-1;i--)
+        {
+            while(s.size()>2&&(isdigit(s[0][0])||(s[0][0]=='-'&&isdigit(s[0][1])))&&(isdigit(s[1][0])||(s[1][0]=='-'&&isdigit(s[1][1])))&&(s[2][0]=='+'||s[2][0]=='-'||s[2][0]=='*'||s[2][0]=='/'))
+            {
+                string temp="";
+                if(s[2][0]=='+')
+                {
+                    temp+=to_string(stoi(s[0])+stoi(s[1]));
+                }
+                else if(s[2][0]=='-')
+                {
+                    temp+=to_string(stoi(s[0])-stoi(s[1]));
+                }
+                else if(s[2][0]=='*')
+                {
+                    temp+=to_string(stoi(s[0])*stoi(s[1]));
+                }
+                else if(s[2][0]=='/')
+                {
+                    temp+=to_string(stoi(s[0])/stoi(s[1]));
+                }
+                s.pop_front();
+                s.pop_front();
+                s.pop_front();
+                s.push_front(temp);
+            }
+            s.push_front(tokens[i]);
+        }
+        
+        while(s.size()>2&&(isdigit(s[0][0])||(s[0][0]=='-'&&isdigit(s[0][1])))&&(isdigit(s[1][0])||(s[1][0]=='-'&&isdigit(s[1][1])))&&(s[2][0]=='+'||s[2][0]=='-'||s[2][0]=='*'||s[2][0]=='/'))
+        {
+            string temp="";
+            if(s[2][0]=='+')
+            {
+                temp+=to_string(stoi(s[0])+stoi(s[1]));
+            }
+            else if(s[2][0]=='-')
+            {
+                temp+=to_string(stoi(s[0])-stoi(s[1]));
+            }
+            else if(s[2][0]=='*')
+            {
+                temp+=to_string(stoi(s[0])*stoi(s[1]));
+            }
+            else if(s[2][0]=='/')
+            {
+                temp+=to_string(stoi(s[0])/stoi(s[1]));
+            }
+            s.pop_front();
+            s.pop_front();
+            s.pop_front();
+            s.push_front(temp);
+        }
+        return stoi(s[0]);
+    }
+};

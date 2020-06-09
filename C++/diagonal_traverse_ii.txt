@@ -1,0 +1,24 @@
+class Solution 
+{
+    public:
+    vector<int> findDiagonalOrder(vector<vector<int>>& nums) 
+    {
+        vector<int> result;
+        map<int,map<int,int>> total;
+        for(int i=0;i<nums.size();i++)
+        {
+            for(int j=0;j<nums[i].size();j++)
+            {
+                total[i+j][-i]=nums[i][j];
+            }
+        }
+        for(map<int,map<int,int>>::iterator it1=total.begin();it1!=total.end();it1++)
+        {
+            for(map<int,int>::iterator it2=it1->second.begin();it2!=it1->second.end();it2++)
+            {
+                result.push_back(it2->second);
+            }
+        }
+        return result;
+    }
+};

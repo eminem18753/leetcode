@@ -1,0 +1,36 @@
+class Solution 
+{
+    public:
+    vector<vector<vector<int>>> dp;
+    int dfs(int &n,int &m,int &k,int start,int current_max,int current_cost)
+    {
+        if(start==n)
+        {
+            if(current_cost==k)
+            {
+                return 1;
+            }
+            return 0;
+        }
+        if(dp[start][current_max][current_cost]!=-1)
+        {
+            return dp[start][current_max][current_cost];
+        }
+        int result=0;
+        result=((long)current_max*dfs(n,m,k,start+1,current_max,current_cost))%1000000007;
+        if(current_cost+1<=k)
+        {
+            for(int i=current_max+1;i<=m;i++)
+            {
+                result=(result+dfs(n,m,k,start+1,i,current_cost+1))%1000000007;
+            }
+        }
+        dp[start][current_max][current_cost]=result;
+        return result;
+    }
+    int numOfArrays(int n, int m, int k) 
+    {
+        dp=vector<vector<vector<int>>>(n+1,vector<vector<int>>(m+1,vector<int>(k+1,-1)));
+        return dfs(n,m,k,0,0,0);
+    }
+};

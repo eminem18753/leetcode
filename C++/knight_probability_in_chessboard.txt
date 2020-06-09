@@ -1,0 +1,83 @@
+class Solution {
+public:
+    bool check(int N,int r,int c)
+    {
+        if(r<0||r>=N||c<0||c>=N)
+        {
+            return false;
+        }
+        return true;
+    }
+    double knightProbability(int N, int K, int r, int c)
+    {
+        double d1[N][N];
+        double d2[N][N];
+        
+        memset(d1,0,sizeof(d1));
+        memset(d2,0,sizeof(d2));
+        
+        d1[r][c]=1;
+        for(int counter=0;counter<K;counter++)
+        {
+            for(int i=0;i<N;i++)
+            {
+                for(int j=0;j<N;j++)
+                {
+                    if(d1[i][j]!=0)
+                    {
+                        if(check(N,i+2,j+1))
+                        {
+                            d2[i+2][j+1]+=d1[i][j];
+                        }
+                        if(check(N,i+2,j-1))
+                        {
+                            d2[i+2][j-1]+=d1[i][j];
+                        }
+                        if(check(N,i+1,j+2))
+                        {
+                            d2[i+1][j+2]+=d1[i][j];
+                        }
+                        if(check(N,i+1,j-2))
+                        {
+                            d2[i+1][j-2]+=d1[i][j];
+                        }
+                        if(check(N,i-2,j+1))
+                        {
+                            d2[i-2][j+1]+=d1[i][j];
+                        }
+                        if(check(N,i-2,j-1))
+                        {
+                            d2[i-2][j-1]+=d1[i][j];
+                        }
+                        if(check(N,i-1,j+2))
+                        {
+                            d2[i-1][j+2]+=d1[i][j];
+                        }
+                        if(check(N,i-1,j-2))
+                        {
+                            d2[i-1][j-2]+=d1[i][j];
+                        }
+                    }
+                }
+            }
+            for(int i=0;i<N;i++)
+            {
+                for(int j=0;j<N;j++)
+                {
+                    d1[i][j]=d2[i][j];
+                }
+            }
+            memset(d2,0,sizeof(d2));
+        }
+        double total=pow(8,K);
+        double current=0;
+        for(int i=0;i<N;i++)
+        {
+            for(int j=0;j<N;j++)
+            {
+                current+=d1[i][j];
+            }
+        }
+        return current/total;
+    }
+};

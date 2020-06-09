@@ -1,0 +1,32 @@
+class Solution 
+{
+    public:
+    map<string,vector<string>> total;
+    vector<string> wordBreak(string s, vector<string>& wordDict) 
+    {
+        if(s=="")
+        {
+            return {""};   
+        }
+        if(total.find(s)!=total.end())
+        {
+            return total[s];   
+        }
+        vector<string> result;
+        for(int i=0;i<wordDict.size();i++)
+        {
+            int n=wordDict[i].length();
+            if(s.substr(0,n)!=wordDict[i])
+            {
+                continue;   
+            }
+            vector<string> r=wordBreak(s.substr(n),wordDict);
+            for(int j=0;j<r.size();j++)
+            {
+                result.push_back(wordDict[i]+(r[j]==""?"":" ")+r[j]);
+            }
+        }
+        total[s]=result;
+        return total[s];
+    }
+};

@@ -1,0 +1,15 @@
+class Solution 
+{
+    public:
+    int minStartValue(vector<int>& nums) 
+    {
+        int minimum=2147483647;
+        int s=0;
+        for(int i=0;i<nums.size();i++)
+        {
+            s+=nums[i];
+            minimum=min(minimum,s);
+        }
+        return max(1,-minimum+1);
+    }
+};

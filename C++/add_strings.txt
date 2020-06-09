@@ -1,0 +1,68 @@
+class Solution {
+public:
+    string addStrings(string num1, string num2)
+    {
+        string result="";
+        int flag=0;
+        int carry=0;
+        int tens=0;
+        int a[num1.length()];
+        int b[num2.length()];
+        for(int i=0;i<num1.length();i++)
+        {
+            a[i]=num1[i]-'0';
+        }
+        for(int i=0;i<num2.length();i++)
+        {
+            b[i]=num2[i]-'0';
+        }
+
+        int m=min(num1.length(),num2.length());
+        if(num1.length()>num2.length())
+        {
+            flag=1;
+        }
+        else
+        {
+            flag=2;
+        }
+        for(int i=m-1;i>-1;i--)
+        {
+            if(flag==1)
+            {
+                int digit=(a[i+num1.length()-num2.length()]+b[i]+carry)%10;
+                carry=(a[i+num1.length()-num2.length()]+b[i]+carry)/10;
+                result=char(digit+'0')+result;
+            }
+            else
+            {
+                int digit=(a[i]+b[i+num2.length()-num1.length()]+carry)%10;
+                carry=(a[i]+b[i+num2.length()-num1.length()]+carry)/10;
+                result=char(digit+'0')+result;
+            }
+        }
+        if(flag==1)
+        {
+            for(int i=num1.length()-num2.length()-1;i>-1;i--)
+            {
+                int digit=(a[i]+carry)%10;
+                carry=(a[i]+carry)/10;
+                result=char(digit+'0')+result;
+            }
+        }
+        else
+        {
+            for(int i=num2.length()-num1.length()-1;i>-1;i--)
+            {
+                int digit=(b[i]+carry)%10;
+                carry=(b[i]+carry)/10;
+                result=char(digit+'0')+result;
+            }
+        }
+        if(carry==1)
+        {
+            result='1'+result;
+        }
+        return result;
+    }
+};

@@ -1,0 +1,46 @@
+class Solution 
+{
+public:
+    vector<int> findPermutation(string s) 
+    {
+        vector<int> result;
+        int n=s.length();
+        int c=1;
+        int M=1;
+        for(int i=0;i<s.length();i++)
+        {
+            if(s[i]=='D')
+            {
+                c++;
+            }
+            else
+            {
+                for(int j=c;j>=M;j--)
+                {
+                    result.push_back(j);
+                }
+                c++;
+                M=c;
+            }
+        }
+        if(s.back()=='D')
+        {
+            if(result.size()!=n)
+            {
+                for(int i=c;i>=M;i--)
+                {
+                    result.push_back(i);
+                }
+            }
+        }
+        else
+        {
+            int k=result.size();
+            for(int i=k;i<(int)s.length()+1;i++)
+            {
+                result.push_back(i+1);
+            }
+        }
+        return result;
+    }
+};

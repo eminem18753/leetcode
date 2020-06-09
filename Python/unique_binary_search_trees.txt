@@ -1,0 +1,13 @@
+class Solution(object):
+    def c(self,n,k):
+        result=1
+        for i in range(0,k):
+            result*=(n-i)
+            result/=(i+1)
+        return result
+    def numTrees(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        return self.c(2*n,n)/(n+1)

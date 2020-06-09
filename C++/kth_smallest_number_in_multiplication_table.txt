@@ -1,0 +1,27 @@
+class Solution 
+{
+    public:
+    int findKthNumber(int m, int n, int k) 
+    {
+        int p1=1;
+        int p2=m*n;
+        while(p1<p2)
+        {
+            int middle=(p1+p2)/2;
+            int check=0;
+            for(int i=1;i<=m;i++)
+            {
+                check+=min(middle/i,n);   
+            }
+            if(check>=k)
+            {
+                p2=middle;   
+            }
+            else if(check<k)
+            {
+                p1=middle+1;   
+            }
+        }
+        return p1;
+    }
+};

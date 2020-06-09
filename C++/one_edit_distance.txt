@@ -1,0 +1,70 @@
+class Solution {
+public:
+    bool isOneEditDistance(string s, string t)
+    {
+        int m=s.length();
+        int n=t.length();
+        if(abs(m-n)>1)
+        {
+            return false;
+        }
+        if(s==t)
+        {
+            return false;
+        }
+        int c=0;
+        if(m==n)
+        {
+            for(int i=0;i<m;i++)
+            {
+                if(s[i]!=t[i])
+                {
+                    c++;
+                    if(c>1)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        else
+        {
+            int flag=0;
+            string first;
+            string second;
+            if(m>n)
+            {
+                first=s;
+                second=t;
+            }
+            else
+            {
+                first=t;
+                second=s;
+            }
+            int p1=0;
+            int p2=0;
+            for(int i=0;i<min(m,n);i++)
+            {
+                if(first[p1]!=second[p2]&&flag==0)
+                {
+                    p1++;
+                    flag=1;
+                    if(first[p1]!=second[p2])
+                    {
+                        return false;
+                    }
+                }
+                else if(first[p1]!=second[p2])
+                {
+                    return false;
+                }
+                
+                p1++;
+                p2++;
+            }
+            return true;
+        }
+    }
+};

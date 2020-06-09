@@ -1,0 +1,79 @@
+class Solution {
+public:
+    bool validPalindrome(string s)
+    {
+        if(s.length()==1)
+        {
+            return true;
+        }
+        if(s.length()==2)
+        {
+            return true;
+        }
+        int flag=0;
+        int choice=0;
+        int p1=0;
+        int p2=s.length()-1;
+        while(p1<p2)
+        {
+            if(s[p1]!=s[p2])
+            {
+                if(flag==1)
+                {
+                    flag=2;
+                    break;
+                }
+                flag=1;
+                if(s[p1+1]==s[p2])
+                {
+                    p1++;
+                }
+                else if(s[p1]==s[p2-1])
+                {
+                    p2--;
+                }
+                else
+                {
+                    flag=2;
+                    break;
+                }
+            }
+            p1++;
+            p2--;
+        }
+        if(flag==0||flag==1)
+        {
+            return true;
+        }
+        flag=0;
+        p1=0;
+        p2=s.length()-1;
+        while(p1<p2)
+        {
+            if(s[p1]!=s[p2])
+            {
+                if(flag==1)
+                {
+                    return false;
+                }
+                flag=1;
+                if(s[p1]==s[p2-1])
+                {
+                    p2--;
+                }
+                else if(s[p1+1]==s[p2])
+                {
+                    p1++;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            p1++;
+            p2--;
+        }
+        
+        return true;
+    }
+};

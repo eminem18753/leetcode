@@ -1,0 +1,62 @@
+unordered_map<string,int> f;
+bool compare(string a,string b)
+{
+    if(f[a]!=f[b])
+    {
+        return f[a]<f[b];
+    }
+    return a<b;
+}
+class Solution
+{
+    public:
+    vector<string> watchedVideosByFriends(vector<vector<string>>& watchedVideos, vector<vector<int>>& friends, int id, int level)     
+    {
+        f.clear();
+        if(level==0)
+        {
+            sort(watchedVideos[id].begin(),watchedVideos[id].end());
+            return watchedVideos[id];
+        }
+        set<string> result;
+        deque<int> q={id};
+        unordered_set<int> v={id};
+        int c=0;
+        
+        while(q.size()>0)
+        {
+            int s=q.size();
+            c++;
+            if(c>level)
+            {
+                break;
+            }
+            for(int i=0;i<s;i++)
+            {
+                int p=q.front();
+                q.pop_front();
+                for(int j=0;j<friends[p].size();j++)
+                {
+                    if(v.find(friends[p][j])==v.end())
+                    {
+                        if(c==level)
+                        {
+                            for(int k=0;k<watchedVideos[friends[p][j]].size();k++)
+                            {
+                                result.insert(watchedVideos[friends[p][j]][k]);
+                                f[watchedVideos[friends[p][j]][k]]++;
+                            }
+                        }
+                        q.push_back(friends[p][j]);
+                        v.insert(friends[p][j]);
+                    }
+                    
+                }
+            }
+        }
+        vector<string> output(result.begin(),result.end());
+        sort(output.begin(),output.end(),compare);
+        return output;
+        
+    }
+};

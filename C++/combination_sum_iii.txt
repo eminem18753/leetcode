@@ -1,0 +1,52 @@
+class Solution {
+public:
+    vector<vector<int>> result;
+    void test(int s,int a[],vector<int> temp,int k,int n)
+    {
+        if(n<0)
+        {
+            return;
+        }
+        if(n==0&&k==0)
+        {
+            result.push_back(temp);
+            return;
+        }
+        if(k<=0)
+        {
+            return;
+        }
+        for(int i=0;i<9;i++)
+        {
+            if(a[i]==-1)
+            {
+                int c[9];
+                for(int j=0;j<9;j++)
+                {
+                    c[j]=a[j];
+                }
+                c[i]=0;
+                for(int j=s;j<9;j++)
+                {
+                    temp.push_back(j+1);
+                    if((n-(j+1))<0)
+                    {
+                        break;
+                    }
+                    test(j+1,c,temp,k-1,n-(j+1));
+                    temp.pop_back();
+                }
+                break;
+            }
+        }
+    }
+    vector<vector<int>> combinationSum3(int k, int n)
+    {
+        vector<int> temp;
+        int a[9];
+        int s=0;
+        memset(a,-1,sizeof(a));
+        test(s,a,temp,k,n);
+        return result;
+    }
+};

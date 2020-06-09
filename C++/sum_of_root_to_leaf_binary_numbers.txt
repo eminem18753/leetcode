@@ -1,0 +1,51 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int result=0;
+    int getResult(string temp)
+    {
+        int total=0;
+        for(int i=0;i<temp.length();i++)
+        {
+            if(temp[i]=='1')
+            {
+                total+=pow(2,temp.length()-1-i);
+            }
+        }
+        return total;
+    }
+    void test(TreeNode* root,string temp)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        temp+=to_string(root->val);
+        if(root->left!=NULL)
+        {
+            test(root->left,temp);
+        }
+        if(root->right!=NULL)
+        {
+            test(root->right,temp);
+        }
+        if(root->left==NULL&&root->right==NULL)
+        {
+            result+=getResult(temp);
+        }
+    }
+    int sumRootToLeaf(TreeNode* root) 
+    {
+        string temp="";
+        test(root,temp);
+        return result;
+    }
+};

@@ -1,0 +1,50 @@
+class Solution {
+public:
+    string binary(int x)
+    {
+        string result="";
+        while(x/2)
+        {
+            int y=x%2;
+            result=to_string(y)+result;
+            x/=2;
+        }
+        result=to_string(x)+result;
+        return result;
+    }
+    int brokenCalc(int X, int Y)
+    {
+        if(X>Y)
+        {
+            return X-Y;
+        }
+
+        string x=binary(X);
+        string y=binary(Y);
+        int counter=0;
+        while(true)
+        {
+            if(X>Y)
+            {
+                return counter+X-Y;
+            }
+            else if(X==Y)
+            {
+                return counter;
+            }
+            if(y[y.length()-1]=='0')
+            {
+                Y/=2;
+            }
+            else
+            {
+                Y+=1;
+            }
+            counter+=1;
+            x=binary(X);
+            y=binary(Y);
+        }
+        
+        return counter;
+    }
+};

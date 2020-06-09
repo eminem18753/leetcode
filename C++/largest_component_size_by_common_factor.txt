@@ -1,0 +1,89 @@
+class Solution 
+{
+    public:
+    vector<int> a;
+    vector<int> p;
+    int find(int x)
+    {
+        if(x!=a[x])
+        {
+            a[x]=find(a[x]);
+        }
+        return a[x];
+    }
+    void u(int x,int y)
+    {
+        int t1=find(x);
+        int t2=find(y);
+        if(p[t1]<p[t2])
+        {
+            a[t1]=t2;
+        }
+        else if(p[t1]>p[t2])
+        {
+            a[t2]=t1;
+        }
+        else if(t1<t2)
+        {
+            a[t2]=t1;
+            p[t2]--;
+            p[t1]++;
+        }
+        else
+        {
+            a[t1]=t2;
+            p[t1]--;
+            p[t2]++;
+        }
+    }
+    int largestComponentSize(vector<int>& A) 
+    {
+        int r=0;
+        map<int,vector<int>> total;
+        map<int,int> c;
+        int n=A.size();
+        sort(A.begin(),A.end());
+        for(int i=0;i<n;i++)
+        {
+            a.push_back(i);
+            p.push_back(1);
+        }
+        for(int i=0;i<A.size();i++)
+        {
+            for(int j=2;j<sqrt(A[i]);j++)
+            {
+                if(A[i]%j==0)
+                {
+                    total[j].push_back(i);
+                    total[A[i]/j].push_back(i);
+                }
+            }
+            if((int)floor(sqrt(A[i]))==(int)ceil(sqrt(A[i])))
+            {
+                total[(int)sqrt(A[i])].push_back(i);
+            }
+            total[A[i]].push_back(i);
+        }
+        for(map<int,vector<int>>::iterator it=total.begin();it!=total.end();it++)
+        {
+            for(int i=1;i<it->second.size();i++)
+            {
+                u(it->second[i-1],it->second[i]);
+            }
+        }
+        for(map<int,vector<int>>::iterator it=total.begin();it!=total.end();it++)
+        {
+            for(int i=1;i<it->second.size();i++)
+            {
+                u(it->second[i-1],it->second[i]);
+            }
+        }
+        for(int i=0;i<n;i++)
+        {
+            c[a[i]]++;
+            r=max(r,c[a[i]]);
+        }
+        
+        return r;
+    }
+};

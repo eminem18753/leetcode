@@ -1,0 +1,37 @@
+class Solution 
+{
+    public:
+    vector<vector<string>> suggestedProducts(vector<string>& products, string searchWord) 
+    {
+        vector<vector<string>> result;
+        string t="";
+        sort(products.begin(),products.end());
+        for(int i=0;i<searchWord.length();i++)
+        {
+            t+=searchWord[i];
+            for(int j=(int)products.size()-1;j>-1;j--)
+            {
+                if((int)t.length()>(int)products[j].length())
+                {
+                    products.erase(products.begin()+j);
+                    continue;
+                }
+                for(int k=0;k<t.length();k++)
+                {
+                    if(t[k]!=products[j][k])
+                    {
+                        products.erase(products.begin()+j);
+                        break;
+                    }
+                }
+            }
+            vector<string> temp;
+            for(int j=0;j<min((int)products.size(),3);j++)
+            {
+                temp.push_back(products[j]);
+            }
+            result.push_back(temp);
+        }
+        return result;
+    }
+};

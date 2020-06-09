@@ -1,0 +1,54 @@
+class SummaryRanges 
+{
+    public:
+    /** Initialize your data structure here. */
+    vector<vector<int>> result;
+    unordered_set<int> total;
+    SummaryRanges() 
+    {
+        
+    }
+    
+    void addNum(int val) 
+    {
+        if(total.find(val)!=total.end())
+        {
+            return;
+        }
+        total.insert(val);
+        vector<int> current={val,val};
+        vector<vector<int>>::iterator low;
+        low=lower_bound(result.begin(),result.end(),current);
+        int index=(int)(low-result.begin());
+        result.insert(low,current);
+        if(index<(int)result.size()-1)
+        {
+            if(result[index+1][0]==result[index][1]+1)
+            {
+                result[index][1]=result[index+1][1];
+                result.erase(result.begin()+index+1);
+            }
+        }
+        if(index>0)
+        {
+            if(result[index-1][1]==result[index][0]-1)
+            {
+                result[index-1][1]=result[index][1];
+                result.erase(result.begin()+index);
+            }
+        }
+    }
+    
+    vector<vector<int>> getIntervals() 
+    {
+        
+        return result;
+    }
+};
+
+/**
+ * Your SummaryRanges object will be instantiated and called as such:
+ * SummaryRanges* obj = new SummaryRanges();
+ * obj->addNum(val);
+ * vector<vector<int>> param_2 = obj->getIntervals();
+ */

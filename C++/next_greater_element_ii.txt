@@ -1,0 +1,33 @@
+class Solution {
+public:
+    vector<int> nextGreaterElements(vector<int>& nums) 
+    {
+        vector<int> result;
+        int maximum=-2147483648;
+        for(int i=0;i<nums.size();i++)
+        {
+            if(nums[i]>maximum)
+            {
+                maximum=nums[i];
+            }
+        }
+        for(int i=0;i<nums.size();i++)
+        {
+            if(nums[i]==maximum)
+            {
+                result.push_back(-1);
+            }
+            else
+            {
+                int index=i;
+                int current=nums[index];
+                while(nums[(index+1)%nums.size()]<=current)
+                {
+                    index=(index+1)%nums.size();   
+                }
+                result.push_back(nums[(index+1)%nums.size()]);
+            }
+        }
+        return result;
+    }
+};

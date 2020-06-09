@@ -1,0 +1,28 @@
+class Solution 
+{
+    public:
+    map<int,map<int,int>> dp;
+    int p(int s,int e)
+    {
+        if(s>=e)
+        {
+            return 0;
+        }
+        if(dp[s][e]!=0)
+        {
+            return dp[s][e];
+        }
+        int r=2147483647;
+        for(int i=s;i<=e;i++)
+        {
+            int x=i+max(p(s,i-1),p(i+1,e));
+            r=min(r,x);
+        }
+        dp[s][e]=r;
+        return r;
+    }
+    int getMoneyAmount(int n) 
+    {
+        return p(1,n);
+    }
+};

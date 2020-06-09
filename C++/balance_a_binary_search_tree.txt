@@ -1,0 +1,52 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution 
+{
+    public:
+    set<int> total;
+    void getAll(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        total.insert(root->val);
+        getAll(root->left);
+        getAll(root->right);
+    }
+    TreeNode* dfs(vector<int> current)
+    {
+        if(current.size()==0)
+        {
+            return NULL;
+        }
+        if(current.size()==1)
+        {
+            return new TreeNode(current[0]);
+        }
+        int n=current.size();
+        int pivot=(n-1)/2;
+        TreeNode* temp=new TreeNode(current[pivot]);
+        vector<int> l(current.begin(),current.begin()+pivot);
+        vector<int> r(current.begin()+pivot+1,current.end());
+        
+        TreeNode* left_half=dfs(l);
+        TreeNode* right_half=dfs(r);
+        temp->left=left_half;
+        temp->right=right_half;
+        return temp;
+    }
+    TreeNode* balanceBST(TreeNode* root)
+    {
+        getAll(root);
+        vector<int> overall(total.begin(),total.end());
+        return dfs(overall);    
+    }
+};

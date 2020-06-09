@@ -1,0 +1,96 @@
+class Solution {
+public:
+    int smallestFactorization(int a) 
+    {
+        if(a==1)
+        {
+            return 1;
+        }
+        string result="";
+        int total[10];
+        memset(total,0,sizeof(total));
+        while(a%2==0)
+        {
+            total[2]+=1;
+            a/=2;
+        }
+        while(a%3==0)
+        {
+            total[3]+=1;
+            a/=3;
+        }
+        while(a%5==0)
+        {
+            total[5]+=1;
+            a/=5;
+        }
+        while(a%7==0)
+        {
+            total[7]+=1;
+            a/=7;
+        }
+        if(a!=1)
+        {
+            return 0;
+        }
+        
+        for(int i=0;i<total[3]/2;i++)
+        {
+            result="9"+result;
+        }
+        total[3]%=2;
+
+        for(int i=0;i<total[2]/3;i++)
+        {
+            result="8"+result;
+        }
+        total[2]%=3;
+        
+        for(int i=0;i<total[7];i++)
+        {
+            result="7"+result;
+        }
+        total[7]=0;
+        
+        for(int i=0;i<min(total[2],total[3]);i++)
+        {
+            result="6"+result;
+        }
+        int k=min(total[2],total[3]);
+        total[2]-=k;
+        total[3]-=k;
+        
+        for(int i=0;i<total[5];i++)
+        {
+            result="5"+result;
+        }
+        total[5]=0;
+        
+        for(int i=0;i<total[2]/2;i++)
+        {
+            result="4"+result;
+        }
+        total[2]%=2;
+
+        for(int i=0;i<total[3];i++)
+        {
+            result="3"+result;
+        }
+        total[3]=0;
+
+        for(int i=0;i<total[2];i++)
+        {
+            result="2"+result;
+        }
+        total[2]=0;
+        if(result.length()>10)
+        {
+            return 0;
+        }
+        if(result.length()==10&&result>"2147483647")
+        {
+            return 0;
+        }
+        return stoi(result);
+    }
+};

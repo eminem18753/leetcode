@@ -1,0 +1,87 @@
+class Solution 
+{
+    public:
+    vector<int> splitIntoFibonacci(string s) 
+    {
+        vector<int> result;
+        int n=(int)s.length();
+        if(n<3)
+        {
+            return result;
+        }
+        for(int i=1;i<=n/2;i++)
+        {
+            if(i>=10)
+            {
+                if(!(i==10&&s.substr(0,i)<="2147483647"))
+                {
+                    break;
+                }
+            }
+            string t1=s.substr(0,i);
+            if((int)t1.length()>1&&t1[0]=='0')
+            {
+                continue;
+            }
+            for(int j=i;j<=n/2+1;j++)
+            {
+                if(j-i+1>=10)
+                {
+                    if(!(j-i+1==10&&s.substr(i,j-i+1)<="2147483647"))
+                    {
+                        break;
+                    }
+                }
+                string t2=s.substr(i,j-i+1);
+                if((int)t2.length()>1&&t2[0]=='0')
+                {
+                    continue;
+                }
+                string t3=to_string((long long)stoi(t1)+(long long)stoi(t2));
+                int c=j+1;
+                if(c>=s.length())
+                {
+                    break;
+                }
+                if(t3.length()>=10)
+                {
+                    if(!(t3.length()==10&&t3<="2147483647"))
+                    {
+                        break;
+                    }
+                }
+                string r1=t1;
+                string r2=t2;
+                vector<int> temp;
+                temp.push_back(stoi(t1));
+                temp.push_back(stoi(t2));
+                while(t3==s.substr(c,(int)t3.length()))
+                {
+                    if(t3.length()>=10)
+                    {
+                        if(!(t3.length()==10&&t3<="2147483647"))
+                        {
+                            break;
+                        }
+                    }
+                    temp.push_back(stoi(t3));
+                    if(c+(int)t3.length()==n)
+                    {
+                        result=temp;
+                        break;
+                    }
+                    if(c+(int)t3.length()>n)
+                    {
+                        break;
+                    }
+                    c+=(int)t3.length();
+                    r1=r2;
+                    r2=t3;
+                    t3=to_string((long long)stoi(r1)+(long long)stoi(r2));
+                }
+            }
+        }
+        
+        return result;
+    }
+};

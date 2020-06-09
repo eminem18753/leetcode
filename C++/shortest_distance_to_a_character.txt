@@ -1,0 +1,39 @@
+class Solution {
+public:
+    vector<int> shortestToChar(string S, char C)
+    {
+        vector<int> result;
+        vector<int> output;
+        for(int i=0;i<S.length();i++)
+        {
+            if(S[i]==C)
+            {
+                result.push_back(i);
+            }
+        }
+        int count=0;
+        int left=result[0];
+        int right=result[count];
+        if(result.size()==1)
+        {
+            for(int i=0;i<S.length();i++)
+            {
+                output.push_back(abs(i-result[0]));
+            }
+        }
+        else
+        {
+            for(int i=0;i<S.length();i++)
+            {
+                if(S[i]==C&&right!=result[result.size()-1])
+                {
+                    count+=1;
+                    left=right;
+                    right=result[count];
+                }
+                output.push_back(min(abs(left-i),abs(right-i)));
+            }
+        }
+        return output;
+    }
+};

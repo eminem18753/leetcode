@@ -1,0 +1,22 @@
+# Write your MySQL query statement below
+SELECT product_id,
+(
+CASE WHEN a.product_id NOT IN (
+        SELECT product_id FROM Products as e
+        GROUP BY product_id
+        HAVING MIN(change_date)>"2019-08-16"
+    ) THEN new_price
+    ELSE 10 END)
+as price FROM Products as a
+RIGHT JOIN
+(
+    SELECT product_id as p,MAX(change_date) as d FROM Products as b
+    WHERE b.change_date<="2019-08-16" OR b.product_id IN
+    (
+        SELECT product_id FROM Products as e
+        GROUP BY product_id
+        HAVING MIN(change_date)>"2019-08-16"
+    )
+    GROUP BY product_id
+) as c
+ON a.product_id=c.p AND a.change_date=c.d;

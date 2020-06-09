@@ -1,0 +1,13 @@
+class Solution(object):
+    def arrayPairSum(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        total=0
+        result=sorted(nums)
+        for i in range(0,len(result)):
+            if i%2==0:
+                total+=result[i]
+        return total
+        

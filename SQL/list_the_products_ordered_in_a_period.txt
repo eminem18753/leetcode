@@ -1,0 +1,8 @@
+# Write your MySQL query statement below
+SELECT a.product_name as PRODUCT_NAME,SUM(b.unit) as UNIT
+FROM Products as a
+JOIN Orders as b
+ON a.product_id=b.product_id
+WHERE SUBSTR(b.order_date,1,7)="2020-02"
+GROUP BY a.product_id
+HAVING SUM(b.unit)>=100;

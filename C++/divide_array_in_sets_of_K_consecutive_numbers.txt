@@ -1,0 +1,35 @@
+class Solution 
+{
+    public:
+    bool isPossibleDivide(vector<int>& nums, int k) 
+    {
+        map<int,int> total;
+        map<int,int> temp;
+        for(int i=0;i<nums.size();i++)
+        {
+            total[nums[i]]++;
+        }
+        temp=total;
+        while(true)
+        {
+            for(int i=temp.begin()->first;i<temp.begin()->first+k;i++)
+            {
+                total[i]--;
+                if(total[i]<0)
+                {
+                    return false;
+                }
+                if(total[i]==0)
+                {
+                    total.erase(i);
+                }
+            }
+            if(total.size()==0)
+            {
+                return true;
+            }
+            temp=total;
+        }
+        return false;
+    }
+};

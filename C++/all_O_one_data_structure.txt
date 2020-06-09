@@ -1,0 +1,107 @@
+class AllOne 
+{
+    public:
+    /** Initialize your data structure here. */
+    map<string,int> t1;
+    map<int,set<string>> t2;
+    map<int,set<string>> t3;
+    AllOne() 
+    {
+        
+    }
+    
+    /** Inserts a new key <Key> with value 1. Or increments an existing key by 1. */
+    void inc(string key) 
+    {
+        if(t1.find(key)==t1.end())
+        {
+            t1[key]=1;   
+            t2[1].insert(key);
+            t3[-1].insert(key);
+        }
+        else
+        {
+            t1[key]++;
+            t2[t1[key]-1].erase(key);
+            t2[t1[key]].insert(key);
+            t3[-t1[key]+1].erase(key);
+            t3[-t1[key]].insert(key);
+            if(t2[t1[key]-1].size()==0)
+            {
+                t2.erase(t1[key]-1);   
+            }
+            if(t3[-t1[key]+1].size()==0)
+            {
+                t3.erase(-t1[key]+1);   
+            }
+        }
+                
+    }
+    
+    /** Decrements an existing key by 1. If Key's value is 1, remove it from the data structure. */
+    void dec(string key) 
+    {
+        if(t1.find(key)!=t1.end())
+        {
+            if(t1[key]==1)
+            {
+                t2[1].erase(key);
+                t3[-1].erase(key);
+                if(t2[1].size()==0)
+                {
+                    t2.erase(1);
+                }
+                if(t3[-1].size()==0)
+                {
+                    t3.erase(-1);
+                }
+                t1.erase(key);
+            }
+            else
+            {
+                t1[key]--;  
+                t2[t1[key]].insert(key);
+                t2[t1[key]+1].erase(key);
+                t3[-t1[key]].insert(key);
+                t3[-t1[key]-1].erase(key);
+                if(t2[t1[key]+1].size()==0)
+                {
+                    t2.erase(t1[key]+1);   
+                }
+                if(t3[-t1[key]-1].size()==0)
+                {
+                    t3.erase(-t1[key]-1);   
+                }
+            }
+        }
+    }
+    
+    /** Returns one of the keys with maximal value. */
+    string getMaxKey() 
+    {
+        for(map<int,set<string>>::iterator it=t3.begin();it!=t3.end();it++)
+        {
+            return *(it->second.begin());
+        }
+        return "";
+    }
+    
+    /** Returns one of the keys with Minimal value. */
+    string getMinKey() 
+    {
+        for(map<int,set<string>>::iterator it=t2.begin();it!=t2.end();it++)
+        {
+            return *(it->second.begin());
+        }
+        return "";        
+    }
+};
+
+/**
+ * Your AllOne object will be instantiated and called as such:
+ * AllOne* obj = new AllOne();
+ * obj->inc(key);
+ * obj->dec(key);
+ * string param_3 = obj->getMaxKey();
+ * string param_4 = obj->getMinKey();
+ */

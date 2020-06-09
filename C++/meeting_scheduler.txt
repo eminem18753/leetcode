@@ -1,0 +1,41 @@
+class Solution 
+{
+    public:
+    vector<int> minAvailableDuration(vector<vector<int>>& slots1, vector<vector<int>>& slots2, int duration) 
+    {
+        int p1=0;
+        int p2=0;
+        sort(slots1.begin(),slots1.end());
+        sort(slots2.begin(),slots2.end());
+        while(p1<slots1.size()&&p2<slots2.size())
+        {
+            int s1=slots1[p1][0];
+            int e1=slots1[p1][1];
+            int s2=slots2[p2][0];
+            int e2=slots2[p2][1];
+            
+            int interval=max(min(e1,e2)-max(s1,s2),0);
+            if(interval>=duration)
+            {
+                return {max(s1,s2),max(s1,s2)+duration};   
+            }
+            if(p1==(int)slots1.size()-1)
+            {
+                p2++;
+            }
+            else if(p2==(int)slots2.size()-1)
+            {
+                p1++;
+            }
+            else if(e1>e2)
+            {
+                p2++;
+            }
+            else
+            {
+                p1++;
+            }
+        }
+        return {};
+    }
+};

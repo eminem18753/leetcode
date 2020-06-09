@@ -1,0 +1,82 @@
+class Solution {
+public:
+    int robotSim(vector<int>& commands, vector<vector<int>>& obstacles) 
+    {
+        int x=0;
+        int y=0;
+        int maximum=0;
+        int d=0;//0:up,1:right,2:down,3:left
+        map<int,map<int,int>> result;
+        for(int i=0;i<obstacles.size();i++)
+        {
+            result[obstacles[i][0]][obstacles[i][1]]=1;
+        }
+        for(int i=0;i<commands.size();i++)
+        {
+            if(commands[i]==-1)
+            {
+                d=(d+1)%4;
+            }
+            else if(commands[i]==-2)
+            {
+                d=(d+3)%4;
+            }
+            else
+            {
+                if(d==0)
+                {
+                    for(int j=1;j<=commands[i];j++)
+                    {
+                        if(result[x][y+j]==1)
+                        {
+                            commands[i]=j-1;
+                            break;
+                        }
+                    }
+                    y+=commands[i];
+                }
+                else if(d==1)
+                {
+                    for(int j=1;j<=commands[i];j++)
+                    {
+                        if(result[x+j][y]==1)
+                        {
+                            commands[i]=j-1;
+                            break;
+                        }
+                    }
+                    x+=commands[i];
+                }
+                else if(d==2)
+                {
+                    for(int j=1;j<=commands[i];j++)
+                    {
+                        if(result[x][y-j]==1)
+                        {
+                            commands[i]=j-1;
+                            break;
+                        }
+                    }
+                    y-=commands[i];
+                }
+                else if(d==3)
+                {
+                    for(int j=1;j<=commands[i];j++)
+                    {
+                        if(result[x-j][y]==1)
+                        {
+                            commands[i]=j-1;
+                            break;
+                        }
+                    }
+                    x-=commands[i];
+                }
+            }
+            if(x*x+y*y>maximum)
+            {
+                maximum=x*x+y*y;
+            }
+        }
+        return maximum;
+    }
+};

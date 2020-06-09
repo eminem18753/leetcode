@@ -1,0 +1,36 @@
+class Solution 
+{
+    public:
+    int gcd(int a,int b)
+    {
+        if(b==0)
+        {
+            return a;
+        }
+        return gcd(b,a%b);
+    }
+    bool isPossible(vector<int>& target) 
+    {
+        long s=0;
+        int r=target[0];
+        for(int i=0;i<target.size();i++)
+        {
+            s+=target[i];
+            r=gcd(r,target[i]);
+        }
+        if(r!=1)
+        {
+            return false;
+        }
+        priority_queue<long> q(target.begin(),target.end());
+        while(q.top()>s/2&&q.top()>1)
+        {
+            int current=q.top();
+            q.pop();
+            int previous=current%(s-current);
+            q.push(previous);
+            s=s+previous-current;
+        }
+        return s==1||q.top()==1;
+    }
+};

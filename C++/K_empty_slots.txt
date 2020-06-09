@@ -1,0 +1,29 @@
+class Solution 
+{
+    public:
+    int kEmptySlots(vector<int>& bulbs, int K) 
+    {
+        vector<int> t;
+        for(int i=0;i<bulbs.size();i++)
+        {
+            vector<int>::iterator low=lower_bound(t.begin(),t.end(),bulbs[i]);
+            int index=(int)(low-t.begin());
+            t.insert(low,bulbs[i]);
+            if(index>0)
+            {
+                if(t[index]-t[index-1]==K+1)
+                {
+                    return i+1;
+                }
+            }
+            if(t.size()>0&&index<(int)t.size()-1)
+            {
+                if(t[index+1]-t[index]==K+1)
+                {
+                    return i+1;
+                }
+            }
+        }
+        return -1;
+    }
+};

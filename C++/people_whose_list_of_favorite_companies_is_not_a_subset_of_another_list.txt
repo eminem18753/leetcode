@@ -1,0 +1,54 @@
+bool compare(pair<unordered_set<string>,int>& a,pair<unordered_set<string>,int>& b)
+{
+    return a.first.size()<b.first.size();
+}
+class Solution 
+{
+    public:
+    vector<int> peopleIndexes(vector<vector<string>>& favoriteCompanies) 
+    {
+        int maximum=-1;
+        set<int> result;
+        map<int,int> t;
+        vector<pair<unordered_set<string>,int>> total;
+        for(int i=0;i<favoriteCompanies.size();i++)
+        {
+            total.push_back({unordered_set<string>(favoriteCompanies[i].begin(),favoriteCompanies[i].end()),i});
+            result.insert(i);
+        }
+        sort(total.begin(),total.end(),compare);
+        for(int i=0;i<total.size();i++)
+        {
+            if(i!=0)
+            {
+                t[total[i-1].first.size()]=i;
+            }
+            maximum=max(maximum,(int)total[i].first.size());
+        }
+        for(int i=0;i<total.size();i++)
+        {
+            if(total[i].first.size()==maximum)
+            {
+                break;
+            }
+            for(int j=t[total[i].first.size()];j<total.size();j++)
+            {
+                int f=0;
+                for(unordered_set<string>::iterator it=total[i].first.begin();it!=total[i].first.end();it++)
+                {
+                    if(total[j].first.find(*it)==total[j].first.end())
+                    {
+                        f=1;
+                        break;
+                    }
+                }
+                if(f==0)
+                {                    
+                    result.erase(total[i].second);
+                    break;
+                }
+            }
+        }
+        return vector<int>(result.begin(),result.end());
+    }
+};

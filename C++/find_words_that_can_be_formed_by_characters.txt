@@ -1,0 +1,38 @@
+class Solution 
+{
+public:
+    int countCharacters(vector<string>& words, string chars) 
+    {
+        int total=0;
+        int a[26];
+        int b[26];
+        memset(a,0,sizeof(a));
+        memset(b,0,sizeof(b));
+        for(int i=0;i<chars.length();i++)
+        {
+            a[chars[i]-'a']++;
+        }
+        for(int i=0;i<words.size();i++)
+        {
+            memset(b,0,sizeof(b));
+            for(int j=0;j<words[i].length();j++)
+            {
+                b[words[i][j]-'a']++;
+            }
+            int f=0;
+            for(int j=0;j<26;j++)
+            {
+                if(b[j]>a[j])
+                {
+                    f=1;
+                    break;
+                }
+            }
+            if(f==0)
+            {
+                total+=(int)words[i].length();
+            }
+        }
+        return total;
+    }
+};

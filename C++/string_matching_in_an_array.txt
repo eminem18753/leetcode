@@ -1,0 +1,56 @@
+class Solution 
+{
+    public:
+    vector<string> stringMatching(vector<string>& words) 
+    {
+        unordered_set<string> result;
+        for(int i=0;i<words.size();i++)
+        {
+            for(int j=0;j<words.size();j++)
+            {
+                if(i!=j)
+                {
+                    if(words[i].length()<words[j].length())
+                    {
+                        for(int k=0;k<words[j].length()-words[i].length()+1;k++)
+                        {
+                            int f=0;
+                            for(int m=0;m<words[i].length();m++)
+                            {
+                                if(words[i][m]!=words[j][k+m])
+                                {
+                                    f=1;
+                                    break;
+                                }
+                            }
+                            if(f==0)
+                            {
+                                result.insert(words[i]);
+                            }
+                        }
+                    }
+                    else if(words[i].length()>words[j].length())
+                    {
+                        for(int k=0;k<words[i].length()-words[j].length()+1;k++)
+                        {
+                            int f=0;
+                            for(int m=0;m<words[j].length();m++)
+                            {
+                                if(words[j][m]!=words[i][k+m])
+                                {
+                                    f=1;
+                                    break;
+                                }
+                            }
+                            if(f==0)
+                            {
+                                result.insert(words[j]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return vector<string>(result.begin(),result.end());
+    }
+};

@@ -1,0 +1,12 @@
+# Write your MySQL query statement below
+SELECT b.user_id as buyer_id,b.join_date as join_date,COALESCE(
+(
+    SELECT COUNT(*) FROM Orders as c
+    WHERE a.buyer_id=c.buyer_id AND c.order_date>="2019-01-01"
+    GROUP BY c.buyer_id
+),0)
+as orders_in_2019 FROM Orders as a
+RIGHT JOIN Users as b
+ON a.buyer_id=b.user_id
+GROUP BY b.user_id
+ORDER BY b.user_id;

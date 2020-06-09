@@ -1,0 +1,54 @@
+class Solution 
+{
+    public:
+    vector<vector<int>> result;
+    vector<int> t;
+    int N;
+    void dfs(vector<int> temp,long long s)
+    {
+        if(s>N)
+        {
+            return;
+        }
+        if(s==N&&temp.size()>0)
+        {
+            
+            result.push_back(temp);
+            return;
+        }
+        for(int i=0;i<t.size();i++)
+        {
+            if(temp.size()==0||t[i]>=temp.back())
+            {
+                temp.push_back(t[i]);
+                s*=t[i];
+                dfs(temp,s);
+                s/=t[i];
+                temp.pop_back();
+            }
+        }
+    }
+    vector<vector<int>> getFactors(int n) 
+    {
+        N=n;
+        vector<int> f;
+        for(int i=2;i<sqrt(n);i++)
+        {
+            if(n%i==0)
+            {
+                f.push_back(i);
+            }
+        }
+        t=f;
+        if(n>1&&(int)floor(sqrt(n))==(int)ceil(sqrt(n)))
+        {
+            t.push_back((int)sqrt(n));
+        }
+        for(int i=(int)f.size()-1;i>-1;i--)
+        {
+            t.push_back(n/f[i]);
+        }
+        dfs({},(long long)1);
+        return result;
+    }
+};

@@ -1,0 +1,46 @@
+class Solution 
+{
+    public:
+    double findMaxAverage(vector<int>& nums, int k) 
+    {
+        int n=nums.size();
+        int m=2147483647;
+        int M=-2147483648;
+        for(int i=0;i<nums.size();i++)
+        {
+            m=min(m,nums[i]);
+            M=max(M,nums[i]);
+        }
+        double left=(double)m;
+        double right=(double)M;
+        while(abs(right-left)>1e-5)
+        {
+            double middle=(left+right)/(double)2;
+            bool check=false;
+            double left_bound=2147483647;
+            vector<double> s(n+1,0);
+            for(int i=0;i<n;i++)
+            {
+                s[i+1]=s[i]+nums[i]-middle;
+                if(i+1-k>=0)
+                {
+                    left_bound=min(left_bound,s[i+1-k]);
+                }
+                if(i+1-k>=0&&s[i+1]>=left_bound)
+                {
+                    check=true;
+                    break;
+                }
+            }
+            if(check)
+            {
+                left=middle;
+            }
+            else
+            {
+                right=middle;
+            }
+        }
+        return left;
+    }
+};

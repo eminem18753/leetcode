@@ -1,0 +1,68 @@
+class Solution 
+{
+    public:
+    int shortestPathAllKeys(vector<string>& grid) 
+    {
+        unordered_set<string> v;
+        int sx;
+        int sy;
+        int target=0;
+        int m=grid.size();
+        int n=grid[0].length();
+        int dx[4]={1,0,-1,0};
+        int dy[4]={0,1,0,-1};
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                if(grid[i][j]=='@')
+                {
+                    sx=i;
+                    sy=j;
+                }
+                if(grid[i][j]>='a'&&grid[i][j]<='z')
+                {
+                    target|=(1<<(grid[i][j]-'a'));
+                }
+            }
+        }
+        deque<vector<int>> q={{sx,sy,0}};
+        v.insert(to_string(sx)+","+to_string(sy)+","+to_string(0));
+        int c=0;
+        while(q.size()>0)
+        {
+            int s=q.size();
+            c++;
+            for(int i=0;i<s;i++)
+            {
+                vector<int> p=q.front();
+                q.pop_front();
+                int x=p[0];
+                int y=p[1];
+                int state=p[2];
+                for(int j=0;j<4;j++)
+                {
+                    int tx=x+dx[j];
+                    int ty=y+dy[j];
+                    int ts=state;
+                    string temp=to_string(tx)+","+to_string(ty)+","+to_string(state);
+                    if(tx>=0&&tx<m&&ty>=0&&ty<n&&(grid[tx][ty]=='@'||grid[tx][ty]=='.'||grid[tx][ty]>='A'&&grid[tx][ty]<='Z'&&(ts&(1<<(grid[tx][ty]-'A')))!=0||(grid[tx][ty]>='a'&&grid[tx][ty]<='z'))&&v.find(temp)==v.end())
+                    {
+                        if(grid[tx][ty]>='a'&&grid[tx][ty]<='z')
+                        {
+                            ts|=(1<<(grid[tx][ty]-'a'));
+                        }
+                        if(ts==target)
+                        {
+                            return c;
+                        }
+                        q.push_back({tx,ty,ts});
+                        temp=to_string(tx)+","+to_string(ty)+","+to_string(ts);
+                        v.insert(temp);
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+};

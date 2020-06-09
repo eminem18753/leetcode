@@ -1,0 +1,112 @@
+class Solution
+{
+    public:
+    unordered_set<string> total;
+    bool check(vector<vector<char>>& grid,int sx,int sy,int bx,int by,int tx,int ty)
+    {
+        if(sx==tx&&sy==ty)
+        {
+            return true;
+        }
+        int m=grid.size();
+        int n=grid[0].size();
+        char temp=grid[sx][sy];
+        grid[sx][sy]='#';
+        total.insert(to_string(sx)+","+to_string(sy));
+        if(sx+1<m&&(grid[sx+1][sy]!='#'&&(sx+1!=bx||sy!=by))&&total.find(to_string(sx+1)+","+to_string(sy))==total.end()&&check(grid,sx+1,sy,bx,by,tx,ty))
+        {
+            grid[sx][sy]=temp;
+            return true; 
+        }
+        if(sx-1>=0&&(grid[sx-1][sy]!='#'&&(sx-1!=bx||sy!=by))&&total.find(to_string(sx-1)+","+to_string(sy))==total.end()&&check(grid,sx-1,sy,bx,by,tx,ty))
+        {
+            grid[sx][sy]=temp;
+            return true; 
+        }
+        if(sy+1<n&&(grid[sx][sy+1]!='#'&&(sx!=bx||sy+1!=by))&&total.find(to_string(sx)+","+to_string(sy+1))==total.end()&&check(grid,sx,sy+1,bx,by,tx,ty))
+        {
+            grid[sx][sy]=temp;
+            return true; 
+        }
+        if(sy-1>=0&&(grid[sx][sy-1]!='#'&&(sx!=bx||sy-1!=by))&&total.find(to_string(sx)+","+to_string(sy-1))==total.end()&&check(grid,sx,sy-1,bx,by,tx,ty))
+        {
+            grid[sx][sy]=temp;
+            return true; 
+        }
+        grid[sx][sy]=temp;
+        return false;
+    }
+    int minPushBox(vector<vector<char>>& grid) 
+    {
+        int dx[4]={1,0,-1,0};
+        int dy[4]={0,1,0,-1};
+        
+        int bx;
+        int by;
+        int px;
+        int py;
+        int tx;
+        int ty;
+        int m=grid.size();
+        int n=grid[0].size();
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                if(grid[i][j]=='B')
+                {
+                    bx=i;
+                    by=j;
+                }
+                if(grid[i][j]=='S')
+                {
+                    px=i;
+                    py=j;
+                }
+                if(grid[i][j]=='T')
+                {
+                    tx=i;
+                    ty=j;
+                }
+            }
+        }
+        deque<vector<int>> q;
+        q.push_back({bx,by,px,py});
+        unordered_set<string> v;
+        v.insert(to_string(bx)+","+to_string(by)+","+to_string(px)+","+to_string(py));
+        int c=0;
+        while(q.size()>0)
+        {
+            int s=q.size();
+            c++;
+            for(int i=0;i<s;i++)
+            {
+                vector<int> p=q.front();
+                q.pop_front();
+                int b1=p[0];
+                int b2=p[1];
+                int p1=p[2];
+                int p2=p[3];
+                for(int j=0;j<4;j++)
+                {
+                    int bt1=b1+dx[j];
+                    int bt2=b2+dy[j];
+                    int pt1=b1-dx[j];
+                    int pt2=b2-dy[j];
+                    total.clear();
+                    string temp=to_string(bt1)+","+to_string(bt2)+","+to_string(pt1)+","+to_string(pt2);
+                    if(pt1>=0&&pt1<m&&pt2>=0&&pt2<n&&bt1>=0&&bt1<m&&bt2>=0&&bt2<n&&grid[pt1][pt2]!='#'&&grid[bt1][bt2]!='#'&&v.find(temp)==v.end()&&check(grid,p1,p2,b1,b2,pt1,pt2))
+                    {
+                        if(bt1==tx&&bt2==ty)
+                        {
+                            return c;
+                        }
+                        q.push_back({bt1,bt2,b1,b2});
+                        v.insert(temp);
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+};

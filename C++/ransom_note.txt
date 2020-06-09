@@ -1,0 +1,25 @@
+class Solution {
+public:
+    bool canConstruct(string ransomNote, string magazine)
+    {
+        if(magazine.length()<ransomNote.length())
+        {
+            return false;
+        }
+        int a[26];
+        memset(a,0,sizeof(a));
+        for(int i=0;i<magazine.length();i++)
+        {
+            a[magazine[i]-'a']+=1;
+        }
+        for(int i=0;i<ransomNote.length();i++)
+        {
+            a[ransomNote[i]-'a']-=1;
+            if(a[ransomNote[i]-'a']<0)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+};

@@ -1,0 +1,42 @@
+class Solution 
+{
+    public:
+    int countServers(vector<vector<int>>& grid)
+    {
+        unordered_set<string> total;
+        unordered_map<int,unordered_set<string>> h;
+        unordered_map<int,unordered_set<string>> v;
+        for(int i=0;i<grid.size();i++)
+        {
+            for(int j=0;j<grid[i].size();j++)
+            {
+                if(grid[i][j]==1)
+                {
+                    h[i].insert(to_string(i)+","+to_string(j));
+                    v[j].insert(to_string(i)+","+to_string(j));
+                }
+            }
+        }
+        for(unordered_map<int,unordered_set<string>>::iterator it=h.begin();it!=h.end();it++)
+        {
+            if(it->second.size()>1)
+            {
+                for(unordered_set<string>::iterator s=it->second.begin();s!=it->second.end();s++)
+                {
+                    total.insert(*s);
+                }
+            }
+        }
+        for(unordered_map<int,unordered_set<string>>::iterator it=v.begin();it!=v.end();it++)
+        {
+            if(it->second.size()>1)
+            {
+                for(unordered_set<string>::iterator s=it->second.begin();s!=it->second.end();s++)
+                {
+                    total.insert(*s);
+                }
+            }
+        }
+        return (int)total.size();
+    }
+};

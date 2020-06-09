@@ -1,0 +1,142 @@
+class Solution 
+{
+    public:
+    bool isEscapePossible(vector<vector<int>>& blocked, vector<int>& source, vector<int>& target) 
+    {
+        unordered_set<string> p;
+        unordered_set<string> b;
+        deque<int> x;
+        deque<int> y;
+        x.push_back(source[0]);
+        y.push_back(source[1]);
+        string temp=to_string(source[0])+","+to_string(source[1]);
+        p.insert(temp);
+        for(int i=0;i<blocked.size();i++)
+        {
+            string temp=to_string(blocked[i][0])+","+to_string(blocked[i][1]);
+            b.insert(temp);
+        }
+        while(x.size()>0)
+        {
+            int x_t=x.front();
+            int y_t=y.front();
+            x.pop_front();
+            y.pop_front();
+            if(x_t==target[0]&&y_t==target[1])
+            {
+                return true;   
+            }
+            if(p.size()>20000)
+            {
+                break;   
+            }
+            if(x_t>0)
+            {
+                string temp=to_string(x_t-1)+","+to_string(y_t);
+                if(p.find(temp)==p.end()&&b.find(temp)==b.end())
+                {
+                    x.push_back(x_t-1);
+                    y.push_back(y_t);
+                    p.insert(temp);   
+                }
+            }
+            if(x_t<999998)
+            {
+                string temp=to_string(x_t+1)+","+to_string(y_t);
+                if(p.find(temp)==p.end()&&b.find(temp)==b.end())
+                {
+                    x.push_back(x_t+1);
+                    y.push_back(y_t);
+                    p.insert(temp);   
+                }                
+            }
+            if(y_t>0)
+            {
+                string temp=to_string(x_t)+","+to_string(y_t-1);
+                if(p.find(temp)==p.end()&&b.find(temp)==b.end())
+                {
+                    x.push_back(x_t);
+                    y.push_back(y_t-1);
+                    p.insert(temp);   
+                }                
+            }
+            if(y_t<999998)
+            {
+                string temp=to_string(x_t)+","+to_string(y_t+1);
+                if(p.find(temp)==p.end()&&b.find(temp)==b.end())
+                {
+                    x.push_back(x_t);
+                    y.push_back(y_t+1);
+                    p.insert(temp);
+                }                                
+            }
+        }
+        if(p.size()<20000)
+        {
+            return false;   
+        }
+        x.clear();
+        y.clear();
+        p.clear();
+        x.push_back(target[0]);
+        y.push_back(target[1]);
+        temp=to_string(target[0])+","+to_string(target[1]);
+        p.insert(temp);
+        while(x.size()>0)
+        {
+            int x_t=x.front();
+            int y_t=y.front();
+            x.pop_front();
+            y.pop_front();
+            if(x_t==source[0]&&y_t==source[1])
+            {
+                return true;   
+            }
+            if(p.size()>20000)
+            {
+                return true;   
+            }
+            if(x_t>0)
+            {
+                string temp=to_string(x_t-1)+","+to_string(y_t);
+                if(p.find(temp)==p.end()&&b.find(temp)==b.end())
+                {
+                    x.push_back(x_t-1);
+                    y.push_back(y_t);
+                    p.insert(temp);   
+                }
+            }
+            if(x_t<999998)
+            {
+                string temp=to_string(x_t+1)+","+to_string(y_t);
+                if(p.find(temp)==p.end()&&b.find(temp)==b.end())
+                {
+                    x.push_back(x_t+1);
+                    y.push_back(y_t);
+                    p.insert(temp);   
+                }                
+            }
+            if(y_t>0)
+            {
+                string temp=to_string(x_t)+","+to_string(y_t-1);
+                if(p.find(temp)==p.end()&&b.find(temp)==b.end())
+                {
+                    x.push_back(x_t);
+                    y.push_back(y_t-1);
+                    p.insert(temp);   
+                }                
+            }
+            if(y_t<999998)
+            {
+                string temp=to_string(x_t)+","+to_string(y_t+1);
+                if(p.find(temp)==p.end()&&b.find(temp)==b.end())
+                {
+                    x.push_back(x_t);
+                    y.push_back(y_t+1);
+                    p.insert(temp);
+                }                                
+            }
+        }
+        return false;
+    }
+};

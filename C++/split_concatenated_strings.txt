@@ -1,0 +1,34 @@
+class Solution 
+{
+    public:
+    string splitLoopedString(vector<string>& strs) 
+    {
+        string result="";
+        vector<string> total;
+        for(int i=0;i<strs.size();i++)
+        {
+            string r=strs[i];
+            reverse(r.begin(),r.end());
+            total.push_back(max(strs[i],r));
+        }
+        for(int i=0;i<total.size();i++)
+        {
+            string r=total[i];
+            reverse(r.begin(),r.end());
+            string temp="";
+            for(int k=0;k<(int)total.size()-1;k++)
+            {
+                temp+=total[(k+i+1)%(int)total.size()];   
+            }
+            for(int j=0;j<total[i].length();j++)
+            {
+                result=max(result,total[i].substr(j)+temp+total[i].substr(0,j));
+            }
+            for(int j=0;j<total[i].length();j++)
+            {
+                result=max(result,r.substr(j)+temp+r.substr(0,j));                
+            }
+        }
+        return result;
+    }
+};

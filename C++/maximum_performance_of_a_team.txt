@@ -1,0 +1,33 @@
+class Solution 
+{
+    public:
+    int maxPerformance(int n, vector<int>& speed, vector<int>& efficiency, int k) 
+    {
+        long long int maximum=0;
+        long long int m=1000000007;
+        vector<vector<int>> total;
+        for(int i=0;i<n;i++)
+        {
+            total.push_back({efficiency[i],speed[i]});
+        }
+        sort(total.begin(),total.end());
+        priority_queue<int,vector<int>,greater<int>> q;
+        long long int current_sum=0;
+        for(int i=n-1;i>=n-k;i--)
+        {
+            q.push(total[i][1]);
+            current_sum+=total[i][1];
+            maximum=max(maximum,current_sum*total[i][0]);
+        }
+        long long int minimum_efficiency=total[n-k][0];
+        for(int i=n-k-1;i>-1;i--)
+        {
+            q.push(total[i][1]);
+            current_sum+=total[i][1]-q.top();
+            q.pop();
+            minimum_efficiency=total[i][0];
+            maximum=max(maximum,current_sum*minimum_efficiency);
+        }
+        return (int)(maximum%m);
+    }
+};

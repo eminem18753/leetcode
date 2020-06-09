@@ -1,0 +1,47 @@
+class Solution 
+{
+    public:
+    int reachNumber(int t) 
+    {
+        long long target=(long long)t;
+        if(target==0)
+        {
+            return 0;
+        }
+        long long d1;
+        long long d2;
+        target=abs(target);
+        if(target%2==1)
+        {
+            d1=1;
+            d2=2;
+        }
+        else
+        {
+            d1=3;
+            d2=4;
+        }
+        long long current=(((double)-1+(double)sqrt(1+8*target))/(double)2)/4;
+        if((current*4)*(current*4+1)/2>=target)
+        {
+            return current*4;
+        }
+        else if((current*4+d1)*(current*4+d1+1)/2>=target)
+        {
+            return current*4+d1;
+        }
+        else if((current*4+d2)*(current*4+d2+1)/2>=target)
+        {
+            return current*4+d2;
+        }
+        else if((current*4+d1+4)*(current*4+d1+5)/2>=target)
+        {
+            return current*4+d1+4;
+        }
+        else if((current*4+d2+4)*(current*4+d2+5)/2>=target)
+        {
+            return current*4+d2+4;
+        }
+        return 0;
+    }
+};

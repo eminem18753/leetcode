@@ -1,0 +1,43 @@
+class Solution {
+public:
+    bool isReflected(vector<vector<int>>& points)
+    {
+        map<int,vector<int>> total;
+        set<string> overall;
+        for(int i=0;i<points.size();i++)
+        {
+            string temp=to_string(points[i][0]);
+            temp+=",";
+            temp+=to_string(points[i][1]);
+            if(overall.find(temp)==overall.end())
+            {
+                total[points[i][1]].push_back(points[i][0]);
+                overall.insert(temp);
+            }
+        }
+        for(map<int,vector<int>>::iterator it=total.begin();it!=total.end();it++)
+        {
+            sort(it->second.begin(),it->second.end());
+        }
+        int p=2147483647;
+        for(map<int,vector<int>>::iterator it=total.begin();it!=total.end();it++)
+        {
+            int m1=0;
+            int m2=(int)it->second.size()-1;
+            while(m1<=m2)
+            {
+                if(p==2147483647)
+                {
+                    p=it->second[m1]+it->second[m2];
+                }
+                else if(it->second[m1]+it->second[m2]!=p)
+                {
+                    return false;
+                }
+                m1++;
+                m2--;                
+            }
+        }
+        return true;
+    }
+};

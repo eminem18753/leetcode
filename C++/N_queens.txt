@@ -1,0 +1,65 @@
+class Solution 
+{
+    public:
+    int N;
+    vector<vector<int>> result;
+    void dfs(vector<int> &p,set<int> &d,set<int> &s)
+    {
+        if(N==p.size())
+        {
+            vector<int> temp;
+            for(int i=0;i<p.size();i++)
+            {
+                temp.push_back(p[i]);
+            }
+            result.push_back(temp);
+            return;
+        }
+        int n=p.size();
+        set<int> a(p.begin(),p.end());
+        for(int i=0;i<N;i++)
+        {
+            int summation=i+n;
+            int difference=i-n;
+            if(a.find(i)==a.end()&&d.find(difference)==d.end()&&s.find(summation)==s.end())
+            {
+                p.push_back(i);
+                d.insert(difference);
+                s.insert(summation);
+                dfs(p,d,s);
+                p.pop_back();
+                d.erase(difference);
+                s.erase(summation);
+            }
+        }
+    }
+    vector<vector<string>> solveNQueens(int n) 
+    {
+        vector<vector<string>> overall;
+        N=n;
+        vector<int> p;
+        set<int> d;
+        set<int> s;
+        dfs(p,d,s);
+        for(int i=0;i<result.size();i++)
+        {
+            vector<string> current;
+            for(int j=0;j<result[i].size();j++)
+            {
+                string temp="";
+                for(int k=0;k<result[i][j];k++)
+                {
+                    temp+=".";
+                }
+                temp+="Q";
+                for(int k=0;k<N-result[i][j]-1;k++)
+                {
+                    temp+=".";
+                }
+                current.push_back(temp);
+            }
+            overall.push_back(current);
+        }
+        return overall;
+    }
+};

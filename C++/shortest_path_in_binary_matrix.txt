@@ -1,0 +1,138 @@
+class Solution {
+public:
+    int shortestPathBinaryMatrix(vector<vector<int>>& grid) 
+    {
+        if(grid.size()==0||grid[0].size()==0||grid[0][0]==1)
+        {
+            return -1;
+        }
+        int m=grid.size();
+        int n=grid[0].size();
+        
+        int a[m][n];
+        memset(a,0,sizeof(a));
+        deque<vector<int>> f1;
+        vector<int> temp;
+        temp.push_back(0);
+        temp.push_back(0);
+        temp.push_back(1);
+        f1.push_back(temp);
+        a[0][0]=1;
+        while(f1.size()>0)
+        {
+            vector<int> c=f1.front();
+            int i=c[0];
+            int j=c[1];
+            int counter=c[2];
+            f1.pop_front();
+            if(i==m-1&&j==n-1)
+            {
+                return counter;
+            }
+            
+            if(i-1>=0&&j-1>=0&&i-1<m&&j-1<n&&grid[i-1][j-1]==0)
+            {
+                vector<int> temp;
+                temp.push_back(i-1);
+                temp.push_back(j-1);
+                temp.push_back(counter+1);
+
+                if(a[i-1][j-1]==0)
+                {
+                    f1.push_back(temp);
+                }
+                a[i-1][j-1]=1;
+            }
+            if(i-1>=0&&j>=0&&i-1<m&&j<n&&grid[i-1][j]==0)
+            {
+                vector<int> temp;
+                temp.push_back(i-1);
+                temp.push_back(j);
+                temp.push_back(counter+1);                
+                if(a[i-1][j]==0)
+                {
+                    f1.push_back(temp);
+                }
+                a[i-1][j]=1;
+            }
+            if(i-1>=0&&j+1>=0&&i-1<m&&j+1<n&&grid[i-1][j+1]==0)
+            {
+                vector<int> temp;
+                temp.push_back(i-1);
+                temp.push_back(j+1);
+                temp.push_back(counter+1);                
+                if(a[i-1][j+1]==0)
+                {
+                    f1.push_back(temp);
+                }
+                a[i-1][j+1]=1;
+            }
+            
+            
+            if(i>=0&&j-1>=0&&i<m&&j-1<n&&grid[i][j-1]==0)
+            {
+                vector<int> temp;
+                temp.push_back(i);
+                temp.push_back(j-1);
+                temp.push_back(counter+1);                
+                if(a[i][j-1]==0)
+                {
+                    f1.push_back(temp);
+                }
+                a[i][j-1]=1;
+            }
+            
+            if(i>=0&&j+1>=0&&i<m&&j+1<n&&grid[i][j+1]==0)
+            {
+                vector<int> temp;
+                temp.push_back(i);
+                temp.push_back(j+1);
+                temp.push_back(counter+1);                
+                if(a[i][j+1]==0)
+                {
+                    f1.push_back(temp);
+                }
+                a[i][j+1]=1;
+            }
+            
+            if(i+1>=0&&j-1>=0&&i+1<m&&j-1<n&&grid[i+1][j-1]==0)
+            {
+                vector<int> temp;
+                temp.push_back(i+1);
+                temp.push_back(j-1);
+                temp.push_back(counter+1);                
+                if(a[i+1][j-1]==0)
+                {
+                    f1.push_back(temp);
+                }
+                a[i+1][j-1]=1;
+            }
+            
+            if(i+1>=0&&j>=0&&i+1<m&&j<n&&grid[i+1][j]==0)
+            {
+                vector<int> temp;
+                temp.push_back(i+1);
+                temp.push_back(j);
+                temp.push_back(counter+1);                
+                if(a[i+1][j]==0)
+                {
+                    f1.push_back(temp);
+                }
+                a[i+1][j]=1;
+            }
+            if(i+1>=0&&j+1>=0&&i+1<m&&j+1<n&&grid[i+1][j+1]==0)
+            {
+                vector<int> temp;
+                temp.push_back(i+1);
+                temp.push_back(j+1);
+                temp.push_back(counter+1);                
+                if(a[i+1][j+1]==0)
+                {
+                    f1.push_back(temp);
+                }
+                a[i+1][j+1]=1;
+            }
+        }
+        return -1;
+    }
+};

@@ -1,0 +1,47 @@
+class Solution 
+{
+    public:
+    string reformat(string s) 
+    {
+        string result="";
+        string letter="";
+        string digit="";
+        for(int i=0;i<s.length();i++)
+        {
+            if(s[i]>='a'&&s[i]<='z')
+            {
+                letter+=s[i];
+            }
+            else
+            {
+                digit+=s[i];
+            }
+        }
+        if(abs((int)letter.length()-(int)digit.length())>1)
+        {
+            return "";
+        }
+        if(letter.length()<digit.length())
+        {
+            for(int i=0;i<letter.length();i++)
+            {
+                result+=digit[i];
+                result+=letter[i];
+            }
+            result+=digit[(int)letter.length()];
+        }
+        else
+        {
+            for(int i=0;i<digit.length();i++)
+            {
+                result+=letter[i];
+                result+=digit[i];
+            }
+            if(letter.length()>digit.length())
+            {
+                result+=letter[(int)digit.length()];
+            }
+        }
+        return result;
+    }
+};

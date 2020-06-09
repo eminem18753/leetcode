@@ -1,0 +1,67 @@
+class Solution {
+public:
+    vector<string> total;
+    vector<string> result;
+    int current[50];
+    int x=0;
+    void dfs(string u,int c)
+    {
+        if(c>x)
+        {
+            return;
+        }
+        if(c==x)
+        {
+            result.push_back(u);
+            return;
+        }
+        for(int i=0;i<current[c];i++)
+        {
+            u+=total[c][i];
+            dfs(u,c+1);
+            u.pop_back();
+        }
+    }
+    vector<string> expand(string S) 
+    {
+        string temp="";
+        int flag=0;
+        for(int i=0;i<S.length();i++)
+        {
+            if(S[i]=='{')
+            {
+                flag=1;
+            }
+            else if(S[i]=='}')
+            {
+                total.push_back(temp);
+                temp="";
+                flag=0;
+            }
+            else
+            {
+                if(flag==0&&S[i]>='a'&&S[i]<='z')
+                {
+                    temp+=S[i];
+                    total.push_back(temp);
+                    temp="";
+                }
+                else if(flag==1&&S[i]>='a'&&S[i]<='z')
+                {
+                    temp+=S[i];
+                }
+            }
+        }
+        int r=total.size();
+        x=r;
+        memset(current,0,sizeof(current));
+        for(int i=0;i<total.size();i++)
+        {
+            current[i]=total[i].length();
+        }
+        string u="";
+        dfs(u,0);
+        sort(result.begin(),result.end());
+        return result;
+    }
+};

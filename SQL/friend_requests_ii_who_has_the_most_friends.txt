@@ -1,0 +1,9 @@
+# Write your MySQL query statement below
+SELECT c.ids as id, COUNT(*) as num FROM
+(
+    SELECT requester_id as ids FROM request_accepted
+    UNION ALL
+    SELECT accepter_id FROM request_accepted
+) c
+GROUP BY c.ids
+ORDER BY num DESC LIMIT 1;

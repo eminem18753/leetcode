@@ -1,0 +1,52 @@
+class Solution 
+{
+    public:
+    int numBusesToDestination(vector<vector<int>>& routes, int S, int T) 
+    {
+        unordered_map<int,vector<int>> stop_to_bus;
+        for(int i=0;i<routes.size();i++)
+        {
+            for(int j=0;j<routes[i].size();j++)
+            {
+                stop_to_bus[routes[i][j]].push_back(i);
+            }
+        }
+        deque<int> q;
+        deque<int> c;
+        q.push_back(S);
+        c.push_back(0);
+        unordered_set<int> v1;
+        unordered_set<int> v2;
+        v2.insert(S);
+        while(q.size()>0)
+        {
+            int p=q.front();
+            int k=c.front();
+            q.pop_front();
+            c.pop_front();
+            if(p==T)
+            {
+                return k;
+            }
+            for(int i=0;i<stop_to_bus[p].size();i++)
+            {
+                if(v1.find(stop_to_bus[p][i])!=v1.end())
+                {
+                    continue;
+                }
+                v1.insert(stop_to_bus[p][i]);
+                for(int j=0;j<routes[stop_to_bus[p][i]].size();j++)
+                {
+                    if(v2.find(routes[stop_to_bus[p][i]][j])!=v2.end())
+                    {
+                        continue;
+                    }
+                    q.push_back(routes[stop_to_bus[p][i]][j]);
+                    c.push_back(k+1);
+                    v2.insert(routes[stop_to_bus[p][i]][j]);
+                }
+            }
+        }
+        return -1;
+    }
+};

@@ -1,0 +1,35 @@
+class H2O 
+{
+    public:
+    mutex m1;
+    mutex m2;
+    int c=0;
+    H2O() 
+    {
+        m1.unlock();
+        m2.lock();
+    }
+
+    void hydrogen(function<void()> releaseHydrogen) 
+    {
+        m1.lock();
+        releaseHydrogen();
+        if(c%2==0)
+        {
+            m1.unlock();
+        }
+        else
+        {
+            m2.unlock();
+        }
+        c++;
+        
+    }
+
+    void oxygen(function<void()> releaseOxygen) 
+    {
+        m2.lock();
+        releaseOxygen();
+        m1.unlock();
+    }
+};

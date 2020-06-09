@@ -1,0 +1,49 @@
+class Solution 
+{
+    public:
+    vector<int> dp;
+    int result=1;
+    int dfs(vector<int>& arr,int index,int d)
+    {
+        int current=1;
+        if(dp[index]!=-1)
+        {
+            return dp[index];
+        }
+        for(int i=index-1;i>=max(index-d,0);i--)
+        {
+            if(arr[index]>arr[i])
+            {
+                current=max(current,1+dfs(arr,i,d));
+            }
+            else
+            {
+                break;
+            }
+        }
+        for(int i=index+1;i<=min(index+d,(int)arr.size()-1);i++)
+        {
+            if(arr[index]>arr[i])
+            {
+                current=max(current,1+dfs(arr,i,d));
+            }
+            else
+            {
+                break;
+            }
+        }
+        dp[index]=current;
+        result=max(result,current);
+        return current;
+    }
+    int maxJumps(vector<int>& arr, int d) 
+    {
+        int n=arr.size();
+        dp=vector<int>(n,-1);
+        for(int i=0;i<n;i++)
+        {
+            dfs(arr,i,d);
+        }
+        return result;
+    }
+};

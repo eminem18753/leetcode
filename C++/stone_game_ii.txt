@@ -1,0 +1,39 @@
+class Solution 
+{
+    public:
+    int dp[101][101];
+    int dfs(vector<int>& piles,int index,int M)
+    {
+        int s=0;
+        int result=-2147483648;
+        if(dp[index][M]>0)
+        {
+            return dp[index][M];
+        }
+        if(index>=piles.size())
+        {
+            return 0;
+        }
+        for(int i=0;i<=2*M-1;i++)
+        {
+            if(index+i>=(int)piles.size())
+            {
+                break;
+            }
+            s+=piles[index+i];
+            result=max(result,s-dfs(piles,index+i+1,max(i+1,M)));
+        }
+        dp[index][M]=result;
+        return result;
+    }
+    int stoneGameII(vector<int>& piles) 
+    {
+        memset(dp,0,sizeof(dp));
+        int sum=0;
+        for(int i=0;i<piles.size();i++)
+        {
+            sum+=piles[i];
+        }
+        return (sum+dfs(piles,0,1))/2;
+    }
+};

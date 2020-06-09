@@ -1,0 +1,7 @@
+class Solution {
+public:
+    int bulbSwitch(int n) 
+    {        
+        return (int)ceil(sqrt((double)1+(double)n))-1;    
+    }
+};

@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int maxAbsValExpr(vector<int>& arr1, vector<int>& arr2) 
+    {
+        int result=0;
+        vector<int> p={1,-1};
+        vector<int> q={1,-1};
+        int first;
+        int current;
+        for(int i=0;i<p.size();i++)
+        {
+            for(int j=0;j<q.size();j++)
+            {
+                first=p[i]*arr1[0]+q[j]*arr2[0];
+                for(int k=1;k<arr1.size();k++)
+                {
+                    current=p[i]*arr1[k]+q[j]*arr2[k]+k;
+                    result=max(result,current-first);
+                    first=min(first,current);
+                }
+            }
+        }
+        return result;
+    }
+};

@@ -1,0 +1,38 @@
+class Solution 
+{
+public:
+    bool circularArrayLoop(vector<int>& nums) 
+    {
+        if(nums.size()==0)
+        {
+            return false;
+        }
+        int n=nums.size();
+        int a[n];
+        memset(a,0,sizeof(a));
+        for(int i=0;i<nums.size();i++)
+        {
+            int c=i;
+            int t=i;
+            int last=0;
+            while(a[t]==0)
+            {
+                a[t]=1;
+                if(last*nums[t]<0)
+                {
+                    break;
+                }
+                last=nums[t];
+                c+=nums[t];
+                t+=nums[t]+n*1000;
+                t%=n;
+                if((c>=n||c<=-n)&&t==i&&(nums[t]+n*1000)%n!=0)
+                {
+                    return true;
+                }
+            }
+            memset(a,0,sizeof(a));
+        }
+        return false;
+    }
+};

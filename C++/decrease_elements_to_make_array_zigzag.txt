@@ -1,0 +1,51 @@
+class Solution {
+public:
+    int movesToMakeZigzag(vector<int>& nums) 
+    {
+        int f1=0;
+        int f2=0;
+        
+        vector<int> n1(nums.begin(),nums.end());
+        vector<int> n2(nums.begin(),nums.end());
+        
+        for(int i=0;i<n1.size();i++)
+        {
+            cout<<i<<" ";
+            if(i%2==1&&((n1[i]>=n1[i-1]&&i==(int)n1.size()-1)||(i<(int)n1.size()-1&&(n1[i]>=n1[i-1]||n1[i]>=n1[i+1]))))
+            {
+                if(i==(int)n1.size()-1)
+                {
+                    n1[i]=n1[i-1]-1;                    
+                }
+                else
+                {
+                    n1[i]=min(n1[i-1],n1[i+1])-1;
+                }
+            }
+        }
+        for(int i=0;i<n2.size();i++)
+        {
+            if(i%2==0&&((i==(int)n2.size()-1&&n2[i]>n2[i-1])||(i==0&&i<(int)n2.size()-1&&n2[i]>=n2[i+1])||(i>0&&i<(int)n2.size()-1&&(n2[i]>=n2[i-1]||n2[i]>=n2[i+1]))))
+            {
+                if(i==0)
+                {
+                    n2[i]=n2[i+1]-1;
+                }
+                else if(i==(int)n2.size()-1)
+                {
+                    n2[i]=n2[i-1]-1;                    
+                }
+                else
+                {
+                    n2[i]=min(n2[i-1],n2[i+1])-1;
+                }
+            }
+        }
+        for(int i=0;i<nums.size();i++)
+        {
+            f1+=abs(nums[i]-n1[i]);
+            f2+=abs(nums[i]-n2[i]);
+        }
+        return min(f1,f2);
+    }
+};

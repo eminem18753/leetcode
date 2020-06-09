@@ -1,0 +1,26 @@
+class Solution 
+{
+    public:
+    vector<int> processQueries(vector<int>& queries, int m) 
+    {
+        vector<int> result;
+        deque<int> p;
+        for(int i=1;i<=m;i++)
+        {
+            p.push_back(i);
+        }
+        for(int i=0;i<queries.size();i++)
+        {
+            for(int j=0;j<p.size();j++)
+            {
+                if(queries[i]==p[j])
+                {
+                    result.push_back(j);
+                    p.erase(p.begin()+j);
+                    p.push_front(queries[i]);
+                }
+            }
+        }
+        return result;
+    }
+};

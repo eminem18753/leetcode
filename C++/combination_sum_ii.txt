@@ -1,0 +1,64 @@
+class Solution {
+public:
+    vector<vector<int>> result;
+    vector<int> r;
+    int t;
+    set<string> total;
+    void dfs(vector<int> temp,int s,int start)
+    {
+        if(start>r.size())
+        {
+            return;
+        }
+        if(s>t)
+        {
+            return;
+        }
+        if(s==t)
+        {
+            result.push_back(temp);
+            return;
+        }
+        for(int i=start;i<r.size();i++)
+        {
+            string a="";
+            for(int j=0;j<temp.size();j++)
+            {
+                a+=to_string(temp[j]);
+                a+=",";
+            }
+            a+=to_string(r[i]);
+            a+=",";
+            if(total.find(a)!=total.end())
+            {
+                continue;
+            }
+            total.insert(a);
+            
+            temp.push_back(r[i]);
+            dfs(temp,s+r[i],i+1);
+                        
+            total.insert(a);
+            temp.pop_back();
+        }        
+    }
+    
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) 
+    {
+        t=target;
+        sort(candidates.begin(),candidates.end());
+        r=candidates;
+        for(int i=0;i<r.size();i++)
+        {
+            if(total.find(to_string(r[i])+",")!=total.end())
+            {
+                continue;
+            }
+            vector<int> temp;
+            temp.push_back(r[i]);
+            dfs(temp,r[i],i+1);
+            total.insert(to_string(r[i])+",");
+        }
+        return result;
+    }
+};

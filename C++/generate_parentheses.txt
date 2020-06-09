@@ -1,0 +1,33 @@
+class Solution 
+{
+public:
+    vector<string> result;
+    void test(string a,int total,int remains,int c1,int c2)
+    {
+        if(c1<c2)
+        {
+            return;
+        }
+        if(c1>total)
+        {
+            return;
+        }
+        if(remains==0)
+        {
+            result.push_back(a);
+            return;
+        }
+        
+        test(a+'(',total,remains-1,c1+1,c2);
+        test(a+')',total,remains-1,c1,c2+1);
+    }
+    vector<string> generateParenthesis(int n) 
+    {
+        int count1=0;
+        int count2=0;
+        string temp="";
+        test(temp,n,n*2,0,0);
+        
+        return result;
+    }
+};

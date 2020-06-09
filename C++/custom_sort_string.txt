@@ -1,0 +1,17 @@
+map<char,int> total;
+bool compare(char a,char b)
+{
+    return total[a]<total[b];
+}
+class Solution {
+public:
+    string customSortString(string S, string T)
+    {
+        for(int i=0;i<S.length();i++)
+        {
+            total[S[i]]=i;
+        }
+        sort(T.begin(),T.end(),compare);
+        return T;
+    }
+};

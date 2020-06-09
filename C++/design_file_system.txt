@@ -1,0 +1,145 @@
+class FileSystem 
+{
+    public:
+    struct trie
+    {
+        map<string,trie*> next;
+        int val;
+        bool isEnd;
+    };
+    typedef struct trie trie;
+    trie* root;
+    set<string> overall;
+    FileSystem() 
+    {
+        root=new trie;
+        root->isEnd=false;
+    }
+    
+    bool create(string path, int value) 
+    {
+        vector<string> total;
+        string temp="";
+        
+        if(overall.find(path)!=overall.end())
+        {
+            return false;
+        }
+            
+        for(int i=0;i<path.length();i++)
+        {
+            if(path[i]=='/')
+            {
+                if(temp=="")
+                {
+                    temp='/';
+                }
+                else
+                {
+                    total.push_back(temp);
+                    temp='/';
+                }
+            }
+            else
+            {
+                temp+=path[i];
+            }
+        }
+        if(temp!="")
+        {
+            total.push_back(temp);
+        }
+        if((int)total.size()==1)
+        {
+            if(root->next.find(total[0])==root->next.end())
+            {
+                root->next[total[0]]=new trie();
+                root->next[total[0]]->val=value;
+                root->next[total[0]]->isEnd=true;
+                overall.insert(path);
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            trie* c=root;
+            for(int i=0;i<total.size();i++)
+            {
+                if(c->next.find(total[i])!=c->next.end())
+                {
+                    c=c->next[total[i]];
+                }
+                else
+                {
+                    if(i!=(int)total.size()-1)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        c->next[total[i]]=new trie();
+                        c->next[total[i]]->val=value;
+                        c->next[total[i]]->isEnd=true;
+                        overall.insert(path);
+                        return true;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    
+    int get(string path) 
+    {
+        vector<string> total;
+        string temp="";
+        for(int i=0;i<path.length();i++)
+        {
+            if(path[i]=='/')
+            {
+                if(temp=="")
+                {
+                    temp='/';
+                }
+                else
+                {
+                    total.push_back(temp);
+                    temp='/';
+                }
+            }
+            else
+            {
+                temp+=path[i];
+            }
+        }
+        if(temp!="")
+        {
+            total.push_back(temp);
+        }
+        
+        trie* c=root;
+        for(int i=0;i<total.size();i++)
+        {
+            if(c->next.find(total[i])!=c->next.end())
+            {
+                c=c->next[total[i]];
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        return c->val;
+    }
+};
+
+/**
+ * Your FileSystem object will be instantiated and called as such:
+ * FileSystem* obj = new FileSystem();
+ * bool param_1 = obj->create(path,value);
+ * int param_2 = obj->get(path);
+ */

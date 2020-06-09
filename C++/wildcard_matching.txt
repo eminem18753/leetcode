@@ -1,0 +1,60 @@
+class Solution 
+{
+    public:
+    bool isMatch(string s, string p) 
+    {
+        if(s=="")
+        {
+            return p==""||p=="*";   
+        }
+        string t="";
+        for(int i=0;i<p.length();i++)
+        {
+            if(i>0&&p[i]==p[i-1]&&p[i]=='*')
+            {
+                continue;   
+            }
+            else
+            {
+                t+=p[i];   
+            }
+        }
+        p=t;
+        int m=s.length();
+        int n=p.length();
+        bool dp[m+1][n+1];
+        memset(dp,false,sizeof(dp));
+        dp[0][0]=true;
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                if(s[i]==p[j])
+                {
+                    dp[i+1][j+1]=dp[i][j];
+                }
+                if(p[j]=='?')
+                {
+                    dp[i+1][j+1]=dp[i][j];   
+                }
+                if(p[j]=='*')
+                {
+                    int f=0;
+                    for(int k=0;k<=m;k++)
+                    {
+                        if(dp[k][j]==true)
+                        {
+                            f=1;
+                            dp[k][j+1]=true;
+                        }
+                        if(f==1)
+                        {
+                            dp[k][j+1]=true;   
+                        }
+                    }
+                }
+            }
+        }
+        return dp[m][n];
+    }
+};

@@ -1,0 +1,9 @@
+# Write your MySQL query statement below
+SELECT gender,day,
+(
+    SELECT SUM(score_points) FROM Scores as b
+    WHERE a.gender=b.gender AND a.day>=b.day
+) as total
+FROM Scores as a
+GROUP BY gender,day
+ORDER BY gender,day;

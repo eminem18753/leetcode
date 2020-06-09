@@ -1,0 +1,55 @@
+class Solution 
+{
+    public:
+    
+    set<int> overall;
+    int l;
+    int h;
+    void dfs(string temp)
+    {
+        if(temp.length()>10)
+        {
+            return;
+        }
+        if(temp.length()==10&&temp>"2000000000")
+        {
+            return;
+        }
+        if(stoi(temp)>h)
+        {
+            return;
+        }
+        if(stoi(temp)>=l)
+        {
+            overall.insert(stoi(temp));
+        }
+        if(temp.back()=='9')
+        {
+            dfs(temp+'8');
+        }
+        else if(temp.back()=='0')
+        {
+            dfs(temp+'1');
+        }
+        else
+        {
+            dfs(temp+(char)(temp.back()+1));
+            dfs(temp+(char)(temp.back()-1));
+        }
+    }
+    vector<int> countSteppingNumbers(int low, int high) 
+    {
+        l=low;
+        h=high;
+        if(low==0)
+        {
+            overall.insert(0);
+        }
+        for(int i=1;i<=9;i++)
+        {
+            dfs(to_string(i));
+        }
+        vector<int> result(overall.begin(),overall.end());
+        return result;
+    }
+};

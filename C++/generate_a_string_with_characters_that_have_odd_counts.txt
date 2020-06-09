@@ -1,0 +1,21 @@
+class Solution 
+{
+    public:
+    string generateTheString(int n) 
+    {
+        if(n==0)
+        {
+            return "";
+        }
+        string result=string(n-1,'a');
+        if(n%2==0)
+        {
+            result+="b";
+        }
+        else
+        {
+            result+="a";
+        }
+        return result;
+    }
+};

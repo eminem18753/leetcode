@@ -1,0 +1,8 @@
+# Write your MySQL query statement below
+SELECT player_id,event_date, 
+(
+    SELECT SUM(games_played) FROM Activity b
+    WHERE a.player_id=b.player_id AND b.event_date<=a.event_date
+)
+as games_played_so_far FROM Activity a
+ORDER BY player_id,event_date;

@@ -1,0 +1,68 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution 
+{
+public:
+    vector<double> M;
+    vector<double> m;
+    map<TreeNode*,TreeNode*> p;
+    map<TreeNode*,double> r;
+    void dfs(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        root->val=1;
+        r[root]=1;
+        if(root->left!=NULL)
+        {
+            p[root->left]=root;
+        }
+        if(root->right!=NULL)
+        {
+            p[root->right]=root;
+        }
+        dfs(root->left);
+        dfs(root->right);
+    }
+    void test(TreeNode* root,int c,int l)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        r[root]=2*r[p[root]]-(double)c;
+        if(M.size()<l)
+        {
+            M.push_back(r[root]);
+        }
+        if(m.size()<l)
+        {
+            m.push_back(r[root]);
+        }
+        M[l-1]=max(M[l-1],r[root]);
+        m[l-1]=min(m[l-1],r[root]);
+        test(root->left,1,l+1);
+        test(root->right,0,l+1);
+    }
+    int widthOfBinaryTree(TreeNode* root) 
+    {
+        double maximum=-2147483648;
+        p[root]=root;
+        dfs(root);
+        test(root,1,1);
+        for(int i=0;i<M.size();i++)
+        {
+            maximum=max(maximum,M[i]-m[i]+(double)1);
+        }
+        return (int)maximum;
+    }
+};

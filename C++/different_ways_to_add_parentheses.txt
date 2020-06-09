@@ -1,0 +1,60 @@
+class Solution 
+{
+public:
+    vector<int> diffWaysToCompute(string input) 
+    {
+        vector<int> result;
+        int f=0;
+        if(input.length()<=11)
+        {
+            for(int i=0;i<input.length();i++)
+            {
+                if(!isdigit(input[i]))
+                {
+                    f=1;
+                    break;
+                }
+            }
+            if(f==0)
+            {
+                result.push_back(stoi(input));
+                return result;
+            }
+        }
+        for(int i=0;i<input.length();i++)
+        {
+            if(input[i]=='+')
+            {
+                for(int j:diffWaysToCompute(input.substr(0,i)))
+                {
+                    for(int k:diffWaysToCompute(input.substr(i+1)))
+                    {
+                        result.push_back(j+k);
+                    }
+                }
+            }
+            if(input[i]=='-')
+            {
+                for(int j:diffWaysToCompute(input.substr(0,i)))
+                {
+                    for(int k:diffWaysToCompute(input.substr(i+1)))
+                    {
+                        result.push_back(j-k);
+                    }
+                }
+            }
+            if(input[i]=='*')
+            {
+                for(int j:diffWaysToCompute(input.substr(0,i)))
+                {
+                    for(int k:diffWaysToCompute(input.substr(i+1)))
+                    {
+                        result.push_back(j*k);
+                    }
+                }                
+            }
+        }
+        sort(result.begin(),result.end());
+        return result;
+    }
+};

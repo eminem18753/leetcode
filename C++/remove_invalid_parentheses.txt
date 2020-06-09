@@ -1,0 +1,60 @@
+class Solution 
+{
+    public:
+    bool check(string s)
+    {
+        int c=0;
+        for(int i=0;i<s.length();i++)
+        {
+            if(s[i]=='(')
+            {
+                c++;
+            }
+            else if(s[i]==')')
+            {
+                if(c==0)
+                {
+                    return false;
+                }
+                c--;
+            }
+        }
+        return c==0;
+    }
+    vector<string> removeInvalidParentheses(string s) 
+    {
+        vector<string> result;
+        unordered_set<string> v;
+        deque<string> q;
+        q.push_back(s);
+        bool f=false;
+        while(q.size()>0)
+        {
+            string c=q.front();
+            q.pop_front();
+            if(check(c))
+            {
+                result.push_back(c);
+                f=true;
+            }
+            if(f)
+            {
+                continue;
+            }
+            for(int i=0;i<c.length();i++)
+            {
+                if(c[i]!='('&&c[i]!=')')
+                {
+                    continue;
+                }
+                string temp=c.substr(0,i)+c.substr(i+1);
+                if(v.find(temp)==v.end())
+                {
+                    q.push_back(temp);
+                    v.insert(temp);
+                }
+            }
+        }
+        return result;
+    }
+};

@@ -1,0 +1,2 @@
+/* Write your PL/SQL query statement below */
+SELECT Max(Salary) "SecondHighestSalary" FROM Employee WHERE Salary<(Select MAX(Salary) FROM Employee);

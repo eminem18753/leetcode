@@ -1,0 +1,11 @@
+# Write your MySQL query statement below
+
+SELECT a.install_dt as install_dt,COUNT(a.player_id) as installs,
+ROUND(COUNT(b.event_date)/COUNT(a.player_id),2) as Day1_retention FROM
+(
+    SELECT player_id,MIN(event_date) as install_dt FROM Activity
+    GROUP BY player_id
+) a
+LEFT JOIN Activity as b
+ON a.install_dt+1=b.event_date AND a.player_id=b.player_id
+GROUP BY a.install_dt

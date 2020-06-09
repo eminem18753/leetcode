@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int numEquivDominoPairs(vector<vector<int>>& dominoes) 
+    {
+        int result=0;
+        map<string,int> total;
+        for(int i=0;i<dominoes.size();i++)
+        {
+            if(dominoes[i][0]>dominoes[i][1])
+            {
+                int temp=dominoes[i][0];
+                dominoes[i][0]=dominoes[i][1];
+                dominoes[i][1]=temp;
+            }
+            string temp="";
+            temp+=to_string(dominoes[i][0]);
+            temp+=",";
+            temp+=to_string(dominoes[i][1]);
+            total[temp]+=1;
+        }
+        for(map<string,int>::iterator it=total.begin();it!=total.end();it++)
+        {
+            result+=(it->second)*(it->second-1)/2;
+        }
+        return result;
+    }
+};

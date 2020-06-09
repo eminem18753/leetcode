@@ -1,0 +1,63 @@
+class Solution 
+{
+    public:
+    int movesToChessboard(vector<vector<int>>& board) 
+    {
+        int n=board.size();
+        string temp="";
+        for(int i=0;i<n;i++)
+        {
+            temp+=to_string(board[0][i]);   
+        }
+        for(int i=1;i<board.size();i++)
+        {
+            string c1="";
+            string c2="";
+            for(int j=0;j<n;j++)
+            {
+                c1+=to_string(board[i][j]);
+                c2+=to_string(1-board[i][j]);
+            }
+            if(temp!=c1&&temp!=c2)
+            {
+                return -1;   
+            }
+        }
+        int rowSum=0;
+        int colSum=0;
+        int rowDiff=0;
+        int colDiff=0;
+        for(int i=0;i<n;i++)
+        {
+            rowSum+=board[i][0];
+            colSum+=board[0][i];
+            rowDiff+=((board[i][0]==i%2)?0:1);
+            colDiff+=((board[0][i]==i%2)?0:1);
+        }
+        if(rowSum<n/2||rowSum>(n+1)/2)
+        {
+            return -1;   
+        }
+        if(colSum<n/2||colSum>(n+1)/2)
+        {
+            return -1;   
+        }
+        if(n%2==1)
+        {
+            if(rowDiff%2==1)
+            {
+                rowDiff=n-rowDiff;   
+            }
+            if(colDiff%2==1)
+            {
+                colDiff=n-colDiff;   
+            }
+        }
+        else
+        {
+            rowDiff=min(rowDiff,n-rowDiff);
+            colDiff=min(colDiff,n-colDiff);
+        }
+        return (rowDiff+colDiff)/2;
+    }
+};

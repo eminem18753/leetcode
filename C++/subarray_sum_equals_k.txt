@@ -1,0 +1,25 @@
+class Solution 
+{
+    public:
+    int subarraySum(vector<int>& nums, int k)
+    {
+        int result=0;
+        vector<int> total;
+        total.push_back(0);
+        for(int i=0;i<nums.size();i++)
+        {
+            total.push_back(total[i]+nums[i]);
+        }
+        for(int i=0;i<total.size()-1;i++)
+        {
+            for(int j=i+1;j<total.size();j++)
+            {
+                if(total[j]-total[i]==k)
+                {
+                    result++;
+                }
+            }
+        }
+        return result;
+    }
+};

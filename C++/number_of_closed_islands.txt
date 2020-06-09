@@ -1,0 +1,42 @@
+class Solution 
+{
+    public:
+    int result=0;
+    int f=0;
+    void dfs(vector<vector<int>>& A,int i,int j)
+    {
+        if(i<0||j<0||i>=A.size()||j>=A[0].size())
+        {
+            f=1;
+            return;   
+        }
+        if(A[i][j]==1)
+        {
+            return;   
+        }
+        A[i][j]=1;
+        dfs(A,i+1,j);
+        dfs(A,i-1,j);
+        dfs(A,i,j+1);
+        dfs(A,i,j-1);
+    }
+    int closedIsland(vector<vector<int>>& grid) 
+    {
+        for(int i=0;i<grid.size();i++)
+        {
+            for(int j=0;j<grid[i].size();j++)
+            {
+                f=0;
+                if(grid[i][j]==0)
+                {
+                    dfs(grid,i,j);   
+                    if(f==0)
+                    {
+                        result++;
+                    }
+                }
+            }
+        }
+        return result;
+    }
+};

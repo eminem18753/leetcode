@@ -1,0 +1,64 @@
+class Solution 
+{
+    public:
+    string rearrangeString(string s, int k) 
+    {
+        string result="";
+        int a[26];
+        for(int i=0;i<26;i++)
+        {
+            a[i]=-1;   
+        }
+        int remaining[26];
+        memset(remaining,0,sizeof(remaining));
+        for(int i=0;i<s.length();i++)
+        {
+            remaining[s[i]-'a']++;
+        }
+        for(int i=0;i<s.length();i++)
+        {
+            vector<int> t;
+            int M=0;
+            int f=0;
+            for(int j=0;j<26;j++)
+            {
+                if(remaining[j]>0&&(a[j]==-1||i-a[j]>=k))
+                {
+                    M=max(M,remaining[j]);
+                    f=1;
+                }
+            }
+            if(f==0)
+            {
+                return "";   
+            }
+            for(int j=0;j<26;j++)
+            {
+                if(remaining[j]>0&&(a[j]==-1||i-a[j]>=k))
+                {
+                    if(remaining[j]==M)
+                    {
+                        t.push_back(j);   
+                    }
+                }
+            }
+            
+            int m=2147483647;
+            for(int j=0;j<t.size();j++)
+            {
+                m=min(m,a[t[j]]);
+            }
+            for(int j=0;j<t.size();j++)
+            {
+                if(a[t[j]]==m)
+                {
+                    result+=(char)('a'+t[j]);
+                    a[t[j]]=i;
+                    remaining[t[j]]--;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+};

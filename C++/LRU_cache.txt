@@ -1,0 +1,142 @@
+class LRUCache 
+{
+    public:
+    struct node
+    {
+        node* prev;
+        node* next;
+        int name;
+        int val;
+    };
+    typedef struct node node;
+
+    node* head;
+    node* back;
+    int c;
+    int r;
+    map<int,node*> total;
+    LRUCache(int capacity) 
+    {
+        r=0;
+        c=capacity;
+        head=new node;
+        back=new node;
+        head->val=-1;
+        head->name=-1;
+        back->val=-1;
+        back->name=-1;
+        head->next=back;
+        back->prev=head;
+        head->prev=NULL;
+        back->next=NULL;
+    }
+    
+    int get(int key) 
+    {
+        if(total.find(key)!=total.end())
+        {
+            int t=total[key]->val;
+            if(total[key]->prev==head)
+            {
+                head->next=head->next->next;
+                head->next->prev=head;
+                total.erase(key);
+                node* temp=new node;
+                temp->val=t;
+                temp->name=key;
+                temp->prev=back->prev;
+                back->prev->next=temp;
+                back->prev=temp;
+                temp->next=back;
+                total[key]=temp;
+            }
+            else if(total[key]->next!=back)
+            {
+                total[key]->prev->next=total[key]->next;
+                total[key]->next->prev=total[key]->prev;
+                total.erase(key);
+                node* temp=new node;
+                temp->val=t;
+                temp->name=key;
+                temp->prev=back->prev;
+                back->prev->next=temp;
+                back->prev=temp;
+                temp->next=back;
+                total[key]=temp;                
+            }
+            return t;
+        }
+        return -1;
+    }
+    
+    void put(int key, int value) 
+    {
+        if(r==c)
+        {
+            if(total.find(key)!=total.end())
+            {
+                total[key]->prev->next=total[key]->next;
+                total[key]->next->prev=total[key]->prev;
+                total.erase(key);
+                node* temp=new node;
+                temp->val=value;
+                temp->name=key;
+                temp->prev=back->prev;
+                back->prev->next=temp;
+                back->prev=temp;
+                temp->next=back;
+                total[key]=temp;
+            }
+            else
+            {
+                total.erase(head->next->name);
+                head->next=head->next->next;
+                head->next->prev=head;
+                node* temp=new node;
+                temp->val=value;
+                temp->name=key;
+                temp->prev=back->prev;
+                back->prev->next=temp;
+                back->prev=temp;
+                temp->next=back;
+                total[key]=temp;
+            }
+        }
+        else
+        {
+            if(total.find(key)!=total.end())
+            {
+                total[key]->prev->next=total[key]->next;
+                total[key]->next->prev=total[key]->prev;
+                total.erase(key);
+                node* temp=new node;
+                temp->val=value;
+                temp->name=key;
+                temp->prev=back->prev;
+                back->prev->next=temp;
+                back->prev=temp;
+                temp->next=back;
+                total[key]=temp;
+            }
+            else
+            {
+                node* temp=new node;
+                temp->val=value;
+                temp->name=key;
+                temp->prev=back->prev;
+                back->prev->next=temp;
+                back->prev=temp;
+                temp->next=back;
+                total[key]=temp;
+                r++;
+            }
+        }
+    }
+};
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache* obj = new LRUCache(capacity);
+ * int param_1 = obj->get(key);
+ * obj->put(key,value);
+ */

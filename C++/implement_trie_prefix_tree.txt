@@ -1,0 +1,80 @@
+class Trie {
+public:
+    /** Initialize your data structure here. */
+    struct Node
+    {
+        map<char,Node*> a;
+        bool isEnd;
+    };
+    typedef struct Node Node;
+    Node* head=NULL;
+    
+    Trie() 
+    {
+        head=new Node;
+    }
+    
+    /** Inserts a word into the trie. */
+    void insert(string word) 
+    {
+        Node* t=head;
+        for(int i=0;i<word.length();i++)
+        {
+            if(t->a.find(word[i])==t->a.end())
+            {
+                t->a[word[i]]=new Node;
+                t->a[word[i]]->isEnd=false;
+            }
+            t=t->a[word[i]];
+        }
+        t->isEnd=true;
+    }
+    
+    /** Returns if the word is in the trie. */
+    bool search(string word) 
+    {
+        Node* t=head;
+        for(int i=0;i<word.length();i++)
+        {
+            if(t->a.find(word[i])!=t->a.end())
+            {
+                t=t->a[word[i]];
+            }
+            else
+            {
+                return false;
+            }
+        }
+        if(t->isEnd==false)
+        {
+            return false;
+        }
+        return true;
+    }
+    
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    bool startsWith(string prefix)
+    {
+        Node* t=head;
+        for(int i=0;i<prefix.length();i++)
+        {
+            if(t->a.find(prefix[i])!=t->a.end())
+            {
+                t=t->a[prefix[i]];
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+};
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie* obj = new Trie();
+ * obj->insert(word);
+ * bool param_2 = obj->search(word);
+ * bool param_3 = obj->startsWith(prefix);
+ */

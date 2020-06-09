@@ -1,0 +1,46 @@
+class Solution {
+public:
+    int minimumTotal(vector<vector<int>>& triangle) 
+    {
+        int result=1000000000;
+        int a[triangle.size()];
+        memset(a,0,sizeof(a));
+        a[0]=triangle[0][0];
+
+        for(int i=1;i<triangle.size();i++)
+        {
+            for(int j=i;j>=0;j--)
+            {
+                int left=a[0];
+                int right=a[i-1];
+                if(j==0)
+                {
+                    a[j]+=triangle[i][0];
+                }
+                else if(j==i)
+                {
+                    a[j]=a[j-1]+triangle[i][i];
+                }
+                else
+                {
+                    if(j==1)
+                    {
+                        a[j]=min(left,a[j])+triangle[i][j];
+                    }
+                    else
+                    {
+                        a[j]=min(a[j-1],a[j])+triangle[i][j];
+                    }
+                }
+            }
+        }
+        for(int i=0;i<triangle.size();i++)
+        {
+            if(a[i]<result)
+            {
+                result=a[i];
+            }
+        }
+        return result;
+    }
+};

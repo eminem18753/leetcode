@@ -1,0 +1,178 @@
+class Solution 
+{
+    public:
+    bool hasValidPath(vector<vector<int>>& grid) 
+    {
+        int m=grid.size();
+        int n=grid[0].size();
+        if(m==1&&n==1)
+        {
+            return true;
+        }
+        deque<int> x;
+        deque<int> y;
+        unordered_set<string> v;
+        x.push_back(0);
+        y.push_back(0);
+        v.insert("0,0");
+        while(x.size()>0)
+        {
+            int xt=x.front();
+            int yt=y.front();
+            x.pop_front();
+            y.pop_front();
+            int c=grid[xt][yt];
+            if(c==1)
+            {
+                string f1=to_string(xt)+","+to_string(yt-1);
+                string f2=to_string(xt)+","+to_string(yt+1);
+                if(v.find(f1)==v.end()&&(xt>=0&&yt-1>=0&&xt<m&&yt-1<n&&(grid[xt][yt-1]==1||grid[xt][yt-1]==4||grid[xt][yt-1]==6)))
+                {
+                    v.insert(f1);
+                    x.push_back(xt);
+                    y.push_back(yt-1);
+                    if(xt==m-1&&yt-1==n-1)
+                    {
+                        return true;
+                    }
+                }
+                if(v.find(f2)==v.end()&&(xt>=0&&yt+1>=0&&xt<m&&yt+1<n&&(grid[xt][yt+1]==1||grid[xt][yt+1]==3||grid[xt][yt+1]==5)))
+                {
+                    v.insert(f2);
+                    x.push_back(xt);
+                    y.push_back(yt+1);
+                    if(xt==m-1&&yt+1==n-1)
+                    {
+                        return true;
+                    }
+                }
+            }
+            else if(c==2)
+            {
+                string f1=to_string(xt-1)+","+to_string(yt);
+                string f2=to_string(xt+1)+","+to_string(yt);
+                if(v.find(f1)==v.end()&&(xt-1>=0&&yt>=0&&xt-1<m&&yt<n&&(grid[xt-1][yt]==2||grid[xt-1][yt]==3||grid[xt-1][yt]==4)))
+                {
+                    v.insert(f1);
+                    x.push_back(xt-1);
+                    y.push_back(yt);
+                    if(xt-1==m-1&&yt==n-1)
+                    {
+                        return true;
+                    }
+                }
+                if(v.find(f2)==v.end()&&(xt+1>=0&&yt>=0&&xt+1<m&&yt<n&&(grid[xt+1][yt]==2||grid[xt+1][yt]==5||grid[xt+1][yt]==6)))
+                {
+                    v.insert(f2);
+                    x.push_back(xt+1);
+                    y.push_back(yt);
+                    if(xt+1==m-1&&yt==n-1)
+                    {
+                        return true;
+                    }
+                }
+            }
+            else if(c==3)
+            {
+                string f1=to_string(xt)+","+to_string(yt-1);
+                string f2=to_string(xt+1)+","+to_string(yt);
+                if(v.find(f1)==v.end()&&(xt>=0&&yt-1>=0&&xt<m&&yt-1<n&&(grid[xt][yt-1]==1||grid[xt][yt-1]==4||grid[xt][yt-1]==6)))
+                {
+                    v.insert(f1);
+                    x.push_back(xt);
+                    y.push_back(yt-1);
+                    if(xt==m-1&&yt-1==n-1)
+                    {
+                        return true;
+                    }
+                }
+                if(v.find(f2)==v.end()&&(xt+1>=0&&yt>=0&&xt+1<m&&yt<n&&(grid[xt+1][yt]==2||grid[xt+1][yt]==5||grid[xt+1][yt]==6)))
+                {
+                    v.insert(f2);
+                    x.push_back(xt+1);
+                    y.push_back(yt);
+                    if(xt+1==m-1&&yt==n-1)
+                    {
+                        return true;
+                    }
+                }
+            }
+            else if(c==4)
+            {
+                string f1=to_string(xt)+","+to_string(yt+1);
+                string f2=to_string(xt+1)+","+to_string(yt);
+                if(v.find(f1)==v.end()&&(xt>=0&&yt+1>=0&&xt<m&&yt+1<n&&(grid[xt][yt+1]==1||grid[xt][yt+1]==3||grid[xt][yt+1]==5)))
+                {
+                    v.insert(f1);
+                    x.push_back(xt);
+                    y.push_back(yt+1);
+                    if(xt==m-1&&yt+1==n-1)
+                    {
+                        return true;
+                    }
+                }
+                if(v.find(f2)==v.end()&&(xt+1>=0&&yt>=0&&xt+1<m&&yt<n&&(grid[xt+1][yt]==2||grid[xt+1][yt]==5||grid[xt+1][yt]==6)))
+                {
+                    v.insert(f2);
+                    x.push_back(xt+1);
+                    y.push_back(yt);
+                    if(xt+1==m-1&&yt==n-1)
+                    {
+                        return true;
+                    }
+                }                
+            }
+            else if(c==5)
+            {
+                string f1=to_string(xt-1)+","+to_string(yt);
+                string f2=to_string(xt)+","+to_string(yt-1);
+                if(v.find(f1)==v.end()&&(xt-1>=0&&yt>=0&&xt-1<m&&yt<n&&(grid[xt-1][yt]==2||grid[xt-1][yt]==3||grid[xt-1][yt]==4)))
+                {
+                    v.insert(f1);
+                    x.push_back(xt-1);
+                    y.push_back(yt);
+                    if(xt-1==m-1&&yt==n-1)
+                    {
+                        return true;
+                    }
+                }
+                if(v.find(f2)==v.end()&&(xt>=0&&yt-1>=0&&xt<m&&yt-1<n&&(grid[xt][yt-1]==1||grid[xt][yt-1]==4||grid[xt][yt-1]==6)))
+                {
+                    v.insert(f2);
+                    x.push_back(xt);
+                    y.push_back(yt-1);
+                    if(xt==m-1&&yt-1==n-1)
+                    {
+                        return true;
+                    }
+                }                                
+            }
+            else if(c==6)
+            {
+                string f1=to_string(xt-1)+","+to_string(yt);
+                string f2=to_string(xt)+","+to_string(yt+1);
+                if(v.find(f1)==v.end()&&(xt-1>=0&&yt>=0&&xt-1<m&&yt<n&&(grid[xt-1][yt]==2||grid[xt-1][yt]==3||grid[xt-1][yt]==4)))
+                {
+                    v.insert(f1);
+                    x.push_back(xt-1);
+                    y.push_back(yt);
+                    if(xt-1==m-1&&yt==n-1)
+                    {
+                        return true;
+                    }
+                }
+                if(v.find(f2)==v.end()&&(xt>=0&&yt+1>=0&&xt<m&&yt+1<n&&(grid[xt][yt+1]==1||grid[xt][yt+1]==3||grid[xt][yt+1]==5)))
+                {
+                    v.insert(f2);
+                    x.push_back(xt);
+                    y.push_back(yt+1);
+                    if(xt==m-1&&yt+1==n-1)
+                    {
+                        return true;
+                    }
+                }                                                
+            }
+        }
+        return false;
+    }
+};

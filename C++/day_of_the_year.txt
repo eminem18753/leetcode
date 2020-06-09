@@ -1,0 +1,74 @@
+class Solution {
+public:
+    int dayOfYear(string date)
+    {
+        int result=0;
+        int year=stoi(date.substr(0,4));
+        int month=stoi(date.substr(5,2));
+        int day=stoi(date.substr(8,2));
+        
+        int flag=0;
+        if(year%400==0)
+        {
+            flag=1;
+        }
+        else if(year%100==0)
+        {
+            flag=0;
+        }
+        else if(year%4==0)
+        {
+            flag=1;
+        }
+        
+        if(month==1)
+        {
+            return day;
+        }
+        else if(month==2)
+        {
+            return 31+day;
+        }
+        else if(month==3)
+        {
+            return 31+28+flag+day;
+        }
+        else if(month==4)
+        {
+            return 31+28+31+flag+day;
+        }
+        else if(month==5)
+        {
+            return 31+28+31+30+flag+day;
+        }
+        else if(month==6)
+        {
+            return 31+28+31+30+31+flag+day;
+        }
+        else if(month==7)
+        {
+            return 31+28+31+30+31+30+flag+day;
+        }
+        else if(month==8)
+        {
+            return 31+28+31+30+31+30+31+flag+day;
+        }
+        else if(month==9)
+        {
+            return 31+28+31+30+31+30+31+31+flag+day;
+        }
+        else if(month==10)
+        {
+            return 31+28+31+30+31+30+31+31+30+flag+day;
+        }
+        else if(month==11)
+        {
+            return 31+28+31+30+31+30+31+31+30+31+flag+day;
+        }
+        else if(month==12)
+        {
+            return 31+28+31+30+31+30+31+31+30+31+30+flag+day;
+        }
+        return 0;
+    }
+};

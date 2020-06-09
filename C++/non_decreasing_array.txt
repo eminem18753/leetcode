@@ -1,0 +1,84 @@
+class Solution 
+{
+public:
+    bool checkPossibility(vector<int>& nums) 
+    {
+        bool result;
+        int count=0;
+        int reverseCount=0;
+        vector<int> temp;
+        vector<int> reverse;
+        int start=0;
+        int startReverse=0;
+        int previous;
+        int previousReverse;
+        for(int i=0;i<nums.size();i++)
+        {
+            temp.push_back(0);
+        }
+        for(int i=0;i<nums.size();i++)
+        {
+            reverse.push_back(0);
+        }
+
+        for(int i=0;i<nums.size();i++)
+        {
+            for(int j=i+1;j<nums.size();j++)
+            {
+                if(count>1&&reverseCount>1)
+                {
+                    return false;	
+                }
+                if(nums[i]>nums[j])
+                {
+                    if(i<nums.size()-1)
+                    {
+                        if(nums[i]!=nums[i+1])
+                        {
+                            temp[i]+=1;
+                            reverse[j]+=1;
+                            if(start==1&&previous!=nums[i]&&previousReverse!=nums[j])
+                            {
+                                return false;
+                            }
+                            start=1;
+                            previous=nums[i];
+                            previousReverse=nums[j];
+                        }
+                        else if(j<nums.size()-1)
+                        {
+                            if(nums[j]==nums[j+1])
+                            {
+                                temp[j]=100;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        for(int i=0;i<temp.size();i++)
+        {
+            if(temp[i]!=0)
+            {
+                count+=1;	
+            }
+        }
+        for(int j=0;j<reverse.size();j++)
+        {
+            if(reverse[j]!=0)
+            {
+                reverseCount+=1;
+            }
+        }
+        if(count<=1||reverseCount<=1)
+        {
+            result=true;	
+        }
+        else
+        {
+            result=false;	
+        }
+        return result;
+    }
+};

@@ -1,0 +1,23 @@
+class Solution 
+{
+    public:
+    string crackSafe(int n, int k) 
+    {
+        string result(n,'0');
+        unordered_set<string> v;
+        for(int i=0;i<pow(k,n)-1;i++)
+        {
+            for(int j=k-1;j>-1;j--)
+            {
+                string temp=result.substr((int)result.size()-n+1,n-1)+to_string(j);
+                if(v.find(temp)==v.end())
+                {
+                    result+=to_string(j);
+                    v.insert(temp);
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+};

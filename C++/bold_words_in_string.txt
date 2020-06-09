@@ -1,0 +1,49 @@
+class Solution {
+public:
+    string boldWords(vector<string>& words, string S) 
+    {
+        int flag=0;
+        string result="";
+        if(S.length()==0)
+        {
+            return result;
+        }
+        int n=S.length();
+        int a[n];
+        memset(a,0,sizeof(a));
+        for(int i=0;i<words.size();i++)
+        {
+            int l=words[i].length();
+            for(int j=0;j<S.length()-l+1;j++)
+            {
+                string temp=S.substr(j,l);
+                if(temp==words[i])
+                {
+                    for(int k=j;k<j+l;k++)
+                    {
+                        a[k]=1;
+                    }
+                }
+            }
+        }
+        for(int i=0;i<S.length();i++)
+        {
+            if(a[i]==1&&flag==0)
+            {
+                result+="<b>";
+                flag=1;
+            }
+            else if(a[i]==0&&flag==1)
+            {
+                result+="</b>";
+                flag=0;
+            }
+            result+=S[i];
+        }
+        if(flag==1)
+        {
+            result+="</b>";
+        }
+        return result;
+    }
+};

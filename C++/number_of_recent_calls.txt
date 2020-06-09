@@ -1,0 +1,33 @@
+class RecentCounter {
+public:
+    vector<int> total;
+    int index=0;
+    RecentCounter() 
+    {
+        
+    }
+    
+    int ping(int t)
+    {
+        int counter=0;
+        total.push_back(t);
+        for(int i=index;i<total.size();i++)
+        {
+            if(t-total[i]<=3000)
+            {
+                counter+=1;
+            }
+            else
+            {
+                index=i;
+            }
+        }
+        return counter;
+    }
+};
+
+/**
+ * Your RecentCounter object will be instantiated and called as such:
+ * RecentCounter* obj = new RecentCounter();
+ * int param_1 = obj->ping(t);
+ */

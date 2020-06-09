@@ -1,0 +1,44 @@
+class Solution 
+{
+    public:
+    vector<int> u;
+    int find(int x)
+    {
+        if(x!=u[x])
+        {
+            u[x]=find(u[x]);
+        }
+        return u[x];
+    }
+    void combine(int x,int y)
+    {
+        u[find(x)]=find(y);
+    }
+    int removeStones(vector<vector<int>>& stones) 
+    {
+        int n=stones.size();
+        int r=0;
+        for(int i=0;i<n;i++)
+        {
+            u.push_back(i);
+        }
+        for(int i=0;i<stones.size();i++)
+        {
+            for(int j=0;j<i;j++)
+            {
+                if(stones[i][0]==stones[j][0]||stones[i][1]==stones[j][1])
+                {
+                    combine(i,j);
+                }
+            }
+        }
+        for(int i=0;i<u.size();i++)
+        {
+            if(i==u[i])
+            {
+                r++;
+            }
+        }
+        return n-r;
+    }
+};

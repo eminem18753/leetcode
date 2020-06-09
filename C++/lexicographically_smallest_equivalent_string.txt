@@ -1,0 +1,40 @@
+class Solution {
+public:
+    string smallestEquivalentString(string A, string B, string S)
+    {
+        string result="";
+        int a[26];
+        for(int i=0;i<26;i++)
+        {
+            a[i]=i;
+        }
+        for(int i=0;i<A.length();i++)
+        {
+            if(a[A[i]-'a']!=a[B[i]-'a'])
+            {
+                char temp=min(A[i]-'a',B[i]-'a');
+                int x=a[A[i]-'a'];
+                int y=a[B[i]-'a'];
+                for(int j=0;j<26;j++)
+                {
+                    if(a[j]==x||a[j]==y)
+                    {
+                        a[j]=temp;
+                    }
+                }
+            }
+        }
+        for(int i=0;i<S.length();i++)
+        {
+            for(int j=0;j<26;j++)
+            {
+                if(a[j]==a[S[i]-'a'])
+                {
+                    result+=(char)(j+'a');
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+};

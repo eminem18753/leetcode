@@ -1,0 +1,71 @@
+bool compare(vector<int> a,vector<int> b)
+{
+    if(a[0]!=b[0])
+    {
+        return a[0]<b[0];   
+    }
+    return a[1]<b[1];
+}
+class Solution 
+{
+    public:
+    int cross(vector<int> o,vector<int> a,vector<int> b)
+    {
+        return a[0]*b[1]-a[1]*b[0]+b[0]*o[1]-o[0]*b[1]+o[0]*a[1]-a[0]*o[1];
+    }
+    vector<vector<int>> outerTrees(vector<vector<int>>& points) 
+    {
+        if(points.size()<=3)
+        {
+            return points;   
+        }
+        vector<vector<int>> result;
+        sort(points.begin(),points.end(),compare);
+        int n=points.size();
+        vector<vector<int>> l(n,vector<int>(2,-10000));
+        vector<vector<int>> u(n,vector<int>(2,-10000));
+        int m=0;
+        for(int i=0;i<points.size();i++)
+        {
+            while(m>=2&&cross(l[m-2],l[m-1],points[i])<0)
+            {
+                l[m]={-10000,-10000};
+                m--;   
+            }
+            l[m]=points[i];
+            m++;
+        }
+        reverse(points.begin(),points.end());
+        m=0;
+        for(int i=0;i<points.size();i++)
+        {
+            while(m>=2&&cross(u[m-2],u[m-1],points[i])<0)
+            {
+                u[m]={-10000,-10000};
+                m--;   
+            }
+            u[m]=points[i];
+            m++;
+        }
+        u.pop_back();
+        for(int i=0;i<l.size();i++)
+        {
+            if(l[i][0]==-10000)
+            {
+                break;   
+            }
+            result.push_back(l[i]);   
+        }
+        result.pop_back();
+        for(int i=0;i<u.size();i++)
+        {
+            if(u[i][0]==-10000)
+            {
+                break;   
+            }
+            result.push_back(u[i]);   
+        }
+        result.pop_back();
+        return result;
+    }
+};

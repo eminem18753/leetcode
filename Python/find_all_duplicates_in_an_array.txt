@@ -1,0 +1,16 @@
+from collections import Counter
+class Solution(object):
+    def findDuplicates(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        result=Counter(nums).items()
+        output=[]
+        overall=[]
+        for i in result:
+            output.append(list(i))
+        for i in range(0,len(output)):
+            if output[i][1]==2:
+                overall.append(output[i][0])
+        return sorted(overall)

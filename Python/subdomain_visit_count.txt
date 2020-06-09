@@ -1,0 +1,32 @@
+class Solution(object):
+    def subdomainVisits(self, cpdomains):
+        """
+        :type cpdomains: List[str]
+        :rtype: List[str]
+        """
+        output=[]
+        d={}
+        for i in range(0,len(cpdomains)):
+            t=cpdomains[i].split()
+            r=[]
+            r=t[1].split('.')
+            if len(r)==0:
+                continue
+            k=[]
+            c=0
+            k.append(r[len(r)-1])
+            for j in range(len(r)-1,0,-1):
+                k.append(r[j-1]+'.'+k[c])
+                c+=1
+            for a in k:
+                if a not in d:
+                    d[a]=int(t[0])
+                else:
+                    d[a]+=int(t[0])
+        for k,v in d.items():
+            a=""
+            a+=str(v)
+            a+=" "
+            a+=k
+            output.append(a)
+        return output

@@ -1,0 +1,69 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* left;
+    Node* right;
+    Node* next;
+
+    Node() {}
+
+    Node(int _val, Node* _left, Node* _right, Node* _next) {
+        val = _val;
+        left = _left;
+        right = _right;
+        next = _next;
+    }
+};
+*/
+class Solution 
+{
+    public:
+    Node* connect(Node* root) 
+    {
+        if(root==NULL)
+        {
+            return NULL;
+        }
+        
+        Node* c=root;
+        Node* last=NULL;
+        int l1=-1;
+        deque<Node*> q;
+        deque<int> level;
+        q.push_back(root);
+        level.push_back(1);
+        int f=0;
+        while(q.size()>0)
+        {
+            Node* current=q.front();
+            int l=level.front();
+            q.pop_front();
+            level.pop_front();
+            if(l1==l&&f==1)
+            {
+                last->next=current;
+            }
+            else if(f==1)
+            {
+                last->next=NULL;
+            }
+            f=1;
+            last=current;
+            l1=l;
+            if(current->left!=NULL)
+            {
+                q.push_back(current->left);
+                level.push_back(l+1);
+            }
+            if(current->right!=NULL)
+            {
+                q.push_back(current->right);
+                level.push_back(l+1);
+            }
+        }
+        last->next=NULL;
+        return c;
+    }
+};

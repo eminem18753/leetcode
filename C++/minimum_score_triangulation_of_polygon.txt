@@ -1,0 +1,56 @@
+class Solution 
+{
+    public:
+    map<int,map<int,map<int,int>>> dp;
+    int getR(vector<int> &A,int k,int s,int e)
+    {
+        if(dp[s][k][e]!=0)
+        {
+            return dp[s][k][e];
+        }
+        if(e-s==2)
+        {
+            return A[s]*A[s+1]*A[s+2];
+        }
+        int result=0;
+        result+=A[k]*A[s]*A[e];
+        int t1=2147483647;
+        for(int i=s+1;i<k;i++)
+        {
+            t1=min(t1,getR(A,i,s,k));
+        }
+        int t2=2147483647;
+        for(int i=k+1;i<e;i++)
+        {
+            t2=min(t2,getR(A,i,k,e));
+        }
+        if(t1==2147483647)
+        {
+            t1=0;
+        }
+        if(t2==2147483647)
+        {
+            t2=0;
+        }
+        dp[s][k][e]=result+t1+t2;
+        return result+t1+t2;
+    }
+    int minScoreTriangulation(vector<int>& A) 
+    {
+        int n=A.size();
+        if(n<3)
+        {
+            return 0;
+        }
+        if(n==3)
+        {
+            return A[0]*A[1]*A[2];
+        }
+        int result=2147483647;
+        for(int i=1;i<n-1;i++)
+        {
+            result=min(result,getR(A,i,0,n-1));
+        }
+        return result;
+    }
+};

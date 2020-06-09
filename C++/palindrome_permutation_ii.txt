@@ -1,0 +1,67 @@
+class Solution {
+public:
+    vector<string> result;
+    
+    void dfs(int a[256],string temp,int n)
+    {
+        if(temp.length()==n)
+        {
+            result.push_back(temp);
+            return;
+        }
+        if(temp.length()>n)
+        {
+            return;
+        }
+        for(int i=0;i<256;i++)
+        {
+            if(a[i]<=0||a[i]%2!=0)
+            {
+                continue;
+            }
+            a[i]-=2;
+            temp+=(char)(i);
+            temp=(char)(i)+temp;
+            dfs(a,temp,n);
+            temp.erase(0,1);
+            temp.erase(temp.length()-1);
+            a[i]+=2;
+        }
+    }
+    vector<string> generatePalindromes(string s) 
+    {
+        int a[256];
+        int c=0;
+        int n=s.length();
+        int index=-1;
+        memset(a,0,sizeof(a));
+        for(int i=0;i<s.length();i++)
+        {
+            a[s[i]]++;
+        }
+        for(int i=0;i<256;i++)
+        {
+            if(a[i]%2==1)
+            {
+                c++;
+                index=i;
+            }
+        }
+        if(c>1)
+        {
+            return result;
+        }
+        string temp="";
+        if(index!=-1)
+        {
+            temp+=(char)index;
+        }
+        if(index!=-1)
+        {
+            a[index]--;
+        }
+        dfs(a,temp,n);
+        sort(result.begin(),result.end());
+        return result;
+    }
+};

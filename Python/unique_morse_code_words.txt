@@ -1,0 +1,17 @@
+from collections import Counter
+class Solution(object):
+    def uniqueMorseRepresentations(self, words):
+        """
+        :type words: List[str]
+        :rtype: int
+        """
+        overall=[]
+        morse_code=[".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."]
+        for i in range(0,len(words)):
+            temp=list(words[i])
+            current=""
+            for j in range(0,len(temp)):
+                current+=morse_code[ord(temp[j])-97]
+            overall.append(current)
+        finalOutput=Counter(overall).keys()
+        return len(finalOutput)

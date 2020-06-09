@@ -1,0 +1,38 @@
+class Solution {
+public:
+    int hIndex(vector<int>& citations) 
+    {
+        int result=0;
+        int n=citations.size();
+        int p1=0;
+        int p2=n-1;
+        int l1=-1;
+        int l2=-1;
+        while(p1<=p2)
+        {
+            int index=(p1+p2)/2;
+            if(n-index>=citations[index])
+            {
+                result=max(result,min(n-index,citations[index]));
+                p1=index;                
+            }
+            else
+            {
+                result=max(result,min(n-index,citations[index]));
+                p2=index;
+            }
+            if(p1==p2)
+            {
+                break;
+            }
+            if(p1==l1&&p2==l2&&p1==p2-1)
+            {
+                p1+=1;
+            }
+            l1=p1;
+            l2=p2;
+        }
+        
+        return result;
+    }
+};

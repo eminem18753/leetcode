@@ -1,0 +1,50 @@
+class Solution {
+public:
+    vector<int> findClosestElements(vector<int>& arr, int k, int x) 
+    {
+        vector<int> result;
+        vector<int>::iterator low;
+        vector<int>::iterator up;
+        low=lower_bound(arr.begin(),arr.end(),x);
+        up=upper_bound(arr.begin(),arr.end(),x);
+        int i1=(int)(low-arr.begin());
+        int i2=(int)(up-arr.begin());
+        int p1=-1;
+        int p2=-1;
+        if(i1!=i2)
+        {
+            p1=i1;
+            p2=i1+1;
+        }
+        else
+        {
+            p1=i1-1;
+            p2=i1;
+        }
+        while(result.size()<k)
+        {
+            if(p1<0)
+            {
+                result.push_back(arr[p2]);
+                p2++;                
+            }
+            else if(p2>arr.size()-1)
+            {
+                result.push_back(arr[p1]);
+                p1--;                
+            }
+            else if(abs(arr[p1]-x)<=abs(arr[p2]-x))
+            {
+                result.push_back(arr[p1]);
+                p1--;
+            }
+            else
+            {
+                result.push_back(arr[p2]);
+                p2++;
+            }
+        }
+        sort(result.begin(),result.end());
+        return result;
+    }
+};

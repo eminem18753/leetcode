@@ -1,0 +1,44 @@
+/**
+ * // This is the Master's API interface.
+ * // You should not implement it, or speculate about its implementation
+ * class Master {
+ *   public:
+ *     int guess(string word);
+ * };
+ */
+class Solution 
+{
+    public:
+    void findSecretWord(vector<string>& wordlist, Master& master) 
+    {
+        srand(time(NULL));
+        int n=wordlist.size();
+        int r=rand()%n;
+        for(int i=0;i<10;i++)
+        {
+            int matched=master.guess(wordlist[r]);
+            string current=wordlist[r];
+            for(int j=(int)wordlist.size()-1;j>-1;j--)
+            {
+                int c=0;
+                for(int k=0;k<wordlist[j].length();k++)
+                {
+                    if(current[k]==wordlist[j][k])
+                    {
+                        c++;
+                    }
+                }
+                if(c>0&&matched==0)
+                {
+                    wordlist.erase(wordlist.begin()+j);
+                }
+                else if(c<matched)
+                {
+                    wordlist.erase(wordlist.begin()+j);
+                }
+            }
+            n=wordlist.size();
+            r=rand()%n;
+        }
+    }
+};

@@ -1,0 +1,4 @@
+# Write your MySQL query statement below
+SELECT MIN(ROUND(SQRT((a.x-b.x)*(a.x-b.x)+(a.y-b.y)*(a.y-b.y)),2)) as shortest FROM point_2d as a
+JOIN point_2d as b
+WHERE a.x!=b.x or a.y!=b.y;

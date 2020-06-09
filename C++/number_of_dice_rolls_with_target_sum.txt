@@ -1,0 +1,40 @@
+class Solution {
+public:
+    int numRollsToTarget(int d, int f, int target)
+    {
+        if(d==0)
+        {
+            return 0;
+        }
+        long long n=1000000007;
+        long long dp[target+1];
+        long long previous[target+1];
+        memset(dp,0,sizeof(dp));
+        memset(previous,0,sizeof(previous));
+        for(int i=1;i<=min(f,target);i++)
+        {
+            dp[i]=1;
+            previous[i]=1;
+        }
+        for(int i=0;i<d-1;i++)
+        {
+            for(int j=target;j>0;j--)
+            {
+                for(int k=1;k<=min(f,target);k++)
+                {
+                    if(j-k>0)
+                    {
+                        dp[j]+=dp[j-k]%n;
+                    }
+                }
+            }
+            for(int j=0;j<target+1;j++)
+            {
+                dp[j]-=previous[j];
+                previous[j]=dp[j];
+            }
+        }
+        
+        return (int)(dp[target]%n);
+    }
+};

@@ -1,0 +1,33 @@
+class Solution 
+{
+    public:
+    int minSetSize(vector<int>& arr) 
+    {
+        int s=0;
+        int current=0;
+        vector<int> overall;
+        unordered_map<int,int> total;
+        for(int i=0;i<arr.size();i++)
+        {
+            total[arr[i]]++;
+        }
+        for(unordered_map<int,int>::iterator it=total.begin();it!=total.end();it++)
+        {
+            overall.push_back(it->second);
+        }
+        sort(overall.rbegin(),overall.rend());
+        for(int i=0;i<overall.size();i++)
+        {
+            s+=overall[i];
+        }
+        for(int i=0;i<overall.size();i++)
+        {
+            current+=overall[i];
+            if(current>=s/2)
+            {
+                return i+1;
+            }
+        }
+        return 0;
+    }
+};

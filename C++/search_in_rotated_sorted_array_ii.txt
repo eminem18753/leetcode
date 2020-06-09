@@ -1,0 +1,81 @@
+class Solution {
+public:
+    bool search(vector<int>& nums, int target) 
+    {
+        if(nums.size()==0)
+        {
+            return false;
+        }
+        if(nums.size()==1)
+        {
+            return nums[0]==target;
+        }
+        int n=nums.size();
+        int left=0;
+        int right=n-1;
+        int pivot=-1;
+        while(left!=right)
+        {
+            if(nums[0]<=nums[1]&&nums[0]<nums.back())
+            {
+                pivot=0;
+                break;
+            }
+            int middle=(left+right)/2;
+            if(nums[middle]==target)
+            {
+                return true;
+            }
+            if(nums[middle]<nums[(middle+1)%n])
+            {
+                if(nums[middle]>nums[0])
+                {
+                    left=(middle+1)%n;
+                }
+                else
+                {
+                    right=middle;
+                }
+            }
+            else
+            {
+                pivot=(middle+1)%n;
+                break;
+            }
+        }
+        int p1=pivot;
+        int p2=(pivot+n-1)%n;
+        while(p1!=p2)
+        {
+            int middle=((p1+p2)/2+n)%n;
+            if(p1>p2)
+            {
+                middle=((p1+p2+n)/2)%n;
+            }
+             if(nums[middle]==target||nums[p1]==target||nums[p2]==target)
+            {
+                return true;
+            }
+            if(nums[middle]<target)
+            {
+                p1=(middle+1)%n;
+            }
+            else if(nums[middle]>target)
+            {
+                p2=middle;
+            }
+        }
+        if(nums[p1]==target)
+        {
+            return true;
+        }
+        for(int i=0;i<nums.size();i++)
+        {
+            if(nums[i]==target)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+};

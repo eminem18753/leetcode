@@ -1,0 +1,69 @@
+class RandomizedCollection 
+{
+    public:
+    /** Initialize your data structure here. */
+    map<int,int> total;
+    deque<int> overall;
+    RandomizedCollection() 
+    {
+        srand(time(NULL));
+    }
+    
+    /** Inserts a value to the collection. Returns true if the collection did not already contain the specified element. */
+    bool insert(int val) 
+    {
+        bool r;
+        if(total.find(val)!=total.end())
+        {
+            total[val]++;
+            r=false;   
+        }
+        else
+        {
+            total[val]=1;
+            r=true;
+        }
+        deque<int>::iterator low;
+        low=lower_bound(overall.begin(),overall.end(),val);
+        overall.insert(low,val);
+        return r;
+    }
+    
+    /** Removes a value from the collection. Returns true if the collection contained the specified element. */
+    bool remove(int val) 
+    {
+        bool r;
+        if(total.find(val)==total.end())
+        {
+            return false;
+        }
+        else
+        {
+            total[val]--;
+            if(total[val]==0)
+            {
+                total.erase(val);   
+            }
+            deque<int>::iterator low;
+            low=lower_bound(overall.begin(),overall.end(),val);
+            overall.erase(low);
+            return true;
+        }
+    }
+    
+    /** Get a random element from the collection. */
+    int getRandom() 
+    {
+        int n=overall.size();
+        int r=rand()%n;
+        return overall[r];
+    }
+};
+
+/**
+ * Your RandomizedCollection object will be instantiated and called as such:
+ * RandomizedCollection* obj = new RandomizedCollection();
+ * bool param_1 = obj->insert(val);
+ * bool param_2 = obj->remove(val);
+ * int param_3 = obj->getRandom();
+ */

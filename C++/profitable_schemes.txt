@@ -1,0 +1,29 @@
+class Solution 
+{
+    public:
+    int profitableSchemes(int G, int P, vector<int>& group, vector<int>& profit) 
+    {
+        int dp[P+1][G+1];
+        memset(dp,0,sizeof(dp));
+        dp[0][0]=1;
+        int m=1000000007;
+        for(int i=0;i<group.size();i++)
+        {
+            int g=group[i];
+            int p=profit[i];
+            for(int j=P;j>=0;j--)
+            {
+                for(int k=G;k>=g;k--)
+                {
+                    dp[j][k]=(dp[j][k]+dp[max(0,j-p)][k-g])%m;
+                }
+            }
+        }
+        int result=0;
+        for(int i=0;i<=G;i++)
+        {
+            result=(result+dp[P][i])%m;   
+        }
+        return result;
+    }
+};

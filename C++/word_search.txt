@@ -1,0 +1,59 @@
+class Solution
+{
+public:
+    bool result=false;
+    string w;
+    map<char,int> total1;
+    map<char,int> total2;
+    void test(vector<vector<char>>& board,int index,int i,int j)
+    {
+        if(result==true||index==w.length()||i<0||j<0||i>board.size()-1||j>board[0].size()-1||board[i][j]!=w[index]||board[i][j]=='\0')
+        {
+            if(index==w.length())
+            {
+                result=true;
+            }
+            return;
+        }
+        char t=board[i][j];
+        board[i][j]='\0';
+        test(board,index+1,i+1,j);
+        test(board,index+1,i-1,j);
+        test(board,index+1,i,j+1);
+        test(board,index+1,i,j-1);
+        board[i][j]=t;
+    }
+    bool exist(vector<vector<char>>& board, string word)
+    {
+        for(int i=0;i<board.size();i++)
+        {
+            for(int j=0;j<board[i].size();j++)
+            {
+                total1[board[i][j]]+=1;
+            }
+        }
+        for(int i=0;i<word.length();i++)
+        {
+            total2[word[i]]+=1;
+        }
+        map<char,int>::iterator it;
+        for(it=total2.begin();it!=total2.end();it++)
+        {
+            if(total2[it->first]>total1[it->first])
+            {
+                return false;
+            }
+        }
+        w=word;
+        int c=0;
+        for(int i=0;i<board.size();i++)
+        {
+            for(int j=0;j<board[i].size();j++)
+            {
+                test(board,0,i,j);        
+            }
+        }
+        
+        return result;
+    }
+};

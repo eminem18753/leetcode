@@ -1,0 +1,51 @@
+class Solution 
+{
+    public:
+    bool check(string& s,int left,int right)
+    {
+        while(left<right)
+        {
+            if(s[left]!=s[right])
+            {
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    }
+    vector<vector<int>> palindromePairs(vector<string>& words) 
+    {
+        vector<vector<int>> result;
+        map<string,int> m;
+        set<int> d;
+        for(int i=0;i<words.size();i++)
+        {
+            m[words[i]]=i;
+            d.insert((int)words[i].length());
+        }
+        for(int i=0;i<words.size();i++)
+        {
+            string t=words[i];
+            reverse(t.begin(),t.end());
+            int l=words[i].length();
+            set<int>::iterator temp=d.find(l);
+            if(m.find(t)!=m.end()&&m[t]!=i)
+            {
+                result.push_back({i,m[t]});
+            }
+            for(set<int>::iterator it=d.begin();it!=temp;it++)
+            {
+                if(check(t,0,(int)t.length()-*it-1)&&m.find(t.substr((int)t.length()-*it))!=m.end())
+                {
+                    result.push_back({i,m[t.substr((int)t.length()-*it)]});
+                }
+                if(check(t,*it,(int)t.length()-1)&&m.find(t.substr(0,*it))!=m.end())
+                {
+                    result.push_back({m[t.substr(0,*it)],i});
+                }
+            }
+        }
+        return result;
+    }
+};

@@ -1,0 +1,56 @@
+class Solution {
+public:
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int K) 
+    {
+        if(src==dst)
+        {
+            return 0;
+        }
+        else if(flights.size()==0)
+        {
+            return -1;
+        }
+        map<int,vector<int>> overall;
+        for(int i=0;i<flights.size();i++)
+        {
+            overall[flights[i][0]].push_back(flights[i][1]);
+            overall[flights[i][0]].push_back(flights[i][2]);
+        }
+        int result=2147483647;
+        set<string> total;
+        deque<vector<int>> f1;
+        vector<int> temp;
+        temp.push_back(src);
+        temp.push_back(0);
+        temp.push_back(0);
+        f1.push_back(temp);
+        while(f1.size()>0)
+        {
+            vector<int> c=f1.front();
+            int s=c[0];
+            int k=c[1];
+            int t=c[2];
+            if(s==dst)
+            {
+                result=min(result,k);
+            }
+            f1.pop_front();
+            for(int i=0;i<overall[s].size();i+=2)
+            {
+                vector<int> temp;
+                temp.push_back(overall[s][i]);
+                temp.push_back(overall[s][i+1]+c[1]);
+                temp.push_back(t+1);
+                if(overall[s][i+1]+c[1]<result&&t<=K)
+                {
+                    f1.push_back(temp);
+                }
+            }
+        }
+        if(result==2147483647)
+        {
+            return -1;
+        }
+        return result;
+    }
+};

@@ -1,0 +1,20 @@
+class Solution 
+{
+    public:
+    int jump(vector<int>& nums) 
+    {
+        int currentFarthest=0;
+        int currentEnd=0;
+        int jumps=0;
+        for(int i=0;i<(int)nums.size()-1;i++)
+        {
+            currentFarthest=max(currentFarthest,i+nums[i]);
+            if(i==currentEnd)
+            {
+                jumps++;
+                currentEnd=currentFarthest;   
+            }
+        }
+        return jumps;
+    }
+};

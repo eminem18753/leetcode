@@ -1,0 +1,39 @@
+class Solution 
+{
+    public:
+    int maxFreq(string s, int maxLetters, int minSize, int maxSize) 
+    {
+        int result=0;
+        int l=minSize;
+        int n=s.length();
+        unordered_map<string,int> total;
+        unordered_map<char,int> v;
+        string current=s.substr(0,l);
+        for(int i=0;i<l;i++)
+        {
+            v[s[i]]++;
+        }
+        if(v.size()<=maxLetters)
+        {
+            total[current]++;
+            result=max(result,total[current]);
+        }
+        for(int i=l;i<n;i++)
+        {
+            v[current[0]]--;
+            if(v[current[0]]==0)
+            {
+                v.erase(current[0]);
+            }
+            current.erase(current.begin());
+            current+=s[i];
+            v[s[i]]++;
+            if(v.size()<=maxLetters)
+            {
+                total[current]++;
+                result=max(result,total[current]);
+            }
+        }
+        return result;
+    }
+};

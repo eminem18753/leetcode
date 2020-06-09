@@ -1,0 +1,27 @@
+class Solution 
+{
+    public:
+    bool checkStraightLine(vector<vector<int>>& coordinates) 
+    {
+        int f1=0;
+        set<double> s1;
+        int r=0;
+        for(int i=1;i<coordinates.size();i++)
+        {
+            if(coordinates[i][0]!=coordinates[i-1][0])
+            {
+                f1=1;   
+            }
+            if(f1==1&&coordinates[i][0]==coordinates[i-1][0])
+            {
+                return false;   
+            }
+            if(coordinates[i][0]!=coordinates[i-1][0])
+            {
+                s1.insert((double)(coordinates[i][1]-coordinates[i-1][1])/(double)(coordinates[i][0]-coordinates[i-1][0]));
+                r++;
+            }
+        }
+        return f1==0||(s1.size()==1&&r==(int)coordinates.size()-1);
+    }
+};

@@ -1,0 +1,50 @@
+/**
+ * // This is the HtmlParser's API interface.
+ * // You should not implement it, or speculate about its implementation
+ * class HtmlParser {
+ *   public:
+ *     vector<string> getUrls(string url);
+ * };
+ */
+class Solution 
+{
+    public:
+    set<string> r;
+    set<string> result;
+    string prefix;
+    void dfs(string s, HtmlParser htmlParser)
+    {
+        r.insert(s);
+        if(s.length()>=prefix.length()&&s.substr(0,(int)prefix.length())==prefix)
+        {
+            result.insert(s);   
+        }
+        vector<string> total=htmlParser.getUrls(s);
+        for(int i=0;i<total.size();i++)
+        {
+            if(r.find(total[i])==r.end()&&total[i].substr(0,(int)prefix.length())==prefix)
+            {
+                dfs(total[i],htmlParser);   
+            }
+        }
+    }
+    vector<string> crawl(string startUrl, HtmlParser htmlParser) 
+    {
+        string temp="";
+        for(int i=0;i<startUrl.length();i++)
+        {
+            if(i>0&&i<(int)startUrl.length()-1&&startUrl[i]=='/'&&startUrl[i+1]!='/'&&startUrl[i-1]!='/')
+            {
+                break;
+            }
+            else
+            {
+                temp+=startUrl[i];   
+            }
+        }
+        prefix=temp;
+        dfs(startUrl,htmlParser);
+        vector<string> output(result.begin(),result.end());
+        return output;
+    }
+};

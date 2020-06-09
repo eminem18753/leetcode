@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<int> a;
+    int n;
+    Solution(vector<int>& nums)
+    {
+        a=nums; 
+        n=nums.size();
+        srand(time(NULL));
+    }
+    
+    int pick(int target)
+    {
+        int k=rand()%n;
+        while(a[k]!=target)
+        {
+            k=rand()%n;
+        }
+        return k;
+    }
+};
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution* obj = new Solution(nums);
+ * int param_1 = obj->pick(target);
+ */

@@ -1,0 +1,42 @@
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& heights) 
+    {
+        int maximum=0;
+        int index=0;
+        vector<int> flags;
+        while(index<heights.size())
+        {
+            if(flags.size()==0||heights[flags[flags.size()-1]]<=heights[index])
+            {
+                flags.push_back(index);
+                index+=1;
+            }
+            else
+            {
+                int height_index=flags.back();
+                flags.pop_back();
+                int depth=index;
+                if(flags.size()>0)
+                {
+                    depth=index-1-flags[flags.size()-1];
+                }
+                int area=heights[height_index]*depth;
+                maximum=max(area,maximum);
+            }
+        }
+        while(flags.size()>0)
+        {
+            int height_index=flags.back();
+            flags.pop_back();
+            int depth=index;
+            if(flags.size()>0)
+            {
+                depth=index-1-flags[flags.size()-1];
+            }
+            int area=heights[height_index]*depth;
+            maximum=max(area,maximum);
+        }
+        return maximum;
+    }
+};

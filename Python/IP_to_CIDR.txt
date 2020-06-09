@@ -1,0 +1,77 @@
+class Solution(object):
+    def ipToCIDR(self, ip, n):
+        """
+        :type ip: str
+        :type n: int
+        :rtype: List[str]
+        """
+        c=0
+        total=[]
+        
+        temp=ip.split(".");
+        
+        i1=int(temp[0])
+        i2=int(temp[1])
+        i3=int(temp[2])
+        i4=int(temp[3])
+        
+        counter=0
+        for j in range(len(bin(i4+i3*256+i2*(256**2)+i1*(256**3)))-1,-1,-1):
+            if bin(i4+i3*256+i2*(256**2)+i1*(256**3))[j]=='0':
+                counter+=1
+            else:
+                break
+        
+        l=n
+        counter=min(counter,int(math.log(l,2)))        
+        t=pow(2,counter)
+        t1=i1
+        t2=i2
+        t3=i3
+        t4=i4
+        while c<n:
+            u=32-counter
+            c+=t
+            current=""
+            f1=bin(int(t1))[2:]
+            f2=bin(int(t2))[2:]
+            f3=bin(int(t3))[2:]
+            f4=bin(int(t4))[2:]
+            current+=str(t1)
+            current+="."
+            current+=str(t2)
+            current+="."
+            current+=str(t3)
+            current+="."
+            current+=str(t4)
+            current+="/"
+            current+=str(u)
+            total.append(current)
+            i4+=t
+            t1=i1
+            t2=i2
+            t3=i3
+            t4=i4
+            
+            if t4>=256:
+                t3+=t4//256
+                t4%=256
+            if t3>=256:
+                t2+=t3//256
+                t3%=256
+            if t2>=256:
+                t1+=t2//256
+                t2%=256
+            counter=0
+            for j in range(len(bin(t4+t3*256+t2*(256**2)+t1*(256**3)))-1,-1,-1):
+                if bin(t4+t3*256+t2*(256**2)+t1*(256**3))[j]=='0':
+                    counter+=1
+                else:
+                    break
+            l-=t
+            if l>0:
+                counter=min(counter,int(math.log(l,2)))
+            u=32-counter
+            t=pow(2,counter)
+
+        return total

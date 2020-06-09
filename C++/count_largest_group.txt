@@ -1,0 +1,32 @@
+class Solution 
+{
+    public:
+    int countLargestGroup(int n) 
+    {
+        int result=0;
+        int maximum=0;
+        unordered_map<int,int> m;
+        for(int i=1;i<=n;i++)
+        {
+            int r=0;
+            string s=to_string(i);
+            for(int j=0;j<s.length();j++)
+            {
+                r+=s[j]-'0';
+            }
+            m[r]++;
+        }
+        for(unordered_map<int,int>::iterator it=m.begin();it!=m.end();it++)
+        {
+            maximum=max(maximum,it->second);
+        }
+        for(unordered_map<int,int>::iterator it=m.begin();it!=m.end();it++)
+        {
+            if(it->second==maximum)
+            {
+                result++;
+            }
+        }
+        return result;
+    }
+};

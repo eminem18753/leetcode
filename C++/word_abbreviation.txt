@@ -1,0 +1,78 @@
+unordered_map<string,int> r;
+bool compare(string a,string b)
+{
+    return r[a]<r[b];
+}
+class Solution 
+{
+    public:
+    unordered_map<string,vector<string>> total;
+    unordered_map<string,vector<string>> previous;
+    vector<string> wordsAbbreviation(vector<string>& dict) 
+    {
+        r.clear();
+        vector<string> result;
+        unordered_set<string> overall;
+        int c=1;
+        for(int i=0;i<dict.size();i++)
+        {
+            r[dict[i]]=i;
+            string temp="";
+            temp+=dict[i][0];
+            temp+=",";
+            temp+=dict[i].back();
+            temp+=",";
+            temp+=to_string((int)dict[i].length());
+            total[temp].push_back(dict[i]);
+        }
+        previous=total;
+        while(true)
+        {
+            for(unordered_map<string,vector<string>>::iterator it=previous.begin();it!=previous.end();it++)
+            {
+                if(it->second.size()==1)
+                {
+                    result.push_back(it->second[0]);
+                    total.erase(it->first);
+                }
+            }
+            for(int i=0;i<result.size();i++)
+            {
+                if(overall.find(result[i])!=overall.end())
+                {
+                    continue;
+                }
+                if((int)result[i].length()>c+2)
+                {
+                    r[result[i].substr(0,c)+to_string((int)result[i].length()-c-1)+result[i].substr((int)result[i].length()-1)]=r[result[i]];
+                    r.erase(result[i]);
+                    result[i]=result[i].substr(0,c)+to_string((int)result[i].length()-c-1)+result[i].substr((int)result[i].length()-1);
+                }
+                overall.insert(result[i]);
+            }
+            c++;
+            previous=total;
+            total.clear();
+            for(unordered_map<string,vector<string>>::iterator it=previous.begin();it!=previous.end();it++)
+            {
+                for(int j=0;j<it->second.size();j++)
+                {
+                    string temp="";
+                    temp+=it->second[j].substr(0,c);
+                    temp+=",";
+                    temp+=it->second[j].back();
+                    temp+=",";
+                    temp+=to_string((int)it->second[j].length());
+                    total[temp].push_back(it->second[j]);
+                }
+            }
+            previous=total;
+            if((int)result.size()==(int)dict.size())
+            {
+                break;
+            }
+        }        
+        sort(result.begin(),result.end(),compare);
+        return result;
+    }
+};

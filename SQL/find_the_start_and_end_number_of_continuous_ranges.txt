@@ -1,0 +1,12 @@
+# Write your MySQL query statement below
+
+SELECT MIN(log_id) AS start_id,MAX(log_id) AS end_id FROM
+(
+    SELECT log_id,@rank:=CASE WHEN @previous=log_id-1 THEN @rank ELSE @rank+1 END as r,@previous:=log_id as p
+    FROM Logs as a,
+    (
+        SELECT @rank:=0,@previous:=-1
+    ) as b
+) c
+GROUP BY c.r
+ORDER BY start_id;

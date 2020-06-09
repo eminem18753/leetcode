@@ -1,0 +1,16 @@
+class Solution(object):
+    def maxDistToClosest(self, seats):
+        """
+        :type seats: List[int]
+        :rtype: int
+        """
+        result=[]
+        output=[]
+        for i in range(0,len(seats)):
+            if seats[i]==1:
+                result.append(i)
+        output.append(result[0])
+        output.append(len(seats)-1-result[len(result)-1])
+        for i in range(0,len(result)-1):
+            output.append((result[i+1]-result[i])//2)
+        return max(output)

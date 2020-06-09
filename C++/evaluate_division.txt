@@ -1,0 +1,59 @@
+class Solution 
+{
+    public:
+    vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries)
+    {
+        vector<double> result;
+        map<string,map<string,double>> total;
+        for(int i=0;i<equations.size();i++)
+        {
+            total[equations[i][0]][equations[i][1]]=values[i];
+            total[equations[i][1]][equations[i][0]]=(double)1/values[i];
+            
+        }
+        for(int i=0;i<queries.size();i++)
+        {
+            string start=queries[i][0];
+            string end=queries[i][1];
+            deque<string> q;
+            deque<double> r;
+            set<string> overall;
+            q.push_back(start);
+            r.push_back(1);
+            overall.insert(start);
+            int f=0;
+            if(total.find(start)==total.end()||total.find(end)==total.end())
+            {
+                result.push_back(-1);
+                continue;
+            }
+            while(q.size()>0)
+            {
+                string p=q.front();
+                double c=r.front();
+                q.pop_front();
+                r.pop_front();
+                if(p==end)
+                {
+                    result.push_back(c);
+                    f=1;
+                    break;
+                }
+                for(map<string,double>::iterator it=total[p].begin();it!=total[p].end();it++)
+                {
+                    if(overall.find(it->first)==overall.end())
+                    {
+                        q.push_back(it->first);
+                        r.push_back(c*it->second);
+                        overall.insert(it->first);   
+                    }
+                }
+            }
+            if(f==0)
+            {
+                result.push_back(-1);   
+            }
+        }
+        return result;
+    }
+};

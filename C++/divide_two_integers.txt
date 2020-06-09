@@ -1,0 +1,110 @@
+class Solution 
+{
+    public:
+    int divide(int dividend, int divisor) 
+    {
+        if(dividend==divisor)
+        {
+            return 1;
+        }
+        if(dividend==-2147483648&&divisor==-1)
+        {
+            return 2147483647;
+        }
+        int flag=0;
+        if(dividend==-2147483648&&divisor==1)
+        {
+            return -2147483648;
+        }
+        if(dividend==-2147483648)
+        {
+            flag=1;
+            dividend=2147483647;
+            if(divisor<0)
+            {
+                flag=2;
+            }
+        }
+        if(dividend==divisor)
+        {
+            if(flag==1)
+            {
+                return -1;
+            }
+            return 1;
+        }
+        if(divisor==-2147483648)
+        {
+            return 0;
+        }
+        if(dividend==-divisor)
+        {
+            return -1;
+        }
+        if(divisor==1)
+        {
+            return dividend;
+        }
+        if(divisor==-1)
+        {
+            return -dividend;
+        }
+        int result=0;
+        int m=0;
+        if(dividend>0&&divisor<0)
+        {
+            m=1;
+            divisor=-divisor;
+        }
+        else if(dividend<0&&divisor>0)
+        {
+            m=1;
+            dividend=-dividend;
+        }
+        else if(dividend<0&&divisor<0)
+        {
+            divisor=-divisor;
+            dividend=-dividend;
+        }
+        if(dividend<divisor)
+        {
+            return 0;
+        }
+        
+        while(dividend>divisor)
+        {
+            int t=divisor;
+            int c=1;
+            int f=0;
+            while(t<dividend)
+            {
+                if(t>2<<29-1)
+                {
+                    f=1;
+                    break;
+                }
+                t<<=1;
+                c<<=1;
+            }
+            if(f==0)
+            {
+                c>>=1;
+                t>>=1;
+            }
+            result+=c;
+            dividend-=t;
+        }
+        if(flag==1||flag==2)
+        {
+            if(dividend==divisor-1)
+            {
+                result++;
+            }
+        }
+        if((m==1&&flag!=2)||flag==1)
+        {
+            return -result;
+        }
+        return result;
+    }
+};

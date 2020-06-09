@@ -1,0 +1,48 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution 
+{
+    public:
+    unordered_set<int> s1;
+    unordered_set<int> s2;
+    void d1(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        s1.insert(root->val);
+        d1(root->left);
+        d1(root->right);
+    }
+    void d2(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        s2.insert(root->val);
+        d2(root->left);
+        d2(root->right);
+    }
+    bool twoSumBSTs(TreeNode* root1, TreeNode* root2, int target) 
+    {
+        d1(root1);
+        d2(root2);
+        for(unordered_set<int>::iterator it=s1.begin();it!=s1.end();it++)
+        {
+            if(s2.find(target-*it)!=s2.end())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+};

@@ -1,0 +1,80 @@
+bool compare(pair<int,string> A,pair<int,string> B)
+{
+    if(A.first!=B.first)
+    {
+        return A.first>B.first;
+    }
+    return A.second<B.second;
+}
+class AutocompleteSystem 
+{
+    public:
+    unordered_map<string,vector<pair<int,string>>> total;
+    unordered_map<string,vector<pair<int,string>>> r;
+    string t="";
+    AutocompleteSystem(vector<string>& sentences, vector<int>& times) 
+    {
+        for(int i=0;i<sentences.size();i++)
+        {
+            string temp="";
+            temp+=sentences[i][0];
+            total[temp].push_back({times[i],sentences[i]});
+        }
+        r=total;
+    }
+    
+    vector<string> input(char c) 
+    {
+        if(c!='#')
+        {
+            t+=c;
+            vector<string> result;
+            for(unordered_map<string,vector<pair<int,string>>>::iterator it=total.begin();it!=total.end();it++)
+            {
+                sort(it->second.begin(),it->second.end(),compare);
+            }
+            for(int i=0;i<min((int)total[t].size(),3);i++)
+            {
+                result.push_back(total[t][i].second);
+            }
+            unordered_map<string,vector<pair<int,string>>> current;
+            for(int i=0;i<total[t].size();i++)
+            {
+                if((int)t.length()<(int)total[t][i].second.length())
+                {
+                    current[t+total[t][i].second[(int)t.length()]].push_back({total[t][i].first,total[t][i].second});
+                }
+            }
+            total=current;
+            return result;
+        }
+        else
+        {
+            int f=0;
+            string q="";
+            q+=t[0];
+            for(int i=0;i<r[q].size();i++)
+            {
+                if(r[q][i].second==t)
+                {
+                    r[q][i].first++;
+                    f=1;
+                    break;
+                }
+            }
+            if(f==0)
+            {
+                r[q].push_back({1,t});
+            }
+            t="";
+            total=r;
+            return {};
+        }
+    }
+};
+
+/**
+ * Your AutocompleteSystem object will be instantiated and called as such:
+ * AutocompleteSystem* obj = new AutocompleteSystem(sentences, times);
+ * vector<string> param_1 = obj->input(c);
+ */

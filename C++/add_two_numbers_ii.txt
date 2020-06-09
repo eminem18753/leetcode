@@ -1,0 +1,90 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2)
+    {
+        ListNode* current1=l1;
+        ListNode* current2=l2;
+        int count1=1;
+        int count2=1;
+        int flag=0;
+        int carry=0;
+        vector<ListNode*> result1;
+        vector<ListNode*> result2;
+        vector<int> output;
+        while(l1->next)
+        {
+            count1+=1;
+            result1.push_back(l1);
+            l1=l1->next;
+        }
+        result1.push_back(l1);
+        while(l2->next)
+        {
+            count2+=1;
+            result2.push_back(l2);
+            l2=l2->next;
+        }
+        result2.push_back(l2);
+        if(count1>count2)
+        {
+            flag=1;
+        }
+        else
+        {
+            flag=2;
+        }
+        if(flag==1)
+        {
+            for(int i=count2-1;i>-1;i--)
+            {
+                output.push_back((result1[i+count1-count2]->val+result2[i]->val+carry)%10);
+                carry=(result1[i+count1-count2]->val+result2[i]->val+carry)/10;
+            }
+            for(int i=count1-count2-1;i>-1;i--)
+            {
+                output.push_back((result1[i]->val+carry)%10);
+                carry=(result1[i]->val+carry)/10;
+            }
+            if(carry==1)
+            {
+                output.push_back(1);
+            }
+        }
+        else
+        {
+            for(int i=count1-1;i>-1;i--)
+            {
+                output.push_back((result1[i]->val+result2[i+count2-count1]->val+carry)%10);
+                carry=(result1[i]->val+result2[i+count2-count1]->val+carry)/10;
+            }
+            for(int i=count2-count1-1;i>-1;i--)
+            {
+                output.push_back((result2[i]->val+carry)%10);
+                carry=(result2[i]->val+carry)/10;
+            }
+            if(carry==1)
+            {
+                output.push_back(1);
+            }
+        }
+        ListNode* overall=new ListNode(output.back());
+        ListNode* r=overall;
+        output.pop_back();
+        int k=output.size();
+        for(int i=0;i<k;i++)
+        {
+            overall->next=new ListNode(output.back());
+            output.pop_back();
+            overall=overall->next;
+        }
+        return r;
+    }
+};

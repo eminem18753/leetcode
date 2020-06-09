@@ -1,0 +1,64 @@
+class NumArray 
+{
+    public:
+    int n;
+    vector<int> s;
+    vector<int> t;
+    NumArray(vector<int>& nums) 
+    {
+        t=nums;
+        n=nums.size();
+        vector<int> temp(n+1,0);
+        s=temp;
+        for(int i=0;i<n;i++)
+        {
+            init(i,nums[i]);
+        }
+    }
+    int lowerBit(int x)
+    {
+        return x&(-x);
+    }
+    void init(int i,int val)
+    {
+        i++;
+        while(i<=n)
+        {
+            s[i]+=val;
+            i+=lowerBit(i);
+        }
+
+    }
+    void update(int i, int val) 
+    {
+        int v=val-t[i];
+        t[i]=val;
+        i++;
+        while(i<=n)
+        {
+            s[i]+=v;
+            i+=lowerBit(i);
+        }
+    }
+    int query(int x)
+    {
+        int sum=0;
+        while(x>0)
+        {
+            sum+=s[x];
+            x-=lowerBit(x);
+        }
+        return sum;
+    }
+    int sumRange(int i, int j) 
+    {
+        return query(j+1)-query(i);
+    }
+};
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray* obj = new NumArray(nums);
+ * obj->update(i,val);
+ * int param_2 = obj->sumRange(i,j);
+ */

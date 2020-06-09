@@ -1,0 +1,17 @@
+class Solution(object):
+    def toHex(self, num):
+        """
+        :type num: int
+        :rtype: str
+        """
+        if num<0:
+            num+=pow(2,32)
+        temp="0123456789abcdef"
+        result=list(temp)
+        overall=[]
+        while (num//16)!=0:
+            overall.append(result[num%16])
+            num=num//16
+        overall.append(result[num%16])
+        overall=reversed(overall)
+        return ''.join(list(overall))

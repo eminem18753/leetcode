@@ -1,0 +1,60 @@
+bool compare(string a,string b)
+{
+    int c1=0;
+    int c2=0;
+    for(int i=0;i<a.length();i++)
+    {
+        if(a[i]=='/')
+        {
+            c1++;   
+        }
+    }
+    for(int j=0;j<b.length();j++)
+    {
+        if(b[j]=='/')
+        {
+            c2++;   
+        }        
+    }
+    return c1<c2;
+}
+class Solution 
+{
+    public:
+    vector<string> removeSubfolders(vector<string>& folder) 
+    {
+        vector<string> result;
+        map<string,int> total;
+        sort(folder.begin(),folder.end(),compare);
+        for(int i=0;i<folder.size();i++)
+        {
+            string temp="";
+            int f=0;
+            for(int j=0;j<folder[i].length();j++)
+            {
+                if(folder[i][j]!='/')
+                {
+                    temp+=folder[i][j];   
+                }
+                else
+                {
+                    if(j!=0)
+                    {
+                        if(total.find(temp)!=total.end())
+                        {
+                            f=1;
+                            break;   
+                        }
+                    }
+                    temp+="/";
+                }
+            }
+            if(f==0)
+            {
+                total[folder[i]]=1;
+                result.push_back(folder[i]);
+            }
+        }
+        return result;
+    }
+};

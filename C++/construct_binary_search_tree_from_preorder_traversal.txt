@@ -1,0 +1,66 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    void test(TreeNode* root,int c)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        if(root->val<c)
+        {
+            if(root->right!=NULL)
+            {
+                test(root->right,c);
+            }
+            else
+            {
+                TreeNode* temp=(TreeNode*)malloc(sizeof(TreeNode));
+                temp->val=c;
+                temp->left=NULL;
+                temp->right=NULL;
+                root->right=temp;
+            }
+        }
+        else
+        {
+            if(root->left!=NULL)
+            {
+                test(root->left,c);                
+            }
+            else
+            {
+                TreeNode* temp=(TreeNode*)malloc(sizeof(TreeNode));
+                temp->val=c;
+                temp->left=NULL;
+                temp->right=NULL;
+                root->left=temp;
+            }
+        }
+    }
+    TreeNode* bstFromPreorder(vector<int>& preorder) 
+    {
+        if(preorder.size()==0)
+        {
+            return NULL;
+        }
+        TreeNode* root=(TreeNode*)malloc(sizeof(TreeNode));
+        root->val=preorder[0];
+        root->left=NULL;
+        root->right=NULL;
+        for(int i=1;i<preorder.size();i++)
+        {
+            test(root,preorder[i]);
+        }
+    
+        return root;
+    }
+};

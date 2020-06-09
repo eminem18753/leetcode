@@ -1,0 +1,34 @@
+class Solution 
+{
+    public:
+    int maxEnvelopes(vector<vector<int>>& envelopes) 
+    {
+        if(envelopes.size()==0||envelopes[0].size()==0)
+        {
+            return 0;
+        }
+        int result=0;
+        int n=envelopes.size();
+        sort(envelopes.begin(),envelopes.end());
+        int dp[n];
+        for(int i=0;i<n;i++)
+        {
+            dp[i]=1;
+        }
+        for(int i=0;i<(int)envelopes.size()-1;i++)
+        {
+            for(int j=i+1;j<envelopes.size();j++)
+            {
+                if(envelopes[j][0]>envelopes[i][0]&&envelopes[j][1]>envelopes[i][1])
+                {
+                    dp[j]=max(dp[j],dp[i]+1);
+                }
+            }
+        }
+        for(int i=0;i<n;i++)
+        {
+            result=max(result,dp[i]);
+        }
+        return result;
+    }
+};

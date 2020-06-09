@@ -1,0 +1,29 @@
+from collections import Counter
+class Solution(object):
+    def mostCommonWord(self, paragraph, banned):
+        """
+        :type paragraph: str
+        :type banned: List[str]
+        :rtype: str
+        """
+        temp=paragraph.lower()
+        temp=temp.replace('?','')
+        temp=temp.replace('!','')
+        temp=temp.replace(';','')
+        temp=temp.replace('\'','')
+        temp=temp.replace('\"','')
+        temp=temp.replace(',','')
+        temp=temp.replace('.','')
+        current=temp.split(' ')
+        #print(current)
+        result=Counter(current).items()
+        output=[]
+        for i in result:
+            output.append(list(i))
+        overall=sorted(output,key=lambda a:a[1],reverse=True)
+        print(overall)
+        if len(banned)>0:
+            for i in range(0,len(overall)):
+                if str(overall[i][0]) not in banned:
+                    return overall[i][0]
+        return overall[0][0]

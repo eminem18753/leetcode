@@ -1,0 +1,142 @@
+class Solution 
+{
+    public:
+    int minKnightMoves(int r1, int r2) 
+    {
+        string temp="0,0";
+        deque<int> f1;
+        deque<int> f2;
+        deque<int> k;
+        set<string> overall;
+        overall.insert(temp);
+        r1=abs(r1);
+        r2=abs(r2);
+        if(r1==1&&r2==1)
+        {
+            return 2;
+        }
+        f1.push_back(0);
+        f2.push_back(0);
+        k.push_back(0);
+        int m=2147483647;
+        while(f1.size()>0)
+        {
+            int x=f1.front();
+            int y=f2.front();
+            int c=k.front();
+            f1.pop_front();
+            f2.pop_front();
+            k.pop_front();
+            m=min(m,abs(r1-x)+abs(r2-y));
+            if(x==r1&&y==r2)
+            {
+                return c;
+            }
+            if(x+2<r1+5&&y+1<r2+5&&abs(r1-x-2)+abs(r2-y-1)<m+5)
+            {
+                int t1=x+2;
+                int t2=y+1;
+                string temp=to_string(t1)+","+to_string(t2);
+                if(overall.find(temp)==overall.end())
+                {
+                    overall.insert(temp);
+                    f1.push_back(t1);
+                    f2.push_back(t2);
+                    k.push_back(c+1);
+                }
+            }
+            if(x+2<r1+5&&y-1>=0&&abs(r1-x-2)+abs(r2-y+1)<m+5)
+            {
+                int t1=x+2;
+                int t2=y-1;
+                string temp=to_string(t1)+","+to_string(t2);
+                if(overall.find(temp)==overall.end())
+                {
+                    overall.insert(temp);
+                    f1.push_back(t1);
+                    f2.push_back(t2);
+                    k.push_back(c+1);
+                }
+            }
+            if(x+1<r1+5&&y+2<r2+5&&abs(r1-x-1)+abs(r2-y-2)<m+5)
+            {
+                int t1=x+1;
+                int t2=y+2;
+                string temp=to_string(t1)+","+to_string(t2);
+                if(overall.find(temp)==overall.end())
+                {
+                    overall.insert(temp);
+                    f1.push_back(t1);
+                    f2.push_back(t2);
+                    k.push_back(c+1);
+                }
+            }
+            if(x+1<r1+5&&y-2>=0&&abs(r1-x-1)+abs(r2-y+2)<m+5)
+            {
+                int t1=x+1;
+                int t2=y-2;
+                string temp=to_string(t1)+","+to_string(t2);
+                if(overall.find(temp)==overall.end())
+                {
+                    overall.insert(temp);
+                    f1.push_back(t1);
+                    f2.push_back(t2);
+                    k.push_back(c+1);
+                }
+            }
+            if(x-1>=0&&y+2<r2+5&&abs(r1-x+1)+abs(r2-y-2)<m+5)
+            {
+                int t1=x-1;
+                int t2=y+2;
+                string temp=to_string(t1)+","+to_string(t2);
+                if(overall.find(temp)==overall.end())
+                {
+                    overall.insert(temp);
+                    f1.push_back(t1);
+                    f2.push_back(t2);
+                    k.push_back(c+1);
+                }
+            }
+            if(x-1>=0&&y-2>=0&&abs(r1-x+1)+abs(r2-y+2)<m+5)
+            {
+                int t1=x-1;
+                int t2=y-2;
+                string temp=to_string(t1)+","+to_string(t2);
+                if(overall.find(temp)==overall.end())
+                {
+                    overall.insert(temp);
+                    f1.push_back(t1);
+                    f2.push_back(t2);
+                    k.push_back(c+1);
+                }
+            }
+            if(x-2>=0&&y+1<r2+5&&abs(r1-x+2)+abs(r2-y-1)<m+5)
+            {
+                int t1=x-2;
+                int t2=y+1;
+                string temp=to_string(t1)+","+to_string(t2);
+                if(overall.find(temp)==overall.end())
+                {
+                    overall.insert(temp);
+                    f1.push_back(t1);
+                    f2.push_back(t2);
+                    k.push_back(c+1);
+                }
+            }
+            if(x-2>=0&&y-1>=0&&abs(r1-x+2)+abs(r2-y+1)<m+5)
+            {
+                int t1=x-2;
+                int t2=y-1;
+                string temp=to_string(t1)+","+to_string(t2);
+                if(overall.find(temp)==overall.end())
+                {
+                    overall.insert(temp);
+                    f1.push_back(t1);
+                    f2.push_back(t2);
+                    k.push_back(c+1);
+                }
+            }
+        }
+        return -1;
+    }
+};

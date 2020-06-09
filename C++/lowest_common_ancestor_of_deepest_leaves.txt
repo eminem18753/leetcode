@@ -1,0 +1,79 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    map<TreeNode*,TreeNode*> total;
+    vector<TreeNode*> leaf;
+    vector<TreeNode*> real_leaf;
+    vector<int> level;
+    int d=0;
+    int m=2147483647;
+    void test(TreeNode* root,int l)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        if(root->left==NULL&&root->right==NULL)
+        {
+            leaf.push_back(root);
+            level.push_back(l);
+            m=min(m,l);
+            d=max(d,l);
+        }
+        if(root->left!=NULL)
+        {
+            total[root->left]=root;
+        }
+        if(root->right!=NULL)
+        {
+            total[root->right]=root;
+        }
+        test(root->left,l+1);
+        test(root->right,l+1);
+    }
+    TreeNode* lcaDeepestLeaves(TreeNode* root) 
+    {
+        total[root]=root;
+        test(root,1);
+        for(int i=0;i<leaf.size();i++)
+        {
+            if(level[i]==d)
+            {
+                real_leaf.push_back(leaf[i]);
+            }
+        }
+        leaf=real_leaf;
+        while(true)
+        {
+            int flag=0;
+            for(int i=1;i<leaf.size();i++)
+            {
+                if(leaf[i]!=leaf[i-1])
+                {
+                    flag=1;
+                    break;
+                }
+            }
+            if(flag==0)
+            {
+                return leaf[0];
+            }
+            else
+            {
+                for(int i=0;i<leaf.size();i++)
+                {
+                    leaf[i]=total[leaf[i]];
+                }                
+            }
+        }
+        return root;
+    }
+};

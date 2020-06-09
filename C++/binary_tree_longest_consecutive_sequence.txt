@@ -1,0 +1,49 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int result=1;
+    
+    void test(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        dfs(root,1);
+        test(root->left);
+        test(root->right);
+    }
+    void dfs(TreeNode* root,int s)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        result=max(result,s);
+        if(root->left!=NULL&&root->left->val-root->val==1)
+        {
+            dfs(root->left,s+1);
+        }
+        if(root->right!=NULL&&root->right->val-root->val==1)
+        {
+            dfs(root->right,s+1);
+        }
+    }
+    int longestConsecutive(TreeNode* root) 
+    {
+        if(root==NULL)
+        {
+            return 0;
+        }
+        test(root);
+        return result;
+    }
+};

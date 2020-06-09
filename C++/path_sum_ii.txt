@@ -1,0 +1,41 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> result;
+    void test(TreeNode* root,int sum,int current,vector<int> total)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        current+=root->val;
+        total.push_back(root->val);
+        if(root->left==NULL&&root->right==NULL&&current==sum)
+        {
+            result.push_back(total);
+            return;
+        }
+        if(root->left!=NULL)
+        {
+            test(root->left,sum,current,total);
+        }
+        if(root->right!=NULL)
+        {
+            test(root->right,sum,current,total);
+        }        
+    }
+    vector<vector<int>> pathSum(TreeNode* root, int sum) 
+    {
+        vector<int> total;
+        test(root,sum,0,total);
+        return result;
+    }
+};

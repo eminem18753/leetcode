@@ -1,0 +1,46 @@
+class Solution
+{
+    public:
+    map<int,map<int,int>> total;
+    int K;
+    int m;
+    int n;
+    Solution(int n_rows, int n_cols) 
+    {
+        total.clear();
+        m=n_rows;
+        n=n_cols;
+        K=n_rows*n_cols;
+        srand(time(NULL));
+    }
+    
+    vector<int> flip() 
+    {
+        vector<int> result;
+        int s=rand()%K;
+        int i=s/n;
+        int j=s%n;
+        while(total.find(i)!=total.end()&&total[i].find(j)!=total[i].end())
+        {
+            s=rand()%K;
+            i=s/n;
+            j=s%n;
+        }
+        total[i][j]=1;
+        result.push_back(i);
+        result.push_back(j);
+        return result;
+    }
+    
+    void reset() 
+    {
+        total.clear();
+    }
+};
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution* obj = new Solution(n_rows, n_cols);
+ * vector<int> param_1 = obj->flip();
+ * obj->reset();
+ */

@@ -1,0 +1,5 @@
+# Write your MySQL query statement below
+SELECT b.follower as follower,COUNT(DISTINCT a.followee,a.follower) as num FROM follow as a
+JOIN follow as b
+ON a.followee=b.follower
+GROUP BY a.followee

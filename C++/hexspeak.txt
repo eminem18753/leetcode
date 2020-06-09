@@ -1,0 +1,20 @@
+class Solution 
+{
+    public:
+    string toHexspeak(string num) 
+    {
+        long long int r=stoll(num);
+        string total="OI23456789ABCDEF";
+        string t="";
+        while(r)
+        {
+            if(r%16>=2&&r%16<=9)
+            {
+                return "ERROR";
+            }
+            t=total[r%16]+t;
+            r>>=4;
+        }
+        return t;
+    }
+};

@@ -1,0 +1,17 @@
+# Write your MySQL query statement below
+SELECT * FROM UserActivity as a
+WHERE endDate=
+(
+    SELECT MAX(endDate) FROM UserActivity as b
+    WHERE endDate<
+    (
+        SELECT MAX(endDate) FROM UserActivity as c
+        WHERE a.username=b.username AND b.username=c.username
+    )
+    GROUP by b.username
+)
+GROUP BY a.username
+UNION
+SELECT * FROM UserActivity
+GROUP BY username
+HAVING COUNT(*)=1

@@ -1,0 +1,70 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    map<TreeNode*,TreeNode*> total;
+    map<TreeNode*,int> seen;
+    TreeNode* start;
+    int s=0;
+    int r;
+    void dfs(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        if(root->val==r)
+        {
+            start=root;
+        }
+        if(root->left!=NULL)
+        {
+            total[root->left]=root;
+        }
+        if(root->right!=NULL)
+        {
+            total[root->right]=root;
+        }
+        
+        dfs(root->left);
+        dfs(root->right);
+    }
+    void test(TreeNode* root)
+    {
+        if(root==NULL||seen.find(root)!=seen.end())
+        {
+            return;
+        }
+        seen[root]=1;
+        s++;
+        test(root->left);
+        test(root->right);
+        test(total[root]);
+    }
+    bool btreeGameWinningMove(TreeNode* root, int n, int x) 
+    {
+        r=x;
+        total[root]=root;
+        dfs(root);
+        seen[start]=1;
+        s=0;
+        test(start->left);
+        int f1=s;
+        s=0;
+        test(start->right);
+        int f2=s;
+        s=0;
+        test(total[start]);
+        int f3=s;
+        int total=f1+f2+f3;
+        
+        return max(f1,max(f2,f3))>(n-1)/2;
+    }
+};

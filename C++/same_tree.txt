@@ -1,0 +1,80 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> r1;
+    vector<int> r2;
+    void test1(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        r1.push_back(root->val);
+        if(root->left!=NULL)
+        {
+            test1(root->left);
+        }
+        else
+        {
+            r1.push_back(-1);   
+        }
+        if(root->right!=NULL)
+        {
+            test1(root->right);
+        }
+        else
+        {
+            r1.push_back(-1);   
+        }
+    }
+    void test2(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        r2.push_back(root->val);
+        if(root->left!=NULL)
+        {
+            test2(root->left);
+        }
+        else
+        {
+            r2.push_back(-1);   
+        }
+        if(root->right!=NULL)
+        {
+            test2(root->right);
+        }
+        else
+        {
+            r2.push_back(-1);   
+        }
+        
+    }
+    bool isSameTree(TreeNode* p, TreeNode* q) 
+    {
+        test1(p);
+        test2(q);
+        if(r1.size()!=r2.size())
+        {
+            return false;
+        }
+        for(int i=0;i<r1.size();i++)
+        {
+            if(r1[i]!=r2[i])
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+};

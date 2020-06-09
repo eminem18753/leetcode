@@ -1,0 +1,29 @@
+class Solution 
+{
+    public:
+    int uniqueLetterString(string S) 
+    {
+        int n=S.length();
+        long long int r=0;
+        long long int m=1000000007;
+        map<char,vector<long long int>> total;
+        for(int i=0;i<S.length();i++)
+        {
+            if(total.find(S[i])==total.end())
+            {
+                total[S[i]].push_back((long long int)-1);
+            }
+            total[S[i]].push_back((long long int)i);
+        }
+        for(map<char,vector<long long int>>::iterator it=total.begin();it!=total.end();it++)
+        {
+            it->second.push_back((long long int)n);
+            for(int i=1;i<(int)it->second.size()-1;i++)
+            {
+                r+=((it->second[i]-it->second[i-1])%m*(it->second[i+1]-it->second[i])%m)%m;
+                r%=m;
+            }
+        }
+        return r;
+    }
+};

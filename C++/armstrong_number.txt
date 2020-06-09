@@ -1,0 +1,15 @@
+class Solution 
+{
+    public:
+    bool isArmstrong(int N) 
+    {
+        string temp=to_string(N);
+        int f=0;
+        int l=temp.length();
+        for(int i=0;i<l;i++)
+        {
+            f+=pow(temp[i]-'0',l);
+        }
+        return f==N;
+    }
+};

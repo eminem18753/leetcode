@@ -1,0 +1,41 @@
+# Write your MySQL query statement below
+SELECT id, visit_date, people FROM stadium as a
+WHERE people>=100
+AND
+(
+    (
+        (
+            SELECT people FROM stadium as b
+            WHERE a.id>=2 AND a.id=b.id+2 AND people>=100
+        )
+        AND
+        (
+            SELECT people FROM stadium as c
+            WHERE a.id>=1 AND a.id=c.id+1 AND people>=100
+        )
+    )
+    OR
+    (
+        (
+            SELECT people FROM stadium as b
+            WHERE a.id>=1 AND a.id=b.id+1 AND people>=100
+        )
+        AND
+        (
+            SELECT people FROM stadium as c
+            WHERE c.id>=1 AND a.id+1=c.id AND people>=100
+        )
+    )
+    OR
+    (
+        (
+            SELECT people FROM stadium as b
+            WHERE b.id>=2 AND a.id+2=b.id AND people>=100
+        )
+        AND
+        (
+            SELECT people FROM stadium as c
+            WHERE c.id>=1 AND a.id+1=c.id AND people>=100
+        )
+    )
+)

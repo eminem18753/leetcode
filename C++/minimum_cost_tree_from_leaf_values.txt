@@ -1,0 +1,24 @@
+class Solution 
+{
+    public:
+    int mctFromLeafValues(vector<int>& arr) 
+    {
+        int r=0;
+        vector<int> s={2147483647};
+        for(int i=0;i<arr.size();i++)
+        {
+            while(s.back()<=arr[i])
+            {
+                int m=s.back();
+                s.pop_back();
+                r+=m*min(s.back(),arr[i]);
+            }
+            s.push_back(arr[i]);
+        }
+        for(int i=2;i<s.size();i++)
+        {
+            r+=s[i]*s[i-1];
+        }
+        return r;
+    }
+};

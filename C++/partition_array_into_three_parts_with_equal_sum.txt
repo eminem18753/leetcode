@@ -1,0 +1,55 @@
+class Solution {
+public:
+    bool canThreePartsEqualSum(vector<int>& A)
+    {
+        vector<int> S;
+        map<int,vector<int>> total;
+        map<int,int> index;
+        S.push_back(A[0]);
+        total[S[0]].push_back(0);
+        index[S[0]]=-1;
+        for(int i=1;i<A.size();i++)
+        {
+            S.push_back(S[i-1]+A[i]);
+            total[S[i]].push_back(i);
+            index[S[i]]=-1;
+        }
+        if(abs(S[S.size()-1])%3!=0)
+        {
+            return false;
+        }
+        int p1=S[S.size()-1]/3;
+        int p2=p1*2;
+        
+        if(index[p1]!=-1)
+        {
+            return false;
+        }
+        if(index[p2]!=-1)
+        {
+            return false;
+        }
+        
+        int m=50001;
+        int M=-1;
+        for(int i=0;i<total[p1].size();i++)
+        {
+            if(total[p1][i]<m)
+            {
+                m=total[p1][i];
+            }
+        }
+        for(int i=0;i<total[p2].size();i++)
+        {
+            if(total[p2][i]>M)
+            {
+                M=total[p2][i];
+            }
+        }
+        if(M>m)
+        {
+            return true;
+        }
+        return false;
+    }
+};

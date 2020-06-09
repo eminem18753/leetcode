@@ -1,0 +1,44 @@
+class Solution 
+{
+    public:
+    vector<string> findAllConcatenatedWordsInADict(vector<string>& words) 
+    {
+        if(words.size()<2)
+        {
+            return {};
+        }
+        vector<string> result;
+        unordered_set<string> total(words.begin(),words.end());
+        for(int i=0;i<words.size();i++)
+        {
+            total.erase(words[i]);
+            int n=words[i].length();
+            if(n==0)
+            {
+                continue;
+            }
+            bool dp[n+1];
+            memset(dp,false,sizeof(dp));
+            dp[0]=true;
+            for(int j=1;j<n+1;j++)
+            {
+                for(int k=0;k<j;k++)
+                {
+                    if(dp[k]&&total.find(words[i].substr(k,j-k))!=total.end())
+                    {
+                        dp[j]=true;
+                        break;
+                    }
+                }
+            }
+            if(dp[n]==true)
+            {
+                result.push_back(words[i]);
+            }
+            
+            total.insert(words[i]);
+        }
+        
+        return result;
+    }
+};

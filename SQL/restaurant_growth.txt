@@ -1,0 +1,17 @@
+# Write your MySQL query statement below
+SELECT group_visit as visited_on,total as amount,average as average_amount FROM
+(
+    SELECT a.visited_on as group_visit,b.visited_on as individual_visit,SUM(b.amount) as total,ROUND(AVG(b.amount),2) as average FROM
+    (
+        SELECT visited_on,SUM(amount) as amount FROM Customer
+        GROUP BY visited_on
+    ) as a
+    JOIN
+    (
+        SELECT visited_on,SUM(amount) as amount FROM Customer
+        GROUP BY visited_on
+    ) as b
+    ON a.visited_on>=b.visited_on AND DATEDIFF(a.visited_on,b.visited_on)<7
+    GROUP BY a.visited_on
+) as c
+WHERE group_visit-(SELECT MIN(visited_on) FROM Customer)>=6;

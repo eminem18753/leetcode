@@ -1,0 +1,62 @@
+class Solution {
+public:
+    int max(int a,int b)
+    {
+        if(a>b)
+        {
+            return a;
+        }
+        return b;
+    }
+    int min(int a,int b)
+    {
+        if(a<b)
+        {
+            return a;
+        }
+        return b;
+    }
+    int abs(int a)
+    {
+        if(a<0)
+        {
+            return -a;
+        }
+        return a;
+    }
+    int findRadius(vector<int>& houses, vector<int>& heaters) 
+    {
+        if(houses.size()==0)
+        {
+            return 0;
+        }
+        if(heaters.size()==0)
+        {
+            return 0;
+        }
+        sort(houses.begin(),houses.end());
+        sort(heaters.begin(),heaters.end());
+        int maximum=0;
+        int index=0;
+        int cursor=0;
+        for(int i=0;i<houses.size();i++)
+        {
+            cursor=i;
+            if(index<heaters.size()-1)
+            {
+                while(index<heaters.size()-1&&abs(heaters[index]-houses[i])>=abs(heaters[index+1]-houses[i]))
+                {
+                    index++;
+                }
+                maximum=max(maximum,abs(heaters[index]-houses[i]));
+            }
+            else
+            {
+                break;
+            }
+        }
+        maximum=max(maximum,abs(heaters[index]-houses[cursor]));
+        maximum=max(maximum,abs(heaters[index]-houses[houses.size()-1]));
+        return maximum;
+    }
+};

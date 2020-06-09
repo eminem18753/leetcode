@@ -1,0 +1,32 @@
+class Solution
+{
+    public:
+    int numFriendRequests(vector<int>& ages)
+    {
+        int counter=0;
+        int total[121];
+        memset(total,0,sizeof(total));
+        for(int i=0;i<ages.size();i++)
+        {
+            total[ages[i]]+=1;
+        }
+        for(int i=0;i<ages.size();i++)
+        {
+            int current=0;
+            int minus=0;
+            for(int j=1;j<=120;j++)
+            {
+                if(ages[i]<=j&&ages[i]>0.5*j+7)
+                {
+                    current+=total[j];
+                }
+            }
+            if(ages[i]>0.5*ages[i]+7)
+            {
+                minus=1;
+            }
+            counter+=current-minus;
+        }
+        return counter;
+    }
+};

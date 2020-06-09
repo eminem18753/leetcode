@@ -1,0 +1,46 @@
+bool compare(vector<int> a,vector<int> b)
+{
+    if(a[0]!=b[0])
+    {
+        return a[0]<b[0];
+    }
+    return a[1]<b[1];
+}
+class Solution 
+{
+    public:
+    vector<int> assignBikes(vector<vector<int>>& workers, vector<vector<int>>& bikes) 
+    {
+        vector<vector<int>> total;
+        vector<int> result((int)workers.size(),0);
+        set<int> p1;
+        set<int> p2;
+        map<int,vector<vector<int>>> r;
+        for(int i=0;i<workers.size();i++)
+        {
+            for(int j=0;j<bikes.size();j++)
+            {
+                int temp=abs(workers[i][0]-bikes[j][0])+abs(workers[i][1]-bikes[j][1]);
+                vector<int> t;
+                t.push_back(i);
+                t.push_back(j);
+                r[temp].push_back(t);
+            }
+        }
+        for(map<int,vector<vector<int>>>::iterator it=r.begin();it!=r.end();it++)
+        {
+            for(int i=0;i<it->second.size();i++)
+            {
+                if(p1.find(it->second[i][0])==p1.end()&&p2.find(it->second[i][1])==p2.end())
+                {
+                    result[it->second[i][0]]=it->second[i][1];
+                    p1.insert(it->second[i][0]);
+                    p2.insert(it->second[i][1]);
+                }
+                
+            }
+        }
+        
+        return result;
+    }
+};

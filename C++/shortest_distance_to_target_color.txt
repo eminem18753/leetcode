@@ -1,0 +1,93 @@
+class Solution 
+{
+    public:
+    vector<int> shortestDistanceColor(vector<int>& colors, vector<vector<int>>& queries) 
+    {
+        vector<int> result;
+        
+        vector<int> p1;    
+        vector<int> p2;    
+        vector<int> p3;    
+        for(int i=0;i<colors.size();i++)
+        {
+            if(colors[i]==1)
+            {
+                p1.push_back(i);
+            }
+            else if(colors[i]==2)
+            {
+                p2.push_back(i);
+            }
+            else
+            {
+                p3.push_back(i);
+            }
+        }
+        for(int i=0;i<queries.size();i++)
+        {
+            int c=queries[i][1];
+            vector<int>::iterator low;
+            if(c==1)
+            {
+                if(p1.size()==0)
+                {
+                    result.push_back(-1);
+                    continue;
+                }
+                low=lower_bound(p1.begin(),p1.end(),queries[i][0]);
+                int index=(int)(low-p1.begin());
+                int m=2147483647;
+                if(index<p1.size())
+                {
+                    m=abs(queries[i][0]-p1[index]);
+                }
+                if(index>0)
+                {
+                    m=min(m,abs(queries[i][0]-p1[index-1]));
+                }
+                result.push_back(m);
+            }
+            else if(c==2)
+            {
+                if(p2.size()==0)
+                {
+                    result.push_back(-1);
+                    continue;
+                }
+                low=lower_bound(p2.begin(),p2.end(),queries[i][0]);
+                int index=(int)(low-p2.begin());
+                int m=2147483647;
+                if(index<p2.size())
+                {
+                    m=abs(queries[i][0]-p2[index]);
+                }
+                if(index>0)
+                {
+                    m=min(m,abs(queries[i][0]-p2[index-1]));
+                }
+                result.push_back(m);
+            }
+            else if(c==3)
+            {
+                if(p3.size()==0)
+                {
+                    result.push_back(-1);
+                    continue;
+                }
+                low=lower_bound(p3.begin(),p3.end(),queries[i][0]);
+                int index=(int)(low-p3.begin());
+                int m=2147483647;
+                if(index<p3.size())
+                {
+                    m=abs(queries[i][0]-p3[index]);
+                }
+                if(index>0)
+                {
+                    m=min(m,abs(queries[i][0]-p3[index-1]));
+                }
+                result.push_back(m);
+            }
+        }
+        return result;
+    }
+};

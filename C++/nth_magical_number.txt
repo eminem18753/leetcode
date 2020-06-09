@@ -1,0 +1,43 @@
+class Solution 
+{
+    public:
+    long long int gcd(long long int a,long long int b)
+    {
+        if(b==0)
+        {
+            return a;   
+        }
+        return gcd(b,a%b);
+    }
+    long long int getR(long long int K,long long int A,long long int B)
+    {
+        return K/A+K/B-K/(A*B/gcd(A,B));
+    }
+    int nthMagicalNumber(int N, int A, int B) 
+    {
+        long long int p1=2;
+        long long int p2=100000000000000;
+        while(p1<p2)
+        {
+            long long int middle=(p1+p2)/(long long int)2;   
+            long long int r=getR(middle,A,B);
+            if(r>=N)
+            {
+                p2=middle;   
+            }
+            else if(r<N)
+            {
+                p1=middle+1;
+            }
+        }
+        if(getR(p1,A,B)==N)
+        {
+            return p1%1000000007;
+        }
+        if(getR(p1,A,B)==N+1)
+        {
+            return (p1-1)%1000000007;   
+        }
+        return (p1+1)%1000000007;
+    }
+};

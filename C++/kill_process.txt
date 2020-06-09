@@ -1,0 +1,26 @@
+class Solution 
+{
+public:
+    vector<int> killProcess(vector<int>& pid, vector<int>& ppid, int kill) 
+    {
+        vector<int> result;
+        map<int,vector<int>> total;
+        for(int i=0;i<pid.size();i++)
+        {
+            total[ppid[i]].push_back(pid[i]);
+        }
+        deque<int> q;
+        q.push_back(kill);
+        while(q.size()>0)
+        {
+            int t=q.front();
+            q.pop_front();
+            result.push_back(t);
+            for(int i=0;i<total[t].size();i++)
+            {
+                q.push_back(total[t][i]);
+            }
+        }
+        return result;
+    }
+};

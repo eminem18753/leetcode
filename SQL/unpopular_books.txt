@@ -1,0 +1,23 @@
+# Write your MySQL query statement below
+
+
+SELECT a.book_id,a.name FROM Books as a
+LEFT JOIN Orders as b
+ON a.book_id=b.book_id
+JOIN 
+(
+   SELECT SUM(ord.quantity) as q,bo.book_id as bi FROM Books bo
+    LEFT JOIN Orders as ord
+    ON bo.book_id=ord.book_id
+    WHERE dispatch_date>"2018-06-23"
+    GROUP BY bo.book_id
+) c
+WHERE a.available_from<="2019-05-23" AND (a.book_id=c.bi AND c.q<10) OR 
+a.book_id NOT IN
+(
+   SELECT bo.book_id as bi FROM Books bo
+    LEFT JOIN Orders as ord
+    ON bo.book_id=ord.book_id
+    WHERE dispatch_date>"2018-06-23"
+)
+GROUP BY a.book_id

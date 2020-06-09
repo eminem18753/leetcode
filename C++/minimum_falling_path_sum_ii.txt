@@ -1,0 +1,39 @@
+class Solution 
+{
+    public:
+    int minFallingPathSum(vector<vector<int>>& arr) 
+    {
+        int result=2147483647;
+        int n=arr.size();
+        int d1[n];
+        int d2[n];
+        for(int i=0;i<n;i++)
+        {
+            d1[i]=2147483647;
+            d2[i]=arr[0][i];
+        }
+        for(int i=1;i<n;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                for(int k=0;k<n;k++)
+                {
+                    if(j!=k)
+                    {
+                        d1[k]=min(d1[k],arr[i][k]+d2[j]);
+                    }
+                }
+            }
+            for(int j=0;j<n;j++)
+            {
+                d2[j]=d1[j];
+                d1[j]=2147483647;
+            }
+        }
+        for(int i=0;i<n;i++)
+        {
+            result=min(result,d2[i]);
+        }
+        return result;
+    }
+};

@@ -1,0 +1,38 @@
+class Solution {
+public:
+    int pivotIndex(vector<int>& nums)
+    {
+        if(nums.size()==0)
+        {
+            return -1;
+        }
+        int test=0;
+        for(int i=1;i<nums.size();i++)
+        {
+            test+=nums[i];
+        }
+        if(test==0)
+        {
+            return 0;
+        }
+        int total[nums.size()];
+        total[0]=nums[0];
+        for(int i=1;i<nums.size();i++)
+        {
+            total[i]=total[i-1]+nums[i];
+        }
+        int summation=total[nums.size()-1];
+        for(int i=1;i<nums.size();i++)
+        {
+            if(i==2)
+            {
+                cout<<(double)(summation-nums[i])/(double)2<<" "<<(double)total[i-1]<<endl;
+            }
+            if(((double)(summation-nums[i])/(double)2)==(double)total[i-1])
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+};

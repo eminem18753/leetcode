@@ -1,0 +1,42 @@
+class Solution 
+{
+public:
+    bool isAnagram(string s, string t) 
+    {
+        bool result;
+        int a[26];
+        int b[26];
+        for(int i=0;i<26;i++)
+        {
+            a[i]=0;
+            b[i]=0;	
+        }
+        if(s.length()!=t.length())
+        {
+            return false;	
+        }
+        for(int i=0;i<s.length();i++)
+        {
+            a[s[i]-97]+=1;
+            b[t[i]-97]+=1;   
+        }
+        int flag=0;
+        for(int i=0;i<26;i++)
+        {
+            cout<<a[i]<<" "<<b[i]<<endl;
+            if(a[i]!=b[i])
+            {
+                flag=1;
+            }
+        }
+        if(flag==0)
+        {
+            result=true;
+        }
+        else
+        {
+            result=false;	
+        }
+        return result;        
+    }
+};

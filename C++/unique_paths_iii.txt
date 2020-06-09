@@ -1,0 +1,47 @@
+class Solution 
+{
+    public:
+    int c=0;
+    int result=0;
+    void dfs(vector<vector<int>> &A,int i,int j,int t)
+    {
+        if(t==c&&(i>=0&&j>=0&&i<A.size()&&j<A[0].size()&&A[i][j]==2))
+        {
+            result++;
+            return;
+        }
+        if(i<0||j<0||i>=A.size()||j>=A[0].size()||(A[i][j]!=0&&A[i][j]!=1))
+        {
+            return;
+        }
+        t++;
+        A[i][j]=-2;
+        dfs(A,i+1,j,t);
+        dfs(A,i-1,j,t);
+        dfs(A,i,j+1,t);
+        dfs(A,i,j-1,t);
+        A[i][j]=0;
+    }
+    int uniquePathsIII(vector<vector<int>>& grid)
+    {
+        int sx;
+        int sy;
+        for(int i=0;i<grid.size();i++)
+        {
+            for(int j=0;j<grid[i].size();j++)
+            {
+                if(grid[i][j]==0)
+                {
+                    c++;   
+                }
+                if(grid[i][j]==1)
+                {
+                    sx=i;
+                    sy=j;
+                }
+            }
+        }
+        dfs(grid,sx,sy,-1);
+        return result;
+    }
+};

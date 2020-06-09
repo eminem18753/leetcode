@@ -1,0 +1,46 @@
+class Solution 
+{
+    public:
+    int atMostK(vector<int>& A,int K)
+    {
+        if(K==0)
+        {
+            return 0;   
+        }
+        int result=0;
+        int p1=0;
+        int p2=0;
+        map<int,int> total;
+        total[A[0]]=1;
+        result+=p2-p1+1;
+        while(p1<A.size()&&p2<A.size())
+        {
+            p2++;
+            if(p2>=A.size())
+            {
+                break;   
+            }
+            if(total.find(A[p2])==total.end())
+            {
+                total[A[p2]]=0;   
+            }
+            total[A[p2]]++;
+
+            while(total.size()>K)
+            {
+                total[A[p1]]--;
+                if(total[A[p1]]==0)
+                {
+                    total.erase(A[p1]);   
+                }
+                p1++;
+            }
+            result+=p2-p1+1;
+        }
+        return result;
+    }
+    int subarraysWithKDistinct(vector<int>& A, int K) 
+    {
+        return atMostK(A,K)-atMostK(A,K-1);
+    }
+};

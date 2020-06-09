@@ -1,0 +1,40 @@
+class Solution 
+{
+    public:
+    int gcd(int a,int b)
+    {
+        if(b==0)
+        {
+            return a;
+        }
+        return gcd(b,a%b);
+    }
+    int maxPoints(vector<vector<int>>& points) 
+    {
+        int result=0;
+        int n=points.size();
+        for(int i=0;i<n;i++)
+        {
+            map<pair<int,int>,int> total;
+            int duplicate=1;
+            for(int j=i+1;j<n;j++)
+            {
+                if(points[i][0]==points[j][0]&&points[i][1]==points[j][1])
+                {
+                    duplicate++;
+                    continue;
+                }
+                int dx=points[j][0]-points[i][0];
+                int dy=points[j][1]-points[i][1];
+                int d=gcd(dx,dy);
+                total[{dx/d,dy/d}]++;
+            }
+            result=max(result,duplicate);
+            for(map<pair<int,int>,int>::iterator it=total.begin();it!=total.end();it++)
+            {
+                result=max(result,duplicate+it->second);
+            }
+        }
+        return result;
+    }
+};

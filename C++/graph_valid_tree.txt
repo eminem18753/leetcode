@@ -1,0 +1,74 @@
+class Solution 
+{
+    public:
+    vector<int> a;
+    vector<int> p;
+    int find(int x)
+    {
+        if(x!=a[x])
+        {
+            a[x]=find(a[x]);
+        }
+        return a[x];
+    }
+    void u(int x,int y)
+    {
+        for(int i=0;i<a.size();i++)
+        {
+            a[i]=find(a[i]);
+        }
+        int t1=find(x);
+        int t2=find(y);
+        
+        if(p[t1]<p[t2])
+        {
+            a[t1]=t2;
+            p[t1]--;
+            p[t2]++;
+        }
+        else if(p[t1]>p[t2])
+        {
+            a[t2]=t1;
+            p[t2]--;
+            p[t1]++;
+        }
+        else if(t1<t2)
+        {
+            a[t2]=t1;
+            p[t2]--;
+            p[t1]++;
+        }
+        else
+        {
+            a[t1]=t2;
+            p[t1]--;
+            p[t2]++;
+        }
+    }
+    bool validTree(int n, vector<vector<int>>& edges)
+    {
+        set<int> t;
+        for(int i=0;i<n;i++)
+        {
+            a.push_back(i);
+            p.push_back(1);
+        }
+        for(int i=0;i<edges.size();i++)
+        {
+            if(a[edges[i][0]]==a[edges[i][1]])
+            {
+                return false;
+            }
+            u(edges[i][0],edges[i][1]);
+        }
+        for(int i=0;i<edges.size();i++)
+        {
+            u(edges[i][0],edges[i][1]);
+        }
+        for(int i=0;i<n;i++)
+        {
+            t.insert(a[i]);
+        }
+        return (int)t.size()==1;
+    }
+};

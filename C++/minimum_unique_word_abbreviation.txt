@@ -1,0 +1,95 @@
+class Solution 
+{
+    public:
+    vector<pair<int,string>> total;
+    void dfs(string& target,string& temp,int start,int c)
+    {
+        if(start>=target.length())
+        {
+            total.push_back({c,temp});
+            return;
+        }
+        if(c==0||!isdigit(temp.back()))
+        {
+            for(int i=start+1;i<=target.length();i++)
+            {
+                string t=temp;
+                temp+=to_string(i-start);
+                dfs(target,temp,i,c+1);
+                temp=t;
+            }
+        }
+        if(c==0||isdigit(temp.back()))
+        {
+            for(int i=start+1;i<=target.length();i++)
+            {
+                string t=temp;
+                temp+=target.substr(start,i-start);
+                dfs(target,temp,i,c+i-start);
+                temp=t;
+            }
+        }
+    }
+    bool check(string a,string b)
+    {
+        int i=0;
+        int j=0;
+        int n=0;
+        for(i=0;i<a.length();i++)
+        {
+            if(isdigit(a[i]))
+            {
+                n*=10;
+                n+=a[i]-'0';
+            }
+            else
+            {
+                if(n!=0)
+                {
+                    j+=n;
+                    n=0;
+                }
+                if(a[i]!=b[j])
+                {
+                    return false;
+                }
+                else
+                {
+                    j++;
+                }
+            }
+        }
+        if(n!=0)
+        {
+            j+=n;
+        }
+        return j==(int)b.length();
+    }
+    string minAbbreviation(string target, vector<string>& dictionary) 
+    {
+        if(dictionary.size()==0)
+        {
+            return to_string((int)target.length());
+        }
+        string temp="";
+        dfs(target,temp,0,0);
+        sort(total.begin(),total.end());
+        for(int i=0;i<total.size();i++)
+        {
+            int f=0;
+            for(int j=0;j<dictionary.size();j++)
+            {
+                if(check(total[i].second,dictionary[j]))
+                {
+                    f=1;
+                    break;
+                }
+            }
+            if(f==0)
+            {
+                return total[i].second;
+            }
+        }
+        return "";
+    }
+};

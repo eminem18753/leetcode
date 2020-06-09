@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int kthGrammar(int N, int K) {
+        int counter=0;
+        K-=1;
+        while(K/2)
+        {
+            int x=K%2;
+            if(x==1)
+            {
+                counter+=1;
+            }
+            K/=2;
+        }
+        if(K==1)
+        {
+            counter+=1;
+        }
+        return counter%2;        
+    }
+};

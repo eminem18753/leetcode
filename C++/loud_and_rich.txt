@@ -1,0 +1,69 @@
+class Solution 
+{
+    public:
+    map<int,set<int>> total;
+    vector<int> result;
+    vector<int> q;
+    int t=-1;
+    int m=2147483647;
+    set<int> overall;
+    map<int,int> a;
+    void dfs(int current)
+    {
+        for(set<int>::iterator it=total[current].begin();it!=total[current].end();it++)
+        {
+            if(q[*it]<m)
+            {
+                m=q[*it];
+                t=*it;
+            }
+            if(overall.find(*it)==overall.end()&&a.find(*it)!=a.end())
+            {
+                if(q[a[*it]]<m)
+                {
+                    m=q[a[*it]];
+                    t=a[*it];
+                }
+            }
+            else if(overall.find(*it)==overall.end())
+            {
+                dfs(*it);
+            }
+            overall.insert(*it);
+        }
+    }
+    vector<int> loudAndRich(vector<vector<int>>& richer, vector<int>& quiet) 
+    {
+        q=quiet;
+        for(int i=0;i<richer.size();i++)
+        {
+            total[richer[i][1]].insert(richer[i][0]);
+        }
+        for(int i=0;i<quiet.size();i++)
+        {
+            t=-1;
+            m=2147483647;
+            overall.clear();
+            dfs(i);
+            if(t==-1)
+            {
+                result.push_back(i);       
+                a[i]=i;
+            }
+            else
+            {
+                if(quiet[i]<m)
+                {
+                    result.push_back(i);
+                    a[i]=i;
+                }
+                else
+                {
+                    result.push_back(t);
+                    a[i]=t;
+                }
+            }
+        }
+        return result;
+    }
+};

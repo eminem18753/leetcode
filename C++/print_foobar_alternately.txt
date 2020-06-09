@@ -1,0 +1,40 @@
+class FooBar {
+private:
+    int n;
+    int flag=0;
+    mutex m1;
+    mutex m2;
+public:
+    FooBar(int n)
+    {
+        this->n = n;
+    }
+    void printFoo()
+    {
+        cout<<"foo";
+    }
+    void printBar()
+    {
+        cout<<"bar";
+    }
+    void foo(function<void()> printFoo) {
+        
+        for (int i = 0; i < n; i++) 
+        {   
+            m2.lock();
+        	printFoo();
+            m1.unlock();
+        }
+        
+    }
+
+    void bar(function<void()> printBar) {
+        
+        for (int i = 0; i < n; i++) 
+        {           
+            m1.lock();
+        	printBar();
+            m2.unlock();
+        }
+    }
+};

@@ -1,0 +1,26 @@
+class Solution {
+public:
+    void duplicateZeros(vector<int>& arr) 
+    {
+        int counter=0;
+        int flag=0;
+        int n=arr.size();
+        for(int i=0;i<n;i++)
+        {
+            if(arr[i]==0&&flag==0)
+            {
+                arr.insert(arr.begin()+i,0);
+                flag=1;
+                counter+=1;
+            }
+            else if(flag==1)
+            {
+                flag=0;
+            }
+        }
+        for(int i=0;i<counter;i++)
+        {
+            arr.pop_back();
+        }
+    }
+};

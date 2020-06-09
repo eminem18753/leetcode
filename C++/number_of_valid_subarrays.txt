@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int validSubarrays(vector<int>& nums)
+    {
+        int result=0;
+        int n=nums.size();
+        vector<int> s;
+        vector<int> d;
+        for(int i=nums.size()-1;i>-1;i--)
+        {
+            while(s.size()!=0&&nums[i]<=s.back())
+            {
+                s.pop_back();
+                d.pop_back();
+            }
+            if(d.size()==0)
+            {
+                result+=n-i;
+            }
+            else
+            {
+                result+=d.back()-i;
+            }
+            s.push_back(nums[i]);
+            d.push_back(i);
+        }
+        return result;
+    }
+};

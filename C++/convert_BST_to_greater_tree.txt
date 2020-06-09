@@ -1,0 +1,68 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution 
+{
+    public:
+    vector<int> result;
+    vector<int> total;
+    map<int,int> overall;
+    void test1(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        result.push_back(root->val);
+        if(root->left!=NULL)
+        {
+            test1(root->left);
+        }
+        if(root->right!=NULL)
+        {
+            test1(root->right);
+        }
+    }
+    void test2(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        root->val=overall[root->val];
+        if(root->left!=NULL)
+        {
+            test2(root->left);
+        }
+        if(root->right!=NULL)
+        {
+            test2(root->right);
+        }
+    }
+    TreeNode* convertBST(TreeNode* root)
+    {
+        test1(root);
+        if(result.size()<=1)
+        {
+            return root;
+        }
+        sort(result.begin(),result.end());        
+        total.push_back(0);
+        for(int i=0;i<result.size();i++)
+        {
+            total.push_back(total[i]+result[i]);
+        }
+        for(int i=0;i<result.size();i++)
+        {
+            overall[result[i]]=total[total.size()-1]-total[i];
+        }
+        test2(root);
+        return root;
+    }
+};

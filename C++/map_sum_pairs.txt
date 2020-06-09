@@ -1,0 +1,128 @@
+class MapSum {
+public:
+    /** Initialize your data structure here. */
+    struct trie
+    {
+        map<char,trie*> next;
+        int val;
+        bool isEnd;
+    };
+    typedef struct trie trie;
+    trie* root;
+    MapSum()
+    {
+        root=new trie();
+        root->val=0;
+        root->isEnd=false;
+    }
+    int checkEnd(string key)
+    {
+        trie* c=root;
+        if(root==NULL)
+        {
+            return -1;
+        }
+        for(int i=0;i<key.length();i++)
+        {
+            if(root->next.find(key[i])!=root->next.end())
+            {
+                root=root->next[key[i]];
+            }
+            else
+            {
+                root=c;
+                return -1;
+            }
+            if(root==NULL)
+            {
+                root=c;
+                return -1;
+            }
+        }
+        if(root->isEnd==false)
+        {
+            root=c;
+            return -1;
+        }
+        int t=root->val;
+        root=c;
+        return t;        
+    }
+    void insert(string key, int v)
+    {
+        trie* c=root;
+        int test=checkEnd(key);
+        if(test==-1)
+        {
+            for(int i=0;i<key.length();i++)
+            {
+                if(root->next.find(key[i])!=root->next.end())
+                {
+                    root->next[key[i]]->val+=v;
+                }
+                else
+                {
+                    trie* temp=new trie();
+                    temp->val=v;
+                    temp->isEnd=false;
+                    root->next[key[i]]=temp;
+                }
+                root=root->next[key[i]];
+            }
+            root->isEnd=true;
+            root=c;
+        }
+        else
+        {
+            for(int i=0;i<key.length();i++)
+            {
+                if(root->next.find(key[i])!=root->next.end())
+                {
+                    root->next[key[i]]->val+=v-test;
+                }
+                else
+                {
+                    trie* temp=new trie();
+                    temp->val=v;
+                    temp->isEnd=false;
+                    root->next[key[i]]=temp;
+                }
+                root=root->next[key[i]];
+            }
+            root->isEnd=true;
+            root=c;            
+        }
+    }
+    int sum(string prefix)
+    {
+        trie* c=root;
+        for(int i=0;i<prefix.length();i++)
+        {
+            if(c->next.find(prefix[i])!=c->next.end())
+            {
+                c=c->next[prefix[i]];
+            }
+            else
+            {
+                return 0;
+            }
+            if(c==NULL)
+            {
+                return 0;
+            }
+        }
+        if(c==NULL)
+        {
+            return 0;
+        }
+        int s=c->val;
+        return s;
+    }
+};
+
+/**
+ * Your MapSum object will be instantiated and called as such:
+ * MapSum obj = new MapSum();
+ * obj.insert(key,val);
+ * int param_2 = obj.sum(prefix);
+ */

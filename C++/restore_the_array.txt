@@ -1,0 +1,42 @@
+class Solution 
+{
+    public:
+    vector<int> dp;
+    int m=1000000007;
+    int dfs(string& s,int &k,int start)
+    {
+        if(start>s.length())
+        {
+            return 0;
+        }
+        if(start==s.length())
+        {
+            return 1;
+        }
+        if(dp[start]!=-1)
+        {
+            return dp[start];
+        }
+        long result=0;
+        for(int i=1;i<=to_string(k).length();i++)
+        {
+            long number=stol(s.substr(start,i));
+            if(number<=k&&s[start]!='0')
+            {
+                result=(result+dfs(s,k,start+i))%m;
+            }
+            else
+            {
+                break;
+            }
+        }
+        dp[start]=result;
+        return result;
+    }
+    int numberOfArrays(string s, int k) 
+    {
+        int n=s.length();
+        dp=vector<int>(n,-1);
+        return dfs(s,k,0);
+    }
+};

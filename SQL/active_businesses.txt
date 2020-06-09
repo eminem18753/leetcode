@@ -1,0 +1,10 @@
+# Write your MySQL query statement below
+SELECT business_id FROM Events as a
+JOIN
+(
+    SELECT AVG(occurences) as o,event_type as e FROM Events
+    GROUP BY event_type
+) as b
+WHERE a.event_type=b.e AND a.occurences>b.o
+GROUP BY business_id
+HAVING COUNT(*)>1;

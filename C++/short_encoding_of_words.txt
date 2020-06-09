@@ -1,0 +1,36 @@
+bool compare(string a,string b)
+{
+    return (int)a.length()<(int)b.length();
+}
+class Solution 
+{
+    public:
+    int minimumLengthEncoding(vector<string>& words) 
+    {
+        int result=0;
+        sort(words.rbegin(),words.rend(),compare);
+        for(int i=0;i<words.size();i++)
+        {
+            if(i==0)
+            {
+                result+=(int)words[i].length()+1;
+            }
+            else
+            {
+                int f=0;
+                for(int j=0;j<i;j++)
+                {
+                    if(words[i]==words[j].substr((int)words[j].length()-(int)words[i].length()))
+                    {
+                        f=1;
+                    }
+                }
+                if(f==0)
+                {
+                    result+=(int)words[i].length()+1;
+                }
+            }
+        }
+        return result;
+    }
+};

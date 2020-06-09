@@ -1,0 +1,113 @@
+class Solution
+{
+public:
+    int compareVersion(string version1, string version2) 
+    {
+        if(version1==""&&version2=="")
+        {
+            return 0;
+        }
+        if(version1=="")
+        {
+            return -1;
+        }
+        if(version2=="")
+        {
+            return 1;
+        }
+        vector<int> v1;
+        vector<int> v2;
+        
+        vector<int> f1;
+        vector<int> f2;
+        for(int i=0;i<version1.length();i++)
+        {
+            if(version1[i]=='.')
+            {
+                f1.push_back(i);
+            }
+        }
+        for(int i=0;i<version2.length();i++)
+        {
+            if(version2[i]=='.')
+            {
+                f2.push_back(i);
+            }
+        }
+        for(int i=0;i<f1.size();i++)
+        {
+            if(i==0)
+            {
+                v1.push_back(stoi(version1.substr(0,f1[i])));
+            }
+            else
+            {
+                v1.push_back(stoi(version1.substr(f1[i-1]+1,f1[i])));
+            }
+            if(i==(int)f1.size()-1)
+            {
+                v1.push_back(stoi(version1.substr(f1[i]+1)));
+            }
+        }
+        for(int i=0;i<f2.size();i++)
+        {
+            if(i==0)
+            {
+                v2.push_back(stoi(version2.substr(0,f2[i])));
+            }
+            else
+            {
+                v2.push_back(stoi(version2.substr(f2[i-1]+1,f2[i])));
+            }
+            if(i==(int)f2.size()-1)
+            {
+                v2.push_back(stoi(version2.substr(f2[i]+1)));
+            }
+        }
+        if(v1.size()==0)
+        {
+            v1.push_back(stoi(version1));
+        }
+        if(v2.size()==0)
+        {
+            v2.push_back(stoi(version2));
+        }
+        while(v1.size()>1&&v1.back()==0)
+        {
+            v1.pop_back();
+        }
+        while(v2.size()>1&&v2.back()==0)
+        {
+            v2.pop_back();
+        }
+
+        int f=0;
+        for(int i=0;i<min((int)v1.size(),(int)v2.size());i++)
+        {
+            if(v1[i]!=v2[i])
+            {
+                f=1;
+            }
+        }
+        if(f==0&&(int)v1.size()==(int)v2.size())
+        {
+            return 0;
+        }
+        for(int i=0;i<min((int)v1.size(),(int)v2.size());i++)
+        {
+            if(v1[i]<v2[i])
+            {
+                return -1;
+            }
+            else if(v1[i]>v2[i])
+            {
+                return 1;
+            }
+        }
+        if((int)v1.size()<(int)v2.size())
+        {
+            return -1;
+        }
+        return 1;
+    }
+};

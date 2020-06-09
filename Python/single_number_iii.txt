@@ -1,0 +1,16 @@
+from collections import Counter
+class Solution(object):
+    def singleNumber(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        overall=[]
+        output=[]
+        result=Counter(nums).items()
+        for i in result:
+            overall.append(list(i))
+        for i in range(0,len(overall)):
+            if overall[i][1]==1:
+                output.append(overall[i][0])
+        return output

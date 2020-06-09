@@ -1,0 +1,33 @@
+class Solution 
+{
+public:
+    int networkDelayTime(vector<vector<int>>& times, int N, int K)
+    {
+        int M=-2147483647;
+        int dp[N+1];
+        for(int i=1;i<=N;i++)
+        {
+            dp[i]=2147483647;
+        }
+        dp[K]=0;
+        for(int i=0;i<N;i++)
+        {
+            for(int i=0;i<times.size();i++)
+            {
+                if(dp[times[i][0]]!=2147483647&&dp[times[i][0]]+times[i][2]<dp[times[i][1]])
+                {
+                    dp[times[i][1]]=dp[times[i][0]]+times[i][2];
+                }
+            }
+        }
+        for(int i=1;i<=N;i++)
+        {
+            M=max(M,dp[i]);
+        }
+        if(M==2147483647)
+        {
+            return -1;
+        }
+        return M;
+    }
+};

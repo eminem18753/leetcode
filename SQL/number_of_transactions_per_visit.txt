@@ -1,0 +1,31 @@
+# Write your MySQL query statement below
+SELECT CAST(d.r as UNSIGNED) as transactions_count,CASE WHEN d.r=outcome.transactions_count THEN outcome.visits_count ELSE 0 END as visits_count FROM
+(
+    SELECT CASE WHEN c.t IS NULL THEN 0 ELSE c.counter END as transactions_count,CASE WHEN c.t IS NULL THEN c.counter ELSE COUNT(c.counter) END as visits_count FROM
+    (
+        SELECT b.transaction_date as t,SUM(CASE WHEN b.transaction_date is NULL THEN 1 ELSE a.user_id=b.user_id AND a.visit_date=b.transaction_date END) as counter
+        FROM Visits as a
+        LEFT JOIN Transactions as b
+        ON a.user_id=b.user_id AND a.visit_date=b.transaction_date
+        GROUP BY b.user_id,b.transaction_date
+    ) c
+    GROUP BY c.counter
+    ORDER BY transactions_count
+) outcome
+RIGHT JOIN
+(SELECT @row_id:=@row_id+1 as r FROM Visits t1 JOIN Visits t2,(SELECT @row_id:=-1) e) d
+ON outcome.transactions_count=d.r
+WHERE d.r<=
+(
+    SELECT max(q.transactions_count) FROM
+    (
+        SELECT CASE WHEN c_t.t IS NULL THEN 0 ELSE c_t.counter END as transactions_count FROM
+        (
+            SELECT b_t.transaction_date as t,SUM(CASE WHEN b_t.transaction_date is NULL THEN 1 ELSE a_t.user_id=b_t.user_id AND a_t.visit_date=b_t.transaction_date END) as counter
+            FROM Visits as a_t
+            LEFT JOIN Transactions as b_t
+            ON a_t.user_id=b_t.user_id AND a_t.visit_date=b_t.transaction_date
+            GROUP BY b_t.user_id,b_t.transaction_date
+        ) c_t
+    ) q
+)

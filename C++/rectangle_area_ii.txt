@@ -1,0 +1,48 @@
+class Solution 
+{
+    public:
+    vector<vector<int>> total;
+    void test(vector<int> c,int start)
+    {
+        if(start>=total.size())
+        {
+            total.push_back(c);
+            return;
+        }
+        if(c[2]<=total[start][0]||c[0]>=total[start][2]||c[3]<=total[start][1]||c[1]>=total[start][3])
+        {
+            test(c,start+1);
+            return;
+        }
+        if(c[0]<total[start][0])
+        {
+            test({c[0],c[1],total[start][0],c[3]},start+1);
+        }
+        if(c[2]>total[start][2])
+        {
+            test({total[start][2],c[1],c[2],c[3]},start+1);
+        }
+        if(c[1]<total[start][1])
+        {
+            test({max(total[start][0],c[0]),c[1],min(total[start][2],c[2]),total[start][1]},start+1);
+        }
+        if(c[3]>total[start][3])
+        {
+            test({max(total[start][0],c[0]),total[start][3],min(total[start][2],c[2]),c[3]},start+1);
+        }
+    }
+    int rectangleArea(vector<vector<int>>& rectangles) 
+    {
+        long m=1000000007;
+        long result=0;
+        for(int i=0;i<rectangles.size();i++)
+        {
+            test(rectangles[i],0);
+        }
+        for(int i=0;i<total.size();i++)
+        {
+            result=(result+(long)(total[i][2]-total[i][0])*(long)(total[i][3]-total[i][1]))%m;
+        }
+        return (int)result;
+    }
+};

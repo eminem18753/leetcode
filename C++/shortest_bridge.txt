@@ -1,0 +1,49 @@
+class Solution {
+public:
+    void dfs(vector<vector<int>>& A,vector<vector<int>> &r,int i,int j)
+    {
+        if(i<0||j<0||i>A.size()-1||j>A[0].size()-1||A[i][j]==0)
+        {
+            return;
+        }
+        A[i][j]=0;
+        vector<int> temp;
+        temp.push_back(i);
+        temp.push_back(j);
+        r.push_back(temp);
+        dfs(A,r,i+1,j);
+        dfs(A,r,i-1,j);
+        dfs(A,r,i,j+1);
+        dfs(A,r,i,j-1);
+    }
+    int shortestBridge(vector<vector<int>>& A) 
+    {
+        int result=2147483647;
+        vector<vector<int>> r1;
+        vector<vector<int>> r2;
+        int c=0;
+        for(int i=0;i<A.size();i++)
+        {
+            for(int j=0;j<A[0].size();j++)
+            {
+                if(c==0&&A[i][j]==1)
+                {
+                    dfs(A,r1,i,j);
+                    c++;
+                }
+                else if(A[i][j]==1)
+                {
+                    dfs(A,r2,i,j);
+                }
+            }
+        }
+        for(int i=0;i<r1.size();i++)
+        {
+            for(int j=0;j<r2.size();j++)
+            {
+                result=min(result,abs(r1[i][0]-r2[j][0])+abs(r1[i][1]-r2[j][1])-1);
+            }
+        }
+        return result;
+    }
+};

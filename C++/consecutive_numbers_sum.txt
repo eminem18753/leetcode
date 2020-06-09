@@ -1,0 +1,18 @@
+class Solution 
+{
+    public:
+    int consecutiveNumbersSum(int N) 
+    {
+        int result=0;
+        int t=(int)((ceil(1+sqrt((double)1+(double)8*(double)N))/(double)2));
+        for(int i=1;i<=t;i++)
+        {
+            int temp=N-i*(i-1)/2;
+            if(temp%i==0&&temp>0)
+            {
+                result++;
+            }
+        }
+        return result;    
+    }
+};

@@ -1,0 +1,38 @@
+class FreqStack 
+{
+    public:
+    map<int,int> frequency;
+    map<int,vector<int>> total;
+    int maxFrequency=0;
+    
+    FreqStack() 
+    {
+        
+    }
+    
+    void push(int x) 
+    {
+        frequency[x]++;
+        total[frequency[x]].push_back(x);
+        maxFrequency=max(maxFrequency,frequency[x]);
+    }
+    
+    int pop() 
+    {
+        int result=total[maxFrequency].back();
+        total[maxFrequency].pop_back();
+        frequency[result]--;
+        if(total[maxFrequency].size()==0)
+        {
+            maxFrequency--;
+        }
+        return result;
+    }
+};
+
+/**
+ * Your FreqStack object will be instantiated and called as such:
+ * FreqStack* obj = new FreqStack();
+ * obj->push(x);
+ * int param_2 = obj->pop();
+ */

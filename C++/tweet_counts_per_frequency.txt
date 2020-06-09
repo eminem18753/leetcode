@@ -1,0 +1,51 @@
+class TweetCounts 
+{
+    public:
+    unordered_map<string,vector<int>> total;//tweetName->time
+    TweetCounts() 
+    {
+        
+    }
+    
+    void recordTweet(string tweetName, int time) 
+    {
+        vector<int>::iterator low;
+        low=lower_bound(total[tweetName].begin(),total[tweetName].end(),time);
+        total[tweetName].insert(low,time);
+    }
+    
+    vector<int> getTweetCountsPerFrequency(string freq, string tweetName, int startTime, int endTime) 
+    {
+        vector<int> result;
+        int times;
+        if(freq=="minute")
+        {
+            times=60;
+        }
+        else if(freq=="hour")
+        {
+            times=3600;
+        }
+        else
+        {
+            times=86400;
+        }
+        int current=0;
+        for(int i=startTime;i<=endTime;i+=times)
+        {
+            vector<int>::iterator low;
+            vector<int>::iterator up;
+            low=lower_bound(total[tweetName].begin(),total[tweetName].end(),i);
+            up=upper_bound(total[tweetName].begin(),total[tweetName].end(),min(i+times-1,endTime));
+            result.push_back((int)(up-low));
+        }
+        return result;
+    }
+};
+
+/**
+ * Your TweetCounts object will be instantiated and called as such:
+ * TweetCounts* obj = new TweetCounts();
+ * obj->recordTweet(tweetName,time);
+ * vector<int> param_2 = obj->getTweetCountsPerFrequency(freq,tweetName,startTime,endTime);
+ */

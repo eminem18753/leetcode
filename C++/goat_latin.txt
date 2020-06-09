@@ -1,0 +1,46 @@
+class Solution 
+{
+public:
+    string toGoatLatin(string S) 
+    {
+        string result="";
+        string temp="";
+        int count=1;
+        int start=0;
+        for(int i=0;i<S.length()+1;i++)
+        {
+            if(S[i]==' '||S[i]=='\0')
+            {
+                if(temp[0]=='a'||temp[0]=='e'||temp[0]=='i'||temp[0]=='o'||temp[0]=='u'||temp[0]=='A'||temp[0]=='E'||temp[0]=='I'||temp[0]=='O'||temp[0]=='U')
+                {
+                    temp+="ma";
+                    result+=temp;
+                }
+                else
+                {
+                    string another="";
+                    for(int j=1;j<temp.length();j++)
+                    {
+                        another+=temp[j];
+                    }
+                    another+=temp[0];
+                    another+="ma";
+                    result+=another;
+                }
+                for(int k=0;k<count;k++)
+                {
+                    result+="a";
+                }
+                if(S[i]==' ')
+                {
+                    result+=" ";
+                }
+                temp="";
+                count+=1;
+                continue;
+            }
+            temp+=S[i];
+        }
+        return result;
+    }
+};

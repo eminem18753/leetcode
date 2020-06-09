@@ -1,0 +1,52 @@
+class Solution {
+public:
+    int numKLenSubstrNoRepeats(string S, int K) 
+    {
+        if(K>26||K>S.length())
+        {
+            return 0;
+        }
+        int a[26];
+        int c=0;
+        memset(a,0,sizeof(a));
+        
+        for(int i=0;i<K;i++)
+        {
+            a[S[i]-'a']++;
+        }
+        int flag=0;
+        for(int i=0;i<26;i++)
+        {
+            if(a[i]>1)
+            {
+                flag=1;
+            }
+        }
+        if(flag==0)
+        {
+            c++;
+        }
+        for(int i=K;i<S.length();i++)
+        {
+            int a[26];
+            memset(a,0,sizeof(a));
+            for(int j=i-K+1;j<=i;j++)
+            {
+                a[S[j]-'a']++;
+            }
+            int flag=0;
+            for(int j=0;j<26;j++)
+            {
+                if(a[j]>1)
+                {
+                    flag=1;
+                }
+            }
+            if(flag==0)
+            {
+                c++;
+            }
+        }
+        return c;
+    }
+};

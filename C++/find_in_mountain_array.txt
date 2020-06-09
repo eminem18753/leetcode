@@ -1,0 +1,125 @@
+/**
+ * // This is the MountainArray's API interface.
+ * // You should not implement it, or speculate about its implementation
+ * class MountainArray {
+ *   public:
+ *     int get(int index);
+ *     int length();
+ * };
+ */
+class Solution 
+{
+    public:
+    int findInMountainArray(int target, MountainArray &mountainArr) 
+    {
+        //find mountain index
+        int n=mountainArr.length();
+        int p1=0;
+        int p2=n-1;
+        int r=-1;
+        map<int,int> total;
+        while(p1<p2)
+        {
+            int middle=(p1+p2)/2;   
+            
+            if(middle==0||middle==n-1)
+            {
+                return -1;   
+            }
+            int m;
+            int ml;
+            int mr;
+            if(total.find(middle)==total.end())
+            {
+                total[middle]=mountainArr.get(middle);
+            }
+            m=total[middle];
+            
+            if(total.find(middle-1)==total.end())
+            {
+                total[middle-1]=mountainArr.get(middle-1);
+            }
+            ml=total[middle-1];
+            
+            if(total.find(middle+1)==total.end())
+            {
+                total[middle+1]=mountainArr.get(middle+1);
+            }
+            mr=total[middle+1];
+            
+            if(m>ml&&m<mr)//左半邊
+            {
+                p1=middle+1;
+            }
+            else if(m<ml&&m>mr)//右半邊
+            {
+                p2=middle;
+            }
+            else
+            {
+                r=middle;
+                break;
+            }
+        }
+        if(r==-1)
+        {
+            r=p1;   
+        }
+        int f1=0;
+        int f2=r;
+        while(f1<f2)
+        {
+            int middle=(f1+f2)/2;
+            
+            int m;
+            if(total.find(middle)==total.end())
+            {
+                total[middle]=mountainArr.get(middle);
+            }
+            m=total[middle];
+            
+            if(m<target)
+            {
+                f1=middle+1;
+            }
+            else if(m>target)
+            {
+                f2=middle;
+            }
+            else
+            {
+                return middle;   
+            }
+        }
+        int g1=r;
+        int g2=n-1;
+        while(g1<g2)
+        {
+            int middle=(g1+g2)/2;
+            
+            int m;
+            if(total.find(middle)==total.end())
+            {
+                total[middle]=mountainArr.get(middle);
+            }
+            m=total[middle];
+            if(m>target)
+            {
+                g1=middle+1;   
+            }
+            else if(m<target)
+            {
+                g2=middle;   
+            }
+            else
+            {
+                return middle;   
+            }
+        }
+        if(mountainArr.get(g1)==target)
+        {
+            return g1;   
+        }
+        return -1;
+    }
+};

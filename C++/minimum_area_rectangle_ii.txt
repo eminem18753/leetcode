@@ -1,0 +1,71 @@
+class Solution 
+{
+    public:
+    double minAreaFreeRect(vector<vector<int>>& points) 
+    {
+        double result=2147483647;
+        map<int,vector<vector<int>>> total;
+        for(int i=0;i<(int)points.size()-1;i++)
+        {
+            for(int j=i+1;j<(int)points.size();j++)
+            {
+                int x1=points[i][0];
+                int y1=points[i][1];
+                int x2=points[j][0];
+                int y2=points[j][1];
+                int d=(x2-x1)*(x2-x1)+(y2-y1)*(y2-y1);
+                vector<int> temp;
+                if(x1>x2)
+                {
+                    temp.push_back(x1);
+                    temp.push_back(y1);
+                    temp.push_back(x2);
+                    temp.push_back(y2);
+                }
+                else
+                {
+                    temp.push_back(x2);
+                    temp.push_back(y2);
+                    temp.push_back(x1);
+                    temp.push_back(y1);                    
+                }
+                total[d].push_back(temp);
+            }
+        }
+        for(map<int,vector<vector<int>>>::iterator it=total.begin();it!=total.end();it++)
+        {
+            for(int i=0;i<(int)it->second.size()-1;i++)
+            {
+                for(int j=i+1;j<(int)it->second.size();j++)
+                {
+                    int x1=it->second[i][0];
+                    int x2=it->second[i][2];
+                    int x3=it->second[j][0];
+                    int x4=it->second[j][2];
+
+                    int y1=it->second[i][1];
+                    int y2=it->second[i][3];
+                    int y3=it->second[j][1];
+                    int y4=it->second[j][3];
+                    
+                    if((x3-x1)*(x3-x1)+(y3-y1)*(y3-y1)==(x4-x2)*(x4-x2)+(y4-y2)*(y4-y2))
+                    {
+                        int f1=x2-x1;
+                        int f2=y2-y1;
+                        int f3=x3-x1;
+                        int f4=y3-y1;
+                        if(((f1==0&&f3==0)||(f2==0&&f4==0)||((double)(x2-x1)/(double)(y2-y1))==((double(x4-x3)/(double)(y4-y3))))&&(f1*f3+f2*f4==0))
+                        {
+                            result=min(result,sqrt(f1*f1+f2*f2)*sqrt(f3*f3+f4*f4));
+                        }
+                    }
+                }
+            }
+        }
+        if(result==2147483647)
+        {
+            return 0;
+        }
+        return result;
+    }
+};

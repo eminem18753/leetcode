@@ -1,0 +1,64 @@
+class ExamRoom 
+{
+    public:
+    int n;
+    map<int,int> total;
+    ExamRoom(int N) 
+    {
+        n=N;
+    }
+    
+    int seat() 
+    {
+        int index=-1;
+        if(total.size()==0)
+        {
+            total[0]=1;
+            return 0;
+        }
+        else
+        {
+            int last=-1;
+            int M=0;
+            for(map<int,int>::iterator it=total.begin();it!=total.end();it++)
+            {
+                if(last==-1)
+                {
+                    M=it->first;
+                    index=0;
+                }
+                else
+                {
+                    if((it->first-last)/2>M)
+                    {
+                        M=(it->first-last)/2;
+                        index=(last+it->first)/2;
+                    }
+                }
+                last=it->first;
+            }
+            if(n-1-last>M)
+            {
+                total[n-1]=1;
+                index=n-1;
+            }
+            else
+            {
+                total[index]=1;
+            }
+            return index;
+        }
+    }
+    
+    void leave(int p) 
+    {
+        total.erase(p);
+    }
+};
+
+/**
+ * Your ExamRoom object will be instantiated and called as such:
+ * ExamRoom* obj = new ExamRoom(N);
+ * int param_1 = obj->seat();
+ * obj->leave(p);
+ */

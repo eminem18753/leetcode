@@ -1,0 +1,72 @@
+class Solution 
+{
+    public:
+    int numDupDigitsAtMostN(int N) 
+    {
+        int result=0;
+        vector<int> total;
+        int number=N+1;
+        while(number)
+        {
+            total.push_back(number%10);
+            number/=10;
+        }
+        reverse(total.begin(),total.end());
+        int n=total.size();
+        for(int counter=0;counter<n-1;counter++)
+        {
+            int r=9;
+            for(int i=0;i<n-2-counter;i++)
+            {
+                r*=(9-i);   
+            }
+            if(n>counter+1)
+            {
+                result+=r;
+            }
+        }
+        for(int i=0;i<n;i++)
+        {
+            int r=total[i]-((i==0)?1:0);
+            if(i!=0)
+            {
+                set<int> c;
+                set<int> t;
+                int f=0;
+                for(int j=0;j<i;j++)
+                {
+                    if(total[j]<total[i])
+                    {
+                        if(c.find(total[j])!=c.end())
+                        {
+                            f=1;
+                            break;
+                        }
+                        c.insert(total[j]);
+                    }
+                    if(t.find(total[j])!=t.end())
+                    {
+                        f=1;
+                        break;
+                    }
+                    t.insert(total[j]);
+                }
+                if(f==1)
+                {
+                    break;   
+                }
+                r-=(int)c.size();
+            }
+            if(r>=0)
+            {
+                for(int j=0;j<n-i-1;j++)
+                {
+                    r*=(9-i-j);
+                }
+                result+=r;
+            }
+        }
+        
+        return N-result;
+    }
+};

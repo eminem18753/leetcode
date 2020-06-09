@@ -1,0 +1,59 @@
+class Solution {
+public:
+    vector<vector<int> > total;
+    
+    void test(vector<int> temp,int num,int current)
+    {
+        if(num==0)
+        {
+            total.push_back(temp);
+            return;
+        }
+        if(num<0)
+        {
+            return;
+        }
+        if(current>=10)
+        {
+            return;
+        }
+        test(temp,num,current+1);
+        temp.push_back(current);
+        test(temp,num-1,current+1);
+        temp.pop_back();
+    }
+    string output(int n)
+    {
+        int hours=((n&(1<<9))>>6)+((n&(1<<8))>>6)+((n&(1<<7))>>6)+((n&(1<<6))>>6);
+        if(hours>11)
+        {
+            return "nothing";
+        }
+        int minutes=(n&63);
+        if(minutes>59)
+        {
+            return "nothing";
+        }
+        
+        return to_string(hours)+":"+(to_string(minutes).length()==1?"0":"")+to_string(minutes);
+    }
+    vector<string> readBinaryWatch(int num) 
+    {
+        vector<string> result;
+        vector<int> temp;
+        test(temp,num,0);
+        for(int i=0;i<total.size();i++)
+        {
+            int summation=0;
+            for(int j=0;j<total[i].size();j++)
+            {
+                summation+=pow(2,total[i][j]);
+            }
+            if(output(summation)!="nothing")
+            {
+                result.push_back(output(summation));
+            }
+        }
+        return result;
+    }
+};

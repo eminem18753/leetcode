@@ -1,0 +1,28 @@
+class Solution(object):
+    def calPoints(self, ops):
+        """
+        :type ops: List[str]
+        :rtype: int
+        """
+        result=0
+        total=[]
+        for i in range(0,len(ops)):
+                
+            if ops[i]=='+':
+                temp=total[-1]+total[-2]
+                result+=temp
+                total.append(total[-1]+total[-2])
+                
+            elif ops[i]=='D':
+                result+=total[-1]*2
+                total.append(total[-1]*2)
+            
+            elif ops[i]=='C':
+                result-=total[-1]
+                total=total[:-1]
+            
+            else:
+                result+=int(ops[i])
+                total.append(int(ops[i]))
+
+        return result

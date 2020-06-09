@@ -1,0 +1,40 @@
+class Solution 
+{
+    public:
+    
+    vector<vector<int>> r;
+    vector<int> s;
+    int n;
+    Solution(vector<vector<int>>& rects) 
+    {
+        r=rects;
+        s.push_back(0);
+        for(int i=0;i<r.size();i++)
+        {
+            s.push_back(s.back()+abs(r[i][2]-r[i][0]+1)*abs(r[i][3]-r[i][1]+1));
+        }
+        n=s.back();
+        srand(time(NULL));
+    }
+    
+    vector<int> pick()
+    {
+        vector<int> result;
+        int temp=rand()%n+1;
+        vector<int>::iterator low;
+        low=lower_bound(s.begin(),s.end(),temp);
+        int index=(int)(low-s.begin())-1;
+        index=max(index,0);
+        int p1=rand()%(abs(r[index][2]-r[index][0]+1));
+        int p2=rand()%(abs(r[index][3]-r[index][1]+1));
+        result.push_back(p1+r[index][0]);
+        result.push_back(p2+r[index][1]);
+        return result;
+    }
+};
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution* obj = new Solution(rects);
+ * vector<int> param_1 = obj->pick();
+ */

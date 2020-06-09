@@ -1,0 +1,62 @@
+class Solution 
+{
+    public:
+    bool r(string& expression,int& s)
+    {
+        char c=expression[s];
+        s++;
+        if(c=='t')
+        {
+            return true;
+        }
+        if(c=='f')
+        {
+            return false;
+        }
+        if(c=='!')
+        {
+            s++;
+            bool answer=!r(expression,s);
+            s++;
+            return answer;
+        }
+        if(c=='&')
+        {
+            s++;
+            bool temp=true;
+            while(true)
+            {
+                temp&=r(expression,s);
+                if(expression[s]==')')
+                {
+                    s++;
+                    break;
+                }
+                s++;
+            }
+            return temp;
+        }
+        if(c=='|')
+        {
+            s++;
+            bool temp=false;
+            while(true)
+            {
+                temp|=r(expression,s);
+                if(expression[s]==')')
+                {
+                    s++;
+                    break;
+                }
+                s++;
+            }
+            return temp;
+        }
+        return true;
+    }
+    bool parseBoolExpr(string expression) 
+    {
+        int s=0;
+        return r(expression,s);
+    }
+};

@@ -1,0 +1,100 @@
+class Solution {
+public:
+    vector<string> total;
+    int k=2147483647;
+    void dfs(string temp,int a[10])
+    {
+        if(temp.length()==4)
+        {
+            string t1="";
+            t1+=temp[0];
+            t1+=temp[1];
+            if(stoi(t1)>=24)
+            {
+                return;
+            }
+            t1="";
+            t1+=temp[2];
+            t1+=temp[3];
+            if(stoi(t1)>=60)
+            {
+                return;
+            }
+            k=min(k,stoi(temp));
+            total.push_back(temp);
+            return;
+        }
+        for(int i=0;i<10;i++)
+        {
+            for(int j=0;j<a[i];j++)
+            {
+                temp+=to_string(i);
+                dfs(temp,a);
+                temp.pop_back();
+            }
+        }
+    }
+    string nextClosestTime(string time)
+    {
+        int t=0;
+        int m1=2147483647;
+        int c1=-1;
+        int m2=2147483647;
+        int c2=-1;
+        string pivot="";
+        pivot+=time[0];
+        pivot+=time[1];
+        pivot+=time[3];
+        pivot+=time[4];
+        t=stoi(pivot);
+        
+        string result="";
+        int n=time.length();
+        int a[10];
+        memset(a,0,sizeof(a));
+        for(int i=0;i<time.length();i++)
+        {
+            if(isdigit(time[i]))
+            {
+                a[time[i]-'0']+=1;
+            }
+        }
+        dfs("",a);
+        for(int i=0;i<total.size();i++)
+        {
+            int c=stoi(total[i]);
+            if(c>t&&c-t<m1)
+            {
+                m1=c-t;
+                c1=c;
+            }
+        }
+        if(c1==-1)
+        {
+            string f=to_string(k);
+            while(f.length()<4)
+            {
+                f="0"+f;
+            }
+            result+=f[0];
+            result+=f[1];
+            result+=":";
+            result+=f[2];
+            result+=f[3];
+        }
+        else
+        {
+            string f=to_string(c1);
+            while(f.length()<4)
+            {
+                f="0"+f;
+            }
+            result+=f[0];
+            result+=f[1];
+            result+=":";
+            result+=f[2];
+            result+=f[3];            
+        }
+        return result;
+    }
+};

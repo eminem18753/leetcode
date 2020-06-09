@@ -1,0 +1,39 @@
+class Solution {
+public:
+    int maxChunksToSorted(vector<int>& arr) 
+    {
+        int r=0;
+        vector<int> total=arr;
+        sort(total.begin(),total.end());
+        int index=0;
+        int n=arr.size();
+        while(index<n)
+        {
+            for(int i=index;i<n;i++)
+            {
+                vector<int> t1(arr.begin()+index,arr.begin()+i+1);
+                vector<int> t2(total.begin()+index,total.begin()+i+1);
+                
+                sort(t1.begin(),t1.end());                
+                
+                int flag=0;
+                for(int i=0;i<t1.size();i++)
+                {
+                    if(t1[i]!=t2[i])
+                    {
+                        flag=1;
+                        break;
+                    }
+                }
+                if(flag==0)
+                {
+                    r++;
+                    index=i+1;
+                    break;
+                }
+            }
+        }
+        
+        return r;
+    }
+};

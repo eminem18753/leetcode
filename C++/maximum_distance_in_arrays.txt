@@ -1,0 +1,55 @@
+class Solution {
+public:
+    int maxDistance(vector<vector<int>>& arrays) 
+    {
+        if(arrays.size()==0)
+        {
+            return 0;
+        }
+        int m1=2147483647;
+        int i1=-1;
+        int M1=-2147483648;
+        int I1=-1;
+        int m2=2147483647;
+        int i2=-1;
+        int M2=-2147483648;
+        int I2=-1;
+        for(int i=0;i<arrays.size();i++)
+        {
+            if(arrays[i][0]<m1)
+            {
+                m1=arrays[i][0];
+                i1=i;
+            }
+            if(arrays[i][arrays[i].size()-1]>M1)
+            {
+                M1=arrays[i][arrays[i].size()-1];
+                I1=i;
+            }
+        }
+        for(int i=0;i<arrays.size();i++)
+        {
+            if(arrays[i][0]<m2)
+            {
+                if(i1!=i)
+                {
+                    m2=arrays[i][0];
+                    i2=i;
+                }
+            }
+            if(arrays[i][arrays[i].size()-1]>M2)
+            {
+                if(I1!=i)
+                {
+                    M2=arrays[i][arrays[i].size()-1];
+                    I2=i;
+                }
+            }
+        }
+        if(i1!=I1)
+        {
+            return M1-m1;
+        }
+        return max(M1-m2,M2-m1);        
+    }
+};

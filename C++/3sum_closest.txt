@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int threeSumClosest(vector<int>& nums, int target) 
+    {
+        int result;
+        int minimum=2147483647;
+        for(int i=0;i<nums.size();i++)
+        {
+            for(int j=i+1;j<nums.size();j++)
+            {
+                for(int k=j+1;k<nums.size();k++)
+                {
+                    if(abs(nums[i]+nums[j]+nums[k]-target)<minimum)
+                    {
+                        minimum=abs(nums[i]+nums[j]+nums[k]-target);
+                        result=nums[i]+nums[j]+nums[k];
+                    }
+                }
+            }
+        }
+        return result;
+    }
+};

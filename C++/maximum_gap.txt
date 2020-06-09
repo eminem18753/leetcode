@@ -1,0 +1,27 @@
+class Solution 
+{
+    public:
+    int maximumGap(vector<int>& nums) 
+    {
+        int result=0;
+        map<int,int> total;
+        for(int i=0;i<nums.size();i++)
+        {
+            total[nums[i]]=1;   
+        }
+        if(total.size()<2)
+        {
+            return 0;   
+        }
+        int last=-1;
+        for(map<int,int>::iterator it=total.begin();it!=total.end();it++)
+        {
+            if(last!=-1)
+            {
+                result=max(result,it->first-last);   
+            }
+            last=it->first;
+        }
+        return result;
+    }
+};

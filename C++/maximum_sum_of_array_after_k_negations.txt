@@ -1,0 +1,38 @@
+class Solution {
+public:
+    int largestSumAfterKNegations(vector<int>& A, int K)
+    {
+        int total=0;
+        int c=0;
+        int flag=0;
+        int minimum=2147483647;
+        for(int i=0;i<A.size();i++)
+        {
+            total+=A[i];
+            if(abs(A[i])<minimum)
+            {
+                minimum=abs(A[i]);
+            }
+        }
+        sort(A.begin(),A.end());
+        for(int i=0;i<K;i++)
+        {
+            if(A[i]<0)
+            {
+                total-=2*A[i];
+            }
+            else
+            {
+                c=i;
+                flag=1;
+                break;
+            }
+        }
+        cout<<c<<" "<<K<<endl;
+        if(flag==1&&(K-c)%2==1)
+        {
+            total-=minimum*2;
+        }
+        return total;
+    }
+};

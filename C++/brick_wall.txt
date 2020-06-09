@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int leastBricks(vector<vector<int>>& wall)
+    {
+        int output=0;
+        int m=wall.size();
+        map<int,int> total;
+        for(int i=0;i<wall.size();i++)
+        {
+            int result=0;
+            for(int j=0;j<wall[i].size()-1;j++)
+            {
+                result+=wall[i][j];
+                total[result]+=1;
+            }
+        }
+        map<int,int>::iterator it;
+        for(it=total.begin();it!=total.end();it++)
+        {
+            output=max(output,it->second);
+        }
+        return m-output;
+    }
+};

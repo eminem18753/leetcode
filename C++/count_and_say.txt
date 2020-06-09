@@ -1,0 +1,53 @@
+class Solution {
+public:
+    string countAndSay(int n) 
+    {
+        string result="1";
+        if(n==1)
+        {
+            return "1";		
+        }
+        else
+        {
+            for(int i=1;i<n;i++)
+            {
+                char temp='a';
+                string tempResult="";
+                int count=1;
+                int flag=0;
+                int start=0;
+                for(int i=0;i<result.length();i++)
+                {
+                    if(result[i]==temp)
+                    {
+                        count=count+1;
+                    }
+                    else
+                    {
+                        if(start!=0)
+                        {
+                            flag=1;
+                        }
+                        start=1;
+                    }
+                    if(flag==1)
+                    {
+                        stringstream ss;
+                        ss<<count;
+                        tempResult+=ss.str()+result[i-1];
+                        flag=0;	
+                        count=1;
+                    } 
+                    temp=result[i];
+                }
+                stringstream ss;
+                ss<<count;
+                tempResult+=ss.str()+result[result.length()-1];
+                flag=0;	
+                count=1;
+                result=tempResult;
+            }
+            return result;
+	    }
+    }
+};

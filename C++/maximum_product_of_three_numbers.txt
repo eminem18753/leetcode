@@ -1,0 +1,125 @@
+class Solution 
+{
+public:
+    int maximumProduct(vector<int>& nums) 
+    {
+        int result=1;
+        int max1=-2000;
+        int max2=-2000;
+        int max3=-2000;
+        int index1=-1;
+        int index2=-1;
+        int index3=-1;
+        vector<int> positive;
+        vector<int> negative;
+        int flagZero=0;
+        int minNegative1=0;
+        int minNegative2=0;
+        int indexNegative1=0;
+        int indexNegative2=0;
+        for(int i=0;i<nums.size();i++)
+        {
+            if(nums[i]<0)
+            {
+                negative.push_back(nums[i]);	
+            }
+            else if(nums[i]>0)
+            {
+                positive.push_back(nums[i]);	
+            }
+            else
+            {
+                flagZero=1;	
+            }
+        }
+        if(negative.size()==0||negative.size()==1||positive.size()==0)
+        {
+            for(int i=0;i<nums.size();i++)
+            {
+                if(nums[i]>max1)
+                {
+                    max1=nums[i];
+                    index1=i;	
+                }
+            }
+            for(int i=0;i<nums.size();i++)
+            {
+                if(nums[i]>max2&&max2<=max1&&i!=index1)
+                {
+                    max2=nums[i];
+                    index2=i;
+                }
+            }
+            for(int i=0;i<nums.size();i++)
+            {
+                if(nums[i]>max3&&max3<=max2&&max3<=max1&&i!=index1&&i!=index2)
+                {
+                    max3=nums[i];
+                    index3=i;	
+                }
+            }
+        }
+        else
+        {
+            for(int i=0;i<positive.size();i++)
+            {
+                if(positive[i]>max1)
+                {
+                    max1=positive[i];
+                    index1=i;	
+                }
+            }
+            if(positive.size()>=3)
+            {
+                for(int i=0;i<positive.size();i++)
+                {
+                    if(positive[i]>max2&&max2<=max1&&i!=index1)
+                    {
+                        max2=positive[i];
+                        index2=i;
+                    }
+                }
+                for(int i=0;i<positive.size();i++)
+                {
+                    if(positive[i]>max3&&max3<=max2&&max3<=max1&&i!=index1&&i!=index2)
+                    {
+                        max3=positive[i];
+                        index3=i;	
+                    }
+                }			
+            }
+            else
+            {
+                max2=0;
+                max3=0;	
+            }
+            for(int i=0;i<negative.size();i++)
+            {
+                if(negative[i]<minNegative1)
+                {
+                    minNegative1=negative[i];
+                    indexNegative1=i;	
+                }
+            }
+            for(int i=0;i<negative.size();i++)
+            {
+                if(negative[i]<minNegative2&&minNegative2>=minNegative1&&i!=indexNegative1)
+                {
+                    minNegative2=negative[i];
+                    indexNegative2=i;
+                }
+            }
+        }
+        int productResult;
+        if(max2*max3>minNegative1*minNegative2)
+        {
+            productResult=max2*max3;	
+        }
+        else
+        {
+            productResult=minNegative1*minNegative2;	
+        }
+        result=max1*productResult;
+        return result;
+    }
+};

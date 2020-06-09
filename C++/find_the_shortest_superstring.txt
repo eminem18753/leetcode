@@ -1,0 +1,69 @@
+class Solution 
+{
+    public:
+    int check(string a,string b)
+    {
+        int r=0;
+        for(int i=1;i<=a.length();i++)
+        {
+            if(a.substr((int)a.length()-i)==b.substr(0,i))
+            {
+                r=i;
+            }
+        }
+        return r;
+    }
+    string shortestSuperstring(vector<string>& A) 
+    {
+        string result="";
+        int n=A.size();
+        vector<vector<int>> savings(n,vector<int>(n,0));
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                if(i!=j)
+                {
+                    savings[i][j]=check(A[i],A[j]);
+                }
+            }
+        }
+        int states=(1<<n);
+        int dp[states][n];
+        memset(dp,0,sizeof(dp));
+        vector<vector<string>> total(states,vector<string>(n,""));
+        for(int i=0;i<n;i++)
+        {
+            dp[(1<<i)][i]=0;
+            total[(1<<i)][i]=A[i];
+        }
+        for(int i=1;i<states;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                for(int k=0;k<n;k++)
+                {
+                    int c=i;
+                    if(total[i][j]!=""&&((c>>k)&1)==0)
+                    {
+                        c|=(1<<k);
+                        if(dp[i][j]+savings[j][k]>=dp[c][k])
+                        {
+                            dp[c][k]=dp[i][j]+savings[j][k];
+                            total[c][k]=total[i][j]+A[k].substr(savings[j][k]);
+                        }
+                    }
+                }
+            }
+        }
+        
+        for(int i=0;i<n;i++)
+        {
+            if(result==""||total[states-1][i].length()<result.length())
+            {
+                result=total[states-1][i];
+            }
+        }
+        return result;
+    }
+};

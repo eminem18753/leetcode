@@ -1,0 +1,26 @@
+class Solution {
+public:
+    bool containsNearbyAlmostDuplicate(vector<int>& nums, int k, int t) 
+    {
+        if(nums.size()==0)
+        {
+            return false;
+        }
+        for(int i=0;i<nums.size()-1;i++)
+        {
+            for(int j=1;j<=k;j++)
+            {
+                if(i+j>=nums.size())
+                {
+                    break;
+                }
+                if(abs((long long)nums[i+j]-(long long)nums[i])<=(long long)t)
+                {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+};

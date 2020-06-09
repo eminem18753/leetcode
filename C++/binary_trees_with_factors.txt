@@ -1,0 +1,36 @@
+class Solution {
+public:
+    int numFactoredBinaryTrees(vector<int>& A) 
+    {
+        int s=0;
+        long long n=1000000007;
+        sort(A.begin(),A.end());
+        map<long long,long long> dp;
+        for(int i=0;i<A.size();i++)
+        {
+            dp[A[i]]=1;
+        }
+        for(int i=0;i<A.size();i++)
+        {
+            for(int j=2;j<sqrt(A[i]);j++)
+            {
+                if(j*(A[i]/j)==A[i]&&dp.find(j)!=dp.end()&&dp.find(A[i]/j)!=dp.end())
+                {
+                    dp[A[i]]+=2*dp[j]*dp[A[i]/j]%n;
+                    dp[A[i]]%=n;
+                }
+            }
+            if((int)sqrt(A[i])*(int)sqrt(A[i])==A[i])
+            {
+                dp[A[i]]+=pow(dp[(int)sqrt(A[i])],2);
+                dp[A[i]]%=n;
+            }
+        }
+        for(map<long long,long long>::iterator it=dp.begin();it!=dp.end();it++)
+        {
+            s+=(it->second)%n;
+            s%=n;
+        }
+        return s%n;
+    }
+};

@@ -1,0 +1,35 @@
+class Solution {
+public:
+    int findLonelyPixel(vector<vector<char>>& picture)
+    {
+        int result=0;
+        int m=picture.size();
+        int n=picture[0].size();
+        int r[m];
+        int c[n];
+        memset(r,0,sizeof(r));
+        memset(c,0,sizeof(c));
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                if(picture[i][j]=='B')
+                {
+                    r[i]++;
+                    c[j]++;
+                }
+            }
+        }
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                if(picture[i][j]=='B'&&r[i]==1&&c[j]==1)
+                {
+                    result++;
+                }
+            }
+        }
+        return result;
+    }
+};

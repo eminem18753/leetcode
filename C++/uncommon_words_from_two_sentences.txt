@@ -1,0 +1,39 @@
+class Solution(object):
+    def uncommonFromSentences(self, A, B):
+        """
+        :type A: str
+        :type B: str
+        :rtype: List[str]
+        """
+        r=[]
+        k=[]
+        a=A.split(' ')
+        b=B.split(' ')
+        d1={}
+        d2={}
+        for i in range(0,len(b)):
+            if b[i] in d1:
+                d1.pop(b[i],None)
+            else:
+                d1[b[i]]=i
+                
+        for i in range(0,len(a)):
+            if a[i] not in k:
+                r.append(a[i])
+                k.append(a[i])
+            elif a[i] in r:
+                r.remove(a[i])
+
+        for i in range(0,len(a)):
+            if a[i] in d2:
+                d2.pop(a[i],None)
+            else:
+                d2[a[i]]=i
+        for i in range(0,len(b)):
+            if b[i] not in k:
+                r.append(b[i])
+                k.append(b[i])
+            elif b[i] in r:
+                r.remove(b[i])
+                
+        return r

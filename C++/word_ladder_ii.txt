@@ -1,0 +1,56 @@
+class Solution 
+{
+    public:
+    vector<vector<string>> findLadders(string beginWord, string endWord, vector<string>& wordList) 
+    {
+        vector<vector<string>> result;
+        deque<vector<string>> q;
+        unordered_set<string> overall;
+        unordered_set<string> total(wordList.begin(),wordList.end());
+        q.push_back({beginWord});
+        overall.insert(beginWord);
+        int level=1;
+        int minLevel=2147483647;
+        while(q.size()>0)
+        {
+            vector<string> c=q.front();
+            q.pop_front();
+            if(c.size()>level)
+            {
+                for(unordered_set<string>::iterator it=overall.begin();it!=overall.end();it++)
+                {
+                    total.erase(*it);   
+                }
+                overall.clear();
+                if(c.size()>minLevel)
+                {
+                    break;   
+                }
+                level=c.size();   
+            }
+            string last=c.back();
+            for(int i=0;i<last.length();i++)
+            {
+                string t="abcdefghijklmnopqrstuvwxyz";
+                for(int j=0;j<26;j++)
+                {
+                    string r=last;
+                    r[i]=t[j];
+                    if(total.find(r)!=total.end())
+                    {
+                        c.push_back(r);
+                        q.push_back(c);
+                        if(r==endWord)
+                        {
+                            minLevel=level;
+                            result.push_back(c);
+                        }
+                        overall.insert(r);
+                        c.pop_back();
+                    }
+                }
+            }
+        }
+        return result;
+    }
+};

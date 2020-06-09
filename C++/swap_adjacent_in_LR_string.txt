@@ -1,0 +1,69 @@
+class Solution {
+public:
+    bool canTransform(string start, string end) 
+    {
+        if(start.length()!=end.length())
+        {
+            return false;
+        }
+        string f1="";
+        string f2="";
+        vector<int> R1;
+        vector<int> L1;
+        vector<int> R2;
+        vector<int> L2;
+        for(int i=0;i<start.size();i++)
+        {
+            if(start[i]=='R')
+            {
+                R1.push_back(i);
+            }
+            if(start[i]=='L')
+            {
+                L1.push_back(i);
+            }
+            if(start[i]!='X')
+            {
+                f1+=start[i];
+            }
+        }
+        for(int i=0;i<end.size();i++)
+        {
+            if(end[i]=='R')
+            {
+                R2.push_back(i);
+            }
+            if(end[i]=='L')
+            {
+                L2.push_back(i);
+            }
+            if(end[i]!='X')
+            {
+                f2+=end[i];
+            }            
+        }
+        if(R1.size()!=R2.size())
+        {
+            return false;
+        }
+        if(L1.size()!=L2.size())
+        {
+            return false;
+        }
+        for(int i=0;i<R1.size();i++)
+        {
+            if(R1[i]>R2[i])
+            {
+                return false;
+            }
+        }
+        for(int i=0;i<L1.size();i++)
+        {
+            if(L1[i]<L2[i])
+            {
+                return false;
+            }
+        }
+        return f1==f2;
+    }
+};

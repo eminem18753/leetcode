@@ -1,0 +1,15 @@
+# Write your MySQL query statement below
+SELECT c.invoice_id,a.customer_name,c.price,
+COUNT(b.contact_name) as contacts_cnt,
+SUM(CASE WHEN b.contact_name IN
+    (
+        SELECT customer_name FROM Customers
+    )
+    THEN 1 ELSE 0 END) as trusted_contacts_cnt
+FROM Customers as a
+LEFT JOIN Contacts as b
+ON a.customer_id=b.user_id
+JOIN Invoices as c
+ON a.customer_id=c.user_id
+GROUP BY invoice_id
+ORDER BY invoice_id ASC;

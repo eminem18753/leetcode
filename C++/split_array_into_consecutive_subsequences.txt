@@ -1,0 +1,37 @@
+class Solution 
+{
+    public:
+    bool isPossible(vector<int>& nums) 
+    {
+        map<int,int> l;
+        map<int,int> e;
+        for(int i=0;i<nums.size();i++)
+        {
+            l[nums[i]]++;
+        }
+        for(int i=0;i<nums.size();i++)
+        {
+            if(l[nums[i]]<=0)
+            {
+                continue;
+            }
+            l[nums[i]]--;
+            if(e[nums[i]-1]>0)
+            {
+                e[nums[i]-1]--;
+                e[nums[i]]++;
+            }
+            else if(l[nums[i]+1]>0&&l[nums[i]+2]>0)
+            {
+                l[nums[i]+1]--;
+                l[nums[i]+2]--;
+                e[nums[i]+2]++;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+};

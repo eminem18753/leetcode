@@ -1,0 +1,40 @@
+class Solution 
+{
+    public:
+    int maxCandies(vector<int>& status, vector<int>& candies, vector<vector<int>>& keys, vector<vector<int>>& containedBoxes, vector<int>& initialBoxes) 
+    {
+        //boxes->status
+        //key->status
+        //initialBoxes->keys->containedBoxes
+        int result=0;
+        vector<int> boxes(initialBoxes.begin(),initialBoxes.end());
+        unordered_set<int> v;
+        while(true)
+        {
+            int flag=0;
+            for(int i=(int)boxes.size()-1;i>-1;i--)
+            {
+                if(status[boxes[i]]==1&&v.find(boxes[i])==v.end())//is open
+                {
+                    flag=1;
+                    for(int j=0;j<keys[boxes[i]].size();j++)
+                    {
+                        status[keys[boxes[i]][j]]=1;
+                    }
+                    for(int j=0;j<containedBoxes[boxes[i]].size();j++)
+                    {
+                        boxes.push_back(containedBoxes[boxes[i]][j]);
+                    }
+                    v.insert(boxes[i]);
+                    result+=candies[boxes[i]];
+                    boxes.erase(boxes.begin()+i);
+                }
+            }
+            if(flag==0)
+            {
+                break;
+            }
+        }
+        return result;
+    }
+};

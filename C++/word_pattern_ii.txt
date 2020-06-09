@@ -1,0 +1,59 @@
+class Solution 
+{
+    public:
+    bool result=false;
+    void dfs(string pattern,string s,unordered_map<char,string>& m,unordered_map<string,char>& r,unordered_map<char,int>& total)
+    {
+        if(pattern=="")
+        {
+            if(s=="")
+            {
+                result=true;
+            }
+            return;
+        }
+        if(result==true)
+        {
+            return;
+        }
+        int n=s.length();
+        for(int i=1;i<=min(((n+total[pattern[0]]-1)/total[pattern[0]]),n);i++)
+        {
+            if(m.find(pattern[0])!=m.end())
+            {
+                int l=m[pattern[0]].length();
+                if(m[pattern[0]]!=s.substr(0,l))
+                {
+                    continue;
+                }
+                dfs(pattern.substr(1),s.substr(l),m,r,total);
+                continue;
+            }
+            string temp=s.substr(0,i);
+            if(r.find(temp)!=r.end())
+            {
+                if(r[temp]!=pattern[0])
+                {
+                    continue;
+                }
+            }
+            m[pattern[0]]=temp;
+            r[temp]=pattern[0];
+            dfs(pattern.substr(1),s.substr(i),m,r,total);
+            m.erase(pattern[0]);
+            r.erase(temp);
+        }
+    }
+    bool wordPatternMatch(string pattern, string str) 
+    {
+        unordered_map<char,int> total;
+        for(int i=0;i<pattern.length();i++)
+        {
+            total[pattern[i]]++;
+        }
+        unordered_map<char,string> m;
+        unordered_map<string,char> r;
+        dfs(pattern,str,m,r,total);
+        return result;
+    }
+};

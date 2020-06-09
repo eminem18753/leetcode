@@ -1,0 +1,84 @@
+class Solution 
+{
+    public:
+    vector<vector<string>> overall;
+    set<string> g;
+    set<string> s;
+    void dfs(vector<string> total,map<string,vector<string>>& m,int start)
+    {
+        if(start>total.size())
+        {
+            return;   
+        }
+        if(start==total.size())
+        {
+            string t="";
+            for(int i=0;i<total.size();i++)
+            {
+                t+=total[i]+" ";
+            }
+            if(s.find(t)==s.end())
+            {
+                overall.push_back(total);
+                s.insert(t);
+            }
+            return;
+        }
+        dfs(total,m,start+1);
+        for(int i=0;i<m[total[start]].size();i++)
+        {
+            string check=to_string(start)+","+m[total[start]][i];
+            if(g.find(check)==g.end())
+            {
+                total[start]=m[total[start]][i];
+                g.insert(check);
+                dfs(total,m,start);
+                g.erase(check);
+            }
+        }
+    }
+    vector<string> generateSentences(vector<vector<string>>& synonyms, string text) 
+    {
+        vector<string> result;
+        vector<string> total; 
+        string temp="";
+        map<string,vector<string>> m;
+        for(int i=0;i<synonyms.size();i++)
+        {
+            m[synonyms[i][0]].push_back(synonyms[i][1]);
+            m[synonyms[i][1]].push_back(synonyms[i][0]);
+        }
+        for(int i=0;i<text.length();i++)
+        {
+            if(text[i]!=' ')
+            {
+                temp+=text[i];   
+            }
+            else
+            {
+                total.push_back(temp);
+                temp="";
+            }
+        }
+        total.push_back(temp);
+        dfs(total,m,0);
+        for(int i=0;i<overall.size();i++)
+        {
+            string r="";
+            for(int j=0;j<overall[i].size();j++)
+            {
+                if(j==0)
+                {
+                    r+=overall[i][j];   
+                }
+                else
+                {
+                    r+=" "+overall[i][j];   
+                }
+            }
+            result.push_back(r);
+        }
+        sort(result.begin(),result.end());
+        return result;
+    }
+};

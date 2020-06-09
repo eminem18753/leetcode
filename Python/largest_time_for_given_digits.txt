@@ -1,0 +1,23 @@
+from itertools import permutations
+class Solution(object):
+    def largestTimeFromDigits(self, A):
+        """
+        :type A: List[int]
+        :rtype: str
+        """
+        maximum=-1
+        total=list(permutations(A))
+        output=[]
+        for i in range(0,len(total)):
+            output.append(list(total[i]))
+            
+        for i in range(0,len(output)):
+            if int(''.join(map(str,output[i])))>=2400 or int(''.join(map(str,output[i])))%100>=60:
+                continue
+            if int(''.join(map(str,output[i])))>maximum:
+                maximum=int(''.join(map(str,output[i])))
+        if maximum==-1:
+            return ""
+        
+        return "0"*(2-len(str(maximum//100)))+str(maximum//100)+":"+"0"*(2-len(str(maximum%100)))+str(maximum%100)
+        

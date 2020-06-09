@@ -1,0 +1,96 @@
+class Solution {
+public:
+    vector<string> fullJustify(vector<string>& words, int maxWidth) 
+    {
+        vector<string> result;
+        vector<string> t;
+        int c=0;
+        int n=0;
+        for(int i=0;i<words.size();i++)
+        {
+            if(c==0)
+            {
+                c++;
+                n+=words[i].length();
+                t.push_back(words[i]);
+            }
+            else
+            {
+                if(n+(int)words[i].length()+1<=maxWidth)
+                {
+                    c++;
+                    n+=(int)words[i].length()+1; 
+                    t.push_back(words[i]);
+                }
+                else
+                {
+                    int space=maxWidth-n+(c-1);
+                    int d;
+                    int r;
+                    if(c>1)
+                    {
+                        d=space/(c-1);
+                        r=space%(c-1);
+                        string temp="";
+                        for(int j=0;j<t.size();j++)
+                        {
+                            temp+=t[j];
+                            if(j<(int)t.size()-1)
+                            {
+                                for(int k=0;k<d;k++)
+                                {
+                                    temp+=" ";   
+                                }
+                                if(j<r)
+                                {
+                                    temp+=" ";   
+                                }
+                            }
+                        }
+                        result.push_back(temp);
+                    }
+                    else
+                    {
+                        string temp=t[0];
+                        for(int k=0;k<maxWidth-(int)t[0].length();k++)
+                        {
+                            temp+=" ";   
+                        }
+                        result.push_back(temp);
+                    }
+                    c=0;
+                    n=0;
+                    i--;
+                    t.clear();
+                }
+            }
+        }
+        int space=maxWidth-n+(c-1);
+        string x="";
+        if(c>1)
+        {
+            string temp="";
+            for(int j=0;j<t.size();j++)
+            {
+                temp+=x+t[j];
+                x=" ";
+            }
+            int m=temp.length();
+            for(int j=0;j<maxWidth-m;j++)
+            {
+                temp+=" ";
+            }
+            result.push_back(temp);
+        }
+        else
+        {
+            string temp=t[0];
+            for(int k=0;k<maxWidth-(int)t[0].length();k++)
+            {
+                temp+=" ";   
+            }
+            result.push_back(temp);
+        }
+        return result;
+    }
+};

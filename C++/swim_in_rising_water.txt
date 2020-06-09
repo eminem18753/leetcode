@@ -1,0 +1,55 @@
+class Solution 
+{
+    public:
+    bool result=false;
+    void check(vector<vector<int>>& A,int i,int j,int level)
+    {
+        if(i<0||j<0||i>=A.size()||j>=A[0].size()||result==true)
+        {
+            return;
+        }
+        if(A[i][j]>level||A[i][j]==-1)
+        {
+            return;
+        }
+        if(i==(int)A.size()-1&&j==(int)A.size()-1)
+        {
+            result=true;   
+            return;
+        }
+        A[i][j]=-1;
+        check(A,i+1,j,level);
+        check(A,i,j+1,level);
+        check(A,i-1,j,level);
+        check(A,i,j-1,level);
+    }
+    int swimInWater(vector<vector<int>>& grid) 
+    {
+        int n=grid.size();
+        int p1=0;
+        int p2=n*n-1;
+        vector<vector<int>> original=grid;
+        while(p1<p2)
+        {
+            int middle=(p1+p2)/2;
+            result=false;
+            check(grid,0,0,middle);
+            grid=original;
+            if(result==true)
+            {
+                p2=middle;   
+            }
+            else
+            {
+                p1=middle+1;   
+            }
+        }
+        result=false;
+        check(grid,0,0,p1);
+        if(result==true)
+        {
+            return p1;
+        }
+        return p1-1;
+    }
+};

@@ -1,0 +1,13 @@
+# Write your MySQL query statement below
+SELECT a.left_operand,a.operator,a.right_operand,
+CASE WHEN
+(
+    CASE WHEN a.operator=">" THEN b.value>c.value
+        WHEN a.operator="=" THEN b.value=c.value
+        ELSE b.value<c.value END
+) THEN "true" ELSE "false" END as value
+FROM Expressions as a
+JOIN Variables as b
+ON a.left_operand=b.name
+JOIN Variables as c
+ON a.right_operand=c.name

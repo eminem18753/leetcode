@@ -1,0 +1,155 @@
+class Solution {
+public:
+    int maximalRectangle(vector<vector<char>>& matrix)
+    {
+        if(matrix.size()==0)
+        {
+            return 0;
+        }
+        int maximum=0;
+        int m=matrix.size();
+        int n=matrix[0].size();
+        int up[m][n];
+        int left[m][n];
+        int right[m][n];
+        
+        memset(up,0,sizeof(up));
+        memset(left,0,sizeof(left));
+        memset(right,0,sizeof(right));
+        
+        for(int i=0;i<matrix.size();i++)
+        {
+            if(i==0)
+            {
+                for(int j=0;j<matrix[i].size();j++)
+                {
+                    up[i][j]=matrix[i][j]=='1'?1:0;
+                }
+            }
+            else
+            {
+                for(int j=0;j<matrix[i].size();j++)
+                {
+                    up[i][j]=matrix[i][j]=='1'?up[i-1][j]+1:0;
+                }                
+            }
+            if(i==0)
+            {
+                int lo=0;
+                for(int j=0;j<matrix[i].size();j++)
+                {
+                    if(j==0)
+                    {
+                        left[i][j]=matrix[i][j]=='1'?0:-1;
+                        if(matrix[i][j]=='0')
+                        {
+                            lo=j+1;
+                        }
+                    }
+                    else
+                    {                        
+                        left[i][j]=matrix[i][j]=='1'?min(lo,j):-1;
+                        if(matrix[i][j]=='0')
+                        {
+                            lo=j+1;
+                        }
+                    }
+                }
+
+                int ro=matrix[i].size()-1;
+                for(int j=matrix[i].size()-1;j>-1;j--)
+                {
+                    if(j==matrix[i].size()-1)
+                    {
+                        right[i][j]=matrix[i][j]=='1'?matrix[i].size()-1:-1;
+                        if(matrix[i][j]=='0')
+                        {
+                            ro=j-1;
+                        }
+                    }
+                    else
+                    {                        
+                        right[i][j]=matrix[i][j]=='1'?max(ro,j):-1;
+                        if(matrix[i][j]=='0')
+                        {
+                            ro=j-1;
+                        }
+                    }
+                }
+            
+            }
+            else
+            {
+                int lo=0;
+                for(int j=0;j<matrix[i].size();j++)
+                {
+                    if(j==0)
+                    {
+                        left[i][j]=matrix[i][j]=='1'?0:-1;
+                        if(matrix[i][j]=='0')
+                        {
+                            lo=j+1;
+                        }
+                    }
+                    else
+                    {                        
+                        left[i][j]=matrix[i][j]=='1'?min(lo,j):-1;
+                        if(matrix[i][j]=='1')
+                        {
+                            if(up[i][j]>1)
+                            {
+                                left[i][j]=max(left[i][j],left[i-1][j]);
+                            }
+                        }
+                        if(matrix[i][j]=='0')
+                        {
+                            lo=j+1;
+                        }
+                    }
+                }
+
+                //right
+                int ro=matrix[i].size()-1;
+                for(int j=matrix[i].size()-1;j>-1;j--)
+                {
+                    if(j==matrix[i].size()-1)
+                    {
+                        right[i][j]=matrix[i][j]=='1'?matrix[i].size()-1:-1;
+                        if(matrix[i][j]=='0')
+                        {
+                            ro=j-1;
+                        }
+                    }
+                    else
+                    {                        
+                        right[i][j]=matrix[i][j]=='1'?max(ro,j):-1;
+                        if(matrix[i][j]=='1')
+                        {
+                            if(up[i][j]>1)
+                            {
+                                right[i][j]=min(right[i][j],right[i-1][j]);
+                            }
+                        }
+                        if(matrix[i][j]=='0')
+                        {
+                            ro=j-1;
+                        }
+                    }
+                }
+                
+            }
+        }
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                if(up[i][j]*(right[i][j]-left[i][j]+1)>maximum)
+                {
+                    maximum=up[i][j]*(right[i][j]-left[i][j]+1);
+                }
+            }
+        }
+
+        return maximum;        
+    }
+};

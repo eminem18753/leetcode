@@ -1,0 +1,12 @@
+class Solution 
+{
+    public:
+    bool checkOverlap(int radius, int x_center, int y_center, int x1, int y1, int x2, int y2) 
+    {
+        double d1=(x1-x_center)*(x1-x_center)+(y1-y_center)*(y1-y_center);
+        double d2=(x1-x_center)*(x1-x_center)+(y2-y_center)*(y2-y_center);
+        double d3=(x2-x_center)*(x2-x_center)+(y1-y_center)*(y1-y_center);
+        double d4=(x2-x_center)*(x2-x_center)+(y2-y_center)*(y2-y_center);
+        return d1<=radius*radius||d2<=radius*radius||d3<=radius*radius||d4<=radius*radius||(x1<=x_center&&x2>=x_center&&y1<=y_center&&y2>=y_center)||(x_center<=x1&&x_center+radius>=x1&&y1<=y_center&&y2>=y_center)||(x_center>=x2&&x_center-radius<=x2&&y1<=y_center&&y2>=y_center)||(y_center<=y1&&y_center+radius>=y1&&x1<=x_center&&x2>=x_center)||(y_center>=y2&&y_center-radius<=y2&&x1<=x_center&&x2>=x_center);
+    }
+};

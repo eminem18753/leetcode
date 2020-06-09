@@ -1,0 +1,40 @@
+unordered_map<int,int> t;
+bool f(int a,int b)
+{
+    if(t[a]!=t[b])
+    {
+        return t[a]<t[b];
+    }
+    else
+    {
+        return a<b;
+    }
+}
+class Solution {
+public:
+    vector<int> rearrangeBarcodes(vector<int>& barcodes)
+    {
+        t.clear();
+        vector<int> result((int)barcodes.size(),0);
+        for(int i=0;i<barcodes.size();i++)
+        {
+            t[barcodes[i]]+=1;
+        }
+        sort(barcodes.rbegin(),barcodes.rend(),f);
+        int c=0;
+        for(int i=0;i<barcodes.size();i++)
+        {
+            if(c<barcodes.size())
+            {
+                result[c]=barcodes[i];
+            }
+            else
+            {
+                c=1;
+                result[c]=barcodes[i];
+            }
+            c+=2;
+        }
+        return result;
+    }
+};

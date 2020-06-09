@@ -1,0 +1,37 @@
+class Solution 
+{
+    public:
+    int wordsTyping(vector<string>& sentence, int rows, int cols) 
+    {
+        string total="";
+        for(int i=0;i<sentence.size();i++)
+        {
+            total+=sentence[i]+" ";   
+        }
+        int n=total.length();
+        int c=0;
+        int s=-1;
+        for(int i=0;i<rows;i++)
+        {
+            c=c+cols;
+            s=(s+cols)%n;
+            if(total[s]!=' ')
+            {
+                if(total[s+1]==' ')
+                {
+                    s++;
+                    c++;
+                }
+                else
+                {
+                    while(total[s]!=' ')
+                    {
+                        s=(s+n-1)%n;
+                        c--;
+                    }
+                }
+            }
+        }
+        return c/n;
+    }
+};

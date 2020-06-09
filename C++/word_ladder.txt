@@ -1,0 +1,80 @@
+class Solution {
+public:
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList) 
+    {
+        map<string,vector<string>> total;
+        set<string> already;
+        for(int i=0;i<wordList.size()-1;i++)
+        {
+            for(int j=i+1;j<wordList.size();j++)
+            {
+                int t=0;
+                for(int k=0;k<wordList[i].length();k++)
+                {
+                    if(wordList[i][k]!=wordList[j][k])
+                    {
+                        t++;
+                    }
+                    if(t>1)
+                    {
+                        break;
+                    }
+                }
+                if(t==1)
+                {
+                    total[wordList[i]].push_back(wordList[j]);
+                    total[wordList[j]].push_back(wordList[i]);
+                }
+            }
+        }
+        for(int i=0;i<wordList.size();i++)
+        {
+            int t=0;
+            for(int j=0;j<wordList[i].length();j++)
+            {
+                if(wordList[i][j]!=beginWord[j])
+                {
+                    t++;
+                }
+                if(t>1)
+                {
+                    break;
+                }
+            }
+            if(t==1)
+            {
+                total[beginWord].push_back(wordList[i]);
+            }
+        }
+        deque<string> overall;
+        deque<int> c;
+        string start=beginWord;
+        overall.push_back(start);
+        c.push_back(0);
+        already.insert(start);
+        while(overall.size()>0)
+        {
+            start=overall.front();
+            int current=c.front();
+            overall.pop_front();
+            c.pop_front();
+
+            int t=0;
+            if(start==endWord)
+            {
+                return current+1;
+            }
+            
+            for(int i=0;i<total[start].size();i++)
+            {
+                if(already.find(total[start][i])==already.end())
+                {
+                    overall.push_back(total[start][i]);
+                    c.push_back(current+1);
+                    already.insert(total[start][i]);
+                }
+            }
+        }
+        return 0;
+    }
+};

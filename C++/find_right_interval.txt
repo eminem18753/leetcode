@@ -1,0 +1,31 @@
+class Solution 
+{
+public:
+    vector<int> findRightInterval(vector<vector<int>>& intervals) 
+    {
+        vector<int> result;
+        vector<int> s;
+        map<int,int> total;
+        for(int i=0;i<intervals.size();i++)
+        {
+            total[intervals[i][0]]=i;
+            s.push_back(intervals[i][0]);
+        }
+        sort(s.begin(),s.end());
+        for(int i=0;i<intervals.size();i++)
+        {
+            vector<int>::iterator low;
+            low=lower_bound(s.begin(),s.end(),intervals[i][1]);
+            int index=(int)(low-s.begin());
+            if(index>=intervals.size())
+            {
+                result.push_back(-1);
+            }
+            else
+            {
+                result.push_back(total[s[index]]);
+            }
+        }
+        return result;        
+    }
+};

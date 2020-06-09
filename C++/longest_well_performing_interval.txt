@@ -1,0 +1,39 @@
+class Solution 
+{
+public:
+    int longestWPI(vector<int>& hours) 
+    {
+        int r=0;
+        vector<int> p;
+        vector<int> s;
+        
+        for(int i=0;i<hours.size();i++)
+        {
+            if(hours[i]>8)
+            {
+                p.push_back(1);
+            }
+            else
+            {
+                p.push_back(-1);
+            }
+        }
+        s.push_back(0);
+        for(int i=0;i<p.size();i++)
+        {
+            s.push_back(s.back()+p[i]);
+        }
+        for(int i=0;i<(int)s.size()-1;i++)
+        {
+            for(int j=(int)s.size()-1;j>i;j--)
+            {
+                if(s[j]-s[i]>=1)
+                {
+                    r=max(r,j-i);
+                    break;
+                }
+            }
+        }
+        return r;
+    }
+};

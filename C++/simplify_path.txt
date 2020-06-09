@@ -1,0 +1,60 @@
+class Solution 
+{
+public:
+    vector<string> total;
+    
+    string simplifyPath(string path) 
+    {
+        string result="";
+        string r="";
+        for(int i=0;i<path.length();i++)
+        {
+            if((i+1<path.length()&&i+2<path.length()&&path[i]=='.'&&path[i+1]=='.'&&path[i+2]=='/')&&(r==""||r.back()!='.'))
+            {
+                if(total.size()>0)
+                {
+                    total.pop_back();
+                }
+                i+=2;
+            }
+            else if(i+1<path.length()&&i+2>=path.length()&&path[i]=='.'&&path[i+1]=='.'&&(r==""||r.back()!='.'))
+            {
+                if(total.size()>0)
+                {
+                    total.pop_back();
+                }
+                i++;                
+            }
+            else if(path[i]=='/')
+            {
+                if(r.length()>0)
+                {
+                    total.push_back(r);
+                    r="";
+                }
+            }
+            else if(((i+1<path.length()&&path[i]=='.'&&path[i+1]=='/')||(path[i]=='.'&&i==(int)path.length()-1))&&(r==""||r.back()!='.'))
+            {
+                ;
+            }
+            else
+            {
+                r+=path[i];
+            }
+        }
+        if(r.length()>0)
+        {
+            total.push_back(r);
+        }
+        for(int i=0;i<total.size();i++)
+        {
+            result+="/";
+            result+=total[i];
+        }
+        if(result=="")
+        {
+            return "/";
+        }
+        return result;
+    }
+};

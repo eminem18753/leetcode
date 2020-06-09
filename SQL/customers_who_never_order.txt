@@ -1,0 +1,5 @@
+/* Write your PL/SQL query statement below */
+SELECT Name "Customers" from Customers r
+WHERE r.Id not in
+(SELECT c.Id from Customers c,Orders o
+WHERE c.Id=o.CustomerId);

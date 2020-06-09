@@ -1,0 +1,202 @@
+class MyCircularDeque {
+public:
+    /** Initialize your data structure here. Set the size of the deque to be k. */
+    struct Node
+    {
+        Node* prev;
+        Node* next;
+        int val;
+    };
+    typedef struct Node Node;
+    Node* head=NULL;
+    Node* last=NULL;
+    int K;
+    int c=0;
+    MyCircularDeque(int k) 
+    {
+        K=k;
+    }
+    
+    /** Adds an item at the front of Deque. Return true if the operation is successful. */
+    bool insertFront(int value) 
+    {
+        if(isFull())
+        {
+            return false;
+        }
+        if(head==NULL)
+        {
+            head=new Node;
+            head->val=value;
+            head->next=NULL;
+            head->prev=NULL;
+
+            last=head;
+        }
+        else if(c==1)
+        {
+            Node* temp=new Node;
+            temp->val=value;
+            temp->prev=NULL;
+            temp->next=head;
+            head->prev=temp;
+            last->prev=temp;
+            head=temp;            
+        }
+        else
+        {
+            Node* temp=new Node;
+            temp->val=value;
+            temp->prev=NULL;
+            temp->next=head;
+            head->prev=temp;
+            head=temp;
+        }
+        c++;
+        return true;
+    }
+    
+    /** Adds an item at the rear of Deque. Return true if the operation is successful. */
+    bool insertLast(int value)
+    {
+        if(isFull())
+        {
+            return false;
+        }
+        if(last==NULL)
+        {
+            head=new Node;
+            head->val=value;
+            head->next=NULL;
+            head->prev=NULL;
+
+            last=head;
+        }
+        else if(c==1)
+        {
+            Node* temp=new Node;
+            temp->val=value;
+            temp->prev=last;
+            temp->next=NULL;
+            head->next=temp;
+            last->next=temp;
+            last=temp;            
+        }
+        else
+        {
+            Node* temp=new Node;
+            temp->val=value;
+            temp->prev=last;
+            temp->next=NULL;
+            last->next=temp;
+            last=temp;
+        }
+        c++;
+        return true;
+    }
+    
+    /** Deletes an item from the front of Deque. Return true if the operation is successful. */
+    bool deleteFront() 
+    {
+        if(isEmpty())
+        {
+            return false;
+        }
+        if(c==2)
+        {
+            head=head->next;
+            last->prev=NULL;
+        }
+        else if(head!=NULL)
+        {
+            Node* temp=head->next;
+            head=NULL;
+            head=temp;
+            if(head!=NULL)
+            {
+                head->prev=NULL;
+            }
+        }
+        if(c==1)
+        {
+            head=NULL;
+            last=NULL;
+        }
+        c--;
+        return true;
+    }
+    
+    /** Deletes an item from the rear of Deque. Return true if the operation is successful. */
+    bool deleteLast() 
+    {
+        if(isEmpty())
+        {
+            return false;
+        }
+        if(c==2)
+        {
+            last=last->prev;
+            head->next=NULL;
+        }
+        else if(last!=NULL)
+        {
+            last=last->prev;
+            if(last!=NULL)
+            {
+                last->next=NULL;
+            }
+        }
+        if(c==1)
+        {
+            head=NULL;
+            last=NULL;
+        }
+        c--;
+        return true;
+    }
+    
+    /** Get the front item from the deque. */
+    int getFront()
+    {
+        if(head==NULL)
+        {
+            return -1;
+        }
+        return head->val;    
+    }
+    
+    /** Get the last item from the deque. */
+    int getRear() 
+    {        
+        if(last==NULL)
+        {
+            return -1;
+        }
+        return last->val;    
+    }
+    
+    /** Checks whether the circular deque is empty or not. */
+    bool isEmpty() 
+    {
+        return c==0;    
+    }
+    
+    /** Checks whether the circular deque is full or not. */
+    bool isFull()
+    {
+        return c==K;
+    }
+};
+
+/**
+ * Your MyCircularDeque object will be instantiated and called as such:
+ * MyCircularDeque* obj = new MyCircularDeque(k);
+ * bool param_1 = obj->insertFront(value);
+ * bool param_2 = obj->insertLast(value);
+ * bool param_3 = obj->deleteFront();
+ * bool param_4 = obj->deleteLast();
+ * int param_5 = obj->getFront();
+ * int param_6 = obj->getRear();
+ * bool param_7 = obj->isEmpty();
+ * bool param_8 = obj->isFull();
+ */

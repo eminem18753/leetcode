@@ -1,0 +1,29 @@
+class MyCalendarThree 
+{
+    public:
+    map<int,int> total;
+    MyCalendarThree() 
+    {
+        
+    }
+    
+    int book(int start, int end) 
+    {
+        total[start]++;
+        total[end]--;
+        int c=0;
+        int M=0;
+        for(map<int,int>::iterator it=total.begin();it!=total.end();it++)
+        {
+            c+=it->second;
+            M=max(M,c);
+        }
+        return M;
+    }
+};
+
+/**
+ * Your MyCalendarThree object will be instantiated and called as such:
+ * MyCalendarThree* obj = new MyCalendarThree();
+ * int param_1 = obj->book(start,end);
+ */

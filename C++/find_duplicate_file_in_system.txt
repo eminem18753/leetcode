@@ -1,0 +1,83 @@
+class Solution 
+{
+public:
+    vector<string> getTotal(string s)
+    {
+        vector<string> result;
+        vector<int> index;
+        for(int i=0;i<s.length();i++)
+        {
+            if(s[i]==' ')
+            {
+                index.push_back(i);
+            }
+        }
+        for(int i=0;i<index.size();i++)
+        {
+            if(i==0)
+            {
+                result.push_back(s.substr(0,index[i]));
+                if(index.size()>1)
+                {
+                    result.push_back(s.substr(index[i]+1,index[i+1]-index[i]));
+                }
+                else
+                {
+                    result.push_back(s.substr(index[i]+1));                
+                }
+            }
+            else if(i==(int)index.size()-1)
+            {
+                result.push_back(s.substr(index[i]+1));
+            }
+            else
+            {
+                result.push_back(s.substr(index[i]+1,index[i+1]-index[i]));                
+            }
+        }
+        return result;
+    }
+    vector<string> getContent(string s)
+    {
+        vector<string> result;
+        vector<int> t;
+        for(int i=0;i<s.length();i++)
+        {
+            if(s[i]=='(')
+            {
+                t.push_back(i);
+            }
+            if(s[i]==')')
+            {
+                t.push_back(i);
+            }
+        }
+        result.push_back(s.substr(0,t[0]));
+        result.push_back(s.substr(t[0]+1,t[1]-t[0]-1));
+        return result;
+    }
+    vector<vector<string>> findDuplicate(vector<string>& paths) 
+    {
+        vector<vector<string>> result;
+        map<string,vector<string>> total;
+        for(int i=0;i<paths.size();i++)
+        {
+            vector<string> t=getTotal(paths[i]);
+            string current=t[0];
+            for(int j=1;j<t.size();j++)
+            {
+                vector<string> c=getContent(t[j]);
+                string temp=current+"/"+c[0];
+                total[c[1]].push_back(temp);
+            }
+        }
+        for(map<string,vector<string>>::iterator it=total.begin();it!=total.end();it++)
+        {
+            if(it->second.size()>1)
+            {
+                result.push_back(it->second);
+            }
+        }
+        return result;
+    }
+};

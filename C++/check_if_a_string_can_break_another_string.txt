@@ -1,0 +1,34 @@
+class Solution 
+{
+    public:
+    bool check(string& s1,string& s2)
+    {
+        int a[26];
+        int b[26];
+        memset(a,0,sizeof(a));
+        memset(b,0,sizeof(b));
+        for(int i=0;i<s1.length();i++)
+        {
+            a[s1[i]-'a']++;
+            b[s2[i]-'a']++;
+        }
+        if(b[0]>a[0])
+        {
+            return false;
+        }
+        for(int i=1;i<26;i++)
+        {
+            a[i]+=a[i-1];
+            b[i]+=b[i-1];
+            if(b[i]>a[i])
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    bool checkIfCanBreak(string s1, string s2) 
+    {
+        return check(s1,s2)||check(s2,s1);
+    }
+};

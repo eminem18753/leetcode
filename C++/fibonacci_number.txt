@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int fib(int N) 
+    {
+        int a=0;
+        int b=1;
+        if(N==0)
+        {
+            return 0;
+        }
+        if(N==1)
+        {
+            return 1;
+        }
+        while(N>1)
+        {
+            int temp=b;
+            b=a+b;
+            a=temp;
+            N--;
+        }
+        return b;
+    }
+};

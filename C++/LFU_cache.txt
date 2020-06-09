@@ -1,0 +1,60 @@
+class LFUCache 
+{
+    public:
+    int c;
+    int minFrequency=1;
+    unordered_map<int,pair<int,int>> m;
+    unordered_map<int,list<int>> frequency;
+    unordered_map<int,list<int>::iterator> it;
+    LFUCache(int capacity) 
+    {
+        c=capacity;
+    }
+    
+    int get(int key) 
+    {
+        if(m.find(key)==m.end())
+        {
+            return -1;
+        }
+        frequency[m[key].second].erase(it[key]);
+        m[key].second++;
+        frequency[m[key].second].push_back(key);
+        it[key]=--frequency[m[key].second].end();
+        if(frequency[minFrequency].size()==0)
+        {
+            minFrequency++;
+        }
+        return m[key].first;
+    }
+    
+    void put(int key, int value) 
+    {
+        if(c<=0)
+        {
+            return;
+        }
+        if(get(key)!=-1)
+        {
+            m[key].first=value;
+            return;
+        }
+        if(m.size()>=c)
+        {
+            m.erase(frequency[minFrequency].front());
+            it.erase(frequency[minFrequency].front());
+            frequency[minFrequency].pop_front();
+        }
+        m[key]={value,1};
+        frequency[1].push_back(key);
+        it[key]=--frequency[1].end();
+        minFrequency=1;
+    }
+};
+
+/**
+ * Your LFUCache object will be instantiated and called as such:
+ * LFUCache* obj = new LFUCache(capacity);
+ * int param_1 = obj->get(key);
+ * obj->put(key,value);
+ */

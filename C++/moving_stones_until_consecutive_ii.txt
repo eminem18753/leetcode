@@ -1,0 +1,58 @@
+class Solution 
+{
+    public:
+    vector<int> numMovesStonesII(vector<int>& a) 
+    {
+        int n=a.size();
+        sort(a.begin(),a.end());
+        int M=max(a[n-2]-a[0]-n+2,a[n-1]-a[1]-n+2);
+        int m=2147483647;
+        
+        int p1=0;
+        int p2=0;
+        while(true)
+        {
+            int last=a[p1]+n-1;
+            if(p1+1>=n&&p2+1>=n)
+            {
+                break;
+            }
+            else if(p2+1>=n)
+            {
+                if(a[p2]<=last)
+                {
+                    int s=p2-p1+1;
+                    
+                    if(a[p2]==last-1&&s==n-1)
+                    {
+                        m=min(m,n-s+1);
+                    }
+                    else
+                    {
+                        m=min(m,n-s);
+                    }
+                }
+                p1++;
+            }
+            else if(a[p2]<=last)
+            {
+                int s=p2-p1+1;
+                if(a[p2]==last-1&&s==n-1)
+                {
+                    m=min(m,n-s+1);
+                }
+                else
+                {
+                    m=min(m,n-s);
+                }
+                p2++;
+            }
+            else
+            {
+                p1++;
+            }
+        }
+        
+        return {m,M};
+    }
+};

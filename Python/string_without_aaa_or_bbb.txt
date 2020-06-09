@@ -1,0 +1,42 @@
+class Solution(object):
+    def strWithout3a3b(self, A, B):
+        """
+        :type A: int
+        :type B: int
+        :rtype: str
+        """
+        s=""
+        d1=0
+        d2=0
+        if A>B:
+            c1=A
+            c2=B
+            first='a'
+            second='b'
+        else:
+            c1=B
+            c2=A
+            first='b'
+            second='a'
+            
+        n=A+B
+        for i in range(0,n):
+            if d1==2:
+                s+=second
+                c2-=1
+                d1=0
+                continue
+            if d2==2:
+                s+=first
+                c1-=1
+                d2=0
+                continue
+            if c1>c2:
+                s+=first
+                c1-=1
+                d1+=1
+            else:
+                s+=second
+                c2-=1
+                d2+=1
+        return s

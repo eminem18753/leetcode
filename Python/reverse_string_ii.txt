@@ -1,0 +1,25 @@
+class Solution(object):
+    def reverseStr(self, s, k):
+        """
+        :type s: str
+        :type k: int
+        :rtype: str
+        """
+        result=""
+        c=0
+        while c+2*k<=len(s):
+            first=s[c:c+k]
+            second=s[c+k:c+2*k]
+            result+=first[::-1]+second
+            c+=2*k
+        
+        if c+k>len(s):
+            first=s[c:]
+            result+=first[::-1]
+        else:
+            first=s[c:c+k]
+            result+=first[::-1]
+            c+=k
+            result+=s[c:]
+        return result
+        

@@ -1,0 +1,44 @@
+class Solution 
+{
+public:
+    uint32_t reverseBits(uint32_t n) 
+    {
+        uint32_t result=0;
+        string temp="";
+        string final="";
+        while(n/2!=0)
+        {
+            int y=n%2;
+            n/=2;
+            if(y==0)
+            {
+                temp+='0';	
+            }
+            else
+            {
+                temp+='1';	
+            }
+        }
+        if(n==0)
+        {
+            temp+='0';	
+        }
+        else
+        {
+            temp+='1';	
+        }
+        while(temp.length()<32)
+        {
+            temp+='0';
+        }
+        for(int i=temp.length()-1;i>-1;i--)
+        {
+            final+=temp[i];	
+        }
+        for(int i=0;i<final.length();i++)
+        {
+           result+=(final[i]-48)*pow(2,i);
+        }
+        return result;
+    }
+};

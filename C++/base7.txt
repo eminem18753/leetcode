@@ -1,0 +1,28 @@
+class Solution 
+{
+public:
+    string convertToBase7(int num) 
+    {
+        string result="";
+        string temp="";
+        string newOne="";
+        if(num<0)
+        {
+            result+='-';
+            num=-num;	
+        }
+        while(num/7!=0)
+        {
+            int y=num%7;
+            num/=7;
+            temp+=char(y+48);	
+        }
+        temp+=char(num+48);
+        for(int i=temp.length()-1;i>-1;i--)
+        {
+            newOne+=temp[i];	
+        }
+        result+=newOne;
+        return result;
+    }
+};

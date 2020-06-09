@@ -1,0 +1,73 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution 
+{
+    public:
+    int s=0;
+    bool result=false;
+    TreeNode* start;
+    map<TreeNode*,int> total;
+    void dfs(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        s+=root->val;
+        dfs(root->left);
+        dfs(root->right);
+    }
+    int test(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return 0;
+        }
+        test(root->left);
+        test(root->right);
+        bool a=total.find(root->left)!=total.end();
+        bool b=total.find(root->right)!=total.end();
+        int r;
+        if(a&&b)
+        {
+            r=root->val+total[root->left]+total[root->right];
+        }
+        else if(a)
+        {
+            r=root->val+total[root->left]+test(root->right);
+        }
+        else if(b)
+        {
+            r=root->val+total[root->right]+test(root->left);
+        }
+        else
+        {
+            r=root->val+test(root->left)+test(root->right);
+        }
+
+        total[root]=r;
+        if(r==s/2&&root!=start)
+        {
+            result=true;
+        }
+        return r;
+    }
+    bool checkEqualTree(TreeNode* root)
+    {
+        start=root;
+        dfs(root);
+        if(abs(s)%2==1)
+        {
+            return false;
+        }
+        test(root);
+        return result;
+    }
+};

@@ -1,0 +1,49 @@
+class Solution 
+{
+    public:
+    int atMostNGivenDigitSet(vector<string>& D, int N)
+    {
+        int c=D.size();
+        int n=to_string(N).length();
+        int r=0;
+        string temp=to_string(N);
+        set<string> total;
+        for(int i=0;i<D.size();i++)
+        {
+            total.insert(D[i]);
+        }
+        for(int i=1;i<n;i++)
+        {
+            r+=pow(c,i);
+        }
+        int f=0;
+        for(int i=0;i<n;i++)
+        {
+            int k=0;
+            string a="";
+            a+=temp[i];
+            for(int j=0;j<D.size();j++)
+            {
+                if(D[j]<a)
+                {
+                    k++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            r+=k*pow(c,n-i-1);
+            if(total.find(a)==total.end())
+            {
+                f=1;
+                break;
+            }
+        }
+        if(f==0)
+        {
+            r++;
+        }
+        return r;
+    }
+};

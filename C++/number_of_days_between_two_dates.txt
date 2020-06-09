@@ -1,0 +1,39 @@
+class Solution 
+{
+    public:
+    int month[12]={31,28,31,30,31,30,31,31,30,31,30,31};
+    bool check(int y)
+    {
+        return (y%400==0)||(y%100!=0&&y%4==0);
+    }
+    int calculate(int y,int m,int d)
+    {
+        int c=0;
+        int last_year=y-1;
+        for(int i=1971;i<=last_year;i++)
+        {
+            c+=365;
+            if(check(i))
+            {
+                c++;
+            }
+        }
+        int last_month=m-1;
+        for(int i=0;i<last_month;i++)
+        {
+            c+=month[i];
+        }
+        if(check(y)&&last_month>=2)
+        {
+            c++;
+        }
+        c+=d;
+        return c;
+    }
+    int daysBetweenDates(string date1, string date2) 
+    {
+        int d1=calculate(stoi(date1.substr(0,4)),stoi(date1.substr(5,2)),stoi(date1.substr(8,2)));
+        int d2=calculate(stoi(date2.substr(0,4)),stoi(date2.substr(5,2)),stoi(date2.substr(8,2)));
+        return abs(d1-d2);
+    }
+};

@@ -1,0 +1,22 @@
+class Solution 
+{
+    public:
+    int maximumNumberOfOnes(int width, int height, int sideLength, int maxOnes) 
+    {
+        int s=0;
+        vector<int> result;
+        for(int i=0;i<sideLength;i++)
+        {
+            for(int j=0;j<sideLength;j++)
+            {
+                result.push_back(((width-i-1)/sideLength+1)*((height-j-1)/sideLength+1));
+            }
+        }
+        sort(result.rbegin(),result.rend());
+        for(int i=0;i<maxOnes;i++)
+        {
+            s+=result[i];   
+        }
+        return s;
+    }
+};

@@ -1,0 +1,39 @@
+class Solution 
+{
+    public:
+    int maxDotProduct(vector<int>& nums1, vector<int>& nums2) 
+    {
+        int m=nums1.size();
+        int n=nums2.size();
+        int dp[m+1][n+1];
+        memset(dp,0,sizeof(dp));
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                dp[i+1][j+1]=dp[i][j]+nums1[i]*nums2[j];
+                dp[i+1][j+1]=max(dp[i+1][j+1],dp[i+1][j]);
+                dp[i+1][j+1]=max(dp[i+1][j+1],dp[i][j+1]);
+            }
+        }
+        if(dp[m][n]==0)
+        {
+            int M1=-2147483648;
+            int m1=2147483647;
+            int M2=-2147483648;
+            int m2=2147483647;
+            for(int i=0;i<m;i++)
+            {
+                M1=max(nums1[i],M1);
+                m1=min(nums1[i],m1);
+            }
+            for(int i=0;i<n;i++)
+            {
+                M2=max(nums2[i],M2);
+                m2=min(nums2[i],m2);
+            }
+            return max(M1*m2,m1*M2);
+        }
+        return dp[m][n];
+    }
+};

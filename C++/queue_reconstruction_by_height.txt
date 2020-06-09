@@ -1,0 +1,51 @@
+bool compare(vector<int> a,vector<int> b)
+{
+    if(a[0]!=b[0])
+    {
+        return a[0]<b[0];
+    }
+    return a[1]>b[1];
+}
+class Solution 
+{
+    public:
+    vector<vector<int>> reconstructQueue(vector<vector<int>>& people) 
+    {
+        vector<vector<int>> result;
+        int n=people.size();
+        if(n==0)
+        {
+            return result;
+        }
+        int a[n];
+        memset(a,0,sizeof(a));
+        sort(people.begin(),people.end(),compare);
+        for(int i=0;i<n;i++)
+        {
+            vector<int> temp={0,0};
+            result.push_back(temp);
+        }
+        for(int i=0;i<n;i++)
+        {
+            int k=0;
+            int c=0;
+            while(k<people[i][1])
+            {
+                while(a[c]==1)
+                {
+                    c++;
+                }
+                k++;
+                c++;
+            }
+            while(a[c]==1)
+            {
+                c++;
+            }
+            result[c][0]=people[i][0];
+            result[c][1]=people[i][1];
+            a[c]=1;
+        }
+        return result;
+    }
+};

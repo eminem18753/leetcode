@@ -1,0 +1,19 @@
+class Solution 
+{
+    public:
+    vector<int> arraysIntersection(vector<int>& arr1, vector<int>& arr2, vector<int>& arr3) 
+    {
+        vector<int> result;
+        set<int> s1(arr1.begin(),arr1.end());    
+        set<int> s2(arr2.begin(),arr2.end());    
+        set<int> s3(arr3.begin(),arr3.end());
+        for(int i=0;i<arr1.size();i++)
+        {
+            if(s2.find(arr1[i])!=s2.end()&&s3.find(arr1[i])!=s3.end())
+            {
+                result.push_back(arr1[i]);
+            }
+        }
+        return result;
+    }
+};

@@ -1,0 +1,36 @@
+class Solution {
+public:
+    vector<vector<string>> groupStrings(vector<string>& strings) 
+    {
+        vector<vector<string>> result;
+        unordered_map<string,vector<string>> total;
+        for(int i=0;i<strings.size();i++)
+        {
+            string temp=strings[i];
+            int flag=0;
+            for(int j=0;j<26;j++)
+            {
+                for(int k=0;k<strings[i].length();k++)
+                {
+                    temp[k]=(strings[i][k]+j)%26+'a';
+                }
+                if(total.find(temp)!=total.end())
+                {
+                    total[temp].push_back(strings[i]);
+                    flag=1;
+                    break;
+                }
+            }
+            if(flag==0)
+            {
+                total[strings[i]].push_back(strings[i]);
+            }
+        }
+        for(unordered_map<string,vector<string>>::iterator it=total.begin();it!=total.end();it++)
+        {
+            vector<string> temp(it->second.begin(),it->second.end());
+            result.push_back(temp);
+        }
+        return result;
+    }
+};

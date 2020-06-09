@@ -1,0 +1,21 @@
+class Solution(object):
+    def queryString(self, S, N):
+        """
+        :type S: str
+        :type N: int
+        :rtype: bool
+        """
+        if N>2048:
+            return False
+
+        for i in range(N,0,-1):
+            current=""
+            temp=i
+            while temp//2:
+                current+=str(temp%2)
+                temp/=2
+            current+=str(temp)
+            if current[::-1] not in S:
+                return False
+
+        return True

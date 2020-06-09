@@ -1,0 +1,23 @@
+class Solution 
+{
+    public:
+    int bestRotation(vector<int>& A) 
+    {
+        int result=0;
+        int n=A.size();
+        vector<int> c(n,0);
+        for(int i=0;i<n;i++)
+        {
+            c[(n-A[i]+i+1)%n]--;
+        }
+        for(int i=1;i<n;i++)
+        {
+            c[i]+=c[i-1]+1;
+            if(c[i]>c[result])
+            {
+                result=i;
+            }
+        }
+        return result;
+    }
+};

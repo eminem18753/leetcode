@@ -1,0 +1,95 @@
+class Solution {
+public:
+    int orangesRotting(vector<vector<int>>& grid) 
+    {
+        int counter=0;
+        vector<vector<int>> temp;
+        for(int i=0;i<grid.size();i++)
+        {
+            vector<int> c;
+            for(int j=0;j<grid[i].size();j++)
+            {
+                c.push_back(0);
+            }
+            temp.push_back(c);
+        }
+        while(true)
+        {
+            vector<vector<int>> current;
+            current.assign(temp.begin(),temp.end());
+            for(int i=0;i<grid.size();i++)
+            {
+                for(int j=0;j<grid[i].size();j++)
+                {
+                    current[i][j]=grid[i][j];
+                    if(i>0)
+                    {
+                        if(grid[i-1][j]==2&&grid[i][j]==1)
+                        {
+                            current[i][j]=2;
+                        }
+                    }
+                    if(j>0)
+                    {
+                        if(grid[i][j-1]==2&&grid[i][j]==1)
+                        {
+                            current[i][j]=2;
+                        }
+                    }
+                    if(i<grid.size()-1)
+                    {
+                        if(grid[i+1][j]==2&&grid[i][j]==1)
+                        {
+                            current[i][j]=2;
+                        }                        
+                    }
+                    if(j<grid[i].size()-1)
+                    {
+                        if(grid[i][j+1]==2&&grid[i][j]==1)
+                        {
+                            current[i][j]=2;
+                        }                        
+                    }
+                }
+            }
+
+            int flag=0;
+            for(int i=0;i<grid.size();i++)
+            {
+                for(int j=0;j<grid[i].size();j++)
+                {
+                    if(grid[i][j]!=current[i][j])
+                    {
+                        flag=1;
+                        break;
+                    }
+                }
+                if(flag==1)
+                {
+                    break;
+                }
+            }
+
+            if(flag==0)
+            {
+                break;
+            }
+            else
+            {
+                counter+=1;
+            }
+            grid.assign(current.begin(),current.end());
+        }
+        for(int i=0;i<grid.size();i++)
+        {
+            for(int j=0;j<grid[i].size();j++)
+            {
+                if(grid[i][j]==1)
+                {
+                    return -1;
+                }
+            }
+        }
+        return counter;
+    }
+};

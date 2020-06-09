@@ -1,0 +1,32 @@
+// Forward declaration of ArrayReader class.
+class ArrayReader;
+
+class Solution {
+public:
+    int search(const ArrayReader& reader, int target)
+    {
+        int o=2147483647;
+        int p1=0;
+        int p2=10000;
+        while(p1<p2)
+        {
+            int middle=(p1+p2)/2;
+            if(reader.get(middle)<target)
+            {
+                p1=middle+1;
+            }
+            else
+            {
+                p2=middle;
+            }
+        }
+        if(reader.get(p1)==target)
+        {
+            return p1;
+        }
+        else
+        {
+            return -1;
+        }
+    }
+};

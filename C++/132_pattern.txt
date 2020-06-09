@@ -1,0 +1,61 @@
+class Solution {
+public:
+    bool find132pattern(vector<int>& nums)
+    {
+        vector<int> p1;
+        vector<int> p2;
+        
+        int fake_m;
+        int real_M;
+        int real_m;
+        int fake_M;
+        for(int i=0;i<nums.size();i++)
+        {
+            for(int j=0;j<p1.size();j++)
+            {
+                if(nums[i]>p1[j]&&nums[i]<p2[j])
+                {
+                    return true;
+                }
+            }
+            if(i==0)
+            {
+                fake_m=nums[i];
+                real_M=nums[i];
+                real_m=nums[i];
+                fake_M=nums[i];
+            }
+            else
+            {
+                if(fake_m<nums[i]&&real_M>nums[i])
+                {
+                    return true;
+                }
+                if(real_m<nums[i]&&fake_M>nums[i])
+                {
+                    return true;
+                }
+                if(nums[i]>real_M)
+                {
+                    real_M=nums[i];
+                }
+                if(nums[i]<real_m)
+                {
+                    p1.push_back(real_m);
+                    p2.push_back(fake_M);
+                    real_m=nums[i];
+                    fake_M=nums[i];
+                }
+                if(nums[i]>fake_M)
+                {
+                    fake_M=nums[i];
+                }
+                if(real_M==fake_M)
+                {
+                    fake_m=real_m;
+                }
+            }
+        }
+        return false;
+    }
+};

@@ -1,0 +1,71 @@
+class Solution 
+{
+public:
+    int lengthLongestPath(string input)
+    {
+        int result=0;
+        vector<int> total;
+        int c=0;
+        int r=0;
+        int f=0;
+        for(int i=0;i<input.length();i++)
+        {
+            if(input[i]=='\n')
+            {
+                while(c<(int)total.size())
+                {
+                    total.pop_back();
+                }
+                total.push_back(r+1);
+                
+                int t=0;
+                for(int i=0;i<total.size();i++)
+                {
+                    t+=total[i];        
+                }
+                if(f==2)
+                {
+                    result=max(result,t-1);
+                }
+                
+                c=0;
+                r=0;
+                f=0;
+            }
+            else if(input[i]=='\t')
+            {
+                c++;
+            }
+            else
+            {
+                r++;           
+                if(input[i]=='.'&&f==0)
+                {
+                    f=1;
+                }
+                if(f==1)
+                {
+                    f=2;
+                }
+            }
+        }
+        
+        while(c<(int)total.size())
+        {
+            total.pop_back();
+        }
+
+        total.push_back(r+1);
+
+        int t=0;
+        for(int i=0;i<total.size();i++)
+        {
+            t+=total[i];        
+        }
+        if(f==2)
+        {
+            result=max(result,t-1);
+        }
+        return result;
+    }
+};

@@ -1,0 +1,79 @@
+class Solution 
+{
+    public:
+    int bfs(vector<vector<int>>& forest,int sx,int sy,int tx,int ty)
+    {
+        if(sx==tx&&sy==ty)
+        {
+            return 0;
+        }
+        int m=forest.size();
+        int n=forest[0].size();
+        int dx[4]={1,0,-1,0};
+        int dy[4]={0,1,0,-1};
+        deque<pair<int,int>> q={{sx,sy}};
+        unordered_set<int> v={sx*n+sy};
+        int c=0;
+        while(q.size()>0)
+        {
+            c++;
+            int s=q.size();
+            for(int i=0;i<s;i++)
+            {
+                pair<int,int> p=q.front();
+                q.pop_front();
+                int x=p.first;
+                int y=p.second;
+                for(int j=0;j<4;j++)
+                {
+                    int a=x+dx[j];
+                    int b=y+dy[j];
+                    if(a>=0&&a<m&&b>=0&&b<n&&forest[a][b]!=0&&v.find(a*n+b)==v.end())
+                    {
+                        if(a==tx&&b==ty)
+                        {
+                            return c;
+                        }
+                        q.push_back({a,b});
+                        v.insert(a*n+b);
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+    int cutOffTree(vector<vector<int>>& forest) 
+    {
+        vector<vector<int>> total;
+        int result=0;
+        int m=forest.size();
+        int n=forest[0].size();
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                if(forest[i][j]>1)
+                {
+                    total.push_back({forest[i][j],i,j});   
+                }
+            }
+        }
+        sort(total.begin(),total.end());
+        int sx=0;
+        int sy=0;
+        for(int i=0;i<total.size();i++)
+        {
+            int tx=total[i][1];
+            int ty=total[i][2];
+            int c=bfs(forest,sx,sy,tx,ty);
+            if(c==-1)
+            {
+                return -1;
+            }
+            result+=c;
+            sx=tx;
+            sy=ty;
+        }
+        return result;
+    }
+};

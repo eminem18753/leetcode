@@ -1,0 +1,79 @@
+
+
+
+
+class Solution 
+{
+    public:
+    string tictactoe(vector<vector<int>>& moves) 
+    {
+        int a[3][3];
+        memset(a,0,sizeof(a));
+        for(int i=0;i<moves.size();i++)
+        {
+            if(i%2==0)
+            {
+                a[moves[i][0]][moves[i][1]]=1;
+            }
+            else
+            {
+                a[moves[i][0]][moves[i][1]]=2;
+            }
+        }
+        for(int i=0;i<3;i++)
+        {
+            if(a[i][0]==a[i][1]&&a[i][1]==a[i][2])
+            {
+                if(a[i][0]==1)
+                {
+                    return "A";
+                }
+                else if(a[i][0]==2)
+                {
+                    return "B";
+                }
+            }
+            if(a[0][i]==a[1][i]&&a[1][i]==a[2][i])
+            {
+                if(a[0][i]==1)
+                {
+                    return "A";
+                }
+                else if(a[0][i]==2)
+                {
+                    return "B";
+                }
+            }
+        }
+        if(a[0][0]==a[1][1]&&a[1][1]==a[2][2])
+        {
+            if(a[0][0]==1)
+            {
+                return "A";
+            }
+            else if(a[0][0]==2)
+            {
+                return "B";
+            }
+        }
+        if(a[0][2]==a[1][1]&&a[1][1]==a[2][0])
+        {
+            if(a[0][2]==1)
+            {
+                return "A";
+            }
+            else if(a[0][2]==2)
+            {
+                return "B";
+            }
+        }
+        if(moves.size()<9)
+        {
+            return "Pending";
+        }
+        else
+        {
+            return "Draw";
+        }
+    }
+};

@@ -1,0 +1,41 @@
+class Solution
+{
+public:
+    vector<vector<int>> largeGroupPositions(string S) 
+    {
+        vector<vector<int> > result;
+        int minIndex=0;
+        int maxIndex=0;
+        int start=0;
+        for(int i=0;i<S.length();i++)
+        {
+            if(S[i]==S[i-1])
+            {
+                maxIndex=i;
+            }
+            else
+            {
+                if(maxIndex-minIndex>=2)
+                {
+                    vector<int> temp;
+                    temp.push_back(minIndex);
+                    temp.push_back(maxIndex);
+                    result.push_back(temp);
+                }
+                minIndex=i;
+                maxIndex=i;
+            }
+            if(i==S.length()-1)
+            {
+                if(maxIndex-minIndex>=2)
+                {
+                    vector<int> temp;
+                    temp.push_back(minIndex);
+                    temp.push_back(maxIndex);
+                    result.push_back(temp);
+                }    		
+            }
+        }
+        return result;
+    }
+};

@@ -1,0 +1,20 @@
+class Solution 
+{
+    public:
+    int connectSticks(vector<int>& sticks) 
+    {
+        int s=0;
+        sort(sticks.begin(),sticks.end());
+        while(sticks.size()>=2)
+        {
+            s+=sticks[0];
+            s+=sticks[1];
+            int r=sticks[0]+sticks[1];
+            sticks.erase(sticks.begin(),sticks.begin()+2);
+            vector<int>::iterator low;
+            low=lower_bound(sticks.begin(),sticks.end(),r);
+            sticks.insert(low,r);
+        }
+        return s;
+    }
+};

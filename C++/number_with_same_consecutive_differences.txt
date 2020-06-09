@@ -1,0 +1,58 @@
+class Solution {
+public:
+    vector<int> result;
+    void test(int N,int K,int number,int digit,int flag)
+    {
+        if(digit<0||digit>9)
+        {
+            return;
+        }
+        if(N==0)
+        {
+            result.push_back(number);
+            return;
+        }
+        if(flag==0)
+        {
+            test(N,K,number,digit+1,0);
+        }
+        number=number*10+digit;
+        if(N==1)
+        {
+            test(N-1,K,number,digit,1);
+        }
+        else
+        {
+            test(N-1,K,number,digit+K,1);
+            test(N-1,K,number,digit-K,1);
+        }
+    }
+    vector<int> numsSameConsecDiff(int N, int K)
+    {
+        if(N==1)
+        {
+            for(int i=0;i<10;i++)
+            {
+                result.push_back(i);
+            }
+            return result;
+        }
+        if(K==0)
+        {
+            for(int i=1;i<10;i++)
+            {
+                int current=0;
+                for(int j=0;j<N;j++)
+                {
+                    current*=10;
+                    current+=i;
+                }
+                result.push_back(current);
+            }
+            return result;
+        }
+        int flag=0;
+        test(N,K,0,1,0);
+        return result;
+    }
+};

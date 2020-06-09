@@ -1,0 +1,42 @@
+class Solution 
+{
+    public:
+    bool check(map<int,vector<int>>& A,vector<int>& total,int color,int index)
+    {
+        if(total[index]!=0)
+        {
+            return total[index]==color;   
+        }
+        total[index]=color;
+        for(int i=0;i<A[index].size();i++)
+        {
+            if(!check(A,total,-color,A[index][i]))
+            {
+                return false;   
+            }
+        }
+        return true;
+    }
+    bool possibleBipartition(int N, vector<vector<int>>& dislikes) 
+    {
+        map<int,vector<int>> total;
+        vector<int> overall(N+1,0);
+        for(int i=0;i<dislikes.size();i++)
+        {
+            total[dislikes[i][0]].push_back(dislikes[i][1]);
+            total[dislikes[i][1]].push_back(dislikes[i][0]);
+        }
+        for(int i=0;i<N;i++)
+        {
+            if(total.find(i)==total.end())
+            {
+                continue;       
+            }
+            if(overall[i]==0&&!check(total,overall,1,i))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+};

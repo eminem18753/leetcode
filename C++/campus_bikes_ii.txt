@@ -1,0 +1,51 @@
+class Solution 
+{
+    public:
+    int assignBikes(vector<vector<int>>& workers, vector<vector<int>>& bikes) 
+    {
+        int w=workers.size();
+        int b=bikes.size();
+        int dp[w+1][1<<b];
+        int r[w+1][1<<b];
+        memset(dp,0,sizeof(dp));
+        memset(r,0,sizeof(r));
+        dp[0][0]=0;
+        r[0][0]=1;
+        for(int i=0;i<w;i++)
+        {
+            for(int j=0;j<b;j++)
+            {
+                for(int k=0;k<1<<b;k++)
+                {
+                    if(r[i][k]==0)
+                    {
+                        continue;
+                    }
+                    int g=(1<<j)&k;
+                    int s=(1<<j)|k;
+                    if(!g)
+                    {
+                        if(r[i+1][s]==1)
+                        {
+                            dp[i+1][s]=min(dp[i+1][s],dp[i][k]+abs(bikes[j][0]-workers[i][0])+abs(bikes[j][1]-workers[i][1]));                            
+                        }
+                        else
+                        {
+                            dp[i+1][s]=dp[i][k]+abs(bikes[j][0]-workers[i][0])+abs(bikes[j][1]-workers[i][1]);
+                        }
+                        r[i+1][s]=1;
+                    }
+                }
+            }
+        }
+        int result=2147483647;
+        for(int i=0;i<1<<b;i++)
+        {
+            if(dp[w][i]!=0)
+            {
+                result=min(result,dp[w][i]);
+            }
+        }
+        return result;
+    }
+};

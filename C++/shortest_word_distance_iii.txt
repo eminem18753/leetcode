@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int shortestWordDistance(vector<string>& words, string word1, string word2) 
+    {
+        int result=2147483647;
+        vector<int> f1;
+        vector<int> f2;
+        for(int i=0;i<words.size();i++)
+        {
+            if(words[i]==word1)
+            {
+                f1.push_back(i);
+            }
+            if(words[i]==word2)
+            {
+                f2.push_back(i);
+            }
+        }
+        for(int i=0;i<f1.size();i++)
+        {
+            for(int j=0;j<f2.size();j++)
+            {
+                if(f1[i]!=f2[j])
+                {
+                    result=min(result,abs(f1[i]-f2[j]));
+                }
+            }
+        }
+        
+        return result;
+    }
+};

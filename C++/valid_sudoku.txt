@@ -1,0 +1,172 @@
+class Solution {
+public:
+    bool isValidSudoku(vector<vector<char>>& boards) 
+    {
+        int a1[10];
+        int a2[10];
+        int a3[10];
+        int a4[10];
+        int a5[10];
+        int a6[10];
+        int a7[10];
+        int a8[10];
+        int a9[10];
+        int c[9][10];
+        int r[10][9];
+        
+        memset(a1,0,sizeof(a1));
+        memset(a2,0,sizeof(a2));
+        memset(a3,0,sizeof(a3));
+        memset(a4,0,sizeof(a4));
+        memset(a5,0,sizeof(a5));
+        memset(a6,0,sizeof(a6));
+        memset(a7,0,sizeof(a7));
+        memset(a8,0,sizeof(a8));
+        memset(a9,0,sizeof(a9));
+        memset(c,0,sizeof(c));
+        memset(r,0,sizeof(r));
+
+        vector<vector<int>> board;
+        for(int i=0;i<boards.size();i++)
+        {
+            vector<int> temp;
+            for(int j=0;j<boards[i].size();j++)
+            {
+                if(boards[i][j]>='0'&&boards[i][j]<='9')
+                {
+                    temp.push_back(boards[i][j]-'0');
+                }
+                else
+                {
+                    temp.push_back(0);   
+                }
+            }
+            board.push_back(temp);
+        }
+        
+        for(int i=0;i<9;i++)
+        {
+            for(int j=0;j<9;j++)
+            {
+                c[i][board[i][j]]++;
+                if(c[i][board[i][j]]>1&&board[i][j]!=0)
+                {
+                    return false;
+                }
+                r[board[j][i]][i]++;
+                if(r[board[j][i]][i]>1&&board[j][i]!=0)
+                {
+                    return false;
+                }
+            }
+        }
+        for(int i=0;i<3;i++)
+        {
+            for(int j=0;j<3;j++)
+            {
+                a1[board[i][j]]++;
+                if(a1[board[i][j]]>1&&board[i][j]!=0)
+                {
+                    return false;
+                }
+            }
+        }
+        for(int i=0;i<3;i++)
+        {
+            for(int j=3;j<6;j++)
+            {
+                a2[board[i][j]]++;
+                if(a2[board[i][j]]>1&&board[i][j]!=0)
+                {
+                    return false;
+                }
+            }
+        }
+        
+        for(int i=0;i<3;i++)
+        {
+            for(int j=6;j<9;j++)
+            {
+                a3[board[i][j]]++;
+                if(a3[board[i][j]]>1&&board[i][j]!=0)
+                {
+                    return false;
+                }
+            }
+        }
+        
+        for(int i=3;i<6;i++)
+        {
+            for(int j=0;j<3;j++)
+            {
+                a4[board[i][j]]++;
+                if(a4[board[i][j]]>1&&board[i][j]!=0)
+                {
+                    return false;
+                }
+            }
+        }
+        
+        for(int i=3;i<6;i++)
+        {
+            for(int j=3;j<6;j++)
+            {
+                a5[board[i][j]]++;
+                if(a5[board[i][j]]>1&&board[i][j]!=0)
+                {
+                    return false;
+                }
+            }
+        }
+        
+        for(int i=3;i<6;i++)
+        {
+            for(int j=6;j<9;j++)
+            {
+                a6[board[i][j]]++;
+                if(a6[board[i][j]]>1&&board[i][j]!=0)
+                {
+                    return false;
+                }
+            }
+        }
+        
+        for(int i=6;i<9;i++)
+        {
+            for(int j=0;j<3;j++)
+            {
+                a7[board[i][j]]++;
+                if(a7[board[i][j]]>1&&board[i][j]!=0)
+                {
+                    return false;
+                }
+            }
+        }
+        
+        for(int i=6;i<9;i++)
+        {
+            for(int j=3;j<6;j++)
+            {
+                a8[board[i][j]]++;
+                if(a8[board[i][j]]>1&&board[i][j]!=0)
+                {
+                    return false;
+                }
+            }
+        }
+        
+        for(int i=6;i<9;i++)
+        {
+            for(int j=6;j<9;j++)
+            {
+                a9[board[i][j]]++;
+                if(a9[board[i][j]]>1&&board[i][j]!=0)
+                {
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+    }
+};

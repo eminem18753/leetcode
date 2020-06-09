@@ -1,0 +1,52 @@
+class Solution {
+public:
+    bool validWordAbbreviation(string word, string abbr) 
+    {
+        vector<string> total;
+        string temp="";
+        for(int i=0;i<abbr.length();i++)
+        {
+            if(i==0||(i>0&&isdigit(abbr[i])==isdigit(abbr[i-1])))
+            {
+                temp+=abbr[i];
+            }
+            else
+            {
+                total.push_back(temp);
+                temp="";
+                temp+=abbr[i];
+            }
+        }
+        if(temp.length()>0)
+        {
+            total.push_back(temp);
+        }
+        int c=0;
+        for(int i=0;i<total.size();i++)
+        {
+            if(total[i][0]>='0'&&total[i][0]<='9')
+            {
+                if(total[i][0]=='0')
+                {
+                    return false;
+                }
+                c+=stoi(total[i]);
+            }
+            else
+            {
+                for(int j=0;j<total[i].length();j++)
+                {
+                    if(total[i][j]!=word[c++])
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+        if(c!=word.length())
+        {
+            return false;
+        }
+        return true;
+    }
+};

@@ -1,0 +1,22 @@
+class Solution(object):
+    def videoStitching(self, clips, T):
+        """
+        :type clips: List[List[int]]
+        :type T: int
+        :rtype: int
+        """
+        dp=[2147483647]*(100+1)
+        clips=sorted(clips,key=lambda k:k[1])
+        for i in range(0,len(clips)):
+            for j in range(clips[i][0],clips[i][1]+1):
+                if clips[i][0]==0:
+                    dp[j]=1
+                elif dp[clips[i][0]]!=2147483647:
+                    dp[j]=min(dp[j],dp[clips[i][0]]+1)
+                    
+        for i in range(0,T+1):
+            if dp[i]==2147483647:
+                return -1
+        
+        return dp[T]
+                    

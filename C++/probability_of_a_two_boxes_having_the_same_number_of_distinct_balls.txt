@@ -1,0 +1,85 @@
+long long int c[49][49];
+int f=0;
+class Solution 
+{
+    public:
+    unordered_map<string,long long int> total;
+    string toHash(int index,int number,vector<int>& boxes)
+    {
+        return to_string(index)+","+to_string(number)+","+to_string(boxes[0])+","+to_string(boxes[1]);
+    }
+    double dfs(int index,int number,vector<int>& balls,vector<int> boxes)
+    {
+        if(number<0)
+        {
+            return 0;;
+        }
+        if(number==0&&index==(int)balls.size())
+        {
+            if(boxes[0]==boxes[1])
+            {
+                return 1;
+            }
+            return 0;
+        }
+        if(index>=balls.size())
+        {
+            return 0;
+        }
+        if(total.find(toHash(index,number,boxes))!=total.end())
+        {
+            return total[toHash(index,number,boxes)];
+        }
+        double t=0;
+        for(int i=0;i<=balls[index];i++)
+        {
+            if(i==0)
+            {
+                boxes[1]++;
+            }
+            else if(i==balls[index])
+            {
+                boxes[0]++;
+            }
+            t+=c[balls[index]][i]*dfs(index+1,number-i,balls,boxes);
+            if(i==0)
+            {
+                boxes[1]--;
+            }
+            else if(i==balls[index])
+            {
+                boxes[0]--;
+            }
+        }
+        total[toHash(index,number,boxes)]=t;
+        return t;
+    }
+    double getProbability(vector<int>& balls) 
+    {
+        if(f==0)
+        {
+            f=1;
+            memset(c,0,sizeof(c));
+            c[0][0]=1;
+            c[1][0]=1;
+            c[1][1]=1;
+            for(int i=1;i<48;i++)
+            {
+                for(int j=0;j<=i;j++)
+                {
+                    c[i+1][j]+=c[i][j];
+                    c[i+1][j+1]+=c[i][j];
+                }
+            }
+        }
+        int s=0;
+        for(int i=0;i<balls.size();i++)
+        {
+            s+=balls[i];
+        }
+        double total=c[s][s/2];
+        vector<int> boxes={0,0};
+        double same=dfs(0,s/2,balls,boxes);
+        return same/total;
+    }
+};

@@ -1,0 +1,8 @@
+# Write your MySQL query statement below
+SELECT b.customer_id,b.customer_name FROM Orders as a
+JOIN Customers as b
+ON a.customer_id=b.customer_id
+GROUP BY a.customer_id
+HAVING SUM(CASE WHEN product_name='A' THEN 1 ELSE 0 END)>0 AND
+SUM(CASE WHEN product_name='B' THEN 1 ELSE 0 END)>0 AND
+SUM(CASE WHEN product_name='C' THEN 1 ELSE 0 END)=0;

@@ -1,0 +1,17 @@
+class Solution 
+{
+    public:
+    int computeArea(int A, int B, int C, int D, int E, int F, int G, int H) 
+    {
+        long long l=max(A,E);
+        long long r=min(C,G);
+        long long u=min(D,H);
+        long long d=max(B,F);
+        long long result=(long long)(r-l)*(long long)(u-d);
+        if(r-l<0||u-d<0)
+        {
+            result=0;
+        }
+        return (int)((long long)(C-A)*(long long)(D-B)+(long long)(G-E)*(long long)(H-F)-max(result,(long long)0));
+    }
+};

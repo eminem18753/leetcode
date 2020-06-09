@@ -1,0 +1,18 @@
+class Solution 
+{
+    public:
+    int numTimesAllBlue(vector<int>& light) 
+    {
+        int result=0;
+        int maximum=0;    
+        for(int i=0;i<light.size();i++)
+        {
+            maximum=max(maximum,light[i]);
+            if(maximum==i+1)
+            {
+                result++;
+            }
+        }
+        return result;
+    }
+};

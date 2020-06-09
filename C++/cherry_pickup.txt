@@ -1,0 +1,40 @@
+class Solution 
+{
+    public:
+    vector<vector<vector<int>>> m;
+    vector<vector<int>> g;
+    int dp(int x1,int y1,int x2)
+    {
+        int r=0;
+        int y2=x1+y1-x2;
+        if(x1<0||y1<0||x2<0||y2<0)
+        {
+            return -2147483648;   
+        }
+        if(g[x1][y1]==-1||g[x2][y2]==-1)
+        {
+            return -2147483648;   
+        }
+        if(x1==0&&y1==0)
+        {
+            return g[x1][y1];   
+        }
+        if(m[x1][y1][x2]!=-2147483648)
+        {
+            return m[x1][y1][x2];   
+        }
+        if(x1!=x2)
+        {
+            r=g[x2][y2];
+        }
+        m[x1][y1][x2]=g[x1][y1]+r+max(max(dp(x1,y1-1,x2),dp(x1,y1-1,x2-1)),max(dp(x1-1,y1,x2),dp(x1-1,y1,x2-1)));
+        return m[x1][y1][x2];
+    }
+    int cherryPickup(vector<vector<int>>& grid) 
+    {
+        g=grid;
+        int n=grid.size();
+        m=vector<vector<vector<int>>>(n,vector<vector<int>>(n,vector<int>(n,-2147483648)));
+        return max(0,dp(n-1,n-1,n-1));
+    }
+};

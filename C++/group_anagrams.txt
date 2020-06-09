@@ -1,0 +1,38 @@
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs)  
+    {
+        vector<vector<string>> result;
+        map<string,vector<string>> total;
+        for(int i=0;i<strs.size();i++)
+        {
+            int a[26];
+            memset(a,0,sizeof(a));
+            for(int j=0;j<strs[i].size();j++)
+            {
+                a[strs[i][j]-'a']++;
+            }
+            string temp="";
+            for(int j=0;j<26;j++)
+            {
+                if(a[j]>0)
+                {
+                    temp+=(char)(j+'a');
+                    temp+=to_string(a[j]);
+                }
+            }
+            total[temp].push_back(strs[i]);
+        }
+        map<string,vector<string>>::iterator it;
+        for(it=total.begin();it!=total.end();it++)
+        {
+            vector<string> current;
+            for(int i=0;i<total[it->first].size();i++)
+            {
+                current.push_back(total[it->first][i]);
+            }
+            result.push_back(current);
+        }
+        return result;
+    }
+};

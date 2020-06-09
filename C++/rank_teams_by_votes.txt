@@ -1,0 +1,47 @@
+bool compare(vector<int> a,vector<int> b)
+{
+    int n=a.size();
+    for(int i=0;i<n-1;i++)
+    {
+        if(a[i]!=b[i])
+        {
+            return a[i]>b[i];
+        }
+    }
+    return a[n-1]<b[n-1];
+}
+class Solution 
+{
+    public:
+    string rankTeams(vector<string>& votes) 
+    {
+        string result="";
+        int n=votes[0].length();
+        vector<vector<int>> total(26,vector<int>(27,-1));
+        unordered_set<char> v(votes[0].begin(),votes[0].end());
+        
+        for(int i=0;i<26;i++)
+        {
+            if(v.find((char)(i+'A'))!=v.end())
+            {
+                total[i][26]=i;
+            }
+        }
+        for(int i=0;i<votes.size();i++)
+        {
+            for(int j=0;j<votes[i].length();j++)
+            {
+                total[votes[i][j]-'A'][j]++;
+            }
+        }
+        sort(total.begin(),total.end(),compare);
+        for(int i=0;i<26;i++)
+        {
+            if(total[i][26]!=-1)
+            {
+                result+=(char)(total[i][26]+'A');                
+            }
+        }
+        return result;
+    }
+};

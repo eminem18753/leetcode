@@ -1,0 +1,42 @@
+class Solution(object):
+    def maximumSwap(self, num):
+        """
+        :type num: int
+        :rtype: int
+        """
+        a={}
+        d={}
+        maximum=-1
+        current=map(int,list(str(num)))
+        total=[]
+        for i in range(0,len(current)):
+            temp=[]
+            temp.append(current[i])
+            temp.append(i)
+            total.append(temp)
+            
+        total=sorted(total,reverse=True)
+        index=0
+        for i in range(0,len(total)):
+            d[i]=total[i][1]
+            if i==0:
+                a[total[i][0]]=total[i][1]
+            else:
+                if total[i][0]!=total[i-1][0]:
+                    a[total[i][0]]=total[i][1]
+                else:
+                    if total[i][1]>a[total[i][0]]:
+                        a[total[i][0]]=total[i][1]
+        m=min(current)
+        M=max(current)
+        l=len(current)
+        
+        for i in range(0,len(total)):
+            
+            if current[i]!=current[d[i]]:
+                temp=current[i]
+                current[i]=current[a[current[d[i]]]]
+                current[a[current[d[i]]]]=temp
+                break
+                
+        return int(''.join(map(str,current)))

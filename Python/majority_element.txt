@@ -1,0 +1,13 @@
+from collections import Counter
+class Solution(object):
+    def majorityElement(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        result=sorted(Counter(nums).items())
+        output=[]
+        for i in result:
+            output.append(list(i))
+        current=sorted(output,key=lambda k:k[1],reverse=True)
+        return current[0][0]

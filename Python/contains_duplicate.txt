@@ -1,0 +1,19 @@
+from collections import Counter
+class Solution(object):
+    def containsDuplicate(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: bool
+        """
+        result=Counter(nums).items()
+        output=[]
+        flag=0
+        for i in result:
+            output.append(list(i))
+        for i in range(0,len(output)):
+            if output[i][1]>1:
+                flag=1
+        if flag==1:
+            return True
+        else:
+            return False

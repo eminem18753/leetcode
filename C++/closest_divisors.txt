@@ -1,0 +1,31 @@
+class Solution 
+{
+    public:
+    vector<int> find_smallest(int n)
+    {
+        vector<int> result={1,n};
+        int half=sqrt(n)+1;
+        for(int i=half;i>1;i--)
+        {
+            if(n%i==0)
+            {
+                result={i,n/i};
+                break;
+            }
+        }
+        return result;
+    }
+    vector<int> closestDivisors(int num) 
+    {
+        vector<int> a=find_smallest(num+1);
+        vector<int> b=find_smallest(num+2);
+        if(a[1]-a[0]<b[1]-b[0])
+        {
+            return a;
+        }
+        else
+        {
+            return b;
+        }
+    }
+};

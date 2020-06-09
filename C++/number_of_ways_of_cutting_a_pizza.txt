@@ -1,0 +1,68 @@
+class Solution 
+{
+    public:
+    int ways(vector<string>& pizza, int k) 
+    {
+        int modulo=1000000007;
+        int m=pizza.size();
+        int n=pizza[0].length();
+        int dp[m][n][k];
+        int s[m+1][n+1];
+        int r[m+1][n+1];
+        memset(dp,0,sizeof(dp));
+        memset(s,0,sizeof(s));
+        memset(r,0,sizeof(r));
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                s[i+1][j+1]=s[i+1][j];
+                if(pizza[i][j]=='A')
+                {
+                    s[i+1][j+1]++;
+                }
+            }
+        }
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                r[i+1][j+1]=r[i][j+1]+s[i+1][j+1];
+            }
+        }
+        for(int i=m-1;i>-1;i--)
+        {
+            for(int j=n-1;j>-1;j--)
+            {
+                if(r[m][n]+r[i][j]-r[m][j]-r[i][n]>0)
+                {
+                    dp[i][j][0]=1;
+                }
+            }
+        }
+        for(int i=1;i<k;i++)
+        {
+            for(int a=m-1;a>-1;a--)
+            {
+                for(int b=n-1;b>-1;b--)
+                {
+                    for(int c=a-1;c>-1;c--)
+                    {
+                        if(r[a][n]+r[c][b]-r[a][b]-r[c][n]>0)
+                        {
+                            dp[c][b][i]=(dp[c][b][i]+dp[a][b][i-1])%modulo;
+                        }
+                    }
+                    for(int d=b-1;d>-1;d--)
+                    {
+                        if(r[m][b]+r[a][d]-r[m][d]-r[a][b]>0)
+                        {
+                            dp[a][d][i]=(dp[a][d][i]+dp[a][b][i-1])%modulo;
+                        }
+                    }
+                }
+            }
+        }
+        return dp[0][0][k-1];
+    }
+};

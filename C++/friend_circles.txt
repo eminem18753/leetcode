@@ -1,0 +1,60 @@
+
+class Solution {
+public:
+    int findCircleNum(vector<vector<int>>& M)
+    {
+        int result=0;
+        int a[M.size()];
+        memset(a,0,sizeof(a));
+        int current=1;
+        set<int> output;
+        for(int i=0;i<M.size();i++)
+        {
+            int flag=0;
+            int minimum=2147483647;
+            set<int> total;
+            for(int j=0;j<M[i].size();j++)
+            {
+                if(M[i][j]==1)
+                {
+                    if(a[j]!=0)
+                    {
+                        flag=1;
+                        if(a[j]<minimum)
+                        {
+                            minimum=a[j];
+                        }
+                        total.insert(a[j]);
+                    }
+                }
+            }
+            if(flag==0)
+            {
+                for(int j=0;j<M[i].size();j++)
+                {
+                    if(M[i][j]==1)
+                    {
+                        a[j]=current;
+                    }
+                }
+                current+=1;
+            }
+            else
+            {
+                for(int j=0;j<M[i].size();j++)
+                {
+                    if(M[i][j]==1||total.find(a[j])!=total.end())
+                    {
+                        a[j]=minimum;
+                    }
+                }                
+            }
+        }
+
+        for(int i=0;i<M.size();i++)
+        {
+            output.insert(a[i]);
+        }
+        return output.size();
+    }
+};

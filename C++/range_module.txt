@@ -1,0 +1,112 @@
+class RangeModule 
+{
+    public:
+    vector<vector<int>> total;
+    RangeModule() 
+    {
+        
+    }
+    
+    void addRange(int left, int right) 
+    {
+        int f=0;
+        for(int i=(int)total.size()-1;i>-1;i--)
+        {
+            if(left>=total[i][0]&&left<total[i][1])
+            {
+                f=1;
+                int f1=total[i][0];
+                int f2=total[i][1];
+                total.erase(total.begin()+i);
+                total.insert(total.begin()+i,{min(f1,left),max(f2,right)});
+            }
+            else if(right>total[i][0]&&right<=total[i][1])
+            {
+                f=1;
+                int f1=total[i][0];
+                int f2=total[i][1];
+                total.erase(total.begin()+i);
+                total.insert(total.begin()+i,{min(f1,left),max(f2,right)});                
+            }
+            else if(left<=total[i][0]&&right>=total[i][1])
+            {
+                f=1;
+                int f1=total[i][0];
+                int f2=total[i][1];
+                total.erase(total.begin()+i);
+                total.insert(total.begin()+i,{min(f1,left),max(f2,right)});                
+            }
+        }
+        if(f==0)
+        {
+            vector<vector<int>>::iterator low;
+            vector<int> temp={left,right};
+            low=lower_bound(total.begin(),total.end(),temp);
+            total.insert(low,{left,right});
+        }
+        for(int i=(int)total.size()-1;i>0;i--)
+        {
+            if(total[i][0]<=total[i-1][1])
+            {
+                int f1=total[i-1][0];
+                int f2=total[i][1];
+                total.erase(total.begin()+i);
+                total.erase(total.begin()+i-1);
+                total.insert(total.begin()+i-1,{f1,f2});
+            }
+        }
+    }
+    
+    bool queryRange(int left, int right) 
+    {
+        for(int i=(int)total.size()-1;i>-1;i--)
+        {
+            if(left>=total[i][0]&&right<=total[i][1])
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    void removeRange(int left, int right) 
+    {
+        for(int i=(int)total.size()-1;i>-1;i--)
+        {
+            if(left>total[i][0]&&right<total[i][1])
+            {
+                int f1=total[i][0];
+                int f2=total[i][1];
+                total.erase(total.begin()+i);
+                total.insert(total.begin()+i,{right,f2});
+                total.insert(total.begin()+i,{f1,left});
+            }
+            else if(left>total[i][0]&&left<total[i][1])
+            {
+                int f1=total[i][0];
+                int f2=total[i][1];
+                total.erase(total.begin()+i);
+                total.insert(total.begin()+i,{f1,left});
+            }
+            else if(right>total[i][0]&&right<total[i][1])
+            {
+                int f1=total[i][0];
+                int f2=total[i][1];
+                total.erase(total.begin()+i);
+                total.insert(total.begin()+i,{right,f2});
+            }
+            else if(left<=total[i][0]&&right>=total[i][1])
+            {
+                total.erase(total.begin()+i);
+            }
+        }        
+    }
+};
+
+/**
+ * Your RangeModule object will be instantiated and called as such:
+ * RangeModule* obj = new RangeModule();
+ * obj->addRange(left,right);
+ * bool param_2 = obj->queryRange(left,right);
+ * obj->removeRange(left,right);
+ */

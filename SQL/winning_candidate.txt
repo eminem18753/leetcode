@@ -1,0 +1,9 @@
+# Write your MySQL query statement below
+SELECT Name FROM Candidate as a
+JOIN
+(
+    SELECT COUNT(CandidateId) r,CandidateId c FROM Vote as t
+    GROUP BY CandidateId
+    ORDER BY 1 DESC LIMIT 1
+) b
+WHERE a.id=b.c;

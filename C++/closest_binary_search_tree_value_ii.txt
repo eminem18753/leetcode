@@ -1,0 +1,40 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+double t=-1;
+bool compare(int a,int b)
+{
+    return abs((double)a-t)<abs((double)b-t);
+}
+class Solution {
+public:
+    vector<int> result;
+    void test(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        result.push_back(root->val);
+        test(root->left);
+        test(root->right);
+    }
+    vector<int> closestKValues(TreeNode* root, double target, int k) 
+    {
+        if(root==NULL)
+        {
+            return result;
+        }
+        t=target;
+        test(root);
+        sort(result.begin(),result.end(),compare);
+        vector<int> output(result.begin(),result.begin()+k);
+        return output;
+    }
+};

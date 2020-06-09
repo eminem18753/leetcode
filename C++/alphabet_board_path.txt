@@ -1,0 +1,109 @@
+class Solution {
+public:
+    string alphabetBoardPath(string target) 
+    {
+        string result="";
+        vector<string> total;
+        total.push_back("abcde");
+        total.push_back("fghij");
+        total.push_back("klmno");
+        total.push_back("pqrst");
+        total.push_back("uvwxy");
+        total.push_back("z");
+        map<char,int> r;
+        map<char,int> c;
+        for(int i=0;i<total.size();i++)
+        {
+            for(int j=0;j<total[i].size();j++)
+            {
+                r[total[i][j]]=i;
+                c[total[i][j]]=j;
+            }
+        }
+        int x=r['a'];
+        int y=c['a'];
+        for(int i=0;i<target.length();i++)
+        {
+            int mx=r[target[i]]-x;
+            int my=c[target[i]]-y;
+            
+            if(target[i]=='z')
+            {
+                if(my>0)
+                {
+                    while(my>0)
+                    {
+                        result+="R";
+                        my--;
+                    }                
+                }
+                else
+                {
+                    while(my<0)
+                    {
+                        result+="L";
+                        my++;
+                    }                                
+                }
+                if(mx>0)
+                {
+                    while(mx>0)
+                    {
+                        result+="D";
+                        mx--;
+                    }
+                }
+                else
+                {
+                    while(mx<0)
+                    {
+                        result+="U";
+                        mx++;
+                    }                
+                }
+                result+="!";
+                x=r[target[i]];
+                y=c[target[i]];                
+            }
+            else
+            {
+                if(mx>0)
+                {
+                    while(mx>0)
+                    {
+                        result+="D";
+                        mx--;
+                    }
+                }
+                else
+                {
+                    while(mx<0)
+                    {
+                        result+="U";
+                        mx++;
+                    }                
+                }
+                if(my>0)
+                {
+                    while(my>0)
+                    {
+                        result+="R";
+                        my--;
+                    }                
+                }
+                else
+                {
+                    while(my<0)
+                    {
+                        result+="L";
+                        my++;
+                    }                                
+                }
+                result+="!";
+                x=r[target[i]];
+                y=c[target[i]];
+            }
+        }
+        return result;
+    }
+};

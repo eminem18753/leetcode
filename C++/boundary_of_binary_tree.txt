@@ -1,0 +1,89 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution 
+{
+    public:
+    vector<int> result;
+    vector<int> temp;
+    int fl=0;
+    TreeNode* start;
+    void l(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        fl=1;
+        result.push_back(root->val);
+        if(root->left!=NULL)
+        {
+            l(root->left);
+        }
+        else if(root->right!=NULL)
+        {
+            l(root->right);
+        }
+    }
+    void b(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        if(root!=start&&root->left==NULL&&root->right==NULL)
+        {
+            result.push_back(root->val);
+        }
+        b(root->left);
+        b(root->right);
+    }
+    void r(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        temp.push_back(root->val);
+        if(root->right!=NULL)
+        {
+            r(root->right);
+        }
+        else if(root->left!=NULL)
+        {
+            r(root->left);
+        }
+    }
+    vector<int> boundaryOfBinaryTree(TreeNode* root) 
+    {
+        if(root==NULL)
+        {
+            return result;
+        }
+        start=root;
+        result.push_back(root->val);
+        l(root->left);
+        if(fl==1)
+        {
+            result.pop_back();
+        }
+        b(root);
+        if(root->right!=NULL)
+        {
+            result.pop_back();
+        }
+        r(root->right);
+        reverse(temp.begin(),temp.end());
+        for(int i=0;i<temp.size();i++)
+        {
+            result.push_back(temp[i]);
+        }
+        return result;
+    }
+};

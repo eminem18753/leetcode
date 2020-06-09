@@ -1,0 +1,104 @@
+class Solution 
+{
+    public:
+    int c2i[26];
+    int i2c[10];
+    vector<string> w;
+    string r;
+    bool dfs(int index,int l,int s)
+    {
+        if(l==r.length())
+        {
+            return s==0;
+        }
+        if(index==w.size())
+        {
+            if(c2i[r[l]-'A']!=-1)
+            {
+                if(c2i[r[l]-'A']==s%10)
+                {
+                    return dfs(0,l+1,s/10);
+                }
+            }
+            else if(i2c[s%10]==-1)
+            {
+                if(l==(int)r.length()-1&&s%10==0)
+                {
+                    return false;
+                }
+                c2i[r[l]-'A']=s%10;
+                i2c[s%10]=r[l]-'A';
+                bool temp=dfs(0,l+1,s/10);
+                c2i[r[l]-'A']=-1;
+                i2c[s%10]=-1;
+                return temp;
+            }
+            return false;
+        }
+        if(l>=w[index].length())
+        {
+            return dfs(index+1,l,s);
+        }
+        if(c2i[w[index][l]-'A']!=-1)
+        {
+            if(l!=(int)w[index].length()-1||c2i[w[index][l]-'A']!=0)
+            {
+                return dfs(index+1,l,s+c2i[w[index][l]-'A']);
+            }
+        }
+        for(int i=0;i<10;i++)
+        {
+            if(i2c[i]!=-1)
+            {
+                continue;
+            }
+            if(l==(int)w[index].length()-1&&i==0)
+            {
+                continue;
+            }
+            c2i[w[index][l]-'A']=i;
+            i2c[i]=w[index][l]-'A';
+            bool temp=dfs(index+1,l,s+i);
+            if(temp)
+            {
+                for(int i=0;i<26;i++)
+                {
+                    cout<<c2i[i]<<" ";
+                }
+                cout<<endl;
+                for(int i=0;i<10;i++)
+                {
+                    cout<<i2c[i]<<" ";
+                }
+                cout<<endl;
+            }
+            c2i[w[index][l]-'A']=-1;
+            i2c[i]=-1;
+            if(temp)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    bool isSolvable(vector<string>& words, string result) 
+    {
+        for(int i=0;i<words.size();i++)
+        {
+            if(words[i].length()>result.length())
+            {
+                return false;
+            }
+        }
+        w=words;
+        r=result;
+        memset(c2i,-1,sizeof(c2i));
+        memset(i2c,-1,sizeof(i2c));
+        for(int i=0;i<w.size();i++)
+        {
+            reverse(w[i].begin(),w[i].end());
+        }
+        reverse(r.begin(),r.end());
+        return dfs(0,0,0);
+    }
+};

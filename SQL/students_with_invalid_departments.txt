@@ -1,0 +1,5 @@
+# Write your MySQL query statement below
+SELECT b.id,b.name FROM Departments as a
+RIGHT JOIN Students as b
+ON a.id=b.department_id
+WHERE a.id is NULL;

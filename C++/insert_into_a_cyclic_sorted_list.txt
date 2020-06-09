@@ -1,0 +1,83 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* next;
+
+    Node() {}
+
+    Node(int _val, Node* _next) {
+        val = _val;
+        next = _next;
+    }
+};
+*/
+class Solution 
+{
+    public:
+    Node* insert(Node* head, int insertVal) 
+    {
+        if(head==NULL)
+        {
+            Node* current=new Node(insertVal);
+            current->next=current;
+            return current;
+        }
+        Node* f=head;
+        Node* prev=head;
+        Node* last;
+        while(head)
+        {
+            last=head;
+            head=head->next;
+            if(last->val>head->val||head==f)
+            {
+                break;
+            }
+        }
+        
+        head=f;
+        while(head)
+        {
+            prev=head;
+            head=head->next;
+            if(head!=NULL&&prev->val<=insertVal&&head->val>=insertVal)
+            {
+                Node* temp=new Node(insertVal);
+                temp->next=head;
+                prev->next=temp;
+                return f;
+            }
+            if(head!=NULL&&prev->val<insertVal&&head->val<insertVal&&prev->val>head->val)
+            {
+                Node* temp=new Node(insertVal);
+                temp->next=head;
+                prev->next=temp;
+                return f;                
+            }
+            if(head!=NULL&&prev->val>insertVal&&head->val>insertVal&&prev->val>head->val)
+            {
+                Node* temp=new Node(insertVal);
+                temp->next=head;
+                prev->next=temp;
+                return f;                
+            }
+            if(head!=NULL&&prev->val<=insertVal&&head->val<=insertVal&&prev==last)
+            {
+                Node* temp=new Node(insertVal);
+                temp->next=head;
+                prev->next=temp;
+                return f;                
+            }
+            if(head!=NULL&&prev->val>=insertVal&&head->val>=insertVal&&prev==last)
+            {
+                Node* temp=new Node(insertVal);
+                temp->next=head;
+                prev->next=temp;
+                return f;                
+            }
+        }
+        return f;
+    }
+};

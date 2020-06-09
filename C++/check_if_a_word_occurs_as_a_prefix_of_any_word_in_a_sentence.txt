@@ -1,0 +1,31 @@
+class Solution 
+{
+    public:
+    int isPrefixOfWord(string sentence, string searchWord) 
+    {
+        vector<string> total;
+        sentence+=" ";
+        string current="";
+        int n=searchWord.length();
+        for(int i=0;i<sentence.length();i++)
+        {
+            if(sentence[i]!=' ')
+            {
+                current+=sentence[i];
+            }
+            else
+            {
+                total.push_back(current);
+                current="";
+            }
+        }
+        for(int i=0;i<total.size();i++)
+        {
+            if(total[i].length()>=n&&total[i].substr(0,n)==searchWord)
+            {
+                return i+1;
+            }
+        }
+        return -1;
+    }
+};

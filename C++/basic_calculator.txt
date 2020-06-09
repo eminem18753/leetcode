@@ -1,0 +1,132 @@
+class Solution 
+{
+    public:
+    int getR(string s)
+    {
+        vector<string> digits;
+        vector<string> signs;
+        vector<int> numbers;
+        
+        string temp="";
+        
+        string t="";
+        for(int i=0;i<(int)s.length();i++)
+        {
+            if(i!=(int)s.length()-1&&s[i]=='-'&&s[i+1]=='-')
+            {
+                t+='+';
+                i++;
+            }
+            else if(i!=(int)s.length()-1&&s[i]=='+'&&s[i+1]=='-')
+            {
+                t+='-';
+                i++;
+            }
+            else
+            {
+                t+=s[i];
+            }
+        }
+        s=t;
+
+        int counter=0;
+        for(int i=0;i<s.length();i++)
+        {
+            if(!isdigit(s[i]))
+            {
+                counter++;
+            }
+        }
+        if(s[0]=='-'&&counter==1)
+        {
+            return stoi(s);
+        }
+        for(int i=0;i<s.length();i++)
+        {
+            if(isdigit(s[i])||(i==0&&s[i]=='-'))
+            {
+                temp+=s[i];
+            }
+            else
+            {
+                string r="";
+                r+=s[i];
+                digits.push_back(temp);
+                signs.push_back(r);
+                temp="";
+            }
+        }
+        
+        digits.push_back(temp);
+                
+        for(int i=0;i<digits.size();i++)
+        {
+            numbers.push_back(stoi(digits[i]));
+        }
+
+        for(int i=0;i<signs.size();i++)
+        {
+            if(signs[i]=="+")
+            {
+                numbers[i+1]=numbers[i]+numbers[i+1];
+            }
+            else
+            {
+                numbers[i+1]=numbers[i]-numbers[i+1];
+            }
+        }
+        return numbers.back();
+    } 
+    int getP(string s)
+    {
+        string t=s.substr(1,(int)s.length()-2);
+        int flag=0;
+        for(int i=0;i<t.length();i++)
+        {
+            if(t[i]=='('||t[i]==')')
+            {
+                flag=1;
+                break;
+            }
+        }
+        if(flag==0)
+        {
+            return getR(t);
+        }
+        int f=0;
+        int start=-1;
+        for(int i=0;i<t.length();i++)
+        {
+            if(t[i]=='(')
+            {
+                f++;
+                if(f==1)
+                {
+                    start=i;
+                }
+            }
+            else if(t[i]==')')
+            {
+                f--;
+                if(f==0)
+                {
+                    t=t.substr(0,start)+to_string(getP(t.substr(start,i-start+1)))+t.substr(i+1);
+                }
+            }
+        }
+        return getP('('+t+')');
+    }
+    int calculate(string s) 
+    {
+        string t="";
+        for(int i=0;i<s.length();i++)
+        {
+            if(s[i]!=' ')
+            {
+                t+=s[i];
+            }
+        }
+        t="("+t+")";
+        return getP(t);
+    }
+};

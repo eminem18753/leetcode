@@ -1,0 +1,60 @@
+class Solution 
+{
+    public:
+    string getS(int n)
+    {
+        string r="";
+        while(n)
+        {
+            r=to_string(n&1)+r;
+            n>>=1;
+        }
+        return r;
+    }
+    int minFlips(int a, int b, int c) 
+    {
+        int result=0;
+        string x=getS(a);
+        string y=getS(b);
+        string z=getS(c);
+        int n=0;
+        n=max((int)x.length(),max((int)y.length(),(int)z.length()));
+        int xl=x.length();
+        for(int i=0;i<n-xl;i++)
+        {
+            x="0"+x;
+        }
+        int yl=y.length();
+        for(int i=0;i<n-yl;i++)
+        {
+            y="0"+y;
+        }
+        int zl=z.length();
+        for(int i=0;i<n-zl;i++)
+        {
+            z="0"+z;
+        }
+        for(int i=0;i<n;i++)
+        {
+            if(z[i]=='1')
+            {
+                if(x[i]=='0'&&y[i]=='0')
+                {
+                    result++;
+                }
+            }
+            else
+            {
+                if(x[i]=='1')
+                {
+                    result++;
+                }
+                if(y[i]=='1')
+                {
+                    result++;
+                }
+            }
+        }
+        return result;
+    }
+};

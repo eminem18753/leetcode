@@ -1,0 +1,34 @@
+class Solution {
+public:
+    bool isOneBitCharacter(vector<int>& bits) 
+    {
+        if(bits.size()==0)
+        {
+            return false;
+        }
+        if(bits.size()==1)
+        {
+            return bits[0]==0;
+        }
+        int counter=0;
+        for(int i=bits.size()-2;i>-1;i--)
+        {
+            if(bits[i]==1)
+            {
+                counter+=1;
+            }
+            else
+            {
+                break;
+            }
+        }
+        if(bits[bits.size()-1]==1)
+        {
+            return false;
+        }
+        else
+        {
+            return counter%2==0;
+        }
+    }
+};

@@ -1,0 +1,25 @@
+class Solution(object):
+    def longestWord(self, words):
+        """
+        :type words: List[str]
+        :rtype: str
+        """
+        total=set(words)
+        overall=[]
+        for i in range(0,len(words)):
+            current=True
+            for j in range(1,len(words[i])+1):
+                if words[i][0:j] not in total:
+                    current=False
+                    break
+                    
+            if current==True:
+                overall.append(words[i])
+        
+        if len(overall)==0:
+            return ""
+        
+        overall=sorted(overall)
+        overall=sorted(overall,key=len,reverse=True)
+        
+        return overall[0]

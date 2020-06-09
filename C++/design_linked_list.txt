@@ -1,0 +1,152 @@
+class MyLinkedList {
+public:
+    /** Initialize your data structure here. */
+    struct node
+    {
+        int val;
+        node* next;
+    };
+    typedef struct node node;
+    node* head;
+    MyLinkedList() 
+    {
+        head=NULL;
+    }
+    
+    /** Get the value of the index-th node in the linked list. If the index is invalid, return -1. */
+    int get(int index) 
+    {
+        if(index<0)
+        {
+            return -1;
+        }
+        node* temp=head;
+        for(int i=0;i<index;i++)
+        {
+            if(temp==NULL)
+            {
+                return -1;
+            }
+            temp=temp->next;
+        }
+        if(temp==NULL)
+        {
+            return -1;
+        }
+        return temp->val;
+    }
+    
+    /** Add a node of value val before the first element of the linked list. After the insertion, the new node will be the first node of the linked list. */
+    void addAtHead(int val) {
+        node* temp=new node;
+        temp->val=val;
+        temp->next=head;
+        head=temp;
+    }
+    
+    /** Append a node of value val to the last element of the linked list. */
+    void addAtTail(int val) 
+    {
+        if(head==NULL)
+        {
+            addAtHead(val);
+            return;
+        }
+        node* temp=head;
+        node* last=new node;
+        last->val=val;
+        while(head->next)
+        {
+            head=head->next;
+        }
+        head->next=last;
+        last->next=NULL;
+        head=temp;
+    }
+    
+    /** Add a node of value val before the index-th node in the linked list. If index equals to the length of linked list, the node will be appended to the end of linked list. If index is greater than the length, the node will not be inserted. */
+    void addAtIndex(int index, int val)
+    {
+        if(index<0)
+        {
+            index=0;
+        }
+        if(head==NULL)
+        {
+            if(index==0)
+            {
+                addAtHead(val);
+            }
+            return;
+        }
+        node* temp=head;
+        if(index==0)
+        {
+            addAtHead(val);
+            return;
+        }
+        int c=0;
+        node* current=new node;
+        current->val=val;
+        for(int i=0;i<index-1;i++)
+        {
+            if(head==NULL)
+            {
+                head=temp;
+                return;
+            }
+            head=head->next;
+        }
+        current->next=head->next;
+        head->next=current;
+        head=temp;
+    }
+    
+    /** Delete the index-th node in the linked list, if the index is valid. */
+    void deleteAtIndex(int index) 
+    {
+        node* temp=head;
+        if(index<0)
+        {
+            return;
+        }
+        if(index==0)
+        {
+            head=head->next;
+            return;
+        }
+        for(int i=0;i<index-1;i++)
+        {
+            if(head==NULL)
+            {
+                head=temp;
+                return;
+            }
+            head=head->next;
+        }
+        if(head==NULL)
+        {
+            head=temp;
+            return;
+        }
+        if(head->next!=NULL&&head->next->next!=NULL)
+        {
+            head->next=head->next->next;
+        }
+        else
+        {
+            head->next=NULL;
+        }
+        head=temp;
+    }
+};
+
+/**
+ * Your MyLinkedList object will be instantiated and called as such:
+ * MyLinkedList* obj = new MyLinkedList();
+ * int param_1 = obj->get(index);
+ * obj->addAtHead(val);
+ * obj->addAtTail(val);
+ * obj->addAtIndex(index,val);
+ * obj->deleteAtIndex(index);
+ */

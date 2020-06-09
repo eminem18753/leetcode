@@ -1,0 +1,74 @@
+class Solution {
+public:
+    vector<vector<int>> generateMatrix(int n) 
+    {
+        vector<vector<int>> result;
+        int d=0;//0:right,1:down,2:left,3:up
+        int x=0;
+        int y=0;
+        int counter=1;
+        for(int i=0;i<n;i++)
+        {
+            vector<int> temp;
+            for(int j=0;j<n;j++)
+            {
+                temp.push_back(0);
+            }
+            result.push_back(temp);
+        }
+        while(counter<=n*n)
+        {
+            if(result[x][y]!=0)
+            {
+                break;
+            }
+            result[x][y]=counter;
+            if(d==0)
+            {
+                y++;
+            }
+            else if(d==1)
+            {
+                x++;
+            }
+            else if(d==2)
+            {
+                y--;
+            }
+            else if(d==3)
+            {
+                x--;
+            }
+            if(y>n-1&&d==0||(x>=0&&x<n&&y>=0&&y<n&&result[x][y]!=0&&d==0))
+            {
+                y-=1;
+                x+=1;
+                d+=1;
+                d%=4;
+            }
+            else if(x>n-1&&d==1||(x>=0&&x<n&&y>=0&&y<n&&result[x][y]!=0&&d==1))
+            {
+                x-=1;
+                y-=1;
+                d+=1;
+                d%=4;
+            }
+            else if(y<0&&d==2||(x>=0&&x<n&&y>=0&&y<n&&result[x][y]!=0&&d==2))
+            {
+                y+=1;
+                x-=1;
+                d+=1;
+                d%=4;
+            }
+            else if(x<0&&d==3||(x>=0&&x<n&&y>=0&&y<n&&result[x][y]!=0&&d==3))
+            {
+                x+=1;
+                y+=1;
+                d+=1;
+                d%=4;
+            }
+            counter++;
+        }
+        return result;
+    }
+};

@@ -1,0 +1,63 @@
+class KthLargest {
+public:
+    deque<int> total;
+    int minimum=2147483647;
+    int t;
+    int min(int a,int b)
+    {
+        if(a<b)
+        {
+            return a;
+        }
+        return b;
+    }
+    KthLargest(int k, vector<int> nums)
+    {
+        if(nums.size()>0)
+        {
+            sort(nums.begin(),nums.end());
+            for(int i=nums.size()-min(nums.size(),k);i<nums.size();i++)
+            {
+                total.push_back(nums[i]);
+            }
+            minimum=total[0];
+        }
+        t=k;
+    }
+    
+    int add(int val) 
+    {
+        deque<int>::iterator pos;
+        if(total.size()==0)
+        {
+            total.push_back(val);
+            minimum=val;
+            return val;
+        }
+        else if(total.size()<t)
+        {
+            pos=upper_bound(total.begin(),total.end(),val);
+            total.insert(pos,val);
+            minimum=total[0];
+            return minimum;
+        }
+        if(val<=minimum)
+        {
+            return minimum;
+        }
+        int result;
+        
+        pos=upper_bound(total.begin(),total.end(),val);
+        total.insert(pos,val);
+        total.pop_front();
+
+        minimum=total[0];
+        return minimum;
+    }
+};
+
+/**
+ * Your KthLargest object will be instantiated and called as such:
+ * KthLargest obj = new KthLargest(k, nums);
+ * int param_1 = obj.add(val);
+ */

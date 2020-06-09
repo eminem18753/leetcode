@@ -1,0 +1,55 @@
+class Solution {
+public:
+    int numMagicSquaresInside(vector<vector<int>>& grid) 
+    {
+        if(grid.size()<3)
+        {
+            return 0;
+        }
+        if(grid[0].size()<3)
+        {
+            return 0;
+        }
+        int result=0;
+        for(int i=0;i<grid.size()-2;i++)
+        {
+            for(int j=0;j<grid[i].size()-2;j++)
+            {
+                int flag=1;
+                int counter[16];
+                memset(counter,0,sizeof(counter));
+                for(int s=0;s<3;s++)
+                {
+                    for(int t=0;t<3;t++)
+                    {
+                        counter[grid[i+s][j+t]]+=1;
+                    }
+                }
+                for(int i=1;i<=9;i++)
+                {
+                    if(counter[i]!=1)
+                    {
+                        flag=0;
+                    }
+                }
+                if(flag==0)
+                {
+                    continue;
+                }
+                int x1=grid[i][j]+grid[i+1][j]+grid[i+2][j];
+                int x2=grid[i][j+1]+grid[i+1][j+1]+grid[i+2][j+1];
+                int x3=grid[i][j+2]+grid[i+1][j+2]+grid[i+2][j+2];
+                int x4=grid[i][j]+grid[i][j+1]+grid[i][j+2];
+                int x5=grid[i+1][j]+grid[i+1][j+1]+grid[i+1][j+2];
+                int x6=grid[i+2][j]+grid[i+2][j+1]+grid[i+2][j+2];
+                int x7=grid[i][j]+grid[i+1][j+1]+grid[i+2][j+2];
+                int x8=grid[i][j+2]+grid[i+1][j+1]+grid[i+2][j];
+                if(x1==x2&&x2==x3&&x3==x4&&x4==x5&&x5==x6&&x6==x7&&x7==x8)
+                {
+                    result+=1;
+                }
+            }
+        }
+        return result;
+    }
+};

@@ -1,0 +1,32 @@
+class Solution 
+{
+    public:
+    int minTotalDistance(vector<vector<int>>& grid) 
+    {
+        int result=2147483647;
+        vector<vector<int>> ones;
+        for(int i=0;i<grid.size();i++)
+        {
+            for(int j=0;j<grid[i].size();j++)
+            {
+                if(grid[i][j]==1)
+                {
+                    ones.push_back({i,j});   
+                }
+            }
+        }
+        for(int i=0;i<grid.size();i++)
+        {
+            for(int j=0;j<grid[i].size();j++)
+            {
+                int c=0;
+                for(int k=0;k<ones.size();k++)
+                {
+                    c+=abs(i-ones[k][0])+abs(j-ones[k][1]);
+                }
+                result=min(result,c);
+            }
+        }
+        return result;
+    }
+};

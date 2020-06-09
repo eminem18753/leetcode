@@ -1,0 +1,56 @@
+class Solution 
+{
+    public:
+    int shortestPath(vector<vector<int>>& grid, int k) 
+    {
+        int m=grid.size();
+        int n=grid[0].size();
+        if(m==1&&n==1)
+        {
+            return 0;
+        }
+        vector<vector<int>> dp(m,vector<int>(n,-1));
+        deque<vector<int>> q;//chances,x,y
+        q.push_back({k,0,0});
+        unordered_set<string> v;
+        int c=0;
+        int dx[4]={1,0,-1,0};
+        int dy[4]={0,1,0,-1};
+        while(q.size()>0)
+        {
+            int s=q.size();
+            c++;
+            for(int i=0;i<s;i++)
+            {
+                vector<int> p=q.front();
+                q.pop_front();
+                int chances=p[0];
+                int x=p[1];
+                int y=p[2];
+                string temp=to_string(x)+","+to_string(y);
+                if(v.find(temp)!=v.end()&&chances<=dp[x][y])
+                {
+                    continue;
+                }
+                v.insert(temp);
+                dp[x][y]=max(dp[x][y],chances);
+                for(int j=0;j<4;j++)
+                {
+                    int cx=x+dx[j];
+                    int cy=y+dy[j];
+                    string current=to_string(cx)+","+to_string(cy);
+                    if(cx>=0&&cx<m&&cy>=0&&cy<n&&chances>=0&&(v.find(current)==v.end()||chances-grid[cx][cy]>dp[cx][cy]))
+                    {
+                        if(cx==m-1&&cy==n-1)
+                        {
+                            return c;
+                        }
+                        q.push_back({chances-grid[cx][cy],cx,cy});
+                    }
+                }
+            }
+        }
+        
+        return -1;
+    }
+};

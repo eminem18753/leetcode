@@ -1,0 +1,96 @@
+class Solution 
+{
+    public:
+    vector<vector<char>> result;
+    void dfs(vector<vector<char>> &A,int i,int j)
+    {
+        if(i==9&&j==0)
+        {
+            for(int x=0;x<9;x++)
+            {
+                vector<char> temp;
+                for(int y=0;y<9;y++)
+                {
+                    temp.push_back(A[x][y]);
+                }
+                result.push_back(temp);
+            }
+            return;
+        }
+        if(i>=A.size())
+        {
+            return;
+        }
+        if(A[i][j]!='.')
+        {
+            if(j<8)
+            {
+                dfs(A,i,j+1);            
+            }
+            else
+            {
+                dfs(A,i+1,0);
+            }
+            return;
+        }
+        for(int c=1;c<=9;c++)
+        {
+            int q=0;
+            for(int k=0;k<9;k++)
+            {
+                if(j!=k&&A[i][k]==c+'0')
+                {
+                    q=1;
+                    break;
+                }
+            }
+            if(q==0)
+            {
+                for(int k=0;k<9;k++)
+                {
+                    if(i!=k&&A[k][j]==c+'0')
+                    {
+                        q=1;
+                        break;
+                    }
+                }                
+            }
+            if(q==0)
+            {
+                int sx=(i/3)*3;
+                int ex=(i/3)*3+3;
+                int sy=(j/3)*3;
+                int ey=(j/3)*3+3;
+                for(int k=sx;k<ex;k++)
+                {
+                    for(int l=sy;l<ey;l++)
+                    {
+                        if(i!=k&&j!=l&&A[k][l]==c+'0')
+                        {
+                            q=1;
+                            break;
+                        }
+                    }
+                }
+            }
+            if(q==0)
+            {
+                A[i][j]=c+'0';
+                if(j<8)
+                {
+                    dfs(A,i,j+1);            
+                }
+                else
+                {
+                    dfs(A,i+1,0);
+                }
+                A[i][j]='.';
+            }
+        }
+    }
+    void solveSudoku(vector<vector<char>>& board) 
+    {
+        dfs(board,0,0);
+        board=result;
+    }
+};

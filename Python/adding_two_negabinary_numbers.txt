@@ -1,0 +1,28 @@
+class Solution(object):
+    def getInt(self,a):
+        result=0
+        for i in range(0,len(a)):
+            result*=-2
+            if a[i]==1:
+                result+=1
+                
+        return result
+    
+    def addNegabinary(self, arr1, arr2):
+        """
+        :type arr1: List[int]
+        :type arr2: List[int]
+        :rtype: List[int]
+        """
+        result=[]
+        temp=self.getInt(arr1)+self.getInt(arr2)
+        if temp==0:
+            result.append(0)
+            return result
+        while abs(temp)>0:
+            result.append(abs(temp%(-2)))
+            temp//=2
+            temp*=-1
+        
+        result.reverse()
+        return result

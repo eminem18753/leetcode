@@ -1,0 +1,49 @@
+class Solution {
+public:
+    vector<int> numMovesStones(int a, int b, int c) 
+    {
+        vector<int> result;
+        int maximum=0;
+        int minimum=0;
+        int x;
+        int y;
+        int z;
+        z=max(a,b);
+        z=max(z,c);
+        x=min(a,b);
+        x=min(x,c);
+        if((x==a||x==b)&&(z==a||z==b))
+        {
+            y=c;
+        }
+        else if((x==a||x==c)&&(z==a||z==c))
+        {
+            y=b;
+        }
+        else
+        {
+            y=a;
+        }
+        cout<<x<<" "<<y<<" "<<z<<endl;
+        maximum=y-x-1+z-y-1;
+        if(x!=y-1)
+        {
+            minimum+=1;
+        }
+        if(y!=z-1)
+        {
+            minimum+=1;
+        }
+        if(z==y+2)
+        {
+            minimum=1;
+        }
+        if(x==y-2)
+        {
+            minimum=1;
+        }
+        result.push_back(minimum);
+        result.push_back(maximum);
+        return result;
+    }
+};

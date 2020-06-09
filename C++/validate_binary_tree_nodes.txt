@@ -1,0 +1,43 @@
+class Solution 
+{
+    public:
+    bool validateBinaryTreeNodes(int n, vector<int>& leftChild, vector<int>& rightChild) 
+    {
+        unordered_set<int> v;
+        unordered_map<int,int> p;
+        int c=0;
+        for(int i=0;i<n;i++)
+        {
+            if(leftChild[i]!=-1)
+            {
+                c++;
+            }
+            if(rightChild[i]!=-1)
+            {
+                c++;
+            }
+            if(v.find(leftChild[i])!=v.end()&&leftChild[i]!=-1)
+            {
+                return false;
+            }
+            if(v.find(rightChild[i])!=v.end()&&rightChild[i]!=-1)
+            {
+                return false;
+            }
+            if(p[i]==leftChild[i])
+            {
+                return false;
+            }
+            if(p[i]==rightChild[i])
+            {
+                return false;
+            }
+            p[leftChild[i]]=i;
+            p[rightChild[i]]=i;
+            v.insert(leftChild[i]);
+            v.insert(rightChild[i]);
+        }
+        
+        return c==n-1;
+    }
+};

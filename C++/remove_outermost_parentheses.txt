@@ -1,0 +1,28 @@
+#include <string>
+class Solution {
+public:
+    string removeOuterParentheses(string S)
+    {
+        string result;
+        vector<int> stack;
+        string total="";
+        for(int i=0;i<S.length();i++)
+        {
+            total+=S[i];
+            if(S[i]=='(')
+            {
+                stack.push_back(0);
+            }
+            else 
+            {
+                if(stack.size()==1)
+                {
+                    result+=total.substr(1,total.length()-2);
+                    total="";
+                }
+                stack.pop_back();
+            }
+        }
+        return result;
+    }
+};

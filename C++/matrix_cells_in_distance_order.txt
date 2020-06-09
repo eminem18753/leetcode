@@ -1,0 +1,29 @@
+class Solution {
+public:
+    vector<vector<int>> allCellsDistOrder(int R, int C, int r0, int c0) 
+    {
+        vector<vector<int>> result;
+        vector<int> total1[200];
+        vector<int> total2[200];
+        for(int i=0;i<R;i++)
+        {
+            for(int j=0;j<C;j++)
+            {
+                int distance=abs(r0-i)+abs(c0-j);
+                total1[distance].push_back(i);
+                total2[distance].push_back(j);
+            }
+        }
+        for(int i=0;i<200;i++)
+        {
+            for(int j=0;j<total1[i].size();j++)
+            {
+                vector<int> temp;
+                temp.push_back(total1[i][j]);
+                temp.push_back(total2[i][j]);
+                result.push_back(temp);
+            }
+        }
+        return result;
+    }
+};

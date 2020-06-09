@@ -1,0 +1,36 @@
+class Solution 
+{
+public:
+    int distributeCandies(vector<int>& candies) 
+    {
+        int result;
+        bool temp[200001];
+        for(int i=0;i<200001;i++)
+        {
+            temp[i]=false;	
+        }
+        if(candies.size()==0)
+        {
+            result=0;
+            return result;	
+        }
+        int count=0;
+        for(int i=0;i<candies.size();i++)
+        {
+            if(temp[candies[i]+100000]==false)
+            {
+                count+=1;
+            }
+            temp[candies[i]+100000]=true;
+        }
+        if(count>=candies.size()/2)
+        {
+            result=candies.size()/2;
+        }
+        else
+        {
+            result=count;	
+        }
+        return result;
+    }
+};

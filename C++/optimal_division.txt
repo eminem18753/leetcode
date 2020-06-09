@@ -1,0 +1,37 @@
+class Solution {
+public:
+    string optimalDivision(vector<int>& nums) 
+    {
+        string total="";
+        if(nums.size()==1)
+        {
+            return to_string(nums[0]);
+        }
+        if(nums.size()==2)
+        {
+            total+=to_string(nums[0]);
+            total+="/";
+            total+=to_string(nums[1]);
+            return total;
+        }
+        for(int i=0;i<nums.size();i++)
+        {
+            if(i==0)
+            {
+                total+=to_string(nums[i]);
+                total+="/(";
+            }
+            else if(i==(int)nums.size()-1)
+            {
+                total+=to_string(nums[i]);
+                total+=")";
+            }
+            else
+            {
+                total+=to_string(nums[i]);
+                total+="/";
+            }
+        }
+        return total;
+    }
+};

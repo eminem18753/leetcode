@@ -1,0 +1,56 @@
+class Solution {
+public:
+    vector<int> partitionLabels(string S)
+    {
+        vector<int> result;
+        if(S.length()==0)
+        {
+            return result;
+        }
+        int a[26][2];
+        memset(a,-1,sizeof(a));
+        vector<pair<int,int>> total;
+        for(int i=0;i<S.length();i++)
+        {
+            if(a[S[i]-'a'][0]==-1)
+            {
+                a[S[i]-'a'][0]=i;
+                a[S[i]-'a'][1]=i;
+            }
+            else
+            {
+                a[S[i]-'a'][1]=i;
+            }
+        }
+        for(int i=0;i<26;i++)
+        {
+            if(a[i][0]!=-1)
+            {
+                total.push_back(make_pair(a[i][0],a[i][1]));
+            }
+        }
+        sort(total.begin(),total.end());
+        int current=-1;
+        int index=-1;
+        for(int i=0;i<total.size();i++)
+        {
+            if(current==-1)
+            {
+                index=0;
+                current=total[i].second;
+            }
+            if(total[i].first>current)
+            {
+                result.push_back(current-index+1);
+                index=total[i].first;
+                current=total[i].second;
+            }
+            else if(total[i].second>current)
+            {
+                current=total[i].second;
+            }
+        }
+        result.push_back(current-index+1);
+        return result;
+    }
+};

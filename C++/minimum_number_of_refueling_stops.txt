@@ -1,0 +1,63 @@
+class Solution 
+{
+    public:
+    int minRefuelStops(int target, int startFuel, vector<vector<int>>& stations) 
+    {
+        if(stations.size()==0)
+        {
+            if(startFuel>=target)
+            {
+                return 0;   
+            }
+            return -1;
+        }
+        int result=0;
+        int c=0;
+        int p=0;
+        int s=startFuel;
+        priority_queue<int> q;
+        while(c<stations.size())
+        {
+            while(c<stations.size()&&p+startFuel>=stations[c][0])
+            {
+                q.push(stations[c][1]);
+                c++;
+            }
+            p+=startFuel;
+            startFuel=0;
+            while(c<stations.size()&&p+startFuel<stations[c][0])
+            {
+                if(q.size()==0)
+                {
+                    return -1;   
+                }
+                startFuel+=q.top();
+                q.pop();
+                result++;
+            }
+            while(c==stations.size()&&p+startFuel<target)
+            {
+                if(q.size()==0)
+                {
+                    return -1;   
+                }
+                startFuel+=q.top();
+                q.pop();
+                result++;
+                if(p+startFuel>=target)
+                {
+                    return result;   
+                }
+            }
+            if(p+startFuel>=target)
+            {
+                return result;   
+            }
+            if(c==stations.size()&&p+startFuel<target)
+            {
+                return -1;
+            }
+        }
+        return -1;
+    }
+};

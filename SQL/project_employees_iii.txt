@@ -1,0 +1,12 @@
+# Write your MySQL query statement below
+SELECT a.project_id,a.employee_id FROM Project as a
+JOIN Employee as b
+ON a.employee_id=b.employee_id
+JOIN
+(SELECT MAX(experience_years) as m, t1.project_id as p FROM Project as t1
+ JOIN Employee as t2
+ ON t1.employee_id=t2.employee_id
+ GROUP BY t1.project_id
+) c
+WHERE a.project_id=c.p AND
+b.experience_years=c.m;

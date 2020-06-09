@@ -1,0 +1,50 @@
+bool compare(long long int a,long long int b)
+{
+    int x=0;
+    int y=0;
+    int first=a;
+    int second=b;
+    while(a!=1)
+    {
+        if(a%2==0)
+        {
+            a>>=1;
+        }
+        else
+        {
+            a=a*3+1;
+        }
+        x++;
+    }
+    while(b!=1)
+    {
+        if(b%2==0)
+        {
+            b>>=1;
+        }
+        else
+        {
+            b=b*3+1;
+        }
+        y++;
+    }
+    if(x!=y)
+    {
+        return x<y;
+    }
+    return first<second;
+}
+class Solution 
+{
+    public:
+    int getKth(int lo, int hi, int k) 
+    {
+        vector<long long int> total;
+        for(int i=lo;i<=hi;i++)
+        {
+            total.push_back(i);
+        }
+        sort(total.begin(),total.end(),compare);
+        return total[k-1];
+    }
+};

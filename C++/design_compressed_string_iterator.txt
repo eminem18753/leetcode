@@ -1,0 +1,45 @@
+class StringIterator {
+public:
+    string s;
+    int p1=0;
+    long long total=0;
+    char current=' ';
+    StringIterator(string compressedString)
+    {
+        s=compressedString;
+        p1=0;
+    }
+    
+    char next() 
+    {
+        if(!hasNext())
+        {
+            return ' ';
+        }
+        if(total==0&&(s[p1]<'0'||s[p1]>'9'))
+        {
+            current=s[p1];
+            p1++;
+        }
+        while(s[p1]>='0'&&s[p1]<='9')
+        {
+            total*=(long long)10;
+            total+=(long long)(s[p1]-'0');
+            p1++;
+        }
+        total-=(long long)1;
+        return current;
+    }
+    
+    bool hasNext() 
+    {
+        return p1<s.length()||total>0;
+    }
+};
+
+/**
+ * Your StringIterator object will be instantiated and called as such:
+ * StringIterator* obj = new StringIterator(compressedString);
+ * char param_1 = obj->next();
+ * bool param_2 = obj->hasNext();
+ */

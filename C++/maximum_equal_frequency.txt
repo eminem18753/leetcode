@@ -1,0 +1,55 @@
+class Solution 
+{
+    public:
+    int maxEqualFreq(vector<int>& nums) 
+    {
+        int result=0;
+        map<int,int> overall;
+        map<int,set<int>> total;
+        for(int i=0;i<nums.size();i++)
+        {
+            if(overall.find(nums[i])!=overall.end())
+            {
+                total[overall[nums[i]]].erase(nums[i]);
+                if(total[overall[nums[i]]].size()==0)
+                {
+                    total.erase(overall[nums[i]]);   
+                }
+            }
+            overall[nums[i]]++;
+            total[overall[nums[i]]].insert(nums[i]);
+            
+            vector<int> t;
+            vector<int> r;
+            if(total.size()==1&&total.begin()->first==1)
+            {
+                result=i+1;   
+            }
+            if(total.size()==1&&total.begin()->second.size()==1)
+            {
+                result=i+1;   
+            }
+            if(total.size()==2)
+            {
+                for(map<int,set<int>>::iterator it=total.begin();it!=total.end();it++)
+                {
+                    t.push_back(it->first);  
+                    r.push_back(it->second.size());
+                }
+                if(t[0]==1&&r[0]==1)
+                {
+                    result=i+1;
+                }
+                if(t[1]==1&&r[1]==1)
+                {
+                    result=i+1;
+                }
+                if(t[1]==t[0]+1&&r[1]==1)
+                {
+                    result=i+1;   
+                }
+            }
+        }
+        return result;
+    }
+};

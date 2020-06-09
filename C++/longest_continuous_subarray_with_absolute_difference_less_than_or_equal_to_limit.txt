@@ -1,0 +1,30 @@
+class Solution 
+{
+    public:
+    int longestSubarray(vector<int>& nums, int limit) 
+    {
+        int result=1;
+        int left_bound=-1;
+        priority_queue<pair<int,int>,vector<pair<int,int>>> q1;
+        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> q2;
+        q1.push({nums[0],0});
+        q2.push({nums[0],0});
+        for(int i=1;i<nums.size();i++)
+        {
+            q1.push({nums[i],i});
+            q2.push({nums[i],i});
+            while(q1.top().first-nums[i]>limit)
+            {
+                left_bound=max(left_bound,q1.top().second);
+                q1.pop();
+            }
+            while(nums[i]-q2.top().first>limit)
+            {
+                left_bound=max(left_bound,q2.top().second);
+                q2.pop();
+            }
+            result=max(result,i-left_bound);
+        }
+        return result;
+    }
+};

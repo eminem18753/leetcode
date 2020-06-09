@@ -1,0 +1,57 @@
+class Solution 
+{
+    public:
+    string fractionToDecimal(int numerator, int denominator)
+    {
+        if(numerator==0)
+        {
+            return "0";   
+        }
+        int f=0;
+        if(numerator<0&&denominator>0)
+        {
+            f=1;
+        }
+        if(numerator>0&&denominator<0)
+        {
+            f=1;   
+        }
+        long long divisor=abs((long long)denominator);
+        long long dividend=abs((long long)numerator);
+        
+        string result="";
+        map<long long,long long> total;
+        long long c=0;
+        int index=-1;
+        while(true)
+        {
+            long long q=dividend/divisor;
+            long long r=dividend%divisor;
+            
+            result+=to_string(q);
+            if(c==0&&r!=0)
+            {
+                result+='.';
+                index=(int)result.length();
+            }
+            if(r==0)
+            {
+                break;   
+            }
+            if(total.find(r)!=total.end())
+            {
+                result=result.substr(0,total[r]+index)+"("+result.substr(total[r]+index)+")";
+                break;   
+            }
+            total[r]=c;
+            c++;
+            
+            dividend=r*10;
+        }
+        if(f==1)
+        {
+            result="-"+result;   
+        }
+        return result;
+    }
+};

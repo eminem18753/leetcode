@@ -1,0 +1,89 @@
+class Solution {
+public:
+    string add(string num1,string num2)
+    {
+        string result="";
+        string shorter="";
+        string longer="";
+        if(num1.length()<num2.length())
+        {
+            shorter=num1;
+            longer=num2;
+        }
+        else
+        {
+            shorter=num2;
+            longer=num1;
+        }
+        int l=longer.length();
+        int s=shorter.length();
+        for(int i=0;i<l-s;i++)
+        {
+            shorter="0"+shorter;
+        }
+        int carry=0;
+        for(int i=0;i<shorter.length();i++)
+        {
+            int first=shorter[shorter.length()-1-i]-'0';
+            int second=longer[longer.length()-1-i]-'0';
+            int total=first+second+carry;
+            
+            carry=total/10;
+            int digit=total%10;
+            
+            result=to_string(digit)+result;
+            
+        }
+        if(carry==1)
+        {
+            result=to_string(carry)+result;
+        }
+        return result;
+    }
+    
+    string multiply(string num1, string num2) 
+    {
+        if(num1=="0"||num2=="0")
+        {
+            return "0";
+        }
+        string result="0";
+        string shorter="";
+        string longer="";
+        if(num1.length()<num2.length())
+        {
+            shorter=num1;
+            longer=num2;
+        }
+        else
+        {
+            shorter=num2;
+            longer=num1;
+        }
+        for(int i=0;i<shorter.length();i++)
+        {            
+            string current="";
+            int carry=0;
+            for(int j=0;j<longer.length();j++)
+            {
+                int first=shorter[shorter.length()-1-i]-'0';
+                int second=longer[longer.length()-1-j]-'0';
+                
+                int total=first*second+carry;
+                carry=total/10;
+                int digit=total%10;
+                current=to_string(digit)+current;
+            }
+            if(carry>0)
+            {
+                current=to_string(carry)+current;
+            }
+            for(int index=0;index<i;index++)
+            {
+                current+="0";
+            }
+            result=add(result,current);
+        }
+        return result;
+    }
+};

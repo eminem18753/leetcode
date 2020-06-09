@@ -1,0 +1,21 @@
+class Solution(object):
+    def replaceWords(self, dict, sentence):
+        """
+        :type dict: List[str]
+        :type sentence: str
+        :rtype: str
+        """
+        result=sentence.split(' ')
+        output=""
+        space=""
+        for i in result:
+            flag=0
+            for j in dict:
+                if i[0:len(j)]==j:
+                    flag=1
+                    output+=space+str(j)
+                    break
+            if flag==0:
+                output+=space+str(i)
+            space=" "
+        return output

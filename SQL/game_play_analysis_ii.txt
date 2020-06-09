@@ -1,0 +1,9 @@
+# Write your MySQL query statement below
+SELECT player_id,device_id FROM Activity a
+JOIN 
+(
+    SELECT MIN(event_date) as m,player_id as p FROM Activity
+    GROUP BY player_id
+) b
+WHERE a.event_date=b.m AND
+a.player_id=b.p;

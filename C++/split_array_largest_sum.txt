@@ -1,0 +1,44 @@
+class Solution 
+{
+    public:
+    bool check(vector<long long int>& s,int m,int c)
+    {
+        long long int r=0;
+        for(int i=0;i<m-1;i++)
+        {
+            vector<long long int>::iterator up;
+            up=upper_bound(s.begin(),s.end(),r+c);
+            int index=(int)(up-s.begin());
+            r=s[index-1];
+        }
+        return s.back()-r<=c;
+    }
+    int splitArray(vector<int>& nums, int m) 
+    {
+        vector<long long int> s;
+        s.push_back(0);
+        for(int i=0;i<nums.size();i++)
+        {
+            s.push_back(s.back()+nums[i]);   
+        }
+        long long int p1=0;
+        long long int p2=s.back();
+        while(p1<p2)
+        {
+            long long int middle=(p1+p2)/2;
+            if(check(s,m,(int)middle))
+            {
+                p2=middle;
+            }
+            else
+            {
+                p1=middle+1;
+            }
+        }
+        if(check(s,m,p1-1))
+        {
+            return (int)p1-1;   
+        }
+        return (int)p1;
+    }
+};

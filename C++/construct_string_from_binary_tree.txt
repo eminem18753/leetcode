@@ -1,0 +1,43 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    string result="";
+    void test(TreeNode* t)
+    {
+        if(t==NULL)
+        {
+            return;
+        }
+        result+=to_string(t->val);
+        if(t->left!=NULL)
+        {
+            result+='(';
+            test(t->left);
+            result+=')';
+        }
+        else if(t->right!=NULL)
+        {
+            result+="()";
+        }
+        if(t->right!=NULL)
+        {
+            result+='(';
+            test(t->right);
+            result+=')';
+        }
+        
+    }
+    string tree2str(TreeNode* t)
+    {
+        test(t);
+        return result;
+    }
+};

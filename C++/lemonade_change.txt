@@ -1,0 +1,45 @@
+class Solution {
+public:
+    bool lemonadeChange(vector<int>& bills) 
+    {
+        deque<int> total;
+        for(int i=0;i<bills.size();i++)
+        {
+            if(bills[i]==5)
+            {
+                total.push_front(5);
+            }
+            else if(bills[i]==10)
+            {
+                if(total.size()>0&&total.front()==5)
+                {
+                    total.pop_front();
+                    total.push_back(10);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                if(total.size()>1&&total.front()==5&&total.back()==10)
+                {
+                    total.pop_front();
+                    total.pop_back();
+                }
+                else if(total.size()>2&&total[0]==5&&total[1]==5&&total[2]==5)
+                {
+                    total.pop_front();
+                    total.pop_front();
+                    total.pop_front();
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+};

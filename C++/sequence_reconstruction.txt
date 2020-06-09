@@ -1,0 +1,59 @@
+class Solution 
+{
+    public:
+    bool sequenceReconstruction(vector<int>& org, vector<vector<int>>& seqs) 
+    {
+        map<int,int> total;
+        set<string> overall;
+        set<int> r;
+        for(int i=0;i<org.size();i++)
+        {
+            total[org[i]]=i;
+        }
+        for(int i=0;i<seqs.size();i++)
+        {
+            for(int j=0;j<(int)seqs[i].size()-1;j++)
+            {
+                if(total[seqs[i][j]]>=total[seqs[i][j+1]])
+                {
+                    return false;
+                }
+                string temp="";
+                temp+=to_string(seqs[i][j]);
+                temp+=",";
+                temp+=to_string(seqs[i][j+1]);
+                overall.insert(temp);
+            }
+        }
+        for(int i=0;i<(int)org.size()-1;i++)
+        {
+            string temp="";
+            temp+=to_string(org[i]);
+            temp+=",";
+            temp+=to_string(org[i+1]);
+            if(overall.find(temp)==overall.end())
+            {
+                return false;
+            }
+        }
+        for(int i=0;i<seqs.size();i++)
+        {
+            for(int j=0;j<(int)seqs[i].size();j++)
+            {
+                r.insert(seqs[i][j]);
+                if(seqs[i][j]>(int)org.size())
+                {
+                    return false;
+                }
+            }
+        }
+        for(int i=1;i<=org.size();i++)
+        {
+            if(r.find(i)==r.end())
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+};

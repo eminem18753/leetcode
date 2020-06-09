@@ -1,0 +1,21 @@
+int median=-1;
+bool compare(int& a,int& b)
+{
+    if(abs(a-median)!=abs(b-median))
+    {
+        return abs(a-median)<abs(b-median);
+    }
+    return a<b;
+}
+class Solution 
+{
+    public:
+    vector<int> getStrongest(vector<int>& arr, int k) 
+    {
+        sort(arr.begin(),arr.end());
+        int n=arr.size();
+        median=arr[(n-1)/2];
+        sort(arr.rbegin(),arr.rend(),compare);
+        return vector<int>(arr.begin(),arr.begin()+k);
+    }
+};

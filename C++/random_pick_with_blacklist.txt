@@ -1,0 +1,45 @@
+class Solution 
+{
+    public:
+    unordered_map<int,int> total;
+    int l;
+    Solution(int N, vector<int>& blacklist) 
+    {
+        srand(time(NULL));
+        l=N-(int)blacklist.size();
+        unordered_set<int> v;
+        for(int i=l;i<N;i++)
+        {
+            v.insert(i);
+        }
+        for(int i=0;i<blacklist.size();i++)
+        {
+            v.erase(blacklist[i]);
+        }
+        unordered_set<int>::iterator it=v.begin();
+        for(int i=0;i<blacklist.size();i++)
+        {
+            if(blacklist[i]<l)
+            {
+                total[blacklist[i]]=*it;
+                it++;
+            }
+        }
+    }
+    
+    int pick() 
+    {
+        int t=rand()%l;
+        if(total.find(t)!=total.end())
+        {
+            return total[t];
+        }
+        return t;
+    }
+};
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution* obj = new Solution(N, blacklist);
+ * int param_1 = obj->pick();
+ */

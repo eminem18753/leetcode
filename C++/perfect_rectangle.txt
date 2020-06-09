@@ -1,0 +1,69 @@
+class Solution 
+{
+    public:
+    bool isRectangleCover(vector<vector<int>>& rectangles) 
+    {
+        int x1=2147483647;
+        int y1=2147483647;
+        int x2=-2147483648;
+        int y2=-2147483648;
+        int area=0;
+        unordered_set<string> points;
+        
+        for(int i=0;i<rectangles.size();i++)
+        {
+            x1=min(x1,rectangles[i][0]);   
+            y1=min(y1,rectangles[i][1]);
+            x2=max(x2,rectangles[i][2]);
+            y2=max(y2,rectangles[i][3]);
+            
+            string p1=to_string(rectangles[i][0])+","+to_string(rectangles[i][1]);
+            string p2=to_string(rectangles[i][0])+","+to_string(rectangles[i][3]);
+            string p3=to_string(rectangles[i][2])+","+to_string(rectangles[i][1]);
+            string p4=to_string(rectangles[i][2])+","+to_string(rectangles[i][3]);
+            
+            area+=(rectangles[i][2]-rectangles[i][0])*(rectangles[i][3]-rectangles[i][1]);
+            if(points.find(p1)!=points.end())
+            {
+                points.erase(p1);   
+            }
+            else
+            {
+                points.insert(p1);   
+            }
+            if(points.find(p2)!=points.end())
+            {
+                points.erase(p2);   
+            }
+            else
+            {
+                points.insert(p2);   
+            }
+            if(points.find(p3)!=points.end())
+            {
+                points.erase(p3);   
+            }
+            else
+            {
+                points.insert(p3);   
+            }
+            if(points.find(p4)!=points.end())
+            {
+                points.erase(p4);   
+            }
+            else
+            {
+                points.insert(p4);   
+            }
+        }
+        string f1=to_string(x1)+","+to_string(y1);
+        string f2=to_string(x1)+","+to_string(y2);
+        string f3=to_string(x2)+","+to_string(y1);
+        string f4=to_string(x2)+","+to_string(y2);
+        if(points.find(f1)==points.end()||points.find(f2)==points.end()||points.find(f3)==points.end()||points.find(f4)==points.end()||points.size()!=4)
+        {
+            return false;
+        }
+        return area==(x2-x1)*(y2-y1);
+    }
+};

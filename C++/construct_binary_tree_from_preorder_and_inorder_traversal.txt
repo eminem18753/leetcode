@@ -1,0 +1,72 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    map<int,int> total;
+    TreeNode* test(vector<int> inorder,int index)
+    {
+        if(inorder.size()==0)
+        {
+            return NULL;
+        }
+        if(inorder.size()==1)
+        {
+            return new TreeNode(inorder[0]);
+        }
+        TreeNode* root=new TreeNode(inorder[index]);
+        vector<int> left(inorder.begin(),inorder.begin()+index);
+        vector<int> right(inorder.begin()+index+1,inorder.end());
+        index=-1;
+        int minimum=2147483647;
+        for(int i=0;i<left.size();i++)
+        {
+            if(total[left[i]]<minimum)
+            {
+                minimum=total[left[i]];
+                index=i;
+            }
+        }
+        root->left=test(left,index);
+        index=-1;
+        minimum=2147483647;
+        for(int i=0;i<right.size();i++)
+        {
+            if(total[right[i]]<minimum)
+            {
+                minimum=total[right[i]];
+                index=i;
+            }
+        }
+        root->right=test(right,index);
+        return root;
+    }
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) 
+    {
+        for(int i=0;i<preorder.size();i++)
+        {
+            total[preorder[i]]=i;
+        }
+        if(preorder.size()==0)
+        {
+            return NULL;
+        }
+        int r=preorder[0];
+        int index=0;
+        for(int i=0;i<inorder.size();i++)
+        {
+            if(inorder[i]==r)
+            {
+                index=i;
+                break;
+            }
+        }
+        return test(inorder,index);
+    }
+};

@@ -1,0 +1,15 @@
+# Write your MySQL query statement below
+SELECT MAX(america) as America, MAX(asia) as Asia, MAX(europe) as Europe
+FROM
+(SELECT @r1:=0,@r2:=0,@r3:=0) temp,
+(
+    SELECT CASE WHEN continent="America" THEN @r1:=@r1+1
+                WHEN continent="Asia" THEN @r2:=@r2+1
+                WHEN continent="Europe" THEN @r3:=@r3+1 END as rowNum,
+           CASE WHEN continent="America" THEN name ELSE NULL END as america,
+           CASE WHEN continent="Asia" THEN name ELSE NULL END as asia,
+           CASE WHEN continent="Europe" THEN name ELSE NULL END as europe
+           FROM student
+           ORDER BY name ASC
+) c
+GROUP BY rowNum

@@ -1,0 +1,58 @@
+class Solution 
+{
+    public:
+    int a[13]={0,31,28,31,30,31,30,31,31,30,31,30,31};
+    bool check(int y)
+    {
+        if(y%400==0)
+        {
+            return true;
+        }
+        else if(y%100==0)
+        {
+            return false;
+        }
+        else if(y%4==0)
+        {
+            return true;
+        }
+        return false;
+    }
+    int dateDifference(int y,int m,int d)
+    {
+        int r=0;
+        for(int i=1971;i<y;i++)
+        {
+            if(check(i))
+            {
+                r+=2;
+            }
+            else
+            {
+                r+=1;
+            }
+        }
+        for(int i=1;i<m;i++)
+        {
+            r+=a[i]%7;
+            r%=7;
+            if(i==2&&check(y))
+            {
+                r++;
+            }
+        }
+        r+=(d-1)%7;
+        return r;
+    }
+    string dayOfTheWeek(int day, int month, int year) 
+    {
+        string total[7]={"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"};
+        int y=1971;
+        int m=1;
+        int d=1;
+        int c=4;
+        int r=dateDifference(year,month,day)+c;
+        r%=7;
+        return total[r];
+    }
+};

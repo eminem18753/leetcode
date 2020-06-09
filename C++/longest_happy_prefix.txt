@@ -1,0 +1,55 @@
+class Solution 
+{
+    public:
+    long powmod(long a,long b,long m)
+    {
+        long result=1;
+        long base=a;
+        while(b)
+        {
+            if(b%2==1)
+            {
+                result=(result*base)%m;
+            }
+            base=(base*base)%m;
+            b>>=1;
+        }
+        return result;
+    }
+    string longestPrefix(string s) 
+    {
+        if(s.length()==1)
+        {
+            return "";
+        }
+        string result="";
+        int n=s.length();
+        long left=s[0]-'a'+1;
+        long right=s[n-1]-'a'+1;
+        long m=1000000007;
+        vector<int> total;
+        if(left==right)
+        {
+            result+=s[0];
+        }
+        for(int i=1;i<n-1;i++)
+        {
+            left=(left*27)%m;
+            left=(left+s[i]-'a'+1)%m;
+            right=(right+(s[n-1-i]-'a'+1)*powmod(27,i,m))%m;
+            if(left==right)
+            {
+                total.push_back(i+1);
+            }
+        }
+        while(total.size()>0)
+        {
+            if(s.substr(0,total.back())==s.substr(n-total.back()))
+            {
+                return s.substr(0,total.back());
+            }
+            total.pop_back();
+        }
+        return result;
+    }
+};

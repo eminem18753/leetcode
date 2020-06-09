@@ -1,0 +1,54 @@
+class Solution 
+{
+    public:
+    unordered_set<int> s;
+    int m;
+    int n;
+    void check(vector<vector<int>>& grid,int i,int j)
+    {
+        if(i<0||j<0||i>=m||j>=n||grid[i][j]!=1||s.find(i*n+j)!=s.end())
+        {
+            return;
+        }
+        s.insert(i*n+j);
+        check(grid,i+1,j);
+        check(grid,i-1,j);
+        check(grid,i,j+1);
+        check(grid,i,j-1);
+    }
+    vector<int> hitBricks(vector<vector<int>>& grid, vector<vector<int>>& hits) 
+    {
+        vector<int> result((int)hits.size());
+        m=grid.size();
+        n=grid[0].size();
+        for(int i=0;i<hits.size();i++)
+        {
+            grid[hits[i][0]][hits[i][1]]--;
+        }
+        for(int i=0;i<n;i++)
+        {
+            if(grid[0][i]==1)
+            {
+                check(grid,0,i);
+            }
+        }
+        int previous=s.size();
+        for(int i=(int)hits.size()-1;i>-1;i--)
+        {
+            int x=hits[i][0];
+            int y=hits[i][1];
+            grid[x][y]++;
+            if(grid[x][y]!=1)
+            {
+                continue;
+            }
+            if((x-1>=0&&s.find((x-1)*n+y)!=s.end())||(x+1<m&&s.find((x+1)*n+y)!=s.end())||(y-1>=0&&s.find(x*n+y-1)!=s.end())||(y+1<n&&s.find(x*n+y+1)!=s.end())||x==0)
+            {
+                check(grid,x,y);
+                result[i]=(int)s.size()-previous-1;
+                previous=(int)s.size();
+            }
+        }
+        return result;
+    }
+};

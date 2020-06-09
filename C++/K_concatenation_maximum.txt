@@ -1,0 +1,51 @@
+class Solution 
+{
+    public:
+    int kConcatenationMaxSum(vector<int>& arr, int k) 
+    {
+        int d=1000000007;
+        if(k==1)
+        {
+            int c=0;
+            int M=0;
+            for(int i=0;i<arr.size();i++)
+            {
+                c=max(c+arr[i],0);
+                M=max(M,c);
+            }
+            return M;
+        }
+        int c1=0;
+        for(int i=0;i<arr.size();i++)
+        {
+            c1=max(c1+arr[i],0)%d;
+        }
+        int c2=0;
+        for(int i=(int)arr.size()-1;i>-1;i--)
+        {
+            c2=max(c2+arr[i],0)%d;
+        }
+        int c3=0;
+        int M=0;
+        for(int i=0;i<arr.size();i++)
+        {
+            c3+=arr[i];
+        }
+        if(c3>0)
+        {
+            M=c3;
+        }
+        else
+        {
+            M=0;   
+        }
+        int c=0;
+        int r=0;
+        for(int i=0;i<arr.size();i++)
+        {
+            c=max(c+arr[i],0);
+            r=max(r,c);
+        }
+        return max(r,(c1%d+c2%d+(int)(((long long)((k-2)%d)*(long long)(M%d))%d)));
+    }
+};

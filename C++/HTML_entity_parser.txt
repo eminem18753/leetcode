@@ -1,0 +1,65 @@
+class Solution 
+{
+    public:
+    string entityParser(string text) 
+    {
+        string result="";
+        for(int i=0;i<text.length();i++)
+        {
+            int f=0;
+            if(i+6<text.length())
+            {
+                if(text.substr(i,7)=="&frasl;")
+                {
+                    result+="/";
+                    f=1;
+                    i+=6;
+                }
+            }
+            if(i+5<text.length())
+            {
+                if(text.substr(i,6)=="&quot;")
+                {
+                    result+="\"";
+                    f=1;
+                    i+=5;
+                }
+                else if(text.substr(i,6)=="&apos;")
+                {
+                    result+="\'";
+                    f=1;
+                    i+=5;
+                }                
+            }
+            if(i+4<text.length())
+            {
+                if(text.substr(i,5)=="&amp;")
+                {
+                    result+="&";
+                    f=1;
+                    i+=4;
+                }
+            }
+            if(i+3<text.length())
+            {
+                if(text.substr(i,4)=="&gt;")
+                {
+                    result+=">";
+                    f=1;
+                    i+=3;
+                }
+                else if(text.substr(i,4)=="&lt;")
+                {
+                    result+="<";
+                    f=1;
+                    i+=3;
+                }
+            }
+            if(f==0)
+            {
+                result+=text[i];
+            }
+        }
+        return result;
+    }
+};

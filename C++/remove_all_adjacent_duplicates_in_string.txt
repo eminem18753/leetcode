@@ -1,0 +1,40 @@
+class Solution {
+public:
+    string removeDuplicates(string S)
+    {
+        string result="";
+        vector<char> total;
+        for(int i=0;i<S.length();i++)
+        {
+            total.push_back(S[i]);
+        }
+        while(true)
+        {
+            int flag=0;
+            vector<int> temp;
+            for(int i=1;i<total.size();i++)
+            {
+                if(total[i]==total[i-1])
+                {
+                    flag=1;
+                    temp.push_back(i-1);
+                    temp.push_back(i);
+                    i+=1;
+                }
+            }
+            for(int i=temp.size()-1;i>-1;i--)
+            {
+                total.erase(total.begin()+temp[i]);
+            }
+            if(flag==0)
+            {
+                break;
+            }
+        }
+        for(int i=0;i<total.size();i++)
+        {
+            result+=total[i];
+        }
+        return result;
+    }
+};

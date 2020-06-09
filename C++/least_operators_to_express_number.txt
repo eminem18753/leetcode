@@ -1,0 +1,32 @@
+class Solution
+{
+    public:
+    int leastOpsExpressTarget(int x, int target) 
+    {
+        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> q;
+        unordered_set<int> v;
+        q.push({0,target});
+        while(q.size()>0)
+        {
+            pair<int,int> current=q.top();
+            q.pop();
+            int counter=current.first;
+            int number=current.second;
+            if(number==0)
+            {
+                return counter-1;
+            }
+            if(v.find(number)!=v.end())
+            {
+                continue;
+            }
+            v.insert(number);
+            int k=log(number)/log(x);
+            int t1=number-pow(x,k);
+            q.push({counter+((k==0)?2:k),t1});
+            int t2=pow(x,k+1)-number;
+            q.push({counter+k+1,t2});
+        }
+        return -1;
+    }
+};

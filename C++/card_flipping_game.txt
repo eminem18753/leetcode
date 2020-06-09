@@ -1,0 +1,30 @@
+class Solution 
+{
+    public:
+    int flipgame(vector<int>& fronts, vector<int>& backs)
+    {
+        map<int,int> total;
+        int m=2147483647;
+        for(int i=0;i<fronts.size();i++)
+        {
+            total[fronts[i]]++;
+            total[backs[i]]++;
+        }
+        for(int i=0;i<fronts.size();i++)
+        {
+            if(fronts[i]==backs[i])
+            {
+                total.erase(fronts[i]);
+            }
+        }
+        for(map<int,int>::iterator it=total.begin();it!=total.end();it++)
+        {
+            m=min(m,it->first);
+        }
+        if(m==2147483647)
+        {
+            return 0;
+        }
+        return m;
+    }
+};

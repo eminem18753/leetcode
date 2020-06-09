@@ -1,0 +1,76 @@
+class Solution 
+{
+    public:
+    vector<int> pathsWithMaxScore(vector<string>& board) 
+    {
+        int maximum=0;
+        int number=0;
+        int n=board.size();
+        int m=1000000007;
+        int dp[n][n];
+        int times[n][n];
+        memset(dp,0,sizeof(dp));
+        memset(times,0,sizeof(times));
+        times[n-1][n-1]=1;
+        for(int i=n-1;i>-1;i--)
+        {
+            for(int j=n-1;j>-1;j--)
+            {
+                if(board[i][j]=='X')
+                {
+                    continue;
+                }
+                if(i>0&&j>0&&(board[i][j]=='S'||dp[i][j]!=0)&&isdigit(board[i-1][j-1]))
+                {
+                    if(dp[i][j]+(int)(board[i-1][j-1]-'0')>dp[i-1][j-1])
+                    {
+                        dp[i-1][j-1]=dp[i][j]+(int)(board[i-1][j-1]-'0');
+                        times[i-1][j-1]=times[i][j]%m;
+                    }
+                    else if(dp[i][j]+(int)(board[i-1][j-1]-'0')==dp[i-1][j-1])
+                    {
+                        times[i-1][j-1]=(times[i-1][j-1]+times[i][j])%m;
+                    }
+                }
+                if(i>0&&(board[i][j]=='S'||dp[i][j]!=0)&&isdigit(board[i-1][j]))
+                {
+                    if(dp[i][j]+(int)(board[i-1][j]-'0')>dp[i-1][j])
+                    {
+                        dp[i-1][j]=dp[i][j]+(int)(board[i-1][j]-'0');
+                        times[i-1][j]=times[i][j]%m;
+                    }
+                    else if(dp[i][j]+(int)(board[i-1][j]-'0')==dp[i-1][j])
+                    {
+                        times[i-1][j]=(times[i-1][j]+times[i][j])%m;                        
+                    }
+                }
+                if(j>0&&(board[i][j]=='S'||dp[i][j]!=0)&&isdigit(board[i][j-1]))
+                {
+                    if(dp[i][j]+(int)(board[i][j-1]-'0')>dp[i][j-1])
+                    {
+                        dp[i][j-1]=dp[i][j]+(int)(board[i][j-1]-'0');
+                        times[i][j-1]=times[i][j]%m;
+                    }
+                    else if(dp[i][j]+(int)(board[i][j-1]-'0')==dp[i][j-1])
+                    {
+                        times[i][j-1]=(times[i][j-1]+times[i][j])%m;  
+                    }
+                }
+            }
+        }
+        maximum=max(dp[0][1],max(dp[1][0],dp[1][1]));
+        if(dp[0][1]==maximum)
+        {
+            number=(number+times[0][1])%m;
+        }
+        if(dp[1][0]==maximum)
+        {
+            number=(number+times[1][0])%m;
+        }
+        if(dp[1][1]==maximum)
+        {
+            number=(number+times[1][1])%m;
+        }
+        return {maximum,number};
+    }
+};

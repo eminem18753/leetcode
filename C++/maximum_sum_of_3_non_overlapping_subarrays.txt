@@ -1,0 +1,92 @@
+class Solution 
+{
+    public:
+    vector<int> maxSumOfThreeSubarrays(vector<int>& nums, int k) 
+    {
+        vector<int> result;
+        vector<int> t;
+        int r=0;
+        int dp[(int)nums.size()-k+1][3];
+        memset(dp,0,sizeof(dp));
+        vector<int> p1;
+        vector<vector<int>> p2;
+        vector<vector<int>> p3;
+        for(int i=0;i<(int)nums.size()-k+1;i++)
+        {
+            if(i==0)
+            {
+                for(int j=0;j<k;j++)
+                {
+                    r+=nums[j];
+                }
+                t.push_back(r);
+            }
+            else
+            {
+                r+=nums[i+k-1]-nums[i-1];  
+                t.push_back(r);
+            }
+        }
+        dp[0][0]=t[0];
+        p1.push_back(0);
+        p2.push_back({-1,-1});
+        p3.push_back({-1,-1,-1});
+        for(int i=1;i<t.size();i++)
+        {
+            if(i<k)
+            {
+                dp[i][0]=max(dp[i-1][0],t[i]);
+                if(dp[i][0]>dp[i-1][0])
+                {
+                    p1.push_back(i);
+                    p2.push_back({-1,-1});
+                    p3.push_back({-1,-1,-1});
+                }
+                else
+                {
+                    p1.push_back(p1.back());
+                    p2.push_back({-1,-1});
+                    p3.push_back({-1,-1,-1});
+                }
+            }
+            else
+            {
+                dp[i][2]=max(dp[i-1][2],dp[i-k][1]+t[i]);
+                if(dp[i][2]>dp[i-1][2])
+                {
+                    vector<int> temp;
+                    temp.push_back(p2[i-k][0]);                    
+                    temp.push_back(p2[i-k][1]);
+                    temp.push_back(i);
+                    p3.push_back(temp);
+                }
+                else
+                {
+                    p3.push_back(p3.back());
+                }
+                dp[i][1]=max(dp[i-1][1],dp[i-k][0]+t[i]);
+                if(dp[i][1]>dp[i-1][1])
+                {
+                    vector<int> temp;
+                    temp.push_back(p1[i-k]);
+                    temp.push_back(i);
+                    p2.push_back(temp);
+                }
+                else
+                {
+                    p2.push_back(p2.back());
+                }
+                dp[i][0]=max(dp[i-1][0],t[i]);
+                if(dp[i][0]>dp[i-1][0])
+                {
+                    p1.push_back(i);
+                }
+                else
+                {
+                    p1.push_back(p1.back());
+                }
+            }
+        }
+        return p3.back();
+    }
+};

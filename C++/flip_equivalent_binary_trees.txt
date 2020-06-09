@@ -1,0 +1,104 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    map<int,int> f1;
+    map<int,int> f2;
+    bool r=true;
+    void dfs(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        if(root->left!=NULL)
+        {
+            f1[root->val]=root->left->val;
+        }
+        else
+        {
+            f1[root->val]=-1;
+        }
+        if(root->right!=NULL)
+        {
+            f2[root->val]=root->right->val;
+        }
+        else
+        {
+            f2[root->val]=-1;
+        }
+        dfs(root->left);
+        dfs(root->right);
+    }
+    void test(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        if(root->left==NULL&&f1[root->val]==-1&&root->right==NULL&&f2[root->val]==-1)
+        {
+            r&=true;   
+        }
+        else if(root->left!=NULL&&f1[root->val]==root->left->val&&root->right==NULL&&f2[root->val]==-1)
+        {
+            r&=true;   
+        }
+        else if(root->left!=NULL&&f2[root->val]==root->left->val&&root->right==NULL&&f1[root->val]==-1)
+        {
+            r&=true;   
+        }
+        else if(root->left==NULL&&f1[root->val]==-1&&root->right!=NULL&&f2[root->val]==root->right->val)
+        {
+            r&=true;   
+        }
+        else if(root->left==NULL&&f2[root->val]==-1&&root->right!=NULL&&f1[root->val]==root->right->val)
+        {
+            r&=true;   
+        }
+        else if(root->left!=NULL&&root->right!=NULL&&f1[root->val]==root->left->val&&f2[root->val]==root->right->val)
+        {
+            r&=true;   
+        }
+        else if(root->left!=NULL&&root->right!=NULL&&f2[root->val]==root->left->val&&f1[root->val]==root->right->val)
+        {
+            r&=true;   
+        }
+        else
+        {
+            r&=false;   
+        }
+        
+        test(root->left);
+        test(root->right);
+    }
+    bool flipEquiv(TreeNode* root1, TreeNode* root2)
+    {
+        if(root1==NULL&&root2==NULL)
+        {
+            return true;
+        }
+        if(root1==NULL)
+        {
+            return false;
+        }
+        if(root2==NULL)
+        {
+            return false;
+        }
+        if(root1->val!=root2->val)
+        {
+            return false;
+        }
+        dfs(root1);
+        test(root2);
+        return r;
+    }
+};

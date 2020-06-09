@@ -1,0 +1,30 @@
+class Solution {
+public:
+    vector<bool> prefixesDivBy5(vector<int>& A) 
+    {
+        vector<bool> result;
+        vector<int> total;
+        total.push_back(A[0]);
+        if(A[0]==0)
+        {
+            result.push_back(true);
+        }
+        else
+        {
+            result.push_back(false);
+        }
+        for(int i=1;i<A.size();i++)
+        {
+            total.push_back((total[i-1]*2+A[i])%5);
+            if(total[i]%5==0)
+            {
+                result.push_back(true);
+            }
+            else
+            {
+                result.push_back(false);
+            }
+        }
+        return result;
+    }
+};

@@ -1,0 +1,40 @@
+class Solution 
+{
+    public:
+    int getMaxRepetitions(string s1, int n1, string s2, int n2) 
+    {
+        vector<int> repeat(n1+1,0);
+        vector<int> next_index(n1+1,0);
+        int j=0;
+        int counter=0;
+        for(int k=1;k<=n1;k++)
+        {
+            for(int i=0;i<s1.length();i++)
+            {
+                if(s1[i]==s2[j])
+                {
+                    j++;
+                }
+                if(j==(int)s2.length())
+                {
+                    j=0;
+                    counter++;
+                }
+            }
+            repeat[k]=counter;
+            next_index[k]=j;
+            for(int i=0;i<k;i++)
+            {
+                if(next_index[i]==j)
+                {
+                    int interval=k-i;
+                    int times=repeat[k]-repeat[i];
+                    int overall=(n1-i)/interval*times;
+                    int remain=repeat[i+(n1-i)%interval];
+                    return (overall+remain)/n2;
+                }
+            }
+        }
+        return repeat[n1]/n2;
+    }
+};

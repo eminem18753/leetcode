@@ -1,0 +1,103 @@
+bool c1(vector<int> a,vector<int> b)
+{
+    return a[0]<b[0];
+}
+bool c2(vector<int> a,vector<int> b)
+{
+    return a[1]<b[1];
+}
+class Solution {
+public:
+    vector<vector<int>> queensAttacktheKing(vector<vector<int>>& queens, vector<int>& king) 
+    {
+        vector<vector<int>> result;
+        vector<vector<int>> h;
+        vector<vector<int>> v;
+        vector<vector<int>> d;
+        vector<vector<int>> ad;
+        h.push_back(king);
+        v.push_back(king);
+        d.push_back(king);
+        ad.push_back(king);
+        for(int i=0;i<queens.size();i++)
+        {
+            if(queens[i][0]==king[0])
+            {
+                h.push_back(queens[i]);
+            }
+            else if(queens[i][1]==king[1])
+            {
+                v.push_back(queens[i]);
+            }
+            else if(queens[i][1]-king[1]==queens[i][0]-king[0])
+            {
+                d.push_back(queens[i]);
+            }
+            else if(queens[i][1]-king[1]==king[0]-queens[i][0])
+            {
+                ad.push_back(queens[i]);
+            }
+        }
+        sort(h.begin(),h.end(),c2);
+        sort(v.begin(),v.end(),c1);
+        sort(d.begin(),d.end(),c1);
+        sort(ad.begin(),ad.end(),c1);
+        for(int i=0;i<h.size();i++)
+        {
+            if(h[i][0]==king[0]&&h[i][1]==king[1])
+            {
+                if(i>0)
+                {
+                    result.push_back(h[i-1]);
+                }
+                if(i<(int)h.size()-1)
+                {
+                    result.push_back(h[i+1]);
+                }
+            }
+        }
+        for(int i=0;i<v.size();i++)
+        {
+            if(v[i][0]==king[0]&&v[i][1]==king[1])
+            {
+                if(i>0)
+                {
+                    result.push_back(v[i-1]);
+                }
+                if(i<(int)v.size()-1)
+                {
+                    result.push_back(v[i+1]);
+                }
+            }
+        }
+        for(int i=0;i<d.size();i++)
+        {
+            if(d[i][0]==king[0]&&d[i][1]==king[1])
+            {
+                if(i>0)
+                {
+                    result.push_back(d[i-1]);
+                }
+                if(i<(int)d.size()-1)
+                {
+                    result.push_back(d[i+1]);
+                }
+            }
+        }
+        for(int i=0;i<ad.size();i++)
+        {
+            if(ad[i][0]==king[0]&&ad[i][1]==king[1])
+            {
+                if(i>0)
+                {
+                    result.push_back(ad[i-1]);
+                }
+                if(i<(int)ad.size()-1)
+                {
+                    result.push_back(ad[i+1]);
+                }
+            }
+        }
+        return result;
+    }
+};
